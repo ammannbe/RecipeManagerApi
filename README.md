@@ -1,0 +1,3 @@
+# Cookbook
+
+Homepage for Cookbooks
