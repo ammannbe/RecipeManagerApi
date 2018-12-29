@@ -1,0 +1,17 @@
+nav.top { grid-area: nav-top; }
+header { grid-area: header; }
+section.content { grid-area: content; }
+nav.right { grid-area: nav-right; }
+footer { grid-area: footer; }
+
+body {
+    display: grid;
+    grid-template-areas:
+        'nav-top nav-top nav-top nav-top nav-top'
+        'header  header  header  header  nav-right'
+        'content content content content nav-right'
+        'footer  footer  footer  footer  footer';
+
+    grid-column-gap: 0;
+    grid-template-columns: auto auto auto auto 20%;
+}

@@ -1,0 +1,20 @@
+.arrowRight::after {
+    font-size: 1.5em;
+    font-family: monospace;
+    margin-left: 0.3em;
+    content: "\002192";
+}
+
+.plus-sign::after {
+    font-size: 1.5em;
+    font-family: monospace;
+    margin-right: 0.3em;
+    content: "\2B";
+}
+
+.home::after {
+    font-size: 1.5em;
+    font-family: monospace;
+    margin-right: 0.3em;
+    content: "\2302";
+}

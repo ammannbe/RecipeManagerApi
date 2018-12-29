@@ -1,0 +1,34 @@
+section.content.overview {
+    @extend %flexbox-row;
+
+    > article {
+        @extend %flexbox-row;
+        flex-basis: 100%;
+        align-items: center;
+        justify-content: center;
+
+        .image, .info {
+            display: inline-block;
+        }
+
+        .image {
+            height: auto;
+            width: 20vh;
+            img {
+                width: 100%;
+            }
+        }
+
+        .info {
+            border-bottom: 1px solid #333;
+            width: 80%;
+            margin-top: 20px;
+            padding: 0 20px 10px 0;
+
+            > strong {
+                display: block;
+                margin-bottom: 3px;
+            }
+        }
+    }
+}

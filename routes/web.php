@@ -11,6 +11,28 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('checklogin')->group(function() {
+    Route::get('/recipes/create', 'RecipeController@createForm');
+    Route::post('/recipes/create', 'RecipeController@create');
+    Route::get('/ingredients/add/{recipe}', 'IngredientDetailController@createForm');
+    Route::post('/ingredients/add/{recipe}', 'IngredientDetailController@create');
+    Route::get('/ratings/add/{recipe}', 'RatingController@createForm');
+    Route::post('/ratings/add/{recipe}', 'RatingController@create');
 });
+
+Route::get('/', 'PagesController@index');
+Route::get('/recipes/{recipe}', 'RecipeController@show');
+
+
+/* User & Auth */
+Auth::routes();
+
+Route::get('/profile', 'HomeController@index')->name('profile');
+
+Auth::routes();
+
+Route::get('/profile', 'HomeController@index')->name('profile');
+
+Auth::routes();
+
+Route::get('/profile', 'HomeController@index')->name('profile');

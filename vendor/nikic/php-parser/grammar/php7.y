@@ -477,7 +477,6 @@ optional_param_type:
 optional_return_type:
       /* empty */                                           { $$ = null; }
     | ':' type_expr                                         { $$ = $2; }
-    | ':' error                                             { $$ = null; }
 ;
 
 argument_list:
@@ -959,7 +958,6 @@ array_pair_list:
 comma_or_error:
       ','
     | error
-          { /* do nothing -- prevent default action of $$=$1. See #551. */ }
 ;
 
 inner_array_pair_list:

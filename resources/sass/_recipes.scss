@@ -1,0 +1,40 @@
+section.content.recipe {
+    @extend %flexbox-row;
+
+    > * {
+        padding: 15px;
+        /* border: 1px solid black; */
+    }
+
+    > .image {
+        order: 1;
+
+        img {
+            width: auto;
+            height: 20vh;
+        }
+    }
+
+    > .info {
+        order: 2;
+    }
+    
+    > .ingredients {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    > .instructions {
+        order: 4;
+        flex-basis: 100%;
+    }
+
+    > .ratings {
+        order: 5;
+        flex-basis: 100%;
+
+        article {
+            margin-bottom: 20px;
+        }
+    }
+}
