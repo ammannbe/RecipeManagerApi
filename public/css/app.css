@@ -106,25 +106,30 @@ nav.right ul {
   flex-wrap: wrap;
 }
 
+.pencil::after,
+.home::after,
+.plus-sign::after,
 .arrowRight::after {
   font-size: 1.5em;
   font-family: monospace;
+  margin-right: 0.3em;
   margin-left: 0.3em;
+}
+
+.arrowRight::after {
   content: "\2192";
 }
 
 .plus-sign::after {
-  font-size: 1.5em;
-  font-family: monospace;
-  margin-right: 0.3em;
   content: "+";
 }
 
 .home::after {
-  font-size: 1.5em;
-  font-family: monospace;
-  margin-right: 0.3em;
   content: "\2302";
+}
+
+.pencil::after {
+  content: "\270E";
 }
 
 section.form form > div {

@@ -1,20 +1,26 @@
-.arrowRight::after {
+%icons {
     font-size: 1.5em;
     font-family: monospace;
+    margin-right: 0.3em;
     margin-left: 0.3em;
+}
+
+.arrowRight::after {
+    @extend %icons;
     content: "\002192";
 }
 
 .plus-sign::after {
-    font-size: 1.5em;
-    font-family: monospace;
-    margin-right: 0.3em;
+    @extend %icons;
     content: "\2B";
 }
 
 .home::after {
-    font-size: 1.5em;
-    font-family: monospace;
-    margin-right: 0.3em;
+    @extend %icons;
     content: "\2302";
 }
+
+.pencil::after {
+    @extend %icons;
+    content: "\270E";
+  }

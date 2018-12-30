@@ -12,6 +12,8 @@
                     <span>E-Mail: {{ Auth::User()->email }}</span><br>
                     <span>Registriert: {{ FormatHelper::date(Auth::User()->created_at) }}</span><br>
                     <br>
+                    <a href="/user/edit">Profil bearbeiten<i class="pencil"></i></a><br>
+                    <br>
 
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
