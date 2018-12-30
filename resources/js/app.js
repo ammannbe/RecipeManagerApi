@@ -6,3 +6,4 @@
  */
 
 require('./bootstrap');
+require('./toast.js');

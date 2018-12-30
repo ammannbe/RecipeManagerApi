@@ -18,10 +18,14 @@ Route::middleware('checklogin')->group(function() {
     Route::post('/ingredients/add/{recipe}', 'IngredientDetailController@create');
     Route::get('/ratings/add/{recipe}', 'RatingController@createForm');
     Route::post('/ratings/add/{recipe}', 'RatingController@create');
+    Route::get('/user/edit', 'UserController@editForm');
+    Route::post('/user/edit', 'UserController@edit');
 });
 
 Route::get('/', 'PagesController@index');
 Route::get('/recipes/{recipe}', 'RecipeController@show');
+Route::get('/search', 'PagesController@searchForm');
+Route::post('/search', 'PagesController@search');
 
 
 /* User & Auth */

@@ -23,4 +23,8 @@ class IngredientDetail extends Model
     public function parent() {
         return $this->belongsTo('\App\IngredientDetail');
     }
+
+    public function recipes() {
+        return $this->belongsTo('\App\Recipe', 'id');
+    }
 }

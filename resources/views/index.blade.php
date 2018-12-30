@@ -19,7 +19,7 @@
             <div class="info">
                 <strong><a href="{{ url('/recipes/' . $recipe->id) }}">{{ $recipe->name }}</a></strong>
                 @foreach ($recipe->categories as $category)
-                    <span>Kategorie: {{ $category->name }}</span>
+                    <span>Kategorie: {{ $category->name }}</span><br>
                     @php break; @endphp
                 @endforeach
 
