@@ -15,6 +15,12 @@ class Recipe extends Model
         $recipe->ingredientDetails;
         $recipe->ratings;
 
+        foreach ($recipe->ratings as $rating) {
+            if ($rating->rating_criterion_id) {
+                $rating->criterion = \App\RatingCriterion::find($rating->rating_criterion_id);
+            }
+        }
+
         return $recipe;
     }
 
@@ -35,6 +41,6 @@ class Recipe extends Model
     }
 
     public function ratings() {
-        return $this->hasMany('\App\Rating')->with('criterion');
+        return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
     }
 }
