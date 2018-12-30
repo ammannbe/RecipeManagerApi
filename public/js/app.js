@@ -19170,6 +19170,8 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19214,6 +19216,21 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/toast.js":
+/*!*******************************!*\
+  !*** ./resources/js/toast.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.toast .alert button').click(function () {
+    $(this).parent().fadeOut('slow');
+  });
+});
 
 /***/ }),
 

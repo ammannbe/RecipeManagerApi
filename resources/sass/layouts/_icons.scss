@@ -23,4 +23,9 @@
 .pencil::after {
     @extend %icons;
     content: "\270E";
-  }
+}
+
+.magnifier::after {
+    @extend %icons;
+    content: "\1F50D";
+}

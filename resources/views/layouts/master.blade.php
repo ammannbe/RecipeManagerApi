@@ -7,9 +7,17 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Cookbook - @yield('title', 'Narrenhaus')</title>
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <script src="{{ mix('/js/app.js') }}"></script>
     </head>
 
     <body>
+        <div class="toast">
+            @include('toast::messages')
+        </div>
 
         @section('navigation')
             <nav class="top">
