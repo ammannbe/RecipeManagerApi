@@ -50,7 +50,6 @@ class PagesController extends Controller
         if (isset($recipes)) {
             return view('index', compact('recipes'));
         } else {
-            \Toast::error('No recipes found');
             \Toast::info('No recipes found');
             return $this->searchForm();
         }
