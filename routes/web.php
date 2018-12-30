@@ -24,6 +24,8 @@ Route::middleware('checklogin')->group(function() {
 
 Route::get('/', 'PagesController@index');
 Route::get('/recipes/{recipe}', 'RecipeController@show');
+Route::get('/search', 'PagesController@searchForm');
+Route::post('/search', 'PagesController@search');
 
 
 /* User & Auth */

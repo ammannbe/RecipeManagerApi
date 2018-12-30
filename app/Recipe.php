@@ -29,7 +29,7 @@ class Recipe extends Model
     }
 
     public function author() {
-        return $this->belongsTo('\App\Author');
+        return $this->belongsTo('\App\Author', 'id');
     }
 
     public function categories() {
@@ -42,5 +42,9 @@ class Recipe extends Model
 
     public function ratings() {
         return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
+    }
+
+    public function search($name) {
+        return $this->where('instructions', 'LIKE', '%'.$name.'%')->get();
     }
 }
