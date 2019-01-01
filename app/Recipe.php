@@ -29,7 +29,7 @@ class Recipe extends Model
     }
 
     public function author() {
-        return $this->belongsTo('\App\Author', 'id');
+        return $this->belongsTo('\App\Author');
     }
 
     public function categories() {
