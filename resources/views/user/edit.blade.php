@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@extends('layouts.validator')
 
 
 @section('title', 'Profil bearbeiten')
@@ -19,21 +20,22 @@
 
         <div>
             {!! Form::label('Aktuelles Passwort') !!}
-            {!! Form::text('current_password') !!}
+            {!! Form::password('current_password', NULL, ['maxlength' => 255]) !!}
+            <small>(Leer lassen um nicht zu ändern)</small>
         </div>
 
         <div>
             {!! Form::label('Neues Passwort') !!}
-            {!! Form::text('new_password', NULL, ['maxlength' => 255]) !!}
+            {!! Form::password('new_password', NULL, ['maxlength' => 255]) !!}
         </div>
 
         <div>
             {!! Form::label('Passwort bestätigen') !!}
-            {!! Form::text('new_password_verified', NULL, ['maxlength' => 255]) !!}
+            {!! Form::password('new_password_verified', NULL, ['maxlength' => 255]) !!}
         </div>
 
         <div>
-            {!! Form::submit('Rezept hinzufügen') !!}
+            {!! Form::submit('Änderungen speichern') !!}
         </div>
     {!! Form::close() !!}
 @stop
