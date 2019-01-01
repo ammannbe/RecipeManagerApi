@@ -194,7 +194,7 @@ section.form form > div > input[type=submit] {
   border-style: solid;
   border-color: black;
   border-radius: 7px;
-  text-align: center;
+  text-align: left;
   display: inline-block;
   margin-bottom: 5px;
 }
