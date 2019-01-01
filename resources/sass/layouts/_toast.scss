@@ -9,10 +9,10 @@
 
 .alert {
     padding: 11px 15px;
-    color: #000;
+    color: map-get($colors, black);
     border-width: 1px;
     border-style: solid;
-    border-color: #000;
+    border-color: map-get($colors, black);
     border-radius: 7px;
     text-align: center;
     display: inline-block;
@@ -24,49 +24,32 @@
         border-radius: 5px;
         margin-right: 10px;
         cursor: pointer;
+        background-color: map-get($colors, white);
+        color: map-get($colors, black);
+        border: 1px solid map-get($colors, black);
+
+        &:hover {
+            @extend %weak-shadow;
+        }
     }
 
     &.alert-error {
-        background-color: #ff1f1f;
-        border-color: #9e1515;
-
-        > button {
-            border: 1px solid #9e1515;
-        }
+        background-color: map-get($colors, error);
+        border-color: map-get($colors, error-light);
     }
     
     &.alert-info {
-        background-color: #0094e9;
-        border-color: #3d3dff;
-
-        > button {
-            border: 1px solid #3d3dff;
-        }
+        background-color: map-get($colors, info);
+        border-color: map-get($colors, info-dark);
     }
     
     &.alert-success {
-        background-color: #62ac21;
-        border-color: #3d6b14;
-
-        > button {
-            border: 1px solid #3d6b14;
-        }
+        background-color: map-get($colors, success);
+        border-color: map-get($colors, success-dark);
     }
 
     &.alert-warning {
-        background-color: #f1e047;
-        border-color: #c3b536;
-
-        > button {
-            border: 1px solid #c3b536;
-        }
+        background-color: map-get($colors, warning);
+        border-color: map-get($colors, warning-dark);
     }
 }
-/*     
-
-#p1 {background-color:rgba(255,0,0,0.3);}
-#p2 {background-color:rgba(0,255,0,0.3);}
-#p3 {background-color:rgba(0,0,255,0.3);}
-#p4 {background-color:rgba(192,192,192,0.3);}
-#p5 {background-color:rgba(255,255,0,0.3);}
-#p6 {background-color:rgba(255,0,255,0.3);} */

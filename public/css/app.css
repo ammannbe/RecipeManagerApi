@@ -116,6 +116,10 @@ nav.right ul {
   flex-wrap: wrap;
 }
 
+.alert > button:hover {
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+}
+
 .magnifier::after,
 .pencil::after,
 .home::after,
@@ -185,10 +189,10 @@ section.form form > div > input[type=submit] {
 
 .alert {
   padding: 11px 15px;
-  color: #000;
+  color: black;
   border-width: 1px;
   border-style: solid;
-  border-color: #000;
+  border-color: black;
   border-radius: 7px;
   text-align: center;
   display: inline-block;
@@ -201,15 +205,13 @@ section.form form > div > input[type=submit] {
   border-radius: 5px;
   margin-right: 10px;
   cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
 }
 
 .alert.alert-error {
   background-color: #ff1f1f;
-  border-color: #9e1515;
-}
-
-.alert.alert-error > button {
-  border: 1px solid #9e1515;
 }
 
 .alert.alert-info {
@@ -217,36 +219,15 @@ section.form form > div > input[type=submit] {
   border-color: #3d3dff;
 }
 
-.alert.alert-info > button {
-  border: 1px solid #3d3dff;
-}
-
 .alert.alert-success {
   background-color: #62ac21;
   border-color: #3d6b14;
-}
-
-.alert.alert-success > button {
-  border: 1px solid #3d6b14;
 }
 
 .alert.alert-warning {
   background-color: #f1e047;
   border-color: #c3b536;
 }
-
-.alert.alert-warning > button {
-  border: 1px solid #c3b536;
-}
-
-/*     
-
-#p1 {background-color:rgba(255,0,0,0.3);}
-#p2 {background-color:rgba(0,255,0,0.3);}
-#p3 {background-color:rgba(0,0,255,0.3);}
-#p4 {background-color:rgba(192,192,192,0.3);}
-#p5 {background-color:rgba(255,255,0,0.3);}
-#p6 {background-color:rgba(255,0,255,0.3);} */
 
 section.content.recipe > * {
   padding: 15px;
