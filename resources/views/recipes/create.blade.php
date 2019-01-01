@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@extends('layouts.validator')
 
 
 @section('title', 'Rezept hinzufügen')
@@ -38,9 +39,9 @@
         </div>
 
         <div>
-            {!! Form::label('Foto (max 64KB)') !!}
+            {!! Form::label('Foto (max 2MB)') !!}
             {!! Form::file('photo') !!}
-            {!! Form::hidden('MAX_FILE_SIZE', '65536') !!}
+            {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!}
         </div>
 
         <div>

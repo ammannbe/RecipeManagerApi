@@ -7,6 +7,8 @@ use \App\Author;
 use \App\Category;
 use \App\Recipe;
 use Request;
+use App\Http\Requests\CreateRecipe;
+use Auth;
 
 class RecipeController extends Controller
 {
@@ -35,8 +37,9 @@ class RecipeController extends Controller
         return view('recipes.create', compact('authors', 'cookbooks', 'categories'));
     }
 
-    public function create() {
-        $input = Request::all();
+    public function create(CreateRecipe $request) {
+        $input = $request->all();
+        $input['user_id'] = Auth::user()->id;
         $recipe = Recipe::create($input);
         if ($recipe->id) {
             return redirect('recipes/'.$recipe->id);
