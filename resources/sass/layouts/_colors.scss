@@ -1,0 +1,7 @@
+.red {
+    color: map-get($colors, red)
+}
+
+.black {
+    color: map-get($colors, black);
+}

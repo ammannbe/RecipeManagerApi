@@ -1,15 +1,13 @@
 section.form {
     form {
         > div {
+            @extend %border;
             margin-bottom: 10px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             text-align: left;
             align-items: flex-start;
-            border: 0.1px solid #333;
-            padding: 8px;
-            border-radius: 4px;
 
             > :nth-child(2) {
                 width: 100%;

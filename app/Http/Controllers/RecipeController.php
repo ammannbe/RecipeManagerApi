@@ -45,4 +45,17 @@ class RecipeController extends Controller
             return redirect('recipes/'.$recipe->id);
         }
     }
+
+    public function delete(Recipe $recipe) {
+        if (Auth::user()->id == $recipe->user_id) {
+            if ($recipe->delete()) {
+                \Toast::success('Rezept erfolgreich gelöscht.');
+                return redirect('/');
+            } else {
+                abort(500);
+            }
+        } else {
+            abort(401);
+        }
+    }
 }

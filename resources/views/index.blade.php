@@ -26,6 +26,10 @@
                 <span>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time) }}</span><br>
                 <small>Erstellt: {{ FormatHelper::date($recipe->created_at) }}</small>
             </div>
+
+            <div class="instructions">
+                {{ FormatHelper::shorten($recipe->instructions, 200) }}
+            </div>
         </article>
     @endforeach
 @endsection

@@ -7,11 +7,21 @@
 @section('class', 'recipe')
 @section('content')
 
-    <article class="image">
-        @if ($recipe->photo)
-            <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
-        @endif
+    <article class="manage">
+        <ul>
+            @if (Auth::check())
+                {{-- <li><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li> --}}
+                <li><a href="{{ url('/recipes/delete/'.$recipe->id) }}"><i class="cross red"></i>Löschen</a></li>
+            @endif
+            {{-- <li><a href="{{ url('/recipes/print/'.$recipe->id) }}">Drucken</a></li> --}}
+        </ul>
     </article>
+
+    @if ($recipe->photo)
+        <article class="image">
+            <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
+        </article>
+    @endif
 
     <article class="info">
         <div>

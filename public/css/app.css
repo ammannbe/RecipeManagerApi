@@ -120,35 +120,62 @@ nav.right ul {
   box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
 }
 
-.magnifier::after,
-.pencil::after,
-.home::after,
-.plus-sign::after,
-.arrowRight::after {
-  font-size: 1.5em;
-  font-family: monospace;
-  margin-right: 0.3em;
-  margin-left: 0.3em;
+section.content.overview > article,
+section.form form > div {
+  border: 0.1px solid #333;
+  border-radius: 4px;
+  padding: 15px;
 }
 
-.arrowRight::after {
+.printer-icon::before,
+.cross::before,
+.magnifier::before,
+.pencil::before,
+.home::before,
+.plus-sign::before,
+.arrowRight::before {
+  font-size: 1.5em;
+  font-family: monospace;
+  font-style: normal;
+  margin: 0 0.3em;
+}
+
+.big.printer-icon::before,
+.big.cross::before,
+.big.magnifier::before,
+.big.pencil::before,
+.big.home::before,
+.big.plus-sign::before,
+.big.arrowRight::before {
+  font-size: 2em;
+}
+
+.arrowRight::before {
   content: "\2192";
 }
 
-.plus-sign::after {
+.plus-sign::before {
   content: "+";
 }
 
-.home::after {
+.home::before {
   content: "\2302";
 }
 
-.pencil::after {
+.pencil::before {
   content: "\270E";
 }
 
-.magnifier::after {
+.magnifier::before {
   content: "\1F50D";
+}
+
+.cross::before {
+  content: "\2717";
+}
+
+.printer-icon::before {
+  content: "\1F5B6";
 }
 
 section.form form > div {
@@ -158,9 +185,6 @@ section.form form > div {
   justify-content: space-between;
   text-align: left;
   align-items: flex-start;
-  border: 0.1px solid #333;
-  padding: 8px;
-  border-radius: 4px;
 }
 
 section.form form > div > :nth-child(2) {
@@ -229,9 +253,31 @@ section.form form > div > input[type=submit] {
   border-color: #c3b536;
 }
 
+.red {
+  color: red;
+}
+
+.black {
+  color: black;
+}
+
 section.content.recipe > * {
   padding: 15px;
-  /* border: 1px solid black; */
+}
+
+section.content.recipe > .manage {
+  width: 100%;
+  padding: 0;
+}
+
+section.content.recipe > .manage ul {
+  display: flex;
+  list-style-type: none;
+  justify-content: flex-end;
+}
+
+section.content.recipe > .manage ul li {
+  margin: auto 10px;
 }
 
 section.content.recipe > .image {
@@ -266,10 +312,22 @@ section.content.recipe > .ratings article {
   margin-bottom: 20px;
 }
 
+section.content.overview {
+  margin: 0 10%;
+}
+
+@media (max-width: 367px) {
+  section.content.overview {
+    margin: 0 auto;
+  }
+}
+
 section.content.overview > article {
   flex-basis: 100%;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
+  margin-bottom: 30px;
 }
 
 section.content.overview > article .image,
@@ -280,6 +338,7 @@ section.content.overview > article .info {
 section.content.overview > article .image {
   height: auto;
   width: 20vh;
+  min-width: 100px;
 }
 
 section.content.overview > article .image img {
@@ -287,8 +346,7 @@ section.content.overview > article .image img {
 }
 
 section.content.overview > article .info {
-  border-bottom: 1px solid #333;
-  width: 80%;
+  flex-grow: 2;
   margin-top: 20px;
   margin-left: 20px;
   padding: 0 20px 10px 0;
@@ -297,6 +355,16 @@ section.content.overview > article .info {
 section.content.overview > article .info > strong {
   display: block;
   margin-bottom: 3px;
+}
+
+section.content.overview > article .instructions {
+  margin-left: 20px;
+}
+
+@media (max-width: 680px) {
+  section.content.overview > article .instructions {
+    display: none;
+  }
 }
 
 html,
@@ -317,7 +385,6 @@ a:hover {
 }
 
 section.content {
-  padding-left: 7%;
   margin: 0 auto;
 }
 

@@ -3,7 +3,21 @@ section.content.recipe {
 
     > * {
         padding: 15px;
-        /* border: 1px solid black; */
+    }
+
+    > .manage {
+        width: 100%;
+        padding: 0;
+
+        ul {
+            display: flex;
+            list-style-type: none;
+            justify-content: flex-end;
+
+            li {
+                margin: auto 10px;
+            }
+        }
     }
 
     > .image {

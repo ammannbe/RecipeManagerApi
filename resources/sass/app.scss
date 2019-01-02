@@ -7,6 +7,7 @@
 @import 'layouts/icons';
 @import 'layouts/form';
 @import 'layouts/toast';
+@import 'layouts/colors';
 
 @import 'recipes';
 @import 'overview';
@@ -28,6 +29,5 @@ a {
 }
 
 section.content {
-    padding-left: 7%;
     margin: 0 auto;
 }
