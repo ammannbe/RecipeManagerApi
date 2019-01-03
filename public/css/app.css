@@ -121,6 +121,7 @@ nav.right ul {
 }
 
 section.content.overview > article,
+section.content.recipe > .ratings article,
 section.form form > div {
   border: 0.1px solid #333;
   border-radius: 4px;
@@ -261,6 +262,14 @@ section.form form > div > input[type=submit] {
   color: black;
 }
 
+.grey {
+  color: #dfdde0;
+}
+
+.bg-grey {
+  background-color: #dfdde0;
+}
+
 section.content.recipe > * {
   padding: 15px;
 }
@@ -386,5 +395,6 @@ a:hover {
 
 section.content {
   margin: 0 auto;
+  padding: 0 5%;
 }
 

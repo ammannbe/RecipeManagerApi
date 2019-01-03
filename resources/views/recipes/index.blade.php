@@ -76,6 +76,8 @@
 
     <article class="ratings">
         <h2>Bewertungen</h2>
+        @php($class = '')
+
         @if (Auth::check())
             @if (! \App\Rating::where('user_id', Auth::User()->id)
                 ->where('recipe_id', $recipe->id)
@@ -87,8 +89,15 @@
 
         @foreach ($recipe->ratings as $rating)
             @php ($user = \App\User::find($rating->user_id))
+            @php($owner = FALSE)
 
-            <article>
+            @if (Auth::check())
+                @if (\Auth::user()->id == $rating->user_id)
+                    @php($owner = TRUE)
+                @endif
+            @endif
+
+            <article class="{{ ($owner == TRUE ? 'bg-grey' : '') }}">
                 <strong>
                     {{ $rating->criterion->name }}
                 </strong>

@@ -5,3 +5,11 @@
 .black {
     color: map-get($colors, black);
 }
+
+.grey {
+    color: map-get($colors, grey);
+}
+
+.bg-grey {
+    background-color: map-get($colors, grey);
+}
