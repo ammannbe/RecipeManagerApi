@@ -321,6 +321,11 @@ section.content.recipe > .ratings article {
   margin-bottom: 20px;
 }
 
+section.content.recipe > .ratings .delete {
+  float: right;
+  top: 0;
+}
+
 section.content.overview {
   margin: 0 10%;
 }

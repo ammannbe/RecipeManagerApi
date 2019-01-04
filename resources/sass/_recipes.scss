@@ -51,5 +51,10 @@ section.content.recipe {
             @extend %border;
             margin-bottom: 20px;
         }
+
+        .delete {
+            float: right;
+            top: 0;
+        }
     }
 }
