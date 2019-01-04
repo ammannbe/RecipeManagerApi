@@ -28,4 +28,18 @@ class RatingController extends Controller
             return redirect('recipes/'.$recipe->id);
         }
     }
+
+    public function delete(Rating $rating) {
+        if (Auth::user()->id == $rating->user_id) {
+            if ($rating->delete()) {
+                \Toast::success('Bewertung erfolgreich gelöscht.');
+                return redirect('/recipes/'.$rating->recipe_id);
+            } else {
+                abort(500);
+            }
+        } else {
+            \Toast::error('Du hast kein Recht diese Bewertung zu löschen.');
+            return redirect('/recipes/'.$rating->recipe_id);
+        }
+    }
 }

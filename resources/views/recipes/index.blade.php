@@ -103,6 +103,9 @@
             @endif
 
             <article class="{{ ($owner == TRUE ? 'bg-grey' : '') }}">
+                @if ($owner == TRUE)
+                    <a href="{{ url('ratings/delete/'.$rating->id) }}" style="float:right;"><i class="cross red"></i>Löschen</a>
+                @endif
                 <strong>
                     {{ $rating->criterion->name }}
                 </strong>
