@@ -63,7 +63,8 @@ class RecipeController extends Controller
                 abort(500);
             }
         } else {
-            abort(401);
+            \Toast::error('Du hast kein Recht dieses Rezept zu löschen.');
+            return redirect('/recipes/'.$recipe->id);
         }
     }
 }
