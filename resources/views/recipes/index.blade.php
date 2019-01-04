@@ -11,7 +11,12 @@
         <ul>
             @if (Auth::check())
                 {{-- <li><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li> --}}
-                <li><a href="{{ url('/recipes/delete/'.$recipe->id) }}"><i class="cross red"></i>Löschen</a></li>
+                <li>
+                    <a href="{{ url('/recipes/delete/'.$recipe->id) }}" class="confirmation">
+                        <i class="cross red"></i>
+                        Löschen
+                    </a>
+                </li>
             @endif
             {{-- <li><a href="{{ url('/recipes/print/'.$recipe->id) }}">Drucken</a></li> --}}
         </ul>

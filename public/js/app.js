@@ -19172,6 +19172,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
 
+__webpack_require__(/*! ./confirmation.js */ "./resources/js/confirmation.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19216,6 +19218,26 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/confirmation.js":
+/*!**************************************!*\
+  !*** ./resources/js/confirmation.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.confirmation').on('click', function (event) {
+    if (confirm('Bist du sicher?')) {
+      return true;
+    } else {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  });
+});
 
 /***/ }),
 
