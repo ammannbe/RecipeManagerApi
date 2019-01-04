@@ -18,6 +18,7 @@ Route::middleware('checklogin')->group(function() {
 
     Route::get('/ingredients/add/{recipe}', 'IngredientDetailController@createForm');
     Route::post('/ingredients/add/{recipe}', 'IngredientDetailController@create');
+    Route::get('/ingredients/delete/{ingredientDetail}', 'IngredientDetailController@delete');
 
     Route::get('/ratings/add/{recipe}', 'RatingController@createForm');
     Route::post('/ratings/add/{recipe}', 'RatingController@create');

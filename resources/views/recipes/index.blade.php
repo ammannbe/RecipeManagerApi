@@ -7,9 +7,22 @@
 @section('class', 'recipe')
 @section('content')
 
+    @php
+        $loggedIn = FALSE;
+        $isRecipeOwner = FALSE;
+
+        if (Auth::check()) {
+            $loggedIn = TRUE;
+
+            if (Auth::user()->id == $recipe->user_id) {
+                $isRecipeOwner = TRUE;
+            }
+        }
+    @endphp
+
     <article class="manage">
         <ul>
-            @if (Auth::check())
+            @if ($loggedIn && $isRecipeOwner)
                 {{-- <li><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li> --}}
                 <li>
                     <a href="{{ url('/recipes/delete/'.$recipe->id) }}" class="confirmation">
@@ -51,15 +64,22 @@
         <h2>Zutaten</h2>
         <ul>
             @foreach ($recipe->ingredientDetails as $ingredientDetail)
-                @php ($ingredient = \App\Ingredient::find($ingredientDetail->ingredient_id))
-                @php ($unit = \App\Unit::find($ingredientDetail->unit_id))
+                @php
+                    $ingredient = \App\Ingredient::find($ingredientDetail->ingredient_id);
+                    $unit = \App\Unit::find($ingredientDetail->unit_id);
+                @endphp
 
                 <li>
-                    @if ($ingredientDetail->prep_id)
-                        @php ($prep = \App\Prep::find($ingredientDetail->prep_id))
-                        @php ($prepText = ', ' . $prep->name)
-                    @endif
+                    @php
+                        if ($ingredientDetail->prep_id) {
+                            $prep = \App\Prep::find($ingredientDetail->prep_id);
+                            $prepText = ', ' . $prep->name;
+                        }
+                    @endphp
                     {{ $ingredientDetail->amount }} {{ $unit->name_shortcut }} {{ $ingredient->name }}{{ $prepText }}
+                    @if ($loggedIn && $isRecipeOwner)
+                        <a href="/ingredients/delete/{{ $ingredientDetail->id }}"><i class="cross red"></i></a>
+                    @endif
                 </li>
             @endforeach
         </ul>
@@ -81,9 +101,11 @@
 
     <article class="ratings">
         <h2>Bewertungen</h2>
-        @php($class = '')
+        @php
+            $class = '';
+        @endphp
 
-        @if (Auth::check())
+        @if ($loggedIn)
             @if (! \App\Rating::where('user_id', Auth::User()->id)
                 ->where('recipe_id', $recipe->id)
                 ->first())
@@ -93,17 +115,19 @@
         @endif
 
         @foreach ($recipe->ratings as $rating)
-            @php ($user = \App\User::find($rating->user_id))
-            @php($owner = FALSE)
+            @php
+                $user = \App\User::find($rating->user_id);
+                $ratingOwner = FALSE;
 
-            @if (Auth::check())
-                @if (\Auth::user()->id == $rating->user_id)
-                    @php($owner = TRUE)
-                @endif
-            @endif
+                if ($loggedIn) {
+                    if (\Auth::user()->id == $rating->user_id) {
+                        $ratingOwner = TRUE;
+                    }
+                }
+            @endphp
 
-            <article class="{{ ($owner == TRUE ? 'bg-grey' : '') }}">
-                @if ($owner == TRUE)
+            <article class="{{ ($ratingOwner ? 'bg-grey' : '') }}">
+                @if ($loggedIn && $ratingOwner)
                     <a href="{{ url('ratings/delete/'.$rating->id) }}" style="float:right;"><i class="cross red"></i>Löschen</a>
                 @endif
                 <strong>
