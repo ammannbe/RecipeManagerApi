@@ -137,7 +137,10 @@
             <article class="{{ ($ratingOwner ? 'bg-grey' : '') }}">
                 @auth
                     @if ($ratingOwner)
-                        <a href="{{ url('ratings/delete/'.$rating->id) }}" class="delete"><i class="cross red big"></i></a>
+                        <div class="manage">
+                            <a href="{{ url('ratings/edit/'.$rating->id) }}"><i class="pencil big"></i></a>
+                            <a href="{{ url('ratings/delete/'.$rating->id) }}"><i class="cross red big"></i></a>
+                        </div>
                     @endif
                 @endauth
                 <strong>

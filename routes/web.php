@@ -24,6 +24,8 @@ Route::middleware('checklogin')->group(function() {
 
     Route::get('/ratings/add/{recipe}', 'RatingController@createForm');
     Route::post('/ratings/add/{recipe}', 'RatingController@create');
+    Route::get('/ratings/edit/{rating}', 'RatingController@editForm');
+    Route::post('/ratings/edit/{rating}', 'RatingController@edit');
     Route::get('/ratings/delete/{rating}', 'RatingController@delete');
 
     Route::get('/user/edit', 'UserController@editForm');

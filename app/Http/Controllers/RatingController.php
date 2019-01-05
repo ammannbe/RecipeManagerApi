@@ -6,6 +6,7 @@ use \App\RatingCriterion;
 use \App\Recipe;
 use \App\Rating;
 use \Request;
+use App\Http\Requests\RatingFormRequest;
 use \Auth;
 
 class RatingController extends Controller
@@ -26,6 +27,24 @@ class RatingController extends Controller
         $rating = Rating::create($input);
         if ($rating->id) {
             return redirect('recipes/'.$recipe->id);
+        }
+    }
+
+    public function editForm(Rating $rating) {
+        foreach (RatingCriterion::orderBy('name')->get() as $ratingCriterion) {
+            $ratingCriteria[$ratingCriterion->id] = $ratingCriterion->name;
+        }
+        return view('ratings.edit', compact('rating', 'ratingCriteria'));
+    }
+
+    public function edit(RatingFormRequest $request, Rating $rating) {
+        $input = $request->all();
+
+        if ($rating->update($input)) {
+            \Toast::success('Rezept erfolgreich aktualisiert.');
+            return redirect('recipes/'.$rating->recipe_id);
+        } else {
+            abort(500);
         }
     }
 

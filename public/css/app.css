@@ -330,9 +330,10 @@ section.content.recipe > .ratings article {
   margin-bottom: 20px;
 }
 
-section.content.recipe > .ratings .delete {
+section.content.recipe > .ratings .manage {
   float: right;
   top: 0;
+  display: flex;
 }
 
 section.content.overview {
