@@ -7,4 +7,3 @@
 
 require('./bootstrap');
 require('./toast.js');
-require('./confirmation.js');

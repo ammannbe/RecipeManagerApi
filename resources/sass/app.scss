@@ -31,4 +31,8 @@ a {
 section.content {
     margin: 0 auto;
     padding: 0 5%;
+
+    @media (max-width: 412px) {
+        padding: 0;
+    }
 }

@@ -413,3 +413,9 @@ section.content {
   padding: 0 5%;
 }
 
+@media (max-width: 412px) {
+  section.content {
+    padding: 0;
+  }
+}
+

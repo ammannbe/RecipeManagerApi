@@ -19172,8 +19172,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
 
-__webpack_require__(/*! ./confirmation.js */ "./resources/js/confirmation.js");
-
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19218,17 +19216,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-/***/ }),
-
-/***/ "./resources/js/confirmation.js":
-/*!**************************************!*\
-  !*** ./resources/js/confirmation.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/home/benjamin/projects/Cookbook/resources/js/confirmation.js'");
 
 /***/ }),
 

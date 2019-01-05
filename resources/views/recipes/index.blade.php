@@ -138,7 +138,7 @@
                 @auth
                     @if ($ratingOwner)
                         <div class="manage">
-                            <a href="{{ url('ratings/edit/'.$rating->id) }}"><i class="pencil big"></i></a>
+                            <a href="{{ url('ratings/edit/'.$rating->id) }}"><i class="pencil black big"></i></a>
                             <a href="{{ url('ratings/delete/'.$rating->id) }}"><i class="cross red big"></i></a>
                         </div>
                     @endif
