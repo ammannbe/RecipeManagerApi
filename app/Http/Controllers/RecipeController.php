@@ -46,10 +46,13 @@ class RecipeController extends Controller
 
     public function create(RecipeFormRequest $request) {
         $input = $request->all();
-        $input['photo'] = file_get_contents($input['photo']);
+        if (isset($input['photo'])) {
+            $input['photo'] = file_get_contents($input['photo']);
+        }
         $input['user_id'] = Auth::user()->id;
         $recipe = Recipe::create($input);
         if ($recipe->id) {
+            $recipe->categories()->attach($input['categories']);
             \Toast::success('Rezept erfolgreich erstellt');
             return redirect('recipes/'.$recipe->id);
         } else {
@@ -85,6 +88,7 @@ class RecipeController extends Controller
         }
 
         if ($recipe->update($input)) {
+            $recipe->categories()->sync($input['categories']);
             \Toast::success('Rezept erfolgreich aktualisiert.');
             return redirect('recipes/'.$recipe->id);
         } else {
