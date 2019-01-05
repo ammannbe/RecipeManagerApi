@@ -9,14 +9,23 @@ section.form {
             text-align: left;
             align-items: flex-start;
 
-            > :nth-child(2) {
-                width: 100%;
-                box-sizing: border-box;
+            &.checkbox {
+                justify-content: unset;
+                place-self: flex-start;
             }
 
             > :first-child {
                 margin-right: 20px;
                 margin-bottom: 10px;
+            }
+
+            > :nth-child(2) {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            > input[type="checkbox"] {
+                width: unset;
             }
 
             > input[type="submit"] {

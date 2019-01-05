@@ -188,14 +188,23 @@ section.form form > div {
   align-items: flex-start;
 }
 
-section.form form > div > :nth-child(2) {
-  width: 100%;
-  box-sizing: border-box;
+section.form form > div.checkbox {
+  justify-content: unset;
+  place-self: flex-start;
 }
 
 section.form form > div > :first-child {
   margin-right: 20px;
   margin-bottom: 10px;
+}
+
+section.form form > div > :nth-child(2) {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+section.form form > div > input[type=checkbox] {
+  width: unset;
 }
 
 section.form form > div > input[type=submit] {

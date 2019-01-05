@@ -7,7 +7,7 @@
 
 @section('class', 'recipe form')
 @section('content')
-    {!! Form::open(['url' => 'recipes/create']) !!}
+    {!! Form::open(['url' => 'recipes/create', 'enctype="multipart/form-data"']) !!}
         <div>
             {!! Form::label('Name') !!}
             {!! Form::text('name', NULL, ['maxlength' => 200]) !!}
@@ -30,7 +30,7 @@
 
         <div>
             {!! Form::label('Portionen') !!}
-            {!! Form::number('yield_amount', 4, ['min' => 0, 'max' => 5, 'size' => 3]) !!}
+            {!! Form::number('yield_amount', 4, ['min' => 0, 'max' => 99999, 'size' => 3]) !!}
         </div>
 
         <div>
@@ -39,9 +39,9 @@
         </div>
 
         <div>
-            {!! Form::label('Foto (max 2MB)') !!}
+            {!! Form::label('photo', 'Foto (max 2MB)') !!}
             {!! Form::file('photo') !!}
-            {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!}
+            {{-- {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!} --}}
         </div>
 
         <div>
