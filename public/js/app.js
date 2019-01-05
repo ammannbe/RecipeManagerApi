@@ -19228,16 +19228,7 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(document).ready(function () {
-  $('.confirmation').on('click', function (event) {
-    if (confirm('Bist du sicher?')) {
-      return true;
-    } else {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  });
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/home/benjamin/projects/Cookbook/resources/js/confirmation.js'");
 
 /***/ }),
 
