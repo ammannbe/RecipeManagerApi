@@ -28,7 +28,7 @@
             </div>
 
             <div class="instructions">
-                {{ FormatHelper::shorten($recipe->instructions, 200) }}
+                {!! nl2br(FormatHelper::shorten($recipe->instructions, 200)) !!}
             </div>
         </article>
     @endforeach

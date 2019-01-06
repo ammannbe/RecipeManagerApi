@@ -33,6 +33,17 @@ body {
   }
 }
 
+nav.top.second {
+  margin-top: 50px;
+  display: none;
+}
+
+@media (max-width: 358px) {
+  nav.top.second {
+    margin-top: 100px;
+  }
+}
+
 nav.right {
   margin-bottom: 10px;
 }
@@ -128,11 +139,13 @@ section.form form > div {
   padding: 15px;
 }
 
+.link::before,
 .printer-icon::before,
 .cross::before,
 .magnifier::before,
 .pencil::before,
 .home::before,
+.minus-sign::before,
 .plus-sign::before,
 .arrowRight::before {
   font-size: 1.5em;
@@ -141,11 +154,13 @@ section.form form > div {
   margin: 0 0.3em;
 }
 
+.big.link::before,
 .big.printer-icon::before,
 .big.cross::before,
 .big.magnifier::before,
 .big.pencil::before,
 .big.home::before,
+.big.minus-sign::before,
 .big.plus-sign::before,
 .big.arrowRight::before {
   font-size: 2em;
@@ -157,6 +172,10 @@ section.form form > div {
 
 .plus-sign::before {
   content: "+";
+}
+
+.minus-sign::before {
+  content: "-";
 }
 
 .home::before {
@@ -177,6 +196,10 @@ section.form form > div {
 
 .printer-icon::before {
   content: "\1F5B6";
+}
+
+.link::before {
+  content: "\1F517";
 }
 
 section.form form > div {

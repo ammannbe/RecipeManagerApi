@@ -41,7 +41,7 @@
         <div>
             {!! Form::label('photo', 'Foto (max 2MB)') !!}
             {!! Form::file('photo') !!}
-            {{-- {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!} --}}
+            {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!}
         </div>
 
         <div>

@@ -10,6 +10,10 @@
         <div>
             {!! Form::label('Kriterium') !!}
             {!! Form::select('rating_criterion_id', $ratingCriteria) !!}
+            <div>
+                <br>
+                Nichts gefunden? Neues <a href="{{ url('/rating-criteria/create') }}"><i class="link"></i>Kriterium</a> erstellen.
+            </div>
         </div>
 
         <div>

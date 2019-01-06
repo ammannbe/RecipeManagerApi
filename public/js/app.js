@@ -19172,6 +19172,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
 
+__webpack_require__(/*! ./nav.js */ "./resources/js/nav.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19216,6 +19218,29 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/nav.js":
+/*!*****************************!*\
+  !*** ./resources/js/nav.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('a#add').click(function () {
+    $('nav.top.second').toggle('slow', function () {
+      var display = $(this).css('display');
+
+      if (display == 'none') {
+        $('a#add').html('<i class="plus-sign"></i> Hinzufügen');
+      } else {
+        $('a#add').html('<i class="minus-sign"></i> Hinzufügen');
+      }
+    });
+  });
+});
 
 /***/ }),
 

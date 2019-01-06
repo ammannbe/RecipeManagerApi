@@ -25,8 +25,20 @@
                     <li><a href="{{ url('/') }}"><i class="home"></i>Home</a></li>
                     <li><a href="{{ url('/search') }}"><i class="magnifier"></i>Suche</a></li>
                     @auth
-                        <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept hinzufügen</a></li>
+                        <li><a href="#" id="add"><i class="plus-sign"></i>Hinzufügen</a></li>
                     @endauth
+                </ul>
+            </nav>
+
+            <nav class="top second">
+                <ul>
+                    <li><a href="{{ url('/cookbooks/create') }}"><i class="plus-sign"></i>Kochbuch</a></li>
+                    <li><a href="{{ url('/authors/create') }}"><i class="plus-sign"></i>Autor</a></li>
+                    <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept</a></li>
+                    <li><a href="{{ url('/ingredients/create') }}"><i class="plus-sign"></i>Zutat</a></li>
+                    <li><a href="{{ url('/units/create') }}"><i class="plus-sign"></i>Einheit</a></li>
+                    <li><a href="{{ url('/ratingCriteria/create') }}"><i class="plus-sign"></i>Bewertungskriterien</a></li>
+                    <li><a href="{{ url('/preps/create') }}"><i class="plus-sign"></i>Vorbereitung Zutaten</a></li>
                 </ul>
             </nav>
         @show

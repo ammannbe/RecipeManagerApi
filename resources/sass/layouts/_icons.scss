@@ -19,6 +19,11 @@
     content: "\2B";
 }
 
+.minus-sign::before {
+    @extend %icons;
+    content: "\2D";
+}
+
 .home::before {
     @extend %icons;
     content: "\2302";
@@ -42,4 +47,9 @@
 .printer-icon::before {
     @extend %icons;
     content: "\1F5B6";
+}
+
+.link::before {
+    @extend %icons;
+    content: "\1f517";
 }
