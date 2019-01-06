@@ -16,16 +16,25 @@
         <div>
             {!! Form::label('Kochbuch') !!}
             {!! Form::select('cookbook_id', $cookbooks) !!}
+            <div class="info-text">
+                Nichts gefunden? Neues <a href="{{ url('/cookbooks/create') }}" target="_blank"><i class="link"></i>Kochbuch</a> erstellen.
+            </div>
         </div>
 
         <div>
             {!! Form::label('Autor') !!}
             {!! Form::select('author_id', $authors) !!}
+            <div class="info-text">
+                Nichts gefunden? Neuen <a href="{{ url('/authors/create') }}" target="_blank"><i class="link"></i>Autor</a> erstellen.
+            </div>
         </div>
 
         <div>
             {!! Form::label('Kategorien') !!}
             {!! Form::select('categories[]', $categories, NULL, ['multiple' => 'multiple']) !!}
+            <div class="info-text">
+                Nichts gefunden? Neue <a href="{{ url('/categories/create') }}" target="_blank"><i class="link"></i>Kategorie</a> erstellen.
+            </div>
         </div>
 
         <div>

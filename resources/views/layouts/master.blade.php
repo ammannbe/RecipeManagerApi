@@ -37,7 +37,6 @@
                     <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept</a></li>
                     <li><a href="{{ url('/ingredients/create') }}"><i class="plus-sign"></i>Zutat</a></li>
                     <li><a href="{{ url('/units/create') }}"><i class="plus-sign"></i>Einheit</a></li>
-                    <li><a href="{{ url('/ratingCriteria/create') }}"><i class="plus-sign"></i>Bewertungskriterien</a></li>
                     <li><a href="{{ url('/preps/create') }}"><i class="plus-sign"></i>Vorbereitung Zutaten</a></li>
                 </ul>
             </nav>

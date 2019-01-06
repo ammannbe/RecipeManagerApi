@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IngredientDetailFormRequest;
 use \App\Unit;
 use \App\Ingredient;
 use \App\IngredientDetail;
@@ -14,25 +15,25 @@ class IngredientDetailController extends Controller
 {
     public function createForm(Recipe $recipe) {
         $units[NULL] = '-- SELECT--';
-        foreach (Unit::get() as $unit) {
+        foreach (Unit::orderBy('name')->get() as $unit) {
             $units[$unit->id] = $unit->name;
         }
 
         $ingredients[NULL] = '-- SELECT--';
-        foreach (Ingredient::get() as $ingredient) {
+        foreach (Ingredient::orderBy('name')->get() as $ingredient) {
             $ingredients[$ingredient->id] = $ingredient->name;
         }
 
         $preps[NULL] = '-- NONE--';
-        foreach (Prep::get() as $prep) {
+        foreach (Prep::orderBy('name')->get() as $prep) {
             $preps[$prep->id] = $prep->name;
         }
 
-        return view('recipes.ingredients', compact('recipe', 'units', 'ingredients', 'preps'));
+        return view('ingredientDetails.create', compact('recipe', 'units', 'ingredients', 'preps'));
     }
 
-    public function create(Recipe $recipe) {
-        $input = Request::all();
+    public function create(IngredientDetailFormRequest $request, Recipe $recipe) {
+        $input = $request->all();
         $input['recipe_id'] = $recipe->id;
         $ingredientDetail = IngredientDetail::create($input);
         if ($ingredientDetail->id) {

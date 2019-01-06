@@ -8,8 +8,6 @@ use App\RatingCriterion;
 
 class RatingCriterionController extends Controller
 {
-
-
     public function createForm() {
         return view('ratingCriteria.create');
     }

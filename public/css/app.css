@@ -235,6 +235,10 @@ section.form form > div > input[type=submit] {
   margin: 0 !important;
 }
 
+section.form form > div > div.info-text {
+  margin-top: 10px;
+}
+
 .toast {
   position: absolute;
   display: flex;

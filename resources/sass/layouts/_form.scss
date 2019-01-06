@@ -32,6 +32,10 @@ section.form {
                 width: 100%;
                 margin: 0 !important;
             }
+
+            > div.info-text {
+                margin-top: 10px;
+            }
         }
     }
 }

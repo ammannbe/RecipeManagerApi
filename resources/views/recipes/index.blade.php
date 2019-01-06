@@ -63,7 +63,7 @@
         <h2>
             Zutaten
             @auth
-                <a href="{{ url('/ingredients/add/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                <a href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
             @endauth
         </h2>
         <ul>

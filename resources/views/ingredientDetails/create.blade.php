@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@extends('layouts.validator')
 
 
 @section('title', $recipe->name . ': Zutaten hinzufügen')
@@ -14,18 +15,27 @@
         </div>
 
         <div>
-            {!! Form::label('Einheit') !!}
-            {!! Form::select('unit_id', $units) !!}
+            {!! Form::label('Zutat') !!}
+            {!! Form::select('ingredient_id', $ingredients) !!}
+            <div class="info-text">
+                Nichts gefunden? Neue <a href="{{ url('/ingredients/create') }}" target="_blank"><i class="link"></i>Zutat</a> erstellen.
+            </div>
         </div>
 
         <div>
-            {!! Form::label('Zutat') !!}
-            {!! Form::select('ingredient_id', $ingredients) !!}
+            {!! Form::label('Einheit') !!}
+            {!! Form::select('unit_id', $units) !!}
+            <div class="info-text">
+                Nichts gefunden? Neue <a href="{{ url('/units/create') }}" target="_blank"><i class="link"></i>Einheit</a> erstellen.
+            </div>
         </div>
 
         <div>
             {!! Form::label('Vorbereitung') !!}
             {!! Form::select('prep_id', $preps) !!}
+            <div class="info-text">
+                Nichts gefunden? Neue <a href="{{ url('/preps/create') }}" target="_blank"><i class="link"></i>Vorbereitung</a> erstellen.
+            </div>
         </div>
 
         <div>
