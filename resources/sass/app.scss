@@ -19,6 +19,18 @@ html, body {
     padding: 0;
 }
 
+.noscript {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050;
+    text-align: center;
+    font-weight: bold;
+    color: map-get($colors, white);
+    background-color: map-get($colors, red-dark);
+    padding: 5px 0;
+}
+
 a {
     text-decoration: none;
     color: #1483df;

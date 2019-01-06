@@ -53,3 +53,8 @@
     @extend %icons;
     content: "\1f517";
 }
+
+.reload::before {
+    @extend %icons;
+    content: "\27F3";
+}

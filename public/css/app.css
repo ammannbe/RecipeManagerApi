@@ -8,6 +8,10 @@ header {
   grid-area: header;
 }
 
+.noscript {
+  grid-area: noscript;
+}
+
 section.content {
   grid-area: content;
 }
@@ -22,14 +26,14 @@ footer {
 
 body {
   display: grid;
-  grid-template-areas: "nav-top nav-top nav-top nav-top nav-top" "header  header  header  header  nav-right" "content content content content nav-right" "footer  footer  footer  footer  footer";
+  grid-template-areas: "nav-top nav-top nav-top nav-top nav-top" "noscript noscript noscript noscript noscript" "header  header  header  header  nav-right" "content content content content nav-right" "footer  footer  footer  footer  footer";
   grid-column-gap: 0;
   grid-template-columns: auto auto auto auto 20%;
 }
 
 @media screen and (max-width: 600px) {
   body {
-    grid-template-areas: "nav-top nav-top nav-top nav-top nav-top" "header  header  header  nav-right  nav-right" "content content content content content" "footer  footer  footer  footer  footer";
+    grid-template-areas: "nav-top nav-top nav-top nav-top nav-top" "noscript noscript noscript noscript noscript" "header  header  header  nav-right  nav-right" "content content content content content" "footer  footer  footer  footer  footer";
   }
 }
 
@@ -139,6 +143,7 @@ section.form form > div {
   padding: 15px;
 }
 
+.reload::before,
 .link::before,
 .printer-icon::before,
 .cross::before,
@@ -154,6 +159,7 @@ section.form form > div {
   margin: 0 0.3em;
 }
 
+.big.reload::before,
 .big.link::before,
 .big.printer-icon::before,
 .big.cross::before,
@@ -200,6 +206,10 @@ section.form form > div {
 
 .link::before {
   content: "\1F517";
+}
+
+.reload::before {
+  content: "\27F3";
 }
 
 section.form form > div {
@@ -424,6 +434,18 @@ body {
   margin: 0;
   margin-right: 1px;
   padding: 0;
+}
+
+.noscript {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background-color: #9e1515;
+  padding: 5px 0;
 }
 
 a {

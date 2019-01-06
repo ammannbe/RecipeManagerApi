@@ -42,6 +42,12 @@
             </nav>
         @show
 
+        <div class="noscript">
+            <noscript>
+                Aktiviere JavaScript um von allen Funktionen zu profitieren.
+            </noscript>
+        </div>
+
         <header>
             <h1>@yield('title')</h1>
         </header>
