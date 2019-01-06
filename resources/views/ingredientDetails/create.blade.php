@@ -8,7 +8,7 @@
 @section('class', 'recipe form')
 @section('content')
 
-    {!! Form::open(['url' => 'ingredients/add/' . $recipe->id]) !!}
+    {!! Form::open(['url' => 'ingredient-details/create/' . $recipe->id]) !!}
         <div>
             {!! Form::label('Menge') !!}
             {!! Form::number('amount', 1, ['min' => 0, 'max' => 99999999, 'size' => 8, 'step' => '0.25']) !!}

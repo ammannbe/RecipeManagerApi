@@ -83,7 +83,7 @@
                     {{ $ingredientDetail->amount }} {{ $unit->name_shortcut }} {{ $ingredient->name }}{{ $prepText }}
                     @auth
                         @if ($isRecipeOwner)
-                            <a href="/ingredients/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                            <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                         @endif
                     @endauth
                 </li>
