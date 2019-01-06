@@ -37,17 +37,6 @@ body {
   }
 }
 
-nav.top.second {
-  margin-top: 50px;
-  display: none;
-}
-
-@media (max-width: 358px) {
-  nav.top.second {
-    margin-top: 100px;
-  }
-}
-
 nav.right {
   margin-bottom: 10px;
 }

@@ -19172,8 +19172,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
 
-__webpack_require__(/*! ./nav.js */ "./resources/js/nav.js");
-
 __webpack_require__(/*! ./form.js */ "./resources/js/form.js");
 
 /***/ }),
@@ -19235,29 +19233,6 @@ $(document).ready(function () {
     if (!$('form .info-text a i.reload').length) {
       $(this).append('<a href="#" onclick="location.reload()">Liste neu laden<i class="reload"></i></a>');
     }
-  });
-});
-
-/***/ }),
-
-/***/ "./resources/js/nav.js":
-/*!*****************************!*\
-  !*** ./resources/js/nav.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-$(document).ready(function () {
-  $('a#add').click(function () {
-    $('nav.top.second').toggle('slow', function () {
-      var display = $(this).css('display');
-
-      if (display == 'none') {
-        $('a#add').html('<i class="plus-sign"></i> Hinzufügen');
-      } else {
-        $('a#add').html('<i class="minus-sign"></i> Hinzufügen');
-      }
-    });
   });
 });
 

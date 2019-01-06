@@ -7,5 +7,4 @@
 
 require('./bootstrap');
 require('./toast.js');
-require('./nav.js');
 require('./form.js');
