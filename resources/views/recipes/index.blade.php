@@ -95,7 +95,7 @@
         <h2>Zubereitung</h2>
         <ul>
             <li>Portionen: {{ $recipe->yield_amount }}</li>
-            <li>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time) }}</li>
+            <li>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
         </ul>
         <p>
             {!! nl2br($recipe->instructions) !!}

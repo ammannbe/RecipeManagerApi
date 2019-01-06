@@ -13,10 +13,14 @@ class FormatHelper
         }
     }
 
-    public static function time($time = NULL) {
-        if (!is_null($time)) {
+    public static function time($time = NULL, $format = ['hours', 'minutes', 'seconds']) {
+        if ($time && $format) {
+            $formatString = '';
+            (in_array('hours', $format))   ? $formatString .=  'H\h' : '';
+            (in_array('minutes', $format)) ? $formatString .= ' i\m\i\n' : '';
+            (in_array('seconds', $format)) ? $formatString .= ' s\s' : '';
             $dateTime = new \DateTime($time);
-            $dateTime = $dateTime->format('H:i:s');
+            $dateTime = $dateTime->format($formatString);
             return $dateTime;
         } else {
             return '-';

@@ -8,13 +8,13 @@
 @section('content')
     @foreach ($recipes as $recipe)
         <article>
-            <div class="image">
-                @if ($recipe->photo)
+            @if ($recipe->photo)
+                <div class="image">
                     <a href="{{ url('/recipes/' . $recipe->id) }}">
                         <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
                     </a>
-                @endif
-            </div>
+                </div>
+            @endif
 
             <div class="info">
                 <strong><a href="{{ url('/recipes/' . $recipe->id) }}">{{ $recipe->name }}</a></strong>
@@ -23,7 +23,7 @@
                     @php break; @endphp
                 @endforeach
 
-                <span>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time) }}</span><br>
+                <span>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</span><br>
                 <small>Erstellt: {{ FormatHelper::date($recipe->created_at) }}</small>
             </div>
 
