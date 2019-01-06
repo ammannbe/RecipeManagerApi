@@ -1,31 +1,60 @@
 %icons {
     font-size: 1.5em;
     font-family: monospace;
-    margin-right: 0.3em;
-    margin-left: 0.3em;
+    font-style: normal;
+    margin: 0 0.3em;
+
+    &.big {
+        font-size: 2em;
+    }
 }
 
-.arrowRight::after {
+.arrowRight::before {
     @extend %icons;
     content: "\002192";
 }
 
-.plus-sign::after {
+.plus-sign::before {
     @extend %icons;
     content: "\2B";
 }
 
-.home::after {
+.minus-sign::before {
+    @extend %icons;
+    content: "\2D";
+}
+
+.home::before {
     @extend %icons;
     content: "\2302";
 }
 
-.pencil::after {
+.pencil::before {
     @extend %icons;
     content: "\270E";
 }
 
-.magnifier::after {
+.magnifier::before {
     @extend %icons;
     content: "\1F50D";
+}
+
+.cross::before {
+    @extend %icons;
+    content: "\2717";
+}
+
+.printer-icon::before {
+    @extend %icons;
+    content: "\1F5B6";
+}
+
+.link::before {
+    @extend %icons;
+    content: "\1f517";
+}
+
+.reload::before {
+    @extend %icons;
+    content: "\27F3";
 }

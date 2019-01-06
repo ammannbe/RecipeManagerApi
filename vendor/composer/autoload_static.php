@@ -30,6 +30,7 @@ class ComposerStaticInit93502f9bafefc5af341bc177cb1a38bd
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '0d8253363903f0ac7b0978dcde4e28a0' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/helpers.php',
+        'c0a1d8b5e5432f18f0a9bb76a10d5e68' => __DIR__ . '/..' . '/grimthorr/laravel-toast/src/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
     );
 
@@ -127,6 +128,7 @@ class ComposerStaticInit93502f9bafefc5af341bc177cb1a38bd
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'Grimthorr\\LaravelToast\\' => 23,
         ),
         'F' => 
         array (
@@ -347,6 +349,10 @@ class ComposerStaticInit93502f9bafefc5af341bc177cb1a38bd
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'Grimthorr\\LaravelToast\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/grimthorr/laravel-toast/src',
+        ),
         'Fideloper\\Proxy\\' => 
         array (
             0 => __DIR__ . '/..' . '/fideloper/proxy/src',
@@ -451,6 +457,7 @@ class ComposerStaticInit93502f9bafefc5af341bc177cb1a38bd
         'App\\Http\\Controllers\\PagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/PagesController.php',
         'App\\Http\\Controllers\\RatingController' => __DIR__ . '/../..' . '/app/Http/Controllers/RatingController.php',
         'App\\Http\\Controllers\\RecipeController' => __DIR__ . '/../..' . '/app/Http/Controllers/RecipeController.php',
+        'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -460,6 +467,8 @@ class ComposerStaticInit93502f9bafefc5af341bc177cb1a38bd
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\CreateRecipe' => __DIR__ . '/../..' . '/app/Http/Requests/CreateRecipe.php',
+        'App\\Http\\Requests\\EditUser' => __DIR__ . '/../..' . '/app/Http/Requests/EditUser.php',
         'App\\Ingredient' => __DIR__ . '/../..' . '/app/Ingredient.php',
         'App\\IngredientDetail' => __DIR__ . '/../..' . '/app/IngredientDetail.php',
         'App\\Prep' => __DIR__ . '/../..' . '/app/Prep.php',
@@ -1041,6 +1050,9 @@ class ComposerStaticInit93502f9bafefc5af341bc177cb1a38bd
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
         'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
+        'Grimthorr\\LaravelToast\\Facade' => __DIR__ . '/..' . '/grimthorr/laravel-toast/src/Facade.php',
+        'Grimthorr\\LaravelToast\\ServiceProvider' => __DIR__ . '/..' . '/grimthorr/laravel-toast/src/ServiceProvider.php',
+        'Grimthorr\\LaravelToast\\Toast' => __DIR__ . '/..' . '/grimthorr/laravel-toast/src/Toast.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
         'GuzzleHttp\\ClientInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/ClientInterface.php',
         'GuzzleHttp\\Cookie\\CookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJar.php',

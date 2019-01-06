@@ -19172,6 +19172,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
 
+__webpack_require__(/*! ./form.js */ "./resources/js/form.js");
+
+__webpack_require__(/*! ./noscript.js */ "./resources/js/noscript.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19216,6 +19220,36 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/form.js":
+/*!******************************!*\
+  !*** ./resources/js/form.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('form .info-text').click(function () {
+    if (!$('form .info-text a i.reload').length) {
+      $(this).append('<a href="#" onclick="location.reload()">Liste neu laden<i class="reload"></i></a>');
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/noscript.js":
+/*!**********************************!*\
+  !*** ./resources/js/noscript.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.noscript').remove();
+});
 
 /***/ }),
 

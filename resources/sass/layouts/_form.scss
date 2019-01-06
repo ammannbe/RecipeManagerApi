@@ -1,19 +1,17 @@
 section.form {
     form {
         > div {
+            @extend %border;
             margin-bottom: 10px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             text-align: left;
             align-items: flex-start;
-            border: 0.1px solid #333;
-            padding: 8px;
-            border-radius: 4px;
 
-            > :nth-child(2) {
-                width: 100%;
-                box-sizing: border-box;
+            &.checkbox {
+                justify-content: unset;
+                place-self: flex-start;
             }
 
             > :first-child {
@@ -21,9 +19,22 @@ section.form {
                 margin-bottom: 10px;
             }
 
+            > :nth-child(2) {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            > input[type="checkbox"] {
+                width: unset;
+            }
+
             > input[type="submit"] {
                 width: 100%;
                 margin: 0 !important;
+            }
+
+            > div.info-text {
+                margin-top: 10px;
             }
         }
     }

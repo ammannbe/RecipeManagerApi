@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
-    protected $fillable = ['cookbook_id', 'author_id', 'name', 'yield_amount', 'instructions', 'photo', 'preparation_time'];
+    protected $fillable = ['cookbook_id', 'author_id', 'name', 'yield_amount', 'instructions', 'photo', 'preparation_time', 'user_id'];
 
     public static function setDetails(Recipe &$recipe) {
         $recipe->author;
@@ -29,7 +29,7 @@ class Recipe extends Model
     }
 
     public function author() {
-        return $this->belongsTo('\App\Author', 'id');
+        return $this->belongsTo('\App\Author');
     }
 
     public function categories() {

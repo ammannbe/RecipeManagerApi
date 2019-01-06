@@ -1,0 +1,15 @@
+.red {
+    color: map-get($colors, red)
+}
+
+.black {
+    color: map-get($colors, black);
+}
+
+.grey {
+    color: map-get($colors, grey);
+}
+
+.bg-grey {
+    background-color: map-get($colors, grey);
+}

@@ -7,3 +7,5 @@
 
 require('./bootstrap');
 require('./toast.js');
+require('./form.js');
+require('./noscript.js');

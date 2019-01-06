@@ -25,11 +25,17 @@
                     <li><a href="{{ url('/') }}"><i class="home"></i>Home</a></li>
                     <li><a href="{{ url('/search') }}"><i class="magnifier"></i>Suche</a></li>
                     @auth
-                        <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept hinzufügen</a></li>
+                        <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept</a></li>
                     @endauth
                 </ul>
             </nav>
         @show
+
+        <div class="noscript">
+            <noscript>
+                Aktiviere JavaScript um von allen Funktionen zu profitieren.
+            </noscript>
+        </div>
 
         <header>
             <h1>@yield('title')</h1>

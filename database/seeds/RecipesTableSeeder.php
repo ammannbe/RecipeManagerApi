@@ -20,6 +20,7 @@ class RecipesTableSeeder extends Seeder
             Recipe::create([
                 'cookbook_id'       => rand(0, 50),
                 'author_id'         => rand(0, 50),
+                'user_id'           => rand(0, 50),
                 'name'              => $faker->firstName,
                 'yield_amount'      => rand(0, 999),
                 'instructions'      => $faker->text(1000),

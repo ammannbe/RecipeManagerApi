@@ -1,12 +1,19 @@
 section.content.overview {
     @extend %flexbox-row;
+    margin: 0 10%;
+    @media (max-width: 367px) {
+        margin: 0 auto;
+    }
 
     > article {
         @extend %flexbox-row;
+        @extend %border;
         flex-basis: 100%;
+        flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-
+        margin-bottom: 30px;
+        
         .image, .info {
             display: inline-block;
         }
@@ -14,14 +21,15 @@ section.content.overview {
         .image {
             height: auto;
             width: 20vh;
+            min-width: 100px;
+
             img {
                 width: 100%;
             }
         }
 
         .info {
-            border-bottom: 1px solid #333;
-            width: 80%;
+            flex-grow: 2;
             margin-top: 20px;
             margin-left: 20px;
             padding: 0 20px 10px 0;
@@ -30,6 +38,13 @@ section.content.overview {
                 display: block;
                 margin-bottom: 3px;
             }
+        }
+
+        .instructions {
+            @media (max-width: 680px) {
+                display: none;
+            }
+            margin-left: 20px;
         }
     }
 }
