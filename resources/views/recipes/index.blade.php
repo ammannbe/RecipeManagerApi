@@ -63,7 +63,9 @@
         <h2>
             Zutaten
             @auth
-                <a href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                @if ($isRecipeOwner)
+                    <a href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                @endif
             @endauth
         </h2>
         <ul>
