@@ -19174,6 +19174,8 @@ __webpack_require__(/*! ./toast.js */ "./resources/js/toast.js");
 
 __webpack_require__(/*! ./form.js */ "./resources/js/form.js");
 
+__webpack_require__(/*! ./noscript.js */ "./resources/js/noscript.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19234,6 +19236,19 @@ $(document).ready(function () {
       $(this).append('<a href="#" onclick="location.reload()">Liste neu laden<i class="reload"></i></a>');
     }
   });
+});
+
+/***/ }),
+
+/***/ "./resources/js/noscript.js":
+/*!**********************************!*\
+  !*** ./resources/js/noscript.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.noscript').remove();
 });
 
 /***/ }),
