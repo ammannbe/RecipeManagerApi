@@ -5,7 +5,6 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
-require('./bootstrap');
 require('./toast.js');
 require('./form.js');
 require('./noscript.js');
