@@ -52,23 +52,14 @@ Route::middleware('checklogin')->group(function() {
 
     Route::get('/user/edit', 'UserController@editForm');
     Route::post('/user/edit', 'UserController@edit');
+
 });
+
+Auth::routes(['verify' => true]);
+
+Route::get('/profile', 'HomeController@index')->middleware('verified');
 
 Route::get('/', 'PagesController@index');
 Route::get('/recipes/{recipe}', 'RecipeController@show');
 Route::get('/search', 'PagesController@searchForm');
 Route::post('/search', 'PagesController@search');
-
-
-/* User & Auth */
-Auth::routes();
-
-Route::get('/profile', 'HomeController@index')->name('profile');
-
-Auth::routes();
-
-Route::get('/profile', 'HomeController@index')->name('profile');
-
-Auth::routes();
-
-Route::get('/profile', 'HomeController@index')->name('profile');
