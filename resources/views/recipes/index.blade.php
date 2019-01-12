@@ -36,7 +36,7 @@
 
     @if ($recipe->photo)
         <article class="image">
-            <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
+            <img src="{{ url('/images/recipes/'.$recipe->photo) }}">
         </article>
     @endif
 

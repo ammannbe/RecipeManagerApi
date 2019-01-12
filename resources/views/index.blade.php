@@ -11,7 +11,7 @@
             @if ($recipe->photo)
                 <div class="image">
                     <a href="{{ url('/recipes/' . $recipe->id) }}">
-                        <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
+                        <img src="{{ url('/images/recipes/'.$recipe->photo) }}">
                     </a>
                 </div>
             @endif
