@@ -19,7 +19,7 @@ class RecipeController extends Controller
             $recipe->ingredientDetails()->delete();
             $recipe->ratings()->delete();
         });
-    } 
+    }
 
     public function show(Recipe $recipe) {
         Recipe::setDetails($recipe);
@@ -88,7 +88,8 @@ class RecipeController extends Controller
         }
 
         if ($recipe->update($input)) {
-            $recipe->categories()->sync($input['categories']);
+            (isset($input['categories']) ? $categories = $input['categories'] : $categories = NULL);
+            $recipe->categories()->sync($categories);
             \Toast::success('Rezept erfolgreich aktualisiert.');
             return redirect('recipes/'.$recipe->id);
         } else {
