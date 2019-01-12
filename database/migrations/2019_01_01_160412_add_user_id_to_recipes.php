@@ -14,7 +14,7 @@ class AddUserIdToRecipes extends Migration
     public function up()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->after('id');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
