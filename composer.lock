@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c96eb953c3f08029f92061ad30b318d",
+    "content-hash": "f71387c9a07543e27a2030071c8fd985",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1301,6 +1301,61 @@
                 "psr-3"
             ],
             "time": "2018-11-05T09:00:11+00:00"
+        },
+        {
+            "name": "nathanmac/parser",
+            "version": "v4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nathanmac/Parser.git",
+                "reference": "c7d448933aaf130740413d1fa5f7fe5d45fb458e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nathanmac/Parser/zipball/c7d448933aaf130740413d1fa5f7fe5d45fb458e",
+                "reference": "c7d448933aaf130740413d1fa5f7fe5d45fb458e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/yaml": "~2.0|~3.0"
+            },
+            "require-dev": {
+                "illuminate/support": "~5.0",
+                "mockery/mockery": "0.9.3",
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nathanmac\\Utilities\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nathan Macnamara",
+                    "email": "hola@nathanmac.com"
+                }
+            ],
+            "description": "Simple PHP Parser Utility Library for API Development",
+            "homepage": "https://github.com/nathanmac/Parser",
+            "keywords": [
+                "api",
+                "json",
+                "parser",
+                "xml"
+            ],
+            "time": "2016-09-07T11:18:17+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -3127,6 +3182,65 @@
                 "dump"
             ],
             "time": "2018-11-25T12:50:42+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v3.4.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "554a59a1ccbaac238a89b19c8e551a556fd0e2ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/554a59a1ccbaac238a89b19c8e551a556fd0e2ea",
+                "reference": "554a59a1ccbaac238a89b19c8e551a556fd0e2ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-01-01T13:45:19+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
