@@ -2,6 +2,8 @@
 
 Homepage for Cookbooks
 
+Written with laravel
+
 # Deploy on i-MSCP
 
 ## Clone Repo
@@ -26,3 +28,7 @@ php artisan route:cache
 ```
 php artisan migrate
 ```
+
+# Third-Party Tools
+- [laravel-toast](https://github.com/Grimthorr/laravel-toast.git)
+- [Parser](https://github.com/nathanmac/Parser.git)
