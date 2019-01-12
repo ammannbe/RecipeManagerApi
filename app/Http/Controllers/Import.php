@@ -17,9 +17,7 @@ class Import extends Controller
         $input = $request->all();
         $file = [];
         $file['content'] = file_get_contents($input['file']);
-        $file['name'] = $input['file']->getClientOriginalName();
-        $file['nameExploded'] = explode('.', $file['name']);
-        $file['extension'] = end($file['nameExploded']);
+        $file['extension'] = $input['file']->getClientOriginalExtension();
         $file['parsed'] = Parser::xml($file['content']);
 
         $call = $file['extension'];
