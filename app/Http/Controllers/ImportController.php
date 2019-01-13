@@ -72,15 +72,20 @@ class ImportController extends Controller
                 $photoName = NULL;
             }
 
+            $preparation_time = trim($recipeXml['krecipes-description']['preparation-time']);
+            if ($preparation_time == '00:00') {
+                $preparation_time = NULL;
+            }
+
             $recipe = Recipe::create([
                 'author_id'     => $author_id,
                 'cookbook_id'   => $request->input('cookbook_id'),
                 'user_id'       => Auth::user()->id,
-                'name'          => $recipeXml['krecipes-description']['title'],
-                'yield_amount'  => $recipeXml['krecipes-description']['yield']['amount'],
-                'instructions'  => $recipeXml['krecipes-instructions'],
+                'name'          => trim($recipeXml['krecipes-description']['title']),
+                'yield_amount'  => trim($recipeXml['krecipes-description']['yield']['amount']),
+                'instructions'  => trim($recipeXml['krecipes-instructions']),
                 'photo'         => $photoName,
-                'preparation_time'  => $recipeXml['krecipes-description']['preparation-time'],
+                'preparation_time'  => $preparation_time,
             ]);
 
 
