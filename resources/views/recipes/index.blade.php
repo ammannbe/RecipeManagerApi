@@ -45,10 +45,12 @@
             <h2>Kochbuch</h2>
             <span>{{ $recipe->cookbook->name }}</span>
         </div>
-        <div>
-            <h2>Autor</h2>
-            <span>{{ $recipe->author->name }}</span>
-        </div>
+        @if (isset($recipe->author->name))
+            <div>
+                <h2>Autor</h2>
+                <span>{{ $recipe->author->name }}</span>
+            </div>
+        @endif
         <div>
             <h2>Kategorien</h2>
             <ul>
