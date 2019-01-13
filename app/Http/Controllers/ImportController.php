@@ -12,7 +12,7 @@ use Toast;
 use Parser;
 use Auth;
 
-class Import extends Controller
+class ImportController extends Controller
 {
     public function index(ImportFormRequest $request) {
         $input = $request->all();
@@ -47,9 +47,8 @@ class Import extends Controller
     private function kreml(Array $parsedXml, Request $request) {
 
         foreach ($parsedXml['krecipes-recipe'] as $recipeXml) {
-
-            $authorName = $recipeXml['krecipes-description']['author'];
-            if (isset($authorName)) {
+            if (isset($recipeXml['krecipes-description']['author'])) {
+                $authorName = $recipeXml['krecipes-description']['author'];
                 if ($authorFound = Author::where('name', $authorName)->first()) {
                     $author_id = $authorFound->id;
                 } else {
