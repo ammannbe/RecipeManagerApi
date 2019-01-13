@@ -16,15 +16,15 @@ class PagesController extends Controller
         return view('index', compact('recipes'));
     }
 
-    public function searchForm() {
+    public function searchForm($default = NULL) {
         $tables = [
             'author'        => 'Autoren',
             'category'      => 'Kategorien',
             'cookbook'      => 'Kochbücher',
-            'recipe'        => 'Zubereitung',
+            'recipe'        => 'Rezept / Zubereitung',
             'ingredient'    => 'Zutaten',
         ];
-        return view('search.index', compact('tables'));
+        return view('search.index', compact('tables', 'default'));
     }
 
     public function search() {
@@ -52,7 +52,7 @@ class PagesController extends Controller
             \Toast::clear();
         } else {
             \Toast::info('No recipes found');
-            return $this->searchForm();
+            return $this->searchForm($input['table']);
         }
     }
 }

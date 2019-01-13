@@ -44,7 +44,9 @@ class Recipe extends Model
         return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
     }
 
-    public function search($name) {
-        return $this->where('instructions', 'LIKE', '%'.$name.'%')->get();
+    public function search($term) {
+        return $this->where('instructions', 'LIKE', '%'.$term.'%')
+                    ->orWhere('name', 'LIKE', '%'.$term.'%')
+                    ->get();
     }
 }

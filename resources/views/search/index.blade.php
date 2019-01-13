@@ -9,7 +9,7 @@
     {!! Form::open(['url' => 'search']) !!}
         <div>
             {!! Form::label('Suchen in') !!}
-            {!! Form::select('table', $tables) !!}
+            {!! Form::select('table', $tables, $default) !!}
         </div>
 
         <div>
