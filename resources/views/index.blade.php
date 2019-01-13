@@ -27,7 +27,8 @@
                 <small>Erstellt: {{ FormatHelper::date($recipe->created_at) }}</small>
             </div>
 
-            <div class="instructions">
+            <div class="instructions" title="{{ $recipe->instructions }}">
+                <strong style="display:block">Zubereitung:</strong>
                 {!! nl2br(FormatHelper::shorten($recipe->instructions, 200)) !!}
             </div>
 
