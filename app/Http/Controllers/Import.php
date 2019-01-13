@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ImportFormRequest;
 use App\Author;
 use App\Category;
 use App\Recipe;
@@ -13,12 +14,17 @@ use Auth;
 
 class Import extends Controller
 {
-    public function index(Request $request) {
+    public function index(ImportFormRequest $request) {
         $input = $request->all();
         $file = [];
         $file['content'] = file_get_contents($input['file']);
         $file['extension'] = $input['file']->getClientOriginalExtension();
-        $file['parsed'] = Parser::xml($file['content']);
+        try {
+            $file['parsed'] = Parser::xml($file['content']);
+        } catch (\Exception $ex) {
+            Toast::error('Diese Datei kann nicht importiert werden.');
+            return redirect('/recipes/import');
+        }
 
         $call = $file['extension'];
         if (method_exists($this, $call)) {

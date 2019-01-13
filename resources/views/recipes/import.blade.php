@@ -17,7 +17,7 @@
         </div>
 
         <div>
-            {!! Form::label('file', 'Rezept') !!}
+            {!! Form::label('file', 'Rezept (*.kreml)') !!}
             {!! Form::file('file') !!}
         </div>
 
