@@ -39,39 +39,62 @@ class Import extends Controller
     }
 
     private function kreml(Array $parsedXml, Request $request) {
-        if (!empty($request->file('photo'))) {
-            $photo = file_get_contents($request->file('photo'));
-        } else {
-            $photo = NULL;
-        }
 
-        $author = [];
-        $author['name'] = $parsedXml['krecipes-recipe']['krecipes-description']['author'];
-        if (! $author_id = Author::where('name', $author['name'])->first()->id) {
-            $author = Author::create(['name' => $author['name']]);
-            $author_id = $author->id;
-        }
+        foreach ($parsedXml['krecipes-recipe'] as $recipeXml) {
 
-        $recipe = Recipe::create([
-            'author_id'     => $author_id,
-            'cookbook_id'   => $request->input('cookbook_id'),
-            'user_id'       => Auth::user()->id,
-            'name'          => $parsedXml['krecipes-recipe']['krecipes-description']['title'],
-            'yield_amount'  => $parsedXml['krecipes-recipe']['krecipes-description']['yield']['amount'],
-            'instructions'  => $parsedXml['krecipes-recipe']['krecipes-instructions'],
-            'photo'         => $photo,
-            'preparation_time'  => $parsedXml['krecipes-recipe']['krecipes-description']['preparation-time'],
-        ]);
-
-        $categoryNames = $parsedXml['krecipes-recipe']['krecipes-description']['category']['cat'];
-        foreach ($categoryNames as $key => $categoryName) {
-            if (! $category = Category::where(['name' => $categoryName])->get()->first()) {
-                $category = Category::create(['name' => $categoryName]);
+            $authorName = $recipeXml['krecipes-description']['author'];
+            if (isset($authorName)) {
+                if ($authorFound = Author::where('name', $authorName)->first()) {
+                    $author_id = $authorFound->id;
+                } else {
+                    $authorNew = Author::create(['name' => $authorName]);
+                    $author_id = $authorNew->id;
+                }
+            } else {
+                $author_id = NULL;
             }
-            $recipe->categories()->attach($category->id);
+
+            if (!is_null($recipeXml['krecipes-description']['pictures'])) {
+                $photoBase64    = $recipeXml['krecipes-description']['pictures']['pic']['#text'];
+                $photoExtension = strtolower($recipeXml['krecipes-description']['pictures']['pic']['@format']);
+                $photoName      = time().'.'.$photoExtension;
+                $photoPath      = public_path().'/images/recipes/'.$photoName;
+    
+                if (file_put_contents($photoPath, base64_decode($photoBase64))) {
+                    Toast::error('Fehler beim Hochladen des Bildes für Rezept "' . $recipeXml['krecipes-description']['title'] . '"');
+                }
+            } else {
+                $photoName = NULL;
+            }
+
+            $recipe = Recipe::create([
+                'author_id'     => $author_id,
+                'cookbook_id'   => $request->input('cookbook_id'),
+                'user_id'       => Auth::user()->id,
+                'name'          => $recipeXml['krecipes-description']['title'],
+                'yield_amount'  => $recipeXml['krecipes-description']['yield']['amount'],
+                'instructions'  => $recipeXml['krecipes-instructions'],
+                'photo'         => $photoName,
+                'preparation_time'  => $recipeXml['krecipes-description']['preparation-time'],
+            ]);
+
+
+            if (is_array($recipeXml['krecipes-description']['category']['cat'])) {
+                $categoryNames = $recipeXml['krecipes-description']['category']['cat'];
+            } else {
+                $categoryNames[] = $recipeXml['krecipes-description']['category']['cat'];
+            }
+
+            foreach ($categoryNames as $key => $categoryName) {
+                if (! $category = Category::where(['name' => $categoryName])->get()->first()) {
+                    $category = Category::create(['name' => $categoryName]);
+                }
+                $recipe->categories()->sync($category->id);
+            }
         }
 
-        Toast::success('Rezept erfolgreich importier.');
-        return redirect('/recipes/'.$recipe->id);
+
+        Toast::success('Rezept(e) erfolgreich importiert.');
+        return redirect('/');
     }
 }
