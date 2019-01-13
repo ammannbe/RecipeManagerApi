@@ -65,7 +65,7 @@ class ImportController extends Controller
                 $photoName      = time().'.'.$photoExtension;
                 $photoPath      = public_path().'/images/recipes/'.$photoName;
     
-                if (file_put_contents($photoPath, base64_decode($photoBase64))) {
+                if (! file_put_contents($photoPath, base64_decode($photoBase64))) {
                     Toast::error('Fehler beim Hochladen des Bildes für Rezept "' . $recipeXml['krecipes-description']['title'] . '"');
                 }
             } else {
