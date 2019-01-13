@@ -30,6 +30,16 @@
             <div class="instructions">
                 {!! nl2br(FormatHelper::shorten($recipe->instructions, 200)) !!}
             </div>
+
+            @auth
+                @if ($recipe->user_id == Auth::user()->id)
+                    <div class="manage">
+                        <a href="{{ url('recipes/edit/'.$recipe->id) }}"><i class="pencil black big"></i></a>
+                        <a href="{{ url('recipes/delete/'.$recipe->id) }}"><i class="cross red big"></i></a>
+                    </div>
+                @endif
+            @endauth
+
         </article>
     @endforeach
 @endsection
