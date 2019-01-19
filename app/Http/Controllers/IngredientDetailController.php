@@ -6,6 +6,7 @@ use App\Http\Requests\IngredientDetailFormRequest;
 use \App\Unit;
 use \App\Ingredient;
 use \App\IngredientDetail;
+use App\IngredientDetailGroup;
 use \App\Prep;
 use \App\Recipe;
 use Request;
@@ -24,12 +25,17 @@ class IngredientDetailController extends Controller
             $ingredients[$ingredient->id] = $ingredient->name;
         }
 
-        $preps[NULL] = '-- NONE--';
+        $preps[NULL] = '-- NONE --';
         foreach (Prep::orderBy('name')->get() as $prep) {
             $preps[$prep->id] = $prep->name;
         }
 
-        return view('ingredientDetails.create', compact('recipe', 'units', 'ingredients', 'preps'));
+        $ingredientDetailGroups[NULL] = '-- NONE --';
+        foreach (IngredientDetailGroup::orderBy('name')->where('recipe_id', $recipe->id)->get() as $ingredientDetailGroup) {
+            $ingredientDetailGroups[$ingredientDetailGroup->id] = $ingredientDetailGroup->name;
+        }
+
+        return view('ingredientDetails.create', compact('recipe', 'units', 'ingredients', 'preps', 'ingredientDetailGroups'));
     }
 
     public function create(IngredientDetailFormRequest $request, Recipe $recipe) {

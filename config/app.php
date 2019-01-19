@@ -226,6 +226,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'FormatHelper' => App\Helpers\FormatHelper::class,
+        'CodeHelper' => App\Helpers\CodeHelper::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
 
     ],

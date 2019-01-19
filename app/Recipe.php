@@ -21,6 +21,11 @@ class Recipe extends Model
             }
         }
 
+        foreach ($recipe->ingredientDetails as $ingredientDetail) {
+            $ingredientDetail->alternate;
+            $ingredientDetail->group;
+        }
+
         return $recipe;
     }
 
@@ -39,6 +44,10 @@ class Recipe extends Model
     public function ingredientDetails() {
         return $this->hasMany('\App\IngredientDetail')->orderBy('position');
     }
+
+/*     public function ingredientDetailGroups() {
+        return $this->hasMany('\App\IngredientDetailGroup');
+    } */
 
     public function ratings() {
         return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
