@@ -84,7 +84,7 @@ class KremlParser extends Model
             $ingredientDetails[] = [
                 'ingredient'    => (isset($i['name'])   ? trim($i['name'])   : NULL),
                 'unit'          => (isset($i['unit'])   ? trim($i['unit'])   : NULL),
-                'amount'        => (isset($i['amount']) ? trim($i['amount']) : NULL),
+                'amount'        => (isset($i['amount']) && $i['amount'] != "0" ? trim($i['amount']) : NULL),
                 'prep'          => (isset($i['prep'])   ? trim($i['prep'])   : NULL),
                 'position'      => $position++,
                 'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails($i['substitutes']['ingredient']) : NULL),
@@ -102,7 +102,7 @@ class KremlParser extends Model
                     'group'         => $group,
                     'ingredient'    => (isset($i['name'])   ? trim($i['name'])   : NULL),
                     'unit'          => (isset($i['unit'])   ? trim($i['unit'])   : NULL),
-                    'amount'        => (isset($i['amount']) ? trim($i['amount']) : NULL),
+                    'amount'        => (isset($i['amount']) && $i['amount'] != "0" ? trim($i['amount']) : NULL),
                     'prep'          => (isset($i['prep'])   ? trim($i['prep'])   : NULL),
                     'position'      => $position++,
                     'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails($i['substitutes']['ingredient']) : NULL),
