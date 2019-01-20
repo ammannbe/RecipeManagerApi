@@ -80,7 +80,9 @@
                     $prep = '';
                     if ($ingredientDetail->prep) $prep = ', ' . $ingredientDetail->prep->name;
 
-                    if ($ingredientDetail->alternate) {
+                    if ($ingredientDetail->ingredient_detail_id) {
+                        $ingredientDetail->alternate = App\IngredientDetail::find($ingredientDetail->ingredient_detail_id);
+
                         if ($ingredientDetail->alternate->unit) $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
                                                                                                  $ingredientDetail->alternate->unit->name);
                         $prepAlternate = '';
@@ -97,7 +99,7 @@
                     {{ $ingredientDetail->amount }} {{ $unit }} {{ $ingredientDetail->ingredient->name }}{{ $prep }}
                     @if ($ingredientDetail->alternate)
                         <br>
-                        Oder: {{ $ingredientDetail->alternate->amount }} {{ $unitAlternate }} {{ $ingredientDetail->alternate->name }}{{ $prepAlternate }}
+                        Oder: {{ $ingredientDetail->alternate->amount }} {{ $unitAlternate }} {{ $ingredientDetail->alternate->ingredient->name }}{{ $prepAlternate }}
                     @endif
                     @auth
                         @if ($isRecipeOwner)
