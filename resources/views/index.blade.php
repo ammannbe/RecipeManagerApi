@@ -43,4 +43,5 @@
 
         </article>
     @endforeach
+    {{ $recipes->links() }}
 @endsection

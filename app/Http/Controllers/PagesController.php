@@ -9,10 +9,7 @@ use Request;
 class PagesController extends Controller
 {
     public function index() {
-        foreach (Recipe::orderBy('created_at', 'DESC')->take(10)->get() as $recipe) {
-            $recipes[] = Recipe::setDetails($recipe);
-        }
-
+        $recipes = Recipe::orderBy('created_at', 'DESC')->paginate(10);
         return view('index', compact('recipes'));
     }
 
