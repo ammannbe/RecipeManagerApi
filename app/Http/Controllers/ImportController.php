@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ImportFormRequest;
 use App\Helpers\KremlParser;
+use App\Helpers\FormatHelper;
 use App\Cookbook;
 use App\Author;
 use App\Category;
@@ -57,12 +58,14 @@ class ImportController extends Controller
             }
 
             if (isset($parsedRecipe['photo'])) {
-                $parsedRecipe['photo']['name'] = time().'.'.$parsedRecipe['photo']['extension'];
+                $parsedRecipe['photo']['name'] = time().'-'.CodeHelper::slugify($parsedRecipe['name']).'.'.$parsedRecipe['photo']['extension'];
                 $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
 
                 if (! file_put_contents($parsedRecipe['photo']['path'], base64_decode($parsedRecipe['photo']['base64']))) {
                     Toast::error('Fehler beim Hochladen des Bildes für Rezept "' . $parsedRecipe['name'] . '"');
                 }
+            } else {
+                $parsedRecipe['photo']['name'] = NULL;
             }
 
             $recipe = Recipe::create([
@@ -71,8 +74,9 @@ class ImportController extends Controller
                 'user_id'           => Auth::user()->id,
                 'name'              => $parsedRecipe['name'],
                 'yield_amount'      => $parsedRecipe['yieldAmount'],
+                'yield_amount_max'  => $parsedRecipe['yieldAmountMax'],
                 'instructions'      => $parsedRecipe['instructions'],
-                'photo'             => (isset($parsedRecipe['photo']['name']) ? $parsedRecipe['photo']['name'] : NULL),
+                'photo'             => $parsedRecipe['photo']['name'],
                 'preparation_time'  => $parsedRecipe['preparationTime'],
             ]);
 
@@ -125,7 +129,8 @@ class ImportController extends Controller
 
         return $ingredientDetail = IngredientDetail::create([
             'recipe_id'                     => $recipe->id,
-            'amount'                        => (isset($ingredientDetailToMap['amount']) ? $ingredientDetailToMap['amount'] : NULL),
+            'amount'                        => $ingredientDetailToMap['amount'],
+            'amount_max'                    => $ingredientDetailToMap['amountMax'],
             'unit_id'                       => (isset($obj['unit']) ? $obj['unit']->id : NULL),
             'ingredient_id'                 => $obj['ingredient']->id,
             'prep_id'                       => (isset($obj['prep']) ? $obj['prep']->id : NULL),

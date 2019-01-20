@@ -43,5 +43,8 @@
 
         </article>
     @endforeach
-    {{ $recipes->links() }}
+
+    @if (!is_array($recipes))
+        {{ $recipes->links() }}
+    @endif
 @endsection

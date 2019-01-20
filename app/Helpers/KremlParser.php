@@ -20,14 +20,26 @@ class KremlParser extends Model
 
     private static function recipes(Array $kremlRecipes) {
         foreach ($kremlRecipes as $kremlRecipe) {
+            unset($kremlIngredients);
+            unset($kremlDescriptions);
+            $kremlIngredients  = $kremlRecipe['krecipes-ingredients'];
             $kremlDescriptions = $kremlRecipe['krecipes-description'];
+
+            if (isset($kremlDescriptions['yield']['amount']) && is_array($kremlDescriptions['yield']['amount'])) {
+                $yieldAmount    = (isset($kremlDescriptions['yield']['amount']['min']) ? trim($kremlDescriptions['yield']['amount']['min']) : NULL);
+                $yieldAmountMax = (isset($kremlDescriptions['yield']['amount']['max']) ? trim($kremlDescriptions['yield']['amount']['max']) : NULL);
+            } else {
+                $yieldAmount    = (isset($kremlDescriptions['yield']['amount']) ? trim($kremlDescriptions['yield']['amount']) : NULL);
+                $yieldAmountMax = NULL;
+            }
 
             $recipes[] = [
                 'author'            => (isset($kremlDescriptions['author']) ? trim($kremlDescriptions['author']) : NULL),
                 'preparationTime'   => (isset($kremlDescriptions['preparation-time']) &&
                                     $kremlDescriptions['preparation-time'] != '00:00' ? trim($kremlDescriptions['preparation-time']) : NULL),
                 'name'              => (isset($kremlDescriptions['title'])            ? trim($kremlDescriptions['title'])            : NULL),
-                'yieldAmount'       => (isset($kremlDescriptions['yield']['amount'])  ? trim($kremlDescriptions['yield']['amount'])  : NULL),
+                'yieldAmount'       => $yieldAmount,
+                'yieldAmountMax'    => $yieldAmountMax,
                 'instructions'      => (isset($kremlRecipe['krecipes-instructions'])  ? trim($kremlRecipe['krecipes-instructions'])  : NULL),
                 'categories'        => self::categories($kremlDescriptions['category']['cat']),
             ];
@@ -44,21 +56,34 @@ class KremlParser extends Model
                 ];
             }
 
-            if (!isset($kremlRecipe['krecipes-ingredients']['ingredient-group'])) {
-                if (isset($kremlRecipe['krecipes-ingredients']['ingredient'])) {
-                    $recipes[$key]['ingredientDetails'] = self::ingredientDetails($kremlRecipe['krecipes-ingredients']['ingredient']);
+            if (!isset($kremlIngredients['ingredient-group'])) {
+                if (isset($kremlIngredients['ingredient'])) {
+                    $recipes[$key]['ingredientDetails'] = self::ingredientDetails($kremlIngredients['ingredient']);
+                }
+            } elseif (!isset($kremlIngredients['ingredient'])) {
+                if (isset($kremlIngredients['ingredient-group'])) {
+                    if (isset($kremlIngredients['ingredient-group']['@name'])) {
+                        $groups[] = [
+                            '@name'         => $kremlIngredients['ingredient-group']['@name'],
+                            'ingredient'    => $kremlIngredients['ingredient-group']['ingredient'],
+                        ];
+                    } else {
+                        $groups = $kremlIngredients['ingredient-group'];
+                    }
+                    self::ingredientGroups($groups);
                 }
             } else {
-                if (isset($kremlRecipe['krecipes-ingredients']['ingredient-group']['@name'])) {
+                if (isset($kremlIngredients['ingredient-group']['@name'])) {
                     $groups[] = [
-                        '@name'         => $kremlRecipe['krecipes-ingredients']['ingredient-group']['@name'],
-                        'ingredient'    => $kremlRecipe['krecipes-ingredients']['ingredient-group']['ingredient'],
+                        '@name'         => $kremlIngredients['ingredient-group']['@name'],
+                        'ingredient'    => $kremlIngredients['ingredient-group']['ingredient'],
                     ];
                 } else {
-                    $groups = $kremlRecipe['krecipes-ingredients']['ingredient-group'];
+                    $groups = $kremlIngredients['ingredient-group'];
                 }
+
                 $merged = array_merge(
-                    self::ingredientDetails($kremlRecipe['krecipes-ingredients']['ingredient']),
+                    self::ingredientDetails($kremlIngredients['ingredient']),
                     self::ingredientGroups($groups)
                 );
                 $recipes[$key]['ingredientDetails'] = $merged;
@@ -81,13 +106,22 @@ class KremlParser extends Model
     private static function ingredientDetails(Array $kremlIngredientDetails) {
         $position = 0;
         foreach ($kremlIngredientDetails as $i) {
+            if (isset($i['amount']) && is_array($i['amount'])) {
+                $amount    = (isset($i['amount']['min']) && $i['amount']['min'] != "0" ? trim($i['amount']['min']) : NULL);
+                $amountMax = (isset($i['amount']['max']) && $i['amount']['max'] != "0" ? trim($i['amount']['max']) : NULL);
+            } else {
+                $amount    = (isset($i['amount']) && $i['amount'] != "0" ? trim($i['amount']) : NULL);
+                $amountMax = NULL;
+            }
+
             $ingredientDetails[] = [
-                'ingredient'    => (isset($i['name'])   ? trim($i['name'])   : NULL),
-                'unit'          => (isset($i['unit'])   ? trim($i['unit'])   : NULL),
-                'amount'        => (isset($i['amount']) && $i['amount'] != "0" ? trim($i['amount']) : NULL),
-                'prep'          => (isset($i['prep'])   ? trim($i['prep'])   : NULL),
+                'ingredient'    => (isset($i['name']) ? trim($i['name'])   : NULL),
+                'unit'          => (isset($i['unit']) ? trim($i['unit'])   : NULL),
+                'amount'        => $amount,
+                'amountMax'     => $amountMax,
+                'prep'          => (isset($i['prep']) ? trim($i['prep'])   : NULL),
                 'position'      => $position++,
-                'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails($i['substitutes']['ingredient']) : NULL),
+                'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails([$i['substitutes']['ingredient']])[0] : NULL),
             ];
         }
         return $ingredientDetails;
@@ -98,12 +132,21 @@ class KremlParser extends Model
             $group = (isset($kremlIngredientDetailGroup['@name']) ? trim($kremlIngredientDetailGroup['@name']) : NULL);
             $position = 0;
             foreach ($kremlIngredientDetailGroup['ingredient'] as $i) {
+                if (isset($i['amount']) && is_array($i['amount'])) {
+                    $amount    = (isset($i['amount']['min']) && $i['amount']['min'] != "0" ? trim($i['amount']['min']) : NULL);
+                    $amountMax = (isset($i['amount']['max']) && $i['amount']['max'] != "0" ? trim($i['amount']['max']) : NULL);
+                } else {
+                    $amount    = (isset($i['amount']) && $i['amount'] != "0" ? trim($i['amount']) : NULL);
+                    $amountMax = NULL;
+                }
+
                 $ingredientDetails[] = [
                     'group'         => $group,
-                    'ingredient'    => (isset($i['name'])   ? trim($i['name'])   : NULL),
-                    'unit'          => (isset($i['unit'])   ? trim($i['unit'])   : NULL),
-                    'amount'        => (isset($i['amount']) && $i['amount'] != "0" ? trim($i['amount']) : NULL),
-                    'prep'          => (isset($i['prep'])   ? trim($i['prep'])   : NULL),
+                    'ingredient'    => (isset($i['name']) ? trim($i['name'])   : NULL),
+                    'unit'          => (isset($i['unit']) ? trim($i['unit'])   : NULL),
+                    'amount'        => $amount,
+                    'amountMax'     => $amountMax,
+                    'prep'          => (isset($i['prep']) ? trim($i['prep'])   : NULL),
                     'position'      => $position++,
                     'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails($i['substitutes']['ingredient']) : NULL),
                 ];
