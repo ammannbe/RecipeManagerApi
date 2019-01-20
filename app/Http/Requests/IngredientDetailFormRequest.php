@@ -24,10 +24,10 @@ class IngredientDetailFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount'                => ['required', 'integer'],
+            'amount'                => ['required', 'numeric'],
             'unit_id'               => ['required', 'integer'],
             'ingredient_id'         => ['required', 'integer'],
-            'prep_id'               => ['required', 'integer'],
+            'prep_id'               => ['nullable', 'integer'],
             'position'              => ['nullable', 'integer'],
             'ingredient_detail_id'  => ['nullable', 'integer'],
         ];

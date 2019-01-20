@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@extends('layouts.validator')
 
 
 @section('title', 'Bewertung hinzufügen')

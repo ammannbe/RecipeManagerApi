@@ -6,25 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class IngredientDetail extends Model
 {
-    protected $fillable = ['recipe_id', 'amount', 'unit_id', 'ingredient_id', 'prep_id', 'position', 'ingredient_detail_id'] ;
+    protected $fillable = [
+        'recipe_id',
+        'amount',
+        'unit_id',
+        'ingredient_id',
+        'prep_id',
+        'ingredient_detail_group_id',
+        'position',
+        'ingredient_detail_id'
+    ];
 
-    public function units() {
+    public function unit() {
         return $this->belongsTo('\App\Unit');
     }
 
-    public function ingredients() {
+    public function ingredient() {
         return $this->belongsTo('\App\Ingredient');
     }
 
-    public function preps() {
+    public function prep() {
         return $this->belongsTo('\App\Prep');
     }
 
-    public function parent() {
-        return $this->belongsTo('\App\IngredientDetail');
-    }
-
-    public function recipes() {
-        return $this->belongsTo('\App\Recipe', 'id');
+    public function group() {
+        return $this->belongsTo('\App\IngredientDetailGroup', 'ingredient_detail_group_id');
     }
 }

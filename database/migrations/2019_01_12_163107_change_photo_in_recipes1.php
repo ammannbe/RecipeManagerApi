@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserIdToRecipes extends Migration
+class ChangePhotoInRecipes1 extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddUserIdToRecipes extends Migration
     public function up()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            $table->unsignedInteger('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('photo')->change();
         });
     }
 
@@ -27,8 +26,7 @@ class AddUserIdToRecipes extends Migration
     public function down()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+            DB::statement("ALTER TABLE recipes MODIFY photo MEDIUMBLOB");
         });
     }
 }

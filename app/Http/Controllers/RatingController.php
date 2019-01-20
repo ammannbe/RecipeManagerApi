@@ -20,8 +20,8 @@ class RatingController extends Controller
         return view('ratings.create', compact('recipe', 'ratingCriteria'));
     }
 
-    public function create(Recipe $recipe) {
-        $input = Request::all();
+    public function create(RatingFormRequest $request, Recipe $recipe) {
+        $input = $request->all();
         $input['recipe_id'] = $recipe->id;
         $input['user_id'] = Auth::user()->id;
         $rating = Rating::create($input);

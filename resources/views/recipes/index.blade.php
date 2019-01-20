@@ -36,7 +36,7 @@
 
     @if ($recipe->photo)
         <article class="image">
-            <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
+            <img src="{{ url('/images/recipes/'.$recipe->photo) }}">
         </article>
     @endif
 
@@ -45,10 +45,12 @@
             <h2>Kochbuch</h2>
             <span>{{ $recipe->cookbook->name }}</span>
         </div>
-        <div>
-            <h2>Autor</h2>
-            <span>{{ $recipe->author->name }}</span>
-        </div>
+        @if (isset($recipe->author->name))
+            <div>
+                <h2>Autor</h2>
+                <span>{{ $recipe->author->name }}</span>
+            </div>
+        @endif
         <div>
             <h2>Kategorien</h2>
             <ul>
@@ -71,18 +73,34 @@
         <ul>
             @foreach ($recipe->ingredientDetails as $ingredientDetail)
                 @php
-                    $ingredient = \App\Ingredient::find($ingredientDetail->ingredient_id);
-                    $unit = \App\Unit::find($ingredientDetail->unit_id);
+                    $unit = '';
+                    if ($ingredientDetail->unit) $unit = CodeHelper::any($ingredientDetail->unit->name_shortcut,
+                                                                         $ingredientDetail->unit->name);
+
+                    $prep = '';
+                    if ($ingredientDetail->prep) $prep = ', ' . $ingredientDetail->prep->name;
+
+                    if ($ingredientDetail->ingredient_detail_id) {
+                        $ingredientDetail->alternate = App\IngredientDetail::find($ingredientDetail->ingredient_detail_id);
+
+                        if ($ingredientDetail->alternate->unit) $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
+                                                                                                 $ingredientDetail->alternate->unit->name);
+                        $prepAlternate = '';
+                        if (isset($ingredientDetail->alternate->prep)) $prepAlternate = ', ' . $ingredientDetail->alternate->prep->name;
+                    }
+
+                    if ($ingredientDetail->group) {
+                        $groups[$ingredientDetail->group->name][] = $ingredientDetail;
+                        continue;
+                    }
                 @endphp
 
                 <li>
-                    @php
-                        if ($ingredientDetail->prep_id) {
-                            $prep = \App\Prep::find($ingredientDetail->prep_id);
-                            $prepText = ', ' . $prep->name;
-                        }
-                    @endphp
-                    {{ $ingredientDetail->amount }} {{ $unit->name_shortcut }} {{ $ingredient->name }}{{ $prepText }}
+                    {{ $ingredientDetail->amount }} {{ $unit }} {{ $ingredientDetail->ingredient->name }}{{ $prep }}
+                    @if ($ingredientDetail->alternate)
+                        <br>
+                        Oder: {{ $ingredientDetail->alternate->amount }} {{ $unitAlternate }} {{ $ingredientDetail->alternate->ingredient->name }}{{ $prepAlternate }}
+                    @endif
                     @auth
                         @if ($isRecipeOwner)
                             <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
@@ -90,6 +108,41 @@
                     @endauth
                 </li>
             @endforeach
+
+            @if (isset($groups))
+                @foreach (array_reverse($groups) as $name => $group)
+                    <h1>{{ $name }}</h1>
+                    @foreach ($group as $ingredientDetail)
+                    @php
+                        $unit = '';
+                        if ($ingredientDetail->unit) $unit = CodeHelper::any($ingredientDetail->unit->name_shortcut,
+                                                                            $ingredientDetail->unit->name);
+
+                        $prep = '';
+                        if ($ingredientDetail->prep) $prep = ', ' . $ingredientDetail->prep->name;
+
+                        if ($ingredientDetail->alternate) {
+                            if ($ingredientDetail->alternate->unit) $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
+                                                                                                    $ingredientDetail->alternate->unit->name);
+                            $prepAlternate = '';
+                            if (isset($ingredientDetail->alternate->prep)) $prepAlternate = ', ' . $ingredientDetail->alternate->prep->name;
+                        }
+                    @endphp
+                    <li>
+                        {{ $ingredientDetail->amount }} {{ $unit }} {{ $ingredientDetail->ingredient->name }}{{ $prep }}
+                        @if ($ingredientDetail->alternate)
+                            <br>
+                            Oder: {{ $ingredientDetail->alternate->amount }} {{ $unitAlternate }} {{ $ingredientDetail->alternate->name }}{{ $prepAlternate }}
+                        @endif
+                        @auth
+                            @if ($isRecipeOwner)
+                                <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                            @endif
+                        @endauth
+                    </li>
+                    @endforeach
+                @endforeach
+            @endif
         </ul>
     </article>
 

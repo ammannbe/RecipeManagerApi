@@ -11,7 +11,7 @@
             @if ($recipe->photo)
                 <div class="image">
                     <a href="{{ url('/recipes/' . $recipe->id) }}">
-                        <img src="data:image/jpeg;base64,{{ base64_encode($recipe->photo) }}">
+                        <img src="{{ url('/images/recipes/'.$recipe->photo) }}">
                     </a>
                 </div>
             @endif
@@ -27,9 +27,24 @@
                 <small>Erstellt: {{ FormatHelper::date($recipe->created_at) }}</small>
             </div>
 
-            <div class="instructions">
+            <div class="instructions" title="{{ $recipe->instructions }}">
+                <strong style="display:block">Zubereitung:</strong>
                 {!! nl2br(FormatHelper::shorten($recipe->instructions, 200)) !!}
             </div>
+
+            @auth
+                @if ($recipe->user_id == Auth::user()->id)
+                    <div class="manage">
+                        <a href="{{ url('recipes/edit/'.$recipe->id) }}"><i class="pencil black big"></i></a>
+                        <a href="{{ url('recipes/delete/'.$recipe->id) }}"><i class="cross red big"></i></a>
+                    </div>
+                @endif
+            @endauth
+
         </article>
     @endforeach
+
+    @if (!is_array($recipes))
+        {{ $recipes->links() }}
+    @endif
 @endsection

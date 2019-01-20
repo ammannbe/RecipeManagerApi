@@ -1,0 +1,37 @@
+.pagination {
+    @extend %flexbox-row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    list-style-type: none;
+    font-size: 0.9rem;
+
+    .page-item {
+        .page-link {
+            @extend %border;
+            display: inline-block;
+            padding: 5px 10px;
+            text-align: center;
+            background-color: unset;
+            color: map-get($colors, light-black);
+            margin: 5px;
+
+            &:hover,
+            &:focus {
+                @extend %weak-shadow;
+            }
+        }
+
+        &.disabled,
+        &.active {
+            .page-link {
+                border: unset;
+
+                &:hover,
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}

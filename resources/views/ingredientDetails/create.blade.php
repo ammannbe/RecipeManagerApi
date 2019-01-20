@@ -39,6 +39,11 @@
         </div>
 
         <div>
+            {!! Form::label('Gruppe') !!}
+            {!! Form::select('ingredient_detail_group_id', $ingredientDetailGroups) !!}
+        </div>
+
+        <div>
             {!! Form::label('Position') !!}
             {!! Form::number('position', 0, ['min' => 0, 'size' => 3, 'step' => '1']) !!}
         </div>

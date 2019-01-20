@@ -8,19 +8,10 @@ use App\Category;
 use App\Recipe;
 use App\Http\Requests\RecipeFormRequest;
 use Auth;
+use File;
 
 class RecipeController extends Controller
 {
-
-    public static function boot() {
-        parent::boot();
-        static::deleted(function($recipe) {
-            $recipe->categories()->detach();
-            $recipe->ingredientDetails()->delete();
-            $recipe->ratings()->delete();
-        });
-    } 
-
     public function show(Recipe $recipe) {
         Recipe::setDetails($recipe);
         return view('recipes.index', compact('recipe'));
@@ -47,7 +38,8 @@ class RecipeController extends Controller
     public function create(RecipeFormRequest $request) {
         $input = $request->all();
         if (isset($input['photo'])) {
-            $input['photo'] = file_get_contents($input['photo']);
+            $input['photo'] = time().'.'.request()->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('images/recipes'), $input['photo']);
         }
         $input['user_id'] = Auth::user()->id;
         $recipe = Recipe::create($input);
@@ -83,12 +75,16 @@ class RecipeController extends Controller
             unset($input['photo']);
         } elseif (isset($input['delete_photo']) && !isset($input['photo'])) {
             $input['photo'] = NULL;
+            File::delete(public_path().'/images/recipes/'.$recipe->photo);
         } else {
-            $input['photo'] = file_get_contents($input['photo']);
+            $input['photo'] = time().'.'.request()->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('images/recipes'), $input['photo']);
+            File::delete(public_path().'/images/recipes/'.$recipe->photo);
         }
 
         if ($recipe->update($input)) {
-            $recipe->categories()->sync($input['categories']);
+            (isset($input['categories']) ? $categories = $input['categories'] : $categories = NULL);
+            $recipe->categories()->sync($categories);
             \Toast::success('Rezept erfolgreich aktualisiert.');
             return redirect('recipes/'.$recipe->id);
         } else {
@@ -99,6 +95,8 @@ class RecipeController extends Controller
     public function delete(Recipe $recipe) {
         if (Auth::user()->id == $recipe->user_id) {
             if ($recipe->delete()) {
+                File::delete(public_path().'/images/recipes/'.$recipe->photo);
+
                 \Toast::success('Rezept erfolgreich gelöscht.');
                 return redirect('/');
             } else {

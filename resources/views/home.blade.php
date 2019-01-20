@@ -1,30 +1,30 @@
 @extends('layouts.master')
 
+
+@section('title', 'Dashboard')
+
+
+@section('class', 'dashboard')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <h1>Dashboard</h1>
-
-                <div class="card-body">
-                    <span>Name: {{ Auth::User()->name }}</span><br>
-                    <span>E-Mail: {{ Auth::User()->email }}</span><br>
-                    <span>Registriert: {{ FormatHelper::date(Auth::User()->created_at) }}</span><br>
-                    <br>
-                    <a href="/user/edit">Profil bearbeiten<i class="pencil"></i></a><br>
-                    <br>
-
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    Du bist eingeloggt!
-                </div>
-            </div>
+    <article class="profile">
+        <h2>Profil</h2>
+        <div class="profile">
+            <span>Name: {{ Auth::User()->name }}</span><br>
+            <span>E-Mail: {{ Auth::User()->email }}</span><br>
+            <span>Registriert: {{ FormatHelper::date(Auth::User()->created_at) }}</span>
+            <a class="edit" href="/user/edit">Profil bearbeiten<i class="pencil"></i></a>
         </div>
-    </div>
-</div>
+    </article>
+
+    <article class="recipes">
+        <h2>Deine Rezepte</h2>
+        @foreach ($recipes as $recipe)
+            @if (!isset($cookbookID) || $cookbookID != $recipe->cookbook->id)
+                <h4>{{ $recipe->cookbook->name }}</h4>
+            @endif
+            @php($cookbookID = $recipe->cookbook->id)
+
+            <li><a href="{{ url('/recipes/'.$recipe->id) }}">{{ $recipe->name }}</a></li>
+        @endforeach
+    </article>
 @endsection

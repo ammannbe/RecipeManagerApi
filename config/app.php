@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Nathanmac\Utilities\Parser\ParserServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -225,6 +226,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'FormatHelper' => App\Helpers\FormatHelper::class,
+        'CodeHelper' => App\Helpers\CodeHelper::class,
+        'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
 
     ],
 

@@ -8,9 +8,11 @@
 @import 'layouts/form';
 @import 'layouts/toast';
 @import 'layouts/colors';
+@import 'layouts/pagination';
 
 @import 'recipes';
 @import 'overview';
+@import 'dashboard';
 
 html, body {
     font-family: sans-serif;

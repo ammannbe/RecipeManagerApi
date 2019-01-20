@@ -36,6 +36,8 @@ Route::middleware('checklogin')->group(function() {
     Route::get('/recipes/edit/{recipe}', 'RecipeController@editForm');
     Route::post('/recipes/edit/{recipe}', 'RecipeController@edit');
     Route::get('/recipes/delete/{recipe}', 'RecipeController@delete');
+    Route::post('/recipes/import', 'ImportController@index');
+    Route::get('/recipes/import', 'ImportController@form');
 
     Route::get('/ingredient-details/create/{recipe}', 'IngredientDetailController@createForm');
     Route::post('/ingredient-details/create/{recipe}', 'IngredientDetailController@create');
@@ -52,23 +54,14 @@ Route::middleware('checklogin')->group(function() {
 
     Route::get('/user/edit', 'UserController@editForm');
     Route::post('/user/edit', 'UserController@edit');
+
 });
+
+Auth::routes(['verify' => true]);
+
+Route::get('/profile', 'HomeController@index')->middleware('verified');
 
 Route::get('/', 'PagesController@index');
 Route::get('/recipes/{recipe}', 'RecipeController@show');
 Route::get('/search', 'PagesController@searchForm');
 Route::post('/search', 'PagesController@search');
-
-
-/* User & Auth */
-Auth::routes();
-
-Route::get('/profile', 'HomeController@index')->name('profile');
-
-Auth::routes();
-
-Route::get('/profile', 'HomeController@index')->name('profile');
-
-Auth::routes();
-
-Route::get('/profile', 'HomeController@index')->name('profile');

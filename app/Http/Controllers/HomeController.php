@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Recipe;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $recipes = Recipe::where('user_id', 51)->orderBy('cookbook_id')->get();
+        return view('home', compact('recipes'));
     }
 }

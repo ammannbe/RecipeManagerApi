@@ -1,0 +1,22 @@
+section.content.dashboard {
+    @extend %flexbox-row;
+
+    > article {
+        margin: 10px;
+        padding: 15px;
+
+        li {
+            list-style-position: inside;
+            list-style-type: disclosure-closed;
+        }
+
+        > .profile {
+            > .edit {
+                display: block;
+                margin-top: 10px;
+            }
+        }
+    }
+    
+
+}

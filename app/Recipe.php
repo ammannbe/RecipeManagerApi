@@ -21,6 +21,13 @@ class Recipe extends Model
             }
         }
 
+        foreach ($recipe->ingredientDetails as $ingredientDetail) {
+            $ingredientDetail->unit;
+            $ingredientDetail->ingredient;
+            $ingredientDetail->prep;
+            $ingredientDetail->group;
+        }
+
         return $recipe;
     }
 
@@ -40,11 +47,17 @@ class Recipe extends Model
         return $this->hasMany('\App\IngredientDetail')->orderBy('position');
     }
 
+/*     public function ingredientDetailGroups() {
+        return $this->hasMany('\App\IngredientDetailGroup');
+    } */
+
     public function ratings() {
         return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
     }
 
-    public function search($name) {
-        return $this->where('instructions', 'LIKE', '%'.$name.'%')->get();
+    public function search($term) {
+        return $this->where('instructions', 'LIKE', '%'.$term.'%')
+                    ->orWhere('name', 'LIKE', '%'.$term.'%')
+                    ->get();
     }
 }
