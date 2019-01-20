@@ -12,17 +12,6 @@ use File;
 
 class RecipeController extends Controller
 {
-
-/*     public static function boot() {
-        parent::boot();
-        static::deleted(function($recipe) {
-            $recipe->categories()->detach();
-            $recipe->ingredientDetails()->delete();
-            $recipe->ingredientDetailGroups()->delete();
-            $recipe->ratings()->delete();
-        });
-    } */
-
     public function show(Recipe $recipe) {
         Recipe::setDetails($recipe);
         return view('recipes.index', compact('recipe'));

@@ -22,7 +22,9 @@ class Recipe extends Model
         }
 
         foreach ($recipe->ingredientDetails as $ingredientDetail) {
-            $ingredientDetail->alternate;
+            $ingredientDetail->unit;
+            $ingredientDetail->ingredient;
+            $ingredientDetail->prep;
             $ingredientDetail->group;
         }
 

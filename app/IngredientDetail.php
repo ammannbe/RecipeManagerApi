@@ -29,14 +29,6 @@ class IngredientDetail extends Model
         return $this->belongsTo('\App\Prep');
     }
 
-    public function alternate() {
-        return $this->belongsTo('\App\IngredientDetail');
-    }
-
-/*     public function recipe() {
-        return $this->belongsTo('\App\Recipe', 'id');
-    } */
-
     public function group() {
         return $this->belongsTo('\App\IngredientDetailGroup', 'ingredient_detail_group_id');
     }
