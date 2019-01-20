@@ -58,7 +58,7 @@ class ImportController extends Controller
             }
 
             if (isset($parsedRecipe['photo'])) {
-                $parsedRecipe['photo']['name'] = time().'-'.CodeHelper::slugify($parsedRecipe['name']).'.'.$parsedRecipe['photo']['extension'];
+                $parsedRecipe['photo']['name'] = time().'-'.FormatHelper::slugify($parsedRecipe['name']).'.'.$parsedRecipe['photo']['extension'];
                 $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
 
                 if (! file_put_contents($parsedRecipe['photo']['path'], base64_decode($parsedRecipe['photo']['base64']))) {
