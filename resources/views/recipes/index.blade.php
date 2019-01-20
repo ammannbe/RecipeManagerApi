@@ -83,6 +83,7 @@
                     if ($ingredientDetail->ingredient_detail_id) {
                         $ingredientDetail->alternate = App\IngredientDetail::find($ingredientDetail->ingredient_detail_id);
 
+                        $unitAlternate = '';
                         if ($ingredientDetail->alternate->unit) $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
                                                                                                  $ingredientDetail->alternate->unit->name);
                         $prepAlternate = '';
