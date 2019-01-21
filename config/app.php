@@ -228,6 +228,7 @@ return [
         'FormatHelper' => App\Helpers\FormatHelper::class,
         'CodeHelper' => App\Helpers\CodeHelper::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
+        'RecipeHelper' => Nathanmac\Utilities\Parser\Facades\RecipeHelper::class,
 
     ],
 

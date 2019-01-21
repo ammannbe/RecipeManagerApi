@@ -70,87 +70,20 @@
                 @endif
             @endauth
         </h2>
-        <ul>
-            @foreach ($recipe->ingredientDetails as $ingredientDetail)
-                @php
-                    $unit = '';
-                    if ($ingredientDetail->unit) {
-                        if ($ingredientDetail->amount > 1 &&
-                            ($ingredientDetail->unit->name_plural || $ingredientDetail->unit->name_plural)) {
-                            $unit = CodeHelper::any($ingredientDetail->unit->name_plural_shortcut,
-                                                    $ingredientDetail->unit->name_plural);
-                        } else {
-                            $unit = CodeHelper::any($ingredientDetail->unit->name_shortcut,
-                                                    $ingredientDetail->unit->name);
-                        }
-                    }
 
-                    $prep = '';
-                    if ($ingredientDetail->prep) $prep = ', ' . $ingredientDetail->prep->name;
-
-                    if ($ingredientDetail->ingredient_detail_id) {
-                        $ingredientDetail->alternate = App\IngredientDetail::find($ingredientDetail->ingredient_detail_id);
-
-                        $unitAlternate = '';
-                        if ($ingredientDetail->alternate->unit) {
-                            if ($ingredientDetail->alternate->amount > 1 &&
-                                ($ingredientDetail->alternate->unit->name_plural || $ingredientDetail->alternate->unit->name_plural)) {
-                                $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_plural_shortcut,
-                                                                 $ingredientDetail->alternate->unit->name_plural);
-                            } else {
-                                $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
-                                                                 $ingredientDetail->alternate->unit->name);
-                            }
-                        }
-
-                        $prepAlternate = '';
-                        if (isset($ingredientDetail->alternate->prep)) $prepAlternate = ', ' . $ingredientDetail->alternate->prep->name;
-                    }
-
-                    if ($ingredientDetail->group) {
-                        $groups[$ingredientDetail->group->name][] = $ingredientDetail;
-                        continue;
-                    }
-                @endphp
-
-                <li>
-                    {{ $ingredientDetail->amount }} {{ $unit }} {{ $ingredientDetail->ingredient->name }}{{ $prep }}
-                    @if ($ingredientDetail->alternate)
-                        <br>
-                        Oder: {{ $ingredientDetail->alternate->amount }} {{ $unitAlternate }} {{ $ingredientDetail->alternate->ingredient->name }}{{ $prepAlternate }}
-                    @endif
-                    @auth
-                        @if ($isRecipeOwner)
-                            <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
-                        @endif
-                    @endauth
-                </li>
-            @endforeach
-
-            @if (isset($groups))
-                @foreach (array_reverse($groups) as $name => $group)
-                    <h1>{{ $name }}</h1>
-                    @foreach ($group as $ingredientDetail)
+        <section class="list">
+            <ul>
+                @foreach ($recipe->ingredientDetails as $ingredientDetail)
                     @php
-                        $unit = '';
-                        if ($ingredientDetail->unit) $unit = CodeHelper::any($ingredientDetail->unit->name_shortcut,
-                                                                            $ingredientDetail->unit->name);
-
-                        $prep = '';
-                        if ($ingredientDetail->prep) $prep = ', ' . $ingredientDetail->prep->name;
-
-                        if ($ingredientDetail->alternate) {
-                            if ($ingredientDetail->alternate->unit) $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
-                                                                                                    $ingredientDetail->alternate->unit->name);
-                            $prepAlternate = '';
-                            if (isset($ingredientDetail->alternate->prep)) $prepAlternate = ', ' . $ingredientDetail->alternate->prep->name;
+                        if ($ingredientDetail->group) {
+                            continue;
                         }
                     @endphp
+
                     <li>
-                        {{ $ingredientDetail->amount }} {{ $unit }} {{ $ingredientDetail->ingredient->name }}{{ $prep }}
+                        {{ $ingredientDetail->display }}
                         @if ($ingredientDetail->alternate)
-                            <br>
-                            Oder: {{ $ingredientDetail->alternate->amount }} {{ $unitAlternate }} {{ $ingredientDetail->alternate->name }}{{ $prepAlternate }}
+                            <i class="question-mark" title="Oder {{ $ingredientDetail->alternate->display }}"></i>
                         @endif
                         @auth
                             @if ($isRecipeOwner)
@@ -158,10 +91,32 @@
                             @endif
                         @endauth
                     </li>
-                    @endforeach
                 @endforeach
-            @endif
-        </ul>
+            </ul>
+        </section>
+
+        @if (isset($ingredientDetailGroups) && $ingredientDetailGroups)
+            @foreach ($ingredientDetailGroups as $name => $group)
+                <section class="list">
+                    <h3>{{ $name }}</h3>
+                    <ul>
+                        @foreach ($group as $ingredientDetail)
+                            <li>
+                                {{ $ingredientDetail->display }}
+                                @if ($ingredientDetail->alternate)
+                                    <i class="question-mark" title="Oder {{ $ingredientDetail->alternate->display }}"></i>
+                                @endif
+                                @auth
+                                    @if ($isRecipeOwner)
+                                        <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                    @endif
+                                @endauth
+                            </li>
+                        @endforeach
+                    </ul>
+                </section>
+            @endforeach
+        @endif
     </article>
 
     <article class="instructions">
@@ -188,10 +143,6 @@
                 <h2>Bewertungen</h2>
             @endif
         @endauth
-
-        @php
-            $class = ''
-        @endphp
 
         @foreach ($recipe->ratings as $rating)
             @php
