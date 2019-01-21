@@ -74,8 +74,16 @@
             @foreach ($recipe->ingredientDetails as $ingredientDetail)
                 @php
                     $unit = '';
-                    if ($ingredientDetail->unit) $unit = CodeHelper::any($ingredientDetail->unit->name_shortcut,
-                                                                         $ingredientDetail->unit->name);
+                    if ($ingredientDetail->unit) {
+                        if ($ingredientDetail->amount > 1 &&
+                            ($ingredientDetail->unit->name_plural || $ingredientDetail->unit->name_plural)) {
+                            $unit = CodeHelper::any($ingredientDetail->unit->name_plural_shortcut,
+                                                    $ingredientDetail->unit->name_plural);
+                        } else {
+                            $unit = CodeHelper::any($ingredientDetail->unit->name_shortcut,
+                                                    $ingredientDetail->unit->name);
+                        }
+                    }
 
                     $prep = '';
                     if ($ingredientDetail->prep) $prep = ', ' . $ingredientDetail->prep->name;
@@ -84,8 +92,17 @@
                         $ingredientDetail->alternate = App\IngredientDetail::find($ingredientDetail->ingredient_detail_id);
 
                         $unitAlternate = '';
-                        if ($ingredientDetail->alternate->unit) $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
-                                                                                                 $ingredientDetail->alternate->unit->name);
+                        if ($ingredientDetail->alternate->unit) {
+                            if ($ingredientDetail->alternate->amount > 1 &&
+                                ($ingredientDetail->alternate->unit->name_plural || $ingredientDetail->alternate->unit->name_plural)) {
+                                $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_plural_shortcut,
+                                                                 $ingredientDetail->alternate->unit->name_plural);
+                            } else {
+                                $unitAlternate = CodeHelper::any($ingredientDetail->alternate->unit->name_shortcut,
+                                                                 $ingredientDetail->alternate->unit->name);
+                            }
+                        }
+
                         $prepAlternate = '';
                         if (isset($ingredientDetail->alternate->prep)) $prepAlternate = ', ' . $ingredientDetail->alternate->prep->name;
                     }
