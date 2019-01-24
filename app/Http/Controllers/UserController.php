@@ -33,7 +33,7 @@ class UserController extends Controller
             }
 
             if (isset($errorText) && $errorText == TRUE) {
-                return redirect('user/edit')
+                return redirect('profile/edit')
                         ->withErrors([$errorText])
                         ->withInput();
             }

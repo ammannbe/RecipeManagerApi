@@ -51,16 +51,18 @@ Route::middleware('checklogin', 'verified')->group(function() {
 
     Route::get('/rating-criteria/create', 'RatingCriterionController@createForm');
     Route::post('/rating-criteria/create', 'RatingCriterionController@create');
-
-    Route::get('/user/edit', 'UserController@editForm');
-    Route::post('/user/edit', 'UserController@edit');
-
-    Route::get('/profile', 'UserController@dashboard');
 });
 
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'PagesController@index');
-Route::get('/recipes/{recipe}', 'RecipeController@show');
+
+Route::get('/profile', 'UserController@dashboard');
+Route::get('/profile/edit', 'UserController@editForm');
+Route::post('/profile/edit', 'UserController@edit');
+
 Route::get('/search', 'PagesController@searchForm');
 Route::post('/search', 'PagesController@search');
+
+
+Route::get('/recipes/{recipe}', 'RecipeController@show');

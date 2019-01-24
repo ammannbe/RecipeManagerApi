@@ -7,7 +7,7 @@
 
 @section('class', 'user form')
 @section('content')
-    {!! Form::open(['url' => 'user/edit']) !!}
+    {!! Form::open(['url' => 'profile/edit']) !!}
         <div>
             {!! Form::label('Name') !!}
             {!! Form::text('name', $user->name, ['maxlength' => 255]) !!}
@@ -15,7 +15,7 @@
 
         <div>
             {!! Form::label('E-Mail') !!}
-            {!! Form::text('email', $user->email, ['maxlength' => 255]) !!}
+            {!! Form::email('email', $user->email, ['maxlength' => 255]) !!}
         </div>
 
         <div>

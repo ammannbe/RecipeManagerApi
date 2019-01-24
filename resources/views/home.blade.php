@@ -12,7 +12,7 @@
             <span>Name: {{ Auth::User()->name }}</span><br>
             <span>E-Mail: {{ Auth::User()->email }}</span><br>
             <span>Registriert: {{ FormatHelper::date(Auth::User()->created_at) }}</span>
-            <a class="edit" href="/user/edit">Profil bearbeiten<i class="pencil"></i></a>
+            <a class="edit" href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
         </div>
     </article>
 
