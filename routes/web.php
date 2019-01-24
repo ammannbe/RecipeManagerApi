@@ -11,7 +11,7 @@
 |
 */
 
-Route::middleware('checklogin')->group(function() {
+Route::middleware('checklogin', 'verified')->group(function() {
     Route::get('/cookbooks/create', 'CookbookController@createForm');
     Route::post('/cookbooks/create', 'CookbookController@create');
 
@@ -55,11 +55,10 @@ Route::middleware('checklogin')->group(function() {
     Route::get('/user/edit', 'UserController@editForm');
     Route::post('/user/edit', 'UserController@edit');
 
+    Route::get('/profile', 'UserController@dashboard');
 });
 
 Auth::routes(['verify' => true]);
-
-Route::get('/profile', 'HomeController@index')->middleware('verified');
 
 Route::get('/', 'PagesController@index');
 Route::get('/recipes/{recipe}', 'RecipeController@show');
