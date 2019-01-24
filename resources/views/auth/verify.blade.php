@@ -1,24 +1,26 @@
 @extends('layouts.master')
 
+
+@section('title', 'E-Mail bestätigen')
+
+
+@section('class', 'verify')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+    <article>
+        <h1>Bitte bestätige deine E-Mail Adresse</h1>
+        <p>
+            Befor du vortfährst, prüfe deine E-Mails auf einen Bestätigungs-Link.<br>
+            Falls du keinen erhalten hast, <a href="{{ route('verification.resend') }}">klicke hier um einen neuen anzufordern</a>.
+        </p>
+    </article>
+@endsection
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }}, <a href="{{ route('verification.resend') }}">{{ __('click here to request another') }}</a>.
-                </div>
-            </div>
+@if (session('resent'))
+    <div class="toast">
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            Neuer Link wurde versendet.
         </div>
     </div>
-</div>
-@endsection
+@endif
