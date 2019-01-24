@@ -14,7 +14,7 @@
 
         <div>
             {!! Form::label('Suchkriterium') !!}
-            {!! Form::text('term') !!}
+            {!! Form::text('term', NULL, ['autofocus']) !!}
         </div>
 
         <div>

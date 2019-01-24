@@ -9,7 +9,7 @@
     {!! Form::open(['url' => 'preps/create']) !!}
         <div>
             {!! Form::label('Name') !!}
-            {!! Form::text('name') !!}
+            {!! Form::text('name', NULL, ['maxlength' => 40, 'required', 'autofocus']) !!}
         </div>
 
         <div>

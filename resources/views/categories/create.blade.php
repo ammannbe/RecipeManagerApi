@@ -9,7 +9,7 @@
     {!! Form::open(['url' => 'categories/create']) !!}
         <div>
             {!! Form::label('Name') !!}
-            {!! Form::text('name') !!}
+            {!! Form::text('name', NULL, ['maxlength' => 50, 'required', 'autofocus']) !!}
         </div>
 
         <div>

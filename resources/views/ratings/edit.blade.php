@@ -15,7 +15,7 @@
 
         <div>
             {!! Form::label('Kommentar') !!}
-            {!! Form::textarea('comment', $rating->comment) !!}
+            {!! Form::textarea('comment', $rating->comment, ['maxlength' => 16777215, 'required']) !!}
         </div>
 
         <div>

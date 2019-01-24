@@ -10,12 +10,12 @@
     {!! Form::open(['url' => 'profile/edit']) !!}
         <div>
             {!! Form::label('Name') !!}
-            {!! Form::text('name', $user->name, ['maxlength' => 255]) !!}
+            {!! Form::text('name', $user->name, ['maxlength' => 255, 'required', 'autofocus']) !!}
         </div>
 
         <div>
             {!! Form::label('E-Mail') !!}
-            {!! Form::email('email', $user->email, ['maxlength' => 255]) !!}
+            {!! Form::email('email', $user->email, ['maxlength' => 255, 'required']) !!}
         </div>
 
         <div>

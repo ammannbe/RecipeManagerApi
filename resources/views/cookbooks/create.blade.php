@@ -9,7 +9,7 @@
     {!! Form::open(['url' => 'cookbooks/create']) !!}
         <div>
             {!! Form::label('Name') !!}
-            {!! Form::text('name') !!}
+            {!! Form::text('name', NULL, ['maxlength' => 20, 'required', 'autofocus']) !!}
         </div>
 
         <div>

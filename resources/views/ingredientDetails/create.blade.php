@@ -11,15 +11,11 @@
     {!! Form::open(['url' => 'ingredient-details/create/' . $recipe->id]) !!}
         <div>
             {!! Form::label('Menge') !!}
-            {!! Form::number('amount', 1, ['min' => 0, 'max' => 99999999, 'size' => 8, 'step' => '0.25']) !!}
+            {!! Form::number('amount', NULL, ['max' => 99999999, 'size' => 8, 'step' => '0.25', 'autofocus']) !!}
         </div>
-
         <div>
-            {!! Form::label('Zutat') !!}
-            {!! Form::select('ingredient_id', $ingredients) !!}
-            <div class="info-text">
-                Nichts gefunden? Neue <a href="{{ url('/ingredients/create') }}" target="_blank"><i class="link"></i>Zutat</a> erstellen.
-            </div>
+            {!! Form::label('Maximale Menge') !!}
+            {!! Form::number('amount_max', NULL, ['max' => 99999999, 'size' => 8, 'step' => '0.25']) !!}
         </div>
 
         <div>
@@ -27,6 +23,14 @@
             {!! Form::select('unit_id', $units) !!}
             <div class="info-text">
                 Nichts gefunden? Neue <a href="{{ url('/units/create') }}" target="_blank"><i class="link"></i>Einheit</a> erstellen.
+            </div>
+        </div>
+
+        <div>
+            {!! Form::label('Zutat') !!}
+            {!! Form::select('ingredient_id', $ingredients) !!}
+            <div class="info-text">
+                Nichts gefunden? Neue <a href="{{ url('/ingredients/create') }}" target="_blank"><i class="link"></i>Zutat</a> erstellen.
             </div>
         </div>
 

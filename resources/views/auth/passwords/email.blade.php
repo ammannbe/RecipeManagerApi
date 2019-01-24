@@ -10,7 +10,7 @@
     {!! Form::open(['url' => route('password.email')]) !!}
         <div>
             {!! Form::label('E-Mail Adresse') !!}
-            {!! Form::email('email') !!}
+            {!! Form::email('email', NULL, ['maxlength' => 255, 'required', 'autofocus']) !!}
         </div>
 
         <div>

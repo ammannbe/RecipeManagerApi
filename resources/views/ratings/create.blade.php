@@ -18,7 +18,7 @@
 
         <div>
             {!! Form::label('Kommentar') !!}
-            {!! Form::textarea('comment') !!}
+            {!! Form::textarea('comment', NULL, ['maxlength' => 16777215, 'required']) !!}
         </div>
 
         <div>

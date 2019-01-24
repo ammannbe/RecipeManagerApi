@@ -12,17 +12,17 @@
 
         <div>
             {!! Form::label('E-Mail') !!}
-            {!! Form::email('email', NULL, ['maxlength' => 255]) !!}
+            {!! Form::email('email', NULL, ['maxlength' => 255, 'required', 'autofocus']) !!}
         </div>
 
         <div>
             {!! Form::label('Passwort') !!}
-            {!! Form::password('password', NULL, ['maxlength' => 255]) !!}
+            {!! Form::password('password', NULL, ['maxlength' => 255, 'required']) !!}
         </div>
 
         <div>
             {!! Form::label('Passwort bestätigen') !!}
-            {!! Form::password('password_confirmation', NULL, ['maxlength' => 255]) !!}
+            {!! Form::password('password_confirmation', NULL, ['maxlength' => 255, 'required']) !!}
         </div>
 
         <div>
