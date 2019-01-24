@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditUser;
+use App\Recipe;
 use App\User;
 use Auth;
 
 class UserController extends Controller
 {
+
+    public function dashboard() {
+        $recipes = Recipe::where('user_id', 51)->orderBy('cookbook_id')->get();
+        return view('home', compact('recipes'));
+    }
+    
     public function editForm() {
         $user = Auth::user();
         return view('user.edit', compact('user'));
