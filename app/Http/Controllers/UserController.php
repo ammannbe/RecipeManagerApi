@@ -6,6 +6,7 @@ use App\Http\Requests\EditUser;
 use App\Recipe;
 use App\User;
 use Auth;
+use Hash;
 
 class UserController extends Controller
 {
@@ -22,12 +23,8 @@ class UserController extends Controller
 
     public function edit(EditUser $request) {
         if ($request->current_password) {
-            if ($request->current_password == Auth::user()->password) {
-                if ($request->new_password == $request->new_password_verified) {
-                    $input['password'] = $request->new_password;
-                } else {
-                    $errorText = 'Passwörter stimmen nicht überein';
-                }
+            if (Hash::check($request->current_password, Auth::user()->password)) {
+                $input['password'] = $request->new_password;
             } else {
                 $errorText = 'Falsches Passwort';
             }
@@ -45,6 +42,7 @@ class UserController extends Controller
             $input['email'] = $request->email;
         }
         if (User::find(Auth::user()->id)->update($input)) {
+            Toast::success('Profile erfolgreich aktualisiert.');
             return redirect('/profile');
         } else {
             return view('home');

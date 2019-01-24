@@ -31,7 +31,7 @@
 
         <div>
             {!! Form::label('Passwort bestätigen') !!}
-            {!! Form::password('new_password_verified', NULL, ['maxlength' => 255]) !!}
+            {!! Form::password('new_password_confirmation', NULL, ['maxlength' => 255]) !!}
         </div>
 
         <div>
