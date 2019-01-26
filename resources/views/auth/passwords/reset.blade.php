@@ -16,17 +16,21 @@
         </div>
 
         <div>
-            {!! Form::label('Passwort') !!}
+            {!! Form::label('Passwort', NULL, ['class' => 'required']) !!}
             {!! Form::password('password', NULL, ['maxlength' => 255, 'required']) !!}
         </div>
 
         <div>
-            {!! Form::label('Passwort bestätigen') !!}
+            {!! Form::label('Passwort bestätigen', NULL, ['class' => 'required']) !!}
             {!! Form::password('password_confirmation', NULL, ['maxlength' => 255, 'required']) !!}
         </div>
 
         <div>
             {!! Form::submit('Passwort zurück setzen') !!}
+        </div>
+
+        <div>
+            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @endsection

@@ -9,7 +9,7 @@
 @section('content')
     {!! Form::open(['url' => 'recipes/edit/'.$recipe->id, 'files' => true]) !!}
         <div>
-            {!! Form::label('Name') !!}
+            {!! Form::label('Name', NULL, ['class' => 'required']) !!}
             {!! Form::text('name', $recipe->name, ['maxlength' => 200, 'required', 'autofocus']) !!}
         </div>
 
@@ -22,7 +22,7 @@
             {!! Form::label('Autor') !!}
             {!! Form::select('author_id', $authors, $recipe->author_id) !!}
         </div>
-        
+
         @php
             $selectedCategories = [];
             foreach ($recipe->categories as $category) {
@@ -45,7 +45,7 @@
         </div>
 
         <div>
-            {!! Form::label('Zubereitung') !!}
+            {!! Form::label('Zubereitung', NULL, ['class' => 'required']) !!}
             {!! Form::textarea('instructions', $recipe->instructions, ['required']) !!}
         </div>
 
@@ -67,6 +67,10 @@
 
         <div>
             {!! Form::submit('Änderungen speichern') !!}
+        </div>
+
+        <div>
+            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop

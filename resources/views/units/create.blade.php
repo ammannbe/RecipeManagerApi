@@ -8,7 +8,7 @@
 @section('content')
     {!! Form::open(['url' => 'units/create']) !!}
         <div>
-            {!! Form::label('Name (Singular)') !!}
+            {!! Form::label('Name (Singular)', NULL, ['class' => 'required']) !!}
             {!! Form::text('name', NULL, ['maxlength' => 20, 'required', 'autofocus']) !!}
         </div>
 
@@ -29,6 +29,10 @@
 
         <div>
             {!! Form::submit('Einheit hinzufügen') !!}
+        </div>
+
+        <div>
+            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop
