@@ -20,7 +20,7 @@
         </div>
 
         <div>
-            {!! Form::submit('Registrieren') !!}
+            {!! Form::submit('Login') !!}
         </div>
 
         <div>
