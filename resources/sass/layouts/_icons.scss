@@ -60,6 +60,12 @@
     content: "\27F3";
 }
 
+.required::after {
+    @extend %icons;
+    content: "\2A";
+    color: map-get($colors, red);
+}
+
 .question-mark::before {
     @extend %icons;
     content: "?";
