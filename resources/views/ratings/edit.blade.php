@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Bewertung bearbeiten')
 
 
-@section('class', 'ingredient form')
+@section('content-class', 'ingredient form')
 @section('content')
     {!! Form::open(['url' => 'ratings/edit/' . $rating->id]) !!}
         <div>

@@ -4,7 +4,7 @@
 @section('title', $recipe->name)
 
 
-@section('class', 'recipe')
+@section('content-class', 'recipe')
 @section('content')
 
     @php

@@ -4,7 +4,7 @@
 @section('title', 'E-Mail bestätigen')
 
 
-@section('class', 'verify')
+@section('content-class', 'verify')
 @section('content')
     <article>
         <h1>Bitte bestätige deine E-Mail Adresse</h1>
@@ -17,10 +17,5 @@
 
 
 @if (session('resent'))
-    <div class="toast">
-        <div class="alert alert-success">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            Neuer Link wurde versendet.
-        </div>
-    </div>
+    @php(\Toast::success('Neuer Link wurde versendet.'))
 @endif

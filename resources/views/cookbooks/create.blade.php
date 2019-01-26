@@ -4,7 +4,7 @@
 @section('title', 'Kochbuch hinzufügen')
 
 
-@section('class', 'cookbook form')
+@section('content-class', 'cookbook form')
 @section('content')
     {!! Form::open(['url' => 'cookbooks/create']) !!}
         <div>

@@ -4,7 +4,7 @@
 @section('title', 'Dashboard')
 
 
-@section('class', 'dashboard')
+@section('content-class', 'dashboard')
 @section('content')
     <article class="profile">
         <h2>Profil</h2>

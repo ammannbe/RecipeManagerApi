@@ -4,7 +4,7 @@
 @section('title', 'Vorbereitung hinzufügen')
 
 
-@section('class', 'prep form')
+@section('content-class', 'prep form')
 @section('content')
     {!! Form::open(['url' => 'preps/create']) !!}
         <div>

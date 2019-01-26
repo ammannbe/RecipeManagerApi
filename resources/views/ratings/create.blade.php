@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Bewertung hinzufügen')
 
 
-@section('class', 'ingredient form')
+@section('content-class', 'ingredient form')
 @section('content')
     {!! Form::open(['url' => 'ratings/add/' . $recipe->id]) !!}
         <div>

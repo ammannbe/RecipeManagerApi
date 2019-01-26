@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Rezept '.$recipe->name.' bearbeiten')
 
 
-@section('class', 'recipe form')
+@section('content-class', 'recipe form')
 @section('content')
     {!! Form::open(['url' => 'recipes/edit/'.$recipe->id, 'files' => true]) !!}
         <div>

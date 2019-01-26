@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Passwort zurück setzen')
 
 
-@section('class', 'reset-password form')
+@section('content-class', 'reset-password form')
 @section('content')
     {!! Form::open(['url' => route('password.update')]) !!}
         <input type="hidden" name="token" value="{{ $token }}">

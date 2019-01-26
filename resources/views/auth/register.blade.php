@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Registrieren')
 
 
-@section('class', 'register form')
+@section('content-class', 'register form')
 @section('content')
     {!! Form::open(['url' => route('register')]) !!}
         <div>

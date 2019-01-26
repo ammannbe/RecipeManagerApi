@@ -4,7 +4,7 @@
 @section('title', 'Einheit hinzufügen')
 
 
-@section('class', 'unit form')
+@section('content-class', 'unit form')
 @section('content')
     {!! Form::open(['url' => 'units/create']) !!}
         <div>

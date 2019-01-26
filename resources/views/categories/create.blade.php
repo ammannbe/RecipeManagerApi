@@ -4,7 +4,7 @@
 @section('title', 'Kategorie hinzufügen')
 
 
-@section('class', 'category form')
+@section('content-class', 'category form')
 @section('content')
     {!! Form::open(['url' => 'categories/create']) !!}
         <div>

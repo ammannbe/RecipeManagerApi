@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Login')
 
 
-@section('class', 'login form')
+@section('content-class', 'login form')
 @section('content')
     {{ Form::open(['url' => route('login')]) }}
         <div>

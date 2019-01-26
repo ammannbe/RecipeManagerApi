@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Zutat hinzufügen')
 
 
-@section('class', 'ingredient form')
+@section('content-class', 'ingredient form')
 @section('content')
 
     {!! Form::open(['url' => 'ingredients/create/']) !!}

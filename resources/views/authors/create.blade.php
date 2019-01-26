@@ -4,7 +4,7 @@
 @section('title', 'Autor hinzufügen')
 
 
-@section('class', 'author form')
+@section('content-class', 'author form')
 @section('content')
     {!! Form::open(['url' => 'authors/create']) !!}
         <div>

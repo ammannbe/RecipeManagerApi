@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Profil bearbeiten')
 
 
-@section('class', 'user form')
+@section('content-class', 'user form')
 @section('content')
     {!! Form::open(['url' => 'profile/edit']) !!}
         <div>

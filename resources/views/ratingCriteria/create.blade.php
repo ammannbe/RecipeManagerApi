@@ -4,7 +4,7 @@
 @section('title', 'Kriterium hinzufügen')
 
 
-@section('class', 'criterium form')
+@section('content-class', 'criterion form')
 @section('content')
     {!! Form::open(['url' => 'rating-criteria/create']) !!}
         <div>

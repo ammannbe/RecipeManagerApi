@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
+
 
 @section('title', 'Passwort vergessen')
 
 
-@section('class', 'forogt-password form')
+@section('content-class', 'forogt-password form')
 @section('content')
 
     {!! Form::open(['url' => route('password.email')]) !!}
@@ -25,10 +25,5 @@
 
 
 @if (session('status'))
-    <div class="toast">
-        <div class="alert alert-success">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            {{ session('status') }}
-        </div>
-    </div>
+    @php(\Toast::success(session('status')))
 @endif
