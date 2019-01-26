@@ -15,7 +15,6 @@ use App\IngredientDetail;
 use App\IngredientDetailGroup;
 use App\Unit;
 use App\Prep;
-use Toast;
 use Auth;
 
 class ImportController extends Controller
@@ -33,7 +32,7 @@ class ImportController extends Controller
         if (method_exists($this, $call)) {
             return $this->$call($file['content'], $cookbook);
         } else {
-            Toast::error('Dieses Format wird nicht unterstützt.');
+            \Toast::error('Dieses Format wird nicht unterstützt.');
             return redirect('/recipes/import');
         }
     }
@@ -49,7 +48,7 @@ class ImportController extends Controller
 
     private function kreml(String $kreml, Cookbook $cookbook) {
         $parsedRecipes = KremlParser::parse($kreml);
-        
+
         foreach ($parsedRecipes as $parsedRecipe) {
             if (isset($parsedRecipe['author'])) {
                 if (!$author = Author::where('name', $parsedRecipe['author'])->first()) {
@@ -62,7 +61,7 @@ class ImportController extends Controller
                 $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
 
                 if (! file_put_contents($parsedRecipe['photo']['path'], base64_decode($parsedRecipe['photo']['base64']))) {
-                    Toast::error('Fehler beim Hochladen des Bildes für Rezept "' . $parsedRecipe['name'] . '"');
+                    \Toast::error('Fehler beim Hochladen des Bildes für Rezept "' . $parsedRecipe['name'] . '"');
                 }
             } else {
                 $parsedRecipe['photo']['name'] = NULL;
@@ -94,7 +93,7 @@ class ImportController extends Controller
             }
         }
 
-        Toast::info('Rezept(e) wurden importiert.');
+        \Toast::info('Rezept(e) wurden importiert.');
         return redirect('/');
     }
 
@@ -117,7 +116,7 @@ class ImportController extends Controller
                 'name'      => $ingredientDetailToMap['group'],
                 'recipe_id' => $recipe->id,
             ];
-    
+
             if (! $group = IngredientDetailGroup::where($groupArray)->first()) {
                 $group = IngredientDetailGroup::create($groupArray);
             }
