@@ -15,12 +15,10 @@ use Auth;
 class IngredientDetailController extends Controller
 {
     public function createForm(Recipe $recipe) {
-        $units[NULL] = '-- SELECT--';
         foreach (Unit::orderBy('name')->get() as $unit) {
             $units[$unit->id] = $unit->name;
         }
 
-        $ingredients[NULL] = '-- SELECT--';
         foreach (Ingredient::orderBy('name')->get() as $ingredient) {
             $ingredients[$ingredient->id] = $ingredient->name;
         }
