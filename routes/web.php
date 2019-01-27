@@ -51,17 +51,19 @@ Route::middleware('checklogin')->group(function() {
 
     Route::get('/rating-criteria/create', 'RatingCriterionController@createForm');
     Route::post('/rating-criteria/create', 'RatingCriterionController@create');
-
-    Route::get('/user/edit', 'UserController@editForm');
-    Route::post('/user/edit', 'UserController@edit');
-
 });
 
-Auth::routes(['verify' => true]);
-
-Route::get('/profile', 'HomeController@index')->middleware('verified');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/', 'PagesController@index');
-Route::get('/recipes/{recipe}', 'RecipeController@show');
+
+Route::get('/profile', 'UserController@dashboard');
+Route::get('/profile/edit', 'UserController@editForm');
+Route::post('/profile/edit', 'UserController@edit');
+
 Route::get('/search', 'PagesController@searchForm');
 Route::post('/search', 'PagesController@search');
+
+Route::get('/recipes/{recipe}', 'RecipeController@show');
