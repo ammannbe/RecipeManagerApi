@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Cookbook;
+use App\Http\Requests\RecipeFormRequest;
+use App\Helpers\RecipeHelper;
 use App\Author;
 use App\Category;
+use App\Cookbook;
+use App\IngredientDetail;
 use App\Recipe;
-use App\Http\Requests\RecipeFormRequest;
 use Auth;
 use File;
 
@@ -14,16 +16,26 @@ class RecipeController extends Controller
 {
     public function show(Recipe $recipe) {
         Recipe::setDetails($recipe);
-        return view('recipes.index', compact('recipe'));
+        foreach ($recipe->ingredientDetails as $key => &$ingredientDetail) {
+            $ingredientDetail->display = RecipeHelper::beautifyIngredientDetail($ingredientDetail);
+
+            if ($ingredientDetail->ingredient_detail_id) {
+                $ingredientDetail->alternate = IngredientDetail::find($ingredientDetail->ingredient_detail_id);
+                $ingredientDetail->alternate->display = RecipeHelper::beautifyIngredientDetail($ingredientDetail->alternate);
+            }
+
+            if ($ingredientDetail->group) {
+                $ingredientDetailGroups[$ingredientDetail->group->name][] = $ingredientDetail;
+            }
+        }
+        return view('recipes.index', compact('recipe', 'ingredientDetailGroups'));
     }
 
     public function createForm() {
-        $cookbooks[NULL] = '-- SELECT --';
         foreach (Cookbook::orderBy('name')->get() as $cookbook) {
             $cookbooks[$cookbook->id] = $cookbook->name;
         }
 
-        $authors[NULL] = '-- SELECT --';
         foreach (Author::orderBy('name')->get() as $author) {
             $authors[$author->id] = $author->name;
         }

@@ -1,3 +1,4 @@
+// Grössen in "em" angeben, damit sich diese an der Schrift anpasst
 %icons {
     font-size: 1.5em;
     font-family: monospace;
@@ -57,4 +58,22 @@
 .reload::before {
     @extend %icons;
     content: "\27F3";
+}
+
+.required::after {
+    @extend %icons;
+    content: "\2A";
+    color: map-get($colors, red);
+}
+
+.question-mark::before {
+    @extend %icons;
+    content: "?";
+    border: 1px solid white;
+    border-radius: 100px;
+    font-size: 1.1em;
+    padding: 0 0.37em;
+    background-color: map-get($colors, light-blue);
+    color: white;
+    font-weight: bold;
 }

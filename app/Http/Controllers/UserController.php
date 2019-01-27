@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditUser;
+use App\Recipe;
 use App\User;
 use Auth;
+use Hash;
 
 class UserController extends Controller
 {
+
+    public function dashboard() {
+        $recipes = Recipe::where('user_id', 51)->orderBy('cookbook_id')->get();
+        return view('home', compact('recipes'));
+    }
+
     public function editForm() {
         $user = Auth::user();
         return view('user.edit', compact('user'));
@@ -15,18 +23,14 @@ class UserController extends Controller
 
     public function edit(EditUser $request) {
         if ($request->current_password) {
-            if ($request->current_password == Auth::user()->password) {
-                if ($request->new_password == $request->new_password_verified) {
-                    $input['password'] = $request->new_password;
-                } else {
-                    $errorText = 'Passwörter stimmen nicht überein';
-                }
+            if (Hash::check($request->current_password, Auth::user()->password)) {
+                $input['password'] = $request->new_password;
             } else {
                 $errorText = 'Falsches Passwort';
             }
 
             if (isset($errorText) && $errorText == TRUE) {
-                return redirect('user/edit')
+                return redirect('profile/edit')
                         ->withErrors([$errorText])
                         ->withInput();
             }
@@ -38,6 +42,7 @@ class UserController extends Controller
             $input['email'] = $request->email;
         }
         if (User::find(Auth::user()->id)->update($input)) {
+            Toast::success('Profile erfolgreich aktualisiert.');
             return redirect('/profile');
         } else {
             return view('home');

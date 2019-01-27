@@ -4,7 +4,7 @@
 @section('title', 'Suchen')
 
 
-@section('class', 'search form')
+@section('content-class', 'search form')
 @section('content')
     {!! Form::open(['url' => 'search']) !!}
         <div>
@@ -14,7 +14,7 @@
 
         <div>
             {!! Form::label('Suchkriterium') !!}
-            {!! Form::text('term') !!}
+            {!! Form::text('term', NULL, ['autofocus']) !!}
         </div>
 
         <div>

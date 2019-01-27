@@ -12,7 +12,6 @@ use \Auth;
 class RatingController extends Controller
 {
     public function createForm(Recipe $recipe) {
-        $ratingCriteria[NULL] = '-- SELECT --';
         foreach (RatingCriterion::orderBy('name')->get() as $ratingCriterion) {
             $ratingCriteria[$ratingCriterion->id] = $ratingCriterion->name;
         }
