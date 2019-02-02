@@ -273,10 +273,8 @@ return [
     'sync_attributes' => [
 
         'username' => 'uid',
-
         'name' => 'cn',
-
-    'phone' => 'telephonenumber',
+        'email' => 'email',
 
     ],
 
