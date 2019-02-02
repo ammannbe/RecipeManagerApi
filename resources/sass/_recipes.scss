@@ -34,8 +34,12 @@ section.content.recipe {
     }
     
     > .ingredients {
+        @extend %flexbox-row;
         order: 3;
-        flex-basis: 100%;
+
+        > h2 {
+            flex-basis: 100%;
+        }
     }
 
     > .instructions {

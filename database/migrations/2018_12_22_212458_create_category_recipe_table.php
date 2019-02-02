@@ -18,8 +18,8 @@ class CreateCategoryRecipeTable extends Migration
             $table->unsignedInteger('recipe_id');
             $table->unsignedInteger('category_id');
 
-            $table->foreign('recipe_id')->references('id')->on('recipes');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

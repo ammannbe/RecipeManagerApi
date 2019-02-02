@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Bewertung bearbeiten')
 
 
-@section('class', 'ingredient form')
+@section('content-class', 'ingredient form')
 @section('content')
     {!! Form::open(['url' => 'ratings/edit/' . $rating->id]) !!}
         <div>
@@ -14,12 +13,16 @@
         </div>
 
         <div>
-            {!! Form::label('Kommentar') !!}
-            {!! Form::textarea('comment', $rating->comment) !!}
+            {!! Form::label('Kommentar', NULL, ['class' => 'required']) !!}
+            {!! Form::textarea('comment', $rating->comment, ['maxlength' => 16777215, 'required']) !!}
         </div>
 
         <div>
             {!! Form::submit('Bewertung hinzufügen') !!}
+        </div>
+
+        <div>
+            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop

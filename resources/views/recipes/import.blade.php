@@ -1,11 +1,10 @@
 @extends('layouts.master')
-@extends('layouts.validator')
 
 
 @section('title', 'Rezept importieren')
 
 
-@section('class', 'import form')
+@section('content-class', 'import form')
 @section('content')
     {!! Form::open(['url' => 'recipes/import', 'enctype="multipart/form-data"']) !!}
         <div>

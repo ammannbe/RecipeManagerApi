@@ -4,7 +4,7 @@
 @section('title', 'Übersicht')
 
 
-@section('class', 'overview')
+@section('content-class', 'overview')
 @section('content')
     @foreach ($recipes as $recipe)
         <article>

@@ -38,6 +38,7 @@ section.content.overview {
             height: auto;
             width: 20vh;
             min-width: 100px;
+            margin-right: 20px;
 
             img {
                 width: 100%;
@@ -46,9 +47,6 @@ section.content.overview {
 
         .info {
             flex-grow: 2;
-            margin-top: 20px;
-            margin-left: 20px;
-            padding: 0 20px 10px 0;
 
             > strong {
                 display: block;
@@ -60,7 +58,6 @@ section.content.overview {
             @media (max-width: 680px) {
                 display: none;
             }
-            margin-left: 20px;
             width: 50%;
         }
     }

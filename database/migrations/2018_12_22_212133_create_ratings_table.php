@@ -15,7 +15,7 @@ class CreateRatingsTable extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('recipe_id');
+            $table->unsignedInteger('recipe_id')->onDelete('cascade');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('rating_criterion_id');
             $table->mediumtext('comment');
