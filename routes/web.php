@@ -11,7 +11,7 @@
 |
 */
 
-Route::middleware('checklogin', 'verified')->group(function() {
+Route::middleware('checklogin')->group(function() {
     Route::get('/cookbooks/create', 'CookbookController@createForm');
     Route::post('/cookbooks/create', 'CookbookController@create');
 
