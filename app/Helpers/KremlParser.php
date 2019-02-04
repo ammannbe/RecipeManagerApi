@@ -94,6 +94,9 @@ class KremlParser extends Model
     }
 
     private static function categories($kremlCategories) {
+        if (is_null($kremlCategories)) {
+            return [];
+        }
         if (is_string($kremlCategories)) {
             $kremlCategories = explode(',', $kremlCategories);
         }
