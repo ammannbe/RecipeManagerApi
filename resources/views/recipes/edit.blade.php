@@ -15,6 +15,7 @@
         <div>
             {!! Form::label('Kochbuch') !!}
             {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
             <ul class="list-input">
                 @foreach ($cookbooks as $cookbook)
                     <li>{{ $cookbook }}</li>
@@ -25,6 +26,7 @@
         <div>
             {!! Form::label('Autor') !!}
             {!! Form::text('author', $authors[$recipe->author_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
             <ul class="list-input">
                 @foreach ($authors as $author)
                     <li>{{ $author }}</li>
