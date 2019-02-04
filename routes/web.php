@@ -65,6 +65,6 @@ Route::get('/profile/edit', 'UserController@editForm');
 Route::post('/profile/edit', 'UserController@edit');
 
 Route::get('/search', 'PagesController@searchForm');
-Route::get('/search/{item}/{term}', 'PagesController@search');
+Route::post('/search', 'PagesController@search');
 
 Route::get('/recipes/{recipe}', 'RecipeController@show');

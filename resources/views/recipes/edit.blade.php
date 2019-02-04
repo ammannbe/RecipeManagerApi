@@ -45,12 +45,12 @@
 
         <div>
             {!! Form::label('Portionen') !!}
-            {!! Form::number('yield_amount', $recipe->yield_amount, ['max' => 99999, 'size' => 3]) !!}
+            {!! Form::number('yield_amount', $recipe->yield_amount, ['max' => 999, 'size' => 3]) !!}
         </div>
 
         <div>
             {!! Form::label('Portionen maximal') !!}
-            {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 99999, 'size' => 3]) !!}
+            {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
         </div>
 
         <div>

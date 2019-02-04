@@ -56,20 +56,20 @@ class RecipeController extends Controller
         $user = Auth::user();
         $recipe = new Recipe();
 
-        if ($input['photo']) {
+        if (isset($input['photo']) && $input['photo']) {
             $nameSlug = FormatHelper::slugify($input['name']);
             $recipe->photo = $nameSlug.'-'.time().'.'.request()->photo->getClientOriginalExtension();
             $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
 
-        if ($input['cookbook']) {
+        if (isset($input['cookbook']) && $input['cookbook']) {
             if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
                 $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => $user->id]);
             }
             $recipe->cookbook_id = $cookbook->id;
         }
 
-        if ($input['author']) {
+        if (isset($input['author']) && $input['author']) {
             if (! $author = Author::where('name', $input['author'])->first()) {
                 $author = Author::create(['name' => $input['author']]);
             }
@@ -146,34 +146,6 @@ class RecipeController extends Controller
         } else {
             \Toast::error('Du hast kein Recht dieses Rezept zu löschen.');
             return redirect('/recipes/'.$recipe->id);
-        }
-    }
-
-    public function search($item, $term) {
-        $cname = ucfirst($item);
-        $class = '\\App\\' . $cname;
-        $object = new $class;
-        $results = $object->search($term);
-        foreach ($results as $result) {
-            if ($cname == 'Recipe') {
-                $recipes[$result->id] = $result;
-            } elseif ($cname == 'Ingredient') {
-                $recipe = $result->recipes;
-                if (isset($recipe->id)) {
-                    $recipes[$recipe->id] = $recipe;
-                }
-            } else {
-                foreach ($result->recipes as $recipe) {
-                    $recipes[$recipe->id] = $recipe;
-                }
-            }
-        }
-        if (isset($recipes)) {
-            return view('index', compact('recipes'));
-            \Toast::clear();
-        } else {
-            \Toast::info('Keine Rezepte gefunden.');
-            return $this->searchForm($item);
         }
     }
 }

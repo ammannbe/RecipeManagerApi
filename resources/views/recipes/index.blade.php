@@ -62,22 +62,21 @@
     </article>
 
     <article class="ingredients">
-        <h2>
-            Zutaten
-            @auth
-                @if ($isRecipeOwner)
-                    <a href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
-                @endif
-            @endauth
-        </h2>
-
         <section class="list">
+            <h2>
+                Zutaten
+                @auth
+                    @if ($isRecipeOwner)
+                        <a href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                    @endif
+                @endauth
+            </h2>
+
             <ul>
                 @foreach ($recipe->ingredientDetails as $ingredientDetail)
                     @php
-                        if ($ingredientDetail->group) {
-                            continue;
-                        }
+                        if ($ingredientDetail->group) continue;
+                        if ($ingredientDetail->ingredient_detail_id) continue;
                     @endphp
 
                     <li>
@@ -101,6 +100,10 @@
                     <h3>{{ $name }}</h3>
                     <ul>
                         @foreach ($group as $ingredientDetail)
+                            @php
+                                if ($ingredientDetail->ingredient_detail_id) continue;
+                            @endphp
+
                             <li>
                                 {{ $ingredientDetail->display }}
                                 @if ($ingredientDetail->alternate)

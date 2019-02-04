@@ -10,6 +10,7 @@ use App\Recipe;
 use App\Ingredient;
 use App\IngredientDetail;
 use App\Helpers\CodeHelper;
+use App\Helpers\RecipeHelper;
 use App\IngredientDetailGroup;
 use App\Http\Requests\IngredientDetailFormRequest;
 
@@ -78,12 +79,13 @@ class IngredientDetailController extends Controller
 
         $ingredientDetail->ingredient_detail_id = CodeHelper::weakArrayTypeCheck($input, 'ingredient_detail_id');
 
-        $ingredientDetail->recipe_id            = $recipe->id;
-        $ingredientDetail->amount               = $input['amount'];
-        $ingredientDetail->amount_max           = $input['amount_max'];
-        $ingredientDetail->position             = $input['position'];
+        $ingredientDetail->recipe_id    = $recipe->id;
+        $ingredientDetail->amount       = $input['amount'];
+        $ingredientDetail->amount_max   = $input['amount_max'];
+        $ingredientDetail->position     = $input['position'];
 
         if ($ingredientDetail->save()) {
+            \Toast::success('Zutat erfolgreich hinzugefügt');
             return redirect('recipes/'.$recipe->id);
         }
     }

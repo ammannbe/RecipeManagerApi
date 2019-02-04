@@ -62,7 +62,7 @@
 
         <div>
             {!! Form::label('Alternative') !!}
-            {!! Form::select('ingredient_detail_id', $ingredientDetailsAlternate) !!}
+            {!! Form::select('ingredient_detail_id', array_merge([NULL], $ingredientDetailsAlternate)) !!}
         </div>
 
         <div>

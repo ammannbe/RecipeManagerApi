@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use \App\Recipe;
-use Request;
 
 class PagesController extends Controller
 {
@@ -24,17 +24,34 @@ class PagesController extends Controller
         return view('search.index', compact('tables', 'default'));
     }
 
-    // TODO: move to API
-    public function search($item, $term) {
+    public function search(Request $request) {
+        $item = $request->input('item');
+        $term = $request->input('term');
+
         $cname = ucfirst($item);
         $class = '\\App\\' . $cname;
         $object = new $class;
         $results = $object->search($term);
-
-        if ($results) {
-            return $results;
+        foreach ($results as $result) {
+            if ($cname == 'Recipe') {
+                $recipes[$result->id] = $result;
+            } elseif ($cname == 'Ingredient') {
+                $recipe = $result->recipes;
+                if (isset($recipe->id)) {
+                    $recipes[$recipe->id] = $recipe;
+                }
+            } else {
+                foreach ($result->recipes as $recipe) {
+                    $recipes[$recipe->id] = $recipe;
+                }
+            }
+        }
+        if (isset($recipes)) {
+            return view('index', compact('recipes'));
+            \Toast::clear();
         } else {
-            abort(400);
+            \Toast::info('Keine Rezepte gefunden.');
+            return redirect('/search');
         }
     }
 }
