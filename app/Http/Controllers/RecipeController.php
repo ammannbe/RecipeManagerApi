@@ -33,14 +33,17 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
+        $cookbooks = [];
         foreach (Cookbook::orderBy('name')->get() as $cookbook) {
             $cookbooks[$cookbook->id] = $cookbook->name;
         }
 
+        $authors = [];
         foreach (Author::orderBy('name')->get() as $author) {
             $authors[$author->id] = $author->name;
         }
 
+        $cateogries = [];
         foreach (Category::orderBy('name')->get() as $category) {
             $categories[$category->id] = $category->name;
         }
