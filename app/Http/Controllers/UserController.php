@@ -13,7 +13,7 @@ class UserController extends Controller
 {
 
     public function dashboard() {
-        $recipes = Recipe::where('user_id', 51)->orderBy('cookbook_id')->get();
+        $recipes = Recipe::where('user_id', Auth::user()->id)->orderBy('cookbook_id')->get();
         return view('home', compact('recipes'));
     }
 
