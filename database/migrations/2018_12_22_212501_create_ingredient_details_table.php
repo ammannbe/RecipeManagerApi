@@ -22,7 +22,7 @@ class CreateIngredientDetailsTable extends Migration
             $table->unsignedInteger('ingredient_id');
             $table->unsignedInteger('prep_id')->nullable()->default(NULL);
             $table->unsignedInteger('ingredient_detail_group_id')->nullable()->default(NULL);
-            $table->unsignedInteger('ingredient_alternate_id')->comment('alternate')->nullable()->default(NULL);
+            $table->unsignedInteger('ingredient_detail_id')->comment('alternate')->nullable()->default(NULL);
             $table->integer('position')->nullable()->default(NULL);
             $table->timestamps();
 
@@ -31,7 +31,7 @@ class CreateIngredientDetailsTable extends Migration
             $table->foreign('ingredient_id')->references('id')->on('ingredients');
             $table->foreign('prep_id')->references('id')->on('preps');
             $table->foreign('ingredient_detail_group_id')->references('id')->on('ingredient_detail_groups')->onDelete('cascade');
-            $table->foreign('ingredient_alternate_id')->references('id')->on('ingredients')->onDelete('cascade')->nullable()->default(NULL);
+            $table->foreign('ingredient_detail_id')->references('id')->on('ingredient_details')->onDelete('cascade')->nullable()->default(NULL);
         });
     }
 

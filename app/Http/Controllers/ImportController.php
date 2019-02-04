@@ -24,7 +24,7 @@ class ImportController extends Controller
 
         if (isset($input['cookbook']) && $input['cookbook']) {
             if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => $user->id]);
+                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => Auth::user()->id]);
             }
         }
 
@@ -43,6 +43,7 @@ class ImportController extends Controller
     }
 
     public function form() {
+        $cookbooks = [];
         foreach (Cookbook::orderBy('name')->get() as $cookbook) {
             $cookbooks[$cookbook->id] = $cookbook->name;
         }

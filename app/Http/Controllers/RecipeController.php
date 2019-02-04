@@ -43,7 +43,7 @@ class RecipeController extends Controller
             $authors[$author->id] = $author->name;
         }
 
-        $cateogries = [];
+        $categories = [];
         foreach (Category::orderBy('name')->get() as $category) {
             $categories[$category->id] = $category->name;
         }
