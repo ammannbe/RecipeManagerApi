@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var cssFormPath = 'html body section.content.recipe.form form';
+    var cssFormPath = 'html body section.content .form form';
 
     //TODO: remove this block
     $(cssFormPath + ' .info-text').click(function() {

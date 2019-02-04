@@ -24,8 +24,8 @@ class RatingFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'rating_criterion_id'   => ['required', 'integer'],
-            'comment'               => ['required', 'string'],
+            'rating_criterion'   => ['required', 'string'],
+            'comment'            => ['required', 'string'],
         ];
     }
 }
