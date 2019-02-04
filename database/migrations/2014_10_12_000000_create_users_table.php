@@ -17,7 +17,7 @@ public function up()
         $table->increments('id');
         $table->string('name');
         $table->string('username')->unique();
-        $table->string('phone');
+        $table->string('email');
         $table->string('password');
         $table->rememberToken();
         $table->timestamps();
