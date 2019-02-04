@@ -16,11 +16,6 @@
         <div>
             {!! Form::submit('Zutat hinzufügen') !!}
         </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
-        </div>
-
-{!! Form::close() !!}
+    {!! Form::close() !!}
 
 @stop

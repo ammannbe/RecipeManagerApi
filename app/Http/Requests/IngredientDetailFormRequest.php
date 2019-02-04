@@ -24,13 +24,14 @@ class IngredientDetailFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount'                => ['nullable', 'numeric'],
-            'amount_max'            => ['nullable', 'numeric'],
-            'unit_id'               => ['required', 'integer'],
-            'ingredient_id'         => ['required', 'integer'],
-            'prep_id'               => ['nullable', 'integer'],
-            'position'              => ['nullable', 'integer'],
-            'ingredient_detail_id'  => ['nullable', 'integer'],
+            'amount'                    => ['nullable', 'numeric'],
+            'amount_max'                => ['nullable', 'numeric'],
+            'unit'                      => ['nullable', 'string'],
+            'ingredient'                => ['required', 'string'],
+            'prep'                      => ['nullable', 'string'],
+            'position'                  => ['nullable', 'numeric'],
+            'ingredient_detail_group'   => ['nullable', 'string'],
+            'ingredient_detail_id'      => ['nullable', 'string'],
         ];
     }
 }

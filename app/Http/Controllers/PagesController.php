@@ -24,32 +24,17 @@ class PagesController extends Controller
         return view('search.index', compact('tables', 'default'));
     }
 
-    public function search() {
-        $input = Request::all();
-        $cname = ucfirst($input['table']);
+    // TODO: move to API
+    public function search($item, $term) {
+        $cname = ucfirst($item);
         $class = '\\App\\' . $cname;
         $object = new $class;
-        $results = $object->search($input['term']);
-        foreach ($results as $result) {
-            if ($cname == 'Recipe') {
-                $recipes[$result->id] = $result;
-            } elseif ($cname == 'Ingredient') {
-                $recipe = $result->recipes;
-                if (isset($recipe->id)) {
-                    $recipes[$recipe->id] = $recipe;
-                }
-            } else {
-                foreach ($result->recipes as $recipe) {
-                    $recipes[$recipe->id] = $recipe;
-                }
-            }
-        }
-        if (isset($recipes)) {
-            return view('index', compact('recipes'));
-            \Toast::clear();
+        $results = $object->search($term);
+
+        if ($results) {
+            return $results;
         } else {
-            \Toast::info('No recipes found');
-            return $this->searchForm($input['table']);
+            abort(400);
         }
     }
 }

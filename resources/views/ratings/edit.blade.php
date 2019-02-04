@@ -20,9 +20,5 @@
         <div>
             {!! Form::submit('Bewertung hinzufügen') !!}
         </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
-        </div>
     {!! Form::close() !!}
 @stop

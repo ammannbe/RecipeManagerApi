@@ -12,6 +12,9 @@ class RecipeHelper extends Model
     public static function beautifyIngredientDetail(IngredientDetail $ingredientDetail) {
         $text = '';
         if ($ingredientDetail->amount)     $text = $text.$ingredientDetail->amount;
+        if ($ingredientDetail->amount &&
+            $ingredientDetail->amount_max) $text = $text.'-';
+        if ($ingredientDetail->amount_max) $text = $text.$ingredientDetail->amount_max;
         if ($ingredientDetail->unit)       $text = $text.' '.self::getSuitableUnit($ingredientDetail->unit, $ingredientDetail->amount);;
         if ($ingredientDetail->ingredient) $text = $text.' '.$ingredientDetail->ingredient->name;
         if ($ingredientDetail->prep)       $text = $text.', '.$ingredientDetail->prep->name;

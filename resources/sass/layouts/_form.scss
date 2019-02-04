@@ -8,10 +8,49 @@ section.form {
             justify-content: space-between;
             text-align: left;
             align-items: flex-start;
+            position: relative;
 
             &.checkbox {
                 justify-content: unset;
                 place-self: flex-start;
+            }
+
+            > i {
+                position: absolute;
+                top: 55px;
+                right: 25px;
+                cursor: pointer;
+            }
+
+            > select {
+                resize: vertical;
+                overflow: auto;
+            }
+
+            > div.span-input {
+                display: none;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            > ul.list-input {
+                @extend %border;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                display: none;
+                position: absolute;
+                width: 90%;
+                top: 80px;
+                background-color: map-get($colors, white);
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                z-index: 99;
+                cursor: pointer;
+
+                > li:hover {
+                    background-color: map-get($colors, light-blue);
+                }
             }
 
             > :first-child {
@@ -22,6 +61,10 @@ section.form {
             > :nth-child(2) {
                 width: 100%;
                 box-sizing: border-box;
+            }
+
+            > input[type="text"], >input[type="password"] {
+                height: 33px;
             }
 
             > input[type="checkbox"] {

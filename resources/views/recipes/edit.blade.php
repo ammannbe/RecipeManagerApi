@@ -14,12 +14,22 @@
 
         <div>
             {!! Form::label('Kochbuch') !!}
-            {!! Form::select('cookbook_id', $cookbooks, $recipe->cookbook_id) !!}
+            {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <ul class="list-input">
+                @foreach ($cookbooks as $cookbook)
+                    <li>{{ $cookbook }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
             {!! Form::label('Autor') !!}
-            {!! Form::select('author_id', $authors, $recipe->author_id) !!}
+            {!! Form::text('author', $authors[$recipe->author_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <ul class="list-input">
+                @foreach ($authors as $author)
+                    <li>{{ $author }}</li>
+                @endforeach
+            </ul>
         </div>
 
         @php
@@ -66,10 +76,6 @@
 
         <div>
             {!! Form::submit('Änderungen speichern') !!}
-        </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop

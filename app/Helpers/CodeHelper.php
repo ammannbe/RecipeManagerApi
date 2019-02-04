@@ -15,4 +15,13 @@ class CodeHelper extends Model
 
         return end($args);
     }
+
+    public static function weakArrayTypeCheck(Array $array, String $index) {
+        if (!isset($array[$index]))  return NULL;
+        if (empty($array[$index]))   return NULL;
+        if (!$array[$index])         return NULL;
+        if ($array[$index] == 0)     return NULL;
+
+        return $array[$index];
+    }
 }
