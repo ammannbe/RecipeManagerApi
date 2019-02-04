@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RecipeFormRequest;
-use App\Helpers\RecipeHelper;
+use Auth;
+use File;
 use App\Author;
+use App\Recipe;
 use App\Category;
 use App\Cookbook;
 use App\IngredientDetail;
-use App\Recipe;
-use Auth;
-use File;
+use App\Helpers\FormatHelper;
+use App\Helpers\RecipeHelper;
+use App\Http\Requests\RecipeFormRequest;
 
 class RecipeController extends Controller
 {
@@ -32,14 +33,17 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
+        $cookbooks = [];
         foreach (Cookbook::orderBy('name')->get() as $cookbook) {
             $cookbooks[$cookbook->id] = $cookbook->name;
         }
 
+        $authors = [];
         foreach (Author::orderBy('name')->get() as $author) {
             $authors[$author->id] = $author->name;
         }
 
+        $cateogries = [];
         foreach (Category::orderBy('name')->get() as $category) {
             $categories[$category->id] = $category->name;
         }
@@ -49,12 +53,37 @@ class RecipeController extends Controller
 
     public function create(RecipeFormRequest $request) {
         $input = $request->all();
-        if (isset($input['photo'])) {
-            $input['photo'] = time().'.'.request()->photo->getClientOriginalExtension();
-            $request->photo->move(public_path('images/recipes'), $input['photo']);
+        $user = Auth::user();
+        $recipe = new Recipe();
+
+        if (isset($input['photo']) && $input['photo']) {
+            $nameSlug = FormatHelper::slugify($input['name']);
+            $recipe->photo = $nameSlug.'-'.time().'.'.request()->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
-        $input['user_id'] = Auth::user()->id;
-        $recipe = Recipe::create($input);
+
+        if (isset($input['cookbook']) && $input['cookbook']) {
+            if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
+                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => $user->id]);
+            }
+            $recipe->cookbook_id = $cookbook->id;
+        }
+
+        if (isset($input['author']) && $input['author']) {
+            if (! $author = Author::where('name', $input['author'])->first()) {
+                $author = Author::create(['name' => $input['author']]);
+            }
+            $recipe->author_id = $author->id;
+        }
+
+        $recipe->user_id            = $user->id;
+        $recipe->name               = $input['name'];
+        $recipe->yield_amount       = $input['yield_amount'];
+        $recipe->yield_amount_max   = $input['yield_amount_max'];
+        $recipe->instructions       = $input['instructions'];
+        $recipe->preparation_time   = $input['preparation_time'];
+        $recipe->save();
+
         if ($recipe->id) {
             $recipe->categories()->attach($input['categories']);
             \Toast::success('Rezept erfolgreich erstellt');
@@ -83,18 +112,18 @@ class RecipeController extends Controller
     public function edit(RecipeFormRequest $request, Recipe $recipe) {
         $input = $request->all();
 
-        if (!isset($input['delete_photo']) && !isset($input['photo'])) {
-            unset($input['photo']);
-        } elseif (isset($input['delete_photo']) && !isset($input['photo'])) {
-            $input['photo'] = NULL;
+        if (isset($input['delete_photo']) && !isset($input['photo'])) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
-        } else {
-            $input['photo'] = time().'.'.request()->photo->getClientOriginalExtension();
-            $request->photo->move(public_path('images/recipes'), $input['photo']);
+            $recipe->photo = NULL;
+        } elseif(isset($input['photo'])) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
+
+            $nameSlug = FormatHelper::slugify($input['name']);
+            $recipe->photo = $nameSlug.'-'.time().'.'.request()->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
 
-        if ($recipe->update($input)) {
+        if ($recipe->update()) {
             (isset($input['categories']) ? $categories = $input['categories'] : $categories = NULL);
             $recipe->categories()->sync($categories);
             \Toast::success('Rezept erfolgreich aktualisiert.');

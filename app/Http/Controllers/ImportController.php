@@ -21,7 +21,12 @@ class ImportController extends Controller
 {
     public function index(ImportFormRequest $request) {
         $input = $request->all();
-        $cookbook = Cookbook::find($input['cookbook_id']);
+
+        if (isset($input['cookbook']) && $input['cookbook']) {
+            if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
+                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => $user->id]);
+            }
+        }
 
         $file = [
             'content'   => file_get_contents($input['file']),
@@ -38,7 +43,6 @@ class ImportController extends Controller
     }
 
     public function form() {
-        $cookbooks[NULL] = '-- SELECT --';
         foreach (Cookbook::orderBy('name')->get() as $cookbook) {
             $cookbooks[$cookbook->id] = $cookbook->name;
         }

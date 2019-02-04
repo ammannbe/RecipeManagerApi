@@ -11,9 +11,10 @@
 |
 */
 
-Route::middleware('checklogin', 'verified')->group(function() {
+Route::middleware('checklogin')->group(function() {
     Route::get('/cookbooks/create', 'CookbookController@createForm');
     Route::post('/cookbooks/create', 'CookbookController@create');
+    Route::get('/cookbooks/delete/{cookbook}', 'CookbookController@delete');
 
     Route::get('/authors/create', 'AuthorController@createForm');
     Route::post('/authors/create', 'AuthorController@create');

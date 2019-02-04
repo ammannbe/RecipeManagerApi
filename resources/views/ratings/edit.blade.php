@@ -9,7 +9,13 @@
     {!! Form::open(['url' => 'ratings/edit/' . $rating->id]) !!}
         <div>
             {!! Form::label('Kriterium') !!}
-            {!! Form::select('rating_criterion_id', $ratingCriteria, $rating->rating_criterion_id) !!}
+            {!! Form::text('rating_criterion', $default['ratingCriterion']->name, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($ratingCriteria as $ratingCriterion)
+                    <li>{{ $ratingCriterion }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
@@ -18,11 +24,7 @@
         </div>
 
         <div>
-            {!! Form::submit('Bewertung hinzufügen') !!}
-        </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
+            {!! Form::submit('Bewertung ändern') !!}
         </div>
     {!! Form::close() !!}
 @stop

@@ -1,12 +1,11 @@
 @extends('layouts.master')
 
 
-@section('title', $recipe->name . ': Zutaten hinzufügen')
+@section('title', $recipe->name . ': Zutat hinzufügen')
 
 
 @section('content-class', 'recipe form')
 @section('content')
-
     {!! Form::open(['url' => 'ingredient-details/create/' . $recipe->id]) !!}
         <div>
             {!! Form::label('Menge') !!}
@@ -19,31 +18,51 @@
 
         <div>
             {!! Form::label('Einheit') !!}
-            {!! Form::select('unit_id', $units) !!}
-            <div class="info-text">
-                Nichts gefunden? Neue <a href="{{ url('/units/create') }}" target="_blank"><i class="link"></i>Einheit</a> erstellen.
-            </div>
+            {!! Form::text('unit', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($units as $unit)
+                    <li>{{ $unit }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
-            {!! Form::label('Zutat') !!}
-            {!! Form::select('ingredient_id', $ingredients) !!}
-            <div class="info-text">
-                Nichts gefunden? Neue <a href="{{ url('/ingredients/create') }}" target="_blank"><i class="link"></i>Zutat</a> erstellen.
-            </div>
+            {!! Form::label('Zutat', NULL, ['class' => 'required']) !!}
+            {!! Form::text('ingredient', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($ingredients as $ingredient)
+                    <li>{{ $ingredient }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
             {!! Form::label('Vorbereitung') !!}
-            {!! Form::select('prep_id', $preps) !!}
-            <div class="info-text">
-                Nichts gefunden? Neue <a href="{{ url('/preps/create') }}" target="_blank"><i class="link"></i>Vorbereitung</a> erstellen.
-            </div>
+            {!! Form::text('prep', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($preps as $prep)
+                    <li>{{ $prep }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
             {!! Form::label('Gruppe') !!}
-            {!! Form::select('ingredient_detail_group_id', $ingredientDetailGroups) !!}
+            {!! Form::text('ingredient_detail_group', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($ingredientDetailGroups as $ingredientDetailGroup)
+                    <li>{{ $ingredientDetailGroup }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div>
+            {!! Form::label('Alternative') !!}
+            {!! Form::select('ingredient_detail_id', array_merge([NULL], $ingredientDetailsAlternate)) !!}
         </div>
 
         <div>
@@ -54,7 +73,5 @@
         <div>
             {!! Form::submit('Zutat hinzufügen') !!}
         </div>
-
-{!! Form::close() !!}
-
+    {!! Form::close() !!}
 @stop

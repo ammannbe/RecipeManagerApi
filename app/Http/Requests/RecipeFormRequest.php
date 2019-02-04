@@ -24,13 +24,13 @@ class RecipeFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => ['required'],
-            'cookbook_id'       => ['required', 'integer'],
-            'author_id'         => ['required', 'integer'],
-            'yield_amount'      => ['integer'],
-            'yield_amount_max'  => ['integer'],
-            'instructions'      => ['required'],
-            'photo'             => ['image', 'nullable'],
+            'name'              => ['required', 'string'],
+            'cookbook'          => ['required', 'string'],
+            'author'            => ['required', 'string'],
+            'yield_amount'      => ['nullable', 'numeric'],
+            'yield_amount_max'  => ['nullable', 'numeric'],
+            'instructions'      => ['required', 'string'],
+            'photo'             => ['nullable', 'image'],
         ];
     }
 }

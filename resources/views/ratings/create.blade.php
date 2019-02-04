@@ -8,11 +8,14 @@
 @section('content')
     {!! Form::open(['url' => 'ratings/add/' . $recipe->id]) !!}
         <div>
-            {!! Form::label('Kriterium') !!}
-            {!! Form::select('rating_criterion_id', $ratingCriteria) !!}
-            <div class="info-text">
-                Nichts gefunden? Neues <a href="{{ url('/rating-criteria/create') }}" target="_blank"><i class="link"></i>Kriterium</a> erstellen.
-            </div>
+            {!! Form::label('Kriterium', NULL, ['class' => 'required']) !!}
+            {!! Form::text('rating_criterion', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($ratingCriteria as $ratingCriterion)
+                    <li>{{ $ratingCriterion }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
@@ -22,10 +25,6 @@
 
         <div>
             {!! Form::submit('Bewertung hinzufügen') !!}
-        </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop

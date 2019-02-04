@@ -24,8 +24,8 @@ class ImportFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'cookbook_id'   => ['required', 'integer'],
-            'file'          => ['required', 'file'],
+            'cookbook'  => ['required', 'string'],
+            'file'      => ['required', 'file'],
         ];
     }
 }

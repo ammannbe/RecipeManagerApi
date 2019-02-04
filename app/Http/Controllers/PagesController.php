@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use \App\Recipe;
-use Request;
 
 class PagesController extends Controller
 {
@@ -24,12 +24,14 @@ class PagesController extends Controller
         return view('search.index', compact('tables', 'default'));
     }
 
-    public function search() {
-        $input = Request::all();
-        $cname = ucfirst($input['table']);
+    public function search(Request $request) {
+        $item = $request->input('item');
+        $term = $request->input('term');
+
+        $cname = ucfirst($item);
         $class = '\\App\\' . $cname;
         $object = new $class;
-        $results = $object->search($input['term']);
+        $results = $object->search($term);
         foreach ($results as $result) {
             if ($cname == 'Recipe') {
                 $recipes[$result->id] = $result;
@@ -48,8 +50,8 @@ class PagesController extends Controller
             return view('index', compact('recipes'));
             \Toast::clear();
         } else {
-            \Toast::info('No recipes found');
-            return $this->searchForm($input['table']);
+            \Toast::info('Keine Rezepte gefunden.');
+            return redirect('/search');
         }
     }
 }

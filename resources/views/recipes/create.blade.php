@@ -13,42 +13,45 @@
         </div>
 
         <div>
-            {!! Form::label('Kochbuch') !!}
-            {!! Form::select('cookbook_id', $cookbooks) !!}
-            <div class="info-text">
-                Nichts gefunden? Neues <a href="{{ url('/cookbooks/create') }}" target="_blank"><i class="link"></i>Kochbuch</a> erstellen.
-            </div>
+            {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
+            {!! Form::text('cookbook', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($cookbooks as $cookbook)
+                    <li>{{ $cookbook }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
-            {!! Form::label('Autor') !!}
-            {!! Form::select('author_id', $authors) !!}
-            <div class="info-text">
-                Nichts gefunden? Neuen <a href="{{ url('/authors/create') }}" target="_blank"><i class="link"></i>Autor</a> erstellen.
-            </div>
+            {!! Form::label('Autor', NULL) !!}
+            {!! Form::text('author', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($authors as $author)
+                    <li>{{ $author }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
-            {!! Form::label('Kategorien') !!}
-            {!! Form::select('categories[]', $categories, NULL, ['multiple' => 'multiple']) !!}
-            <div class="info-text">
-                Nichts gefunden? Neue <a href="{{ url('/categories/create') }}" target="_blank"><i class="link"></i>Kategorie</a> erstellen.
-            </div>
+            {!! Form::label('Kategorien', NULL, ['class' => 'required']) !!}
+            {!! Form::select('categories[]', $categories, NULL, ['multiple' => 'multiple', 'size' => 5, 'required']) !!}
         </div>
 
         <div>
             {!! Form::label('Portionen') !!}
-            {!! Form::number('yield_amount', 4, ['max' => 99999, 'size' => 3]) !!}
+            {!! Form::number('yield_amount', 4, ['max' => 999, 'size' => 3]) !!}
         </div>
 
         <div>
             {!! Form::label('Portionen maximal') !!}
-            {!! Form::number('yield_amount_max', 4, ['max' => 99999, 'size' => 3]) !!}
+            {!! Form::number('yield_amount_max', 4, ['max' => 999, 'size' => 3]) !!}
         </div>
 
         <div>
-            {!! Form::label('Zubereitung') !!}
-            {!! Form::textarea('instructions', NULL, ['maxlength', 16777215]) !!}
+            {!! Form::label('Zubereitung', NULL, ['class' => 'required']) !!}
+            {!! Form::textarea('instructions', NULL, ['maxlength' => 16777215, 'required']) !!}
         </div>
 
         <div>
@@ -64,10 +67,6 @@
 
         <div>
             {!! Form::submit('Rezept hinzufügen') !!}
-        </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop

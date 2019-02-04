@@ -28,8 +28,8 @@ class EditUser extends FormRequest
         return [
             'name'                  => ['required', 'max:255'],
             'email'                 => ['required', 'max:255', 'email', 'unique:users,email,'.Auth::user()->id],
-            'current_password'      => ['max:255'],
-            'new_password'          => ['max:255', 'confirmed', 'min:6']
+            'current_password'      => ['nullable', 'max:255'],
+            'new_password'          => ['nullable', 'required_with:current_password', 'max:255', 'confirmed', 'min:6']
         ];
     }
 }

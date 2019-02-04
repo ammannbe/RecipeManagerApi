@@ -12,6 +12,7 @@ use \Auth;
 class RatingController extends Controller
 {
     public function createForm(Recipe $recipe) {
+        $ratingCriteria = [];
         foreach (RatingCriterion::orderBy('name')->get() as $ratingCriterion) {
             $ratingCriteria[$ratingCriterion->id] = $ratingCriterion->name;
         }
@@ -20,11 +21,19 @@ class RatingController extends Controller
     }
 
     public function create(RatingFormRequest $request, Recipe $recipe) {
-        $input = $request->all();
-        $input['recipe_id'] = $recipe->id;
-        $input['user_id'] = Auth::user()->id;
-        $rating = Rating::create($input);
-        if ($rating->id) {
+        $rating = new Rating;
+        $rating->recipe_id = $recipe->id;
+        $rating->user_id    = Auth::user()->id;
+        $rating->comment    = $request->input('comment');
+
+        if ($request->input('rating_criterion')) {
+            if (! $ratingCriterion = RatingCriterion::where('name', $request->input('rating_criterion'))->first()) {
+                $ratingCriterion = RatingCriterion::create(['name' => $request->input('rating_criterion')]);
+            }
+            $rating->rating_criterion_id = $ratingCriterion->id;
+        }
+
+        if ($rating->save()) {
             return redirect('recipes/'.$recipe->id);
         }
     }
@@ -32,14 +41,25 @@ class RatingController extends Controller
     public function editForm(Rating $rating) {
         foreach (RatingCriterion::orderBy('name')->get() as $ratingCriterion) {
             $ratingCriteria[$ratingCriterion->id] = $ratingCriterion->name;
+            if ($rating->rating_criterion_id == $ratingCriterion->id) {
+                $default['ratingCriterion'] = $ratingCriterion;
+            }
         }
-        return view('ratings.edit', compact('rating', 'ratingCriteria'));
+        return view('ratings.edit', compact('rating', 'ratingCriteria', 'default'));
     }
 
     public function edit(RatingFormRequest $request, Rating $rating) {
-        $input = $request->all();
+        $rating->user_id    = Auth::user()->id;
+        $rating->comment    = $request->input('comment');
 
-        if ($rating->update($input)) {
+        if ($request->input('rating_criterion')) {
+            if (! $ratingCriterion = RatingCriterion::where('name', $request->input('rating_criterion'))->first()) {
+                $ratingCriterion = RatingCriterion::create(['name' => $request->input('rating_criterion')]);
+            }
+            $rating->rating_criterion_id = $ratingCriterion->id;
+        }
+
+        if ($rating->update()) {
             \Toast::success('Rezept erfolgreich aktualisiert.');
             return redirect('recipes/'.$rating->recipe_id);
         } else {

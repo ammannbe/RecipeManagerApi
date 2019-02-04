@@ -32,12 +32,12 @@ section.content.recipe {
     > .info {
         order: 2;
     }
-    
+
     > .ingredients {
         @extend %flexbox-row;
         order: 3;
 
-        > h2 {
+        > * {
             flex-basis: 100%;
         }
     }

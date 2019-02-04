@@ -14,12 +14,24 @@
 
         <div>
             {!! Form::label('Kochbuch') !!}
-            {!! Form::select('cookbook_id', $cookbooks, $recipe->cookbook_id) !!}
+            {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($cookbooks as $cookbook)
+                    <li>{{ $cookbook }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
             {!! Form::label('Autor') !!}
-            {!! Form::select('author_id', $authors, $recipe->author_id) !!}
+            {!! Form::text('author', $authors[$recipe->author_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($authors as $author)
+                    <li>{{ $author }}</li>
+                @endforeach
+            </ul>
         </div>
 
         @php
@@ -35,12 +47,12 @@
 
         <div>
             {!! Form::label('Portionen') !!}
-            {!! Form::number('yield_amount', $recipe->yield_amount, ['max' => 99999, 'size' => 3]) !!}
+            {!! Form::number('yield_amount', $recipe->yield_amount, ['max' => 999, 'size' => 3]) !!}
         </div>
 
         <div>
             {!! Form::label('Portionen maximal') !!}
-            {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 99999, 'size' => 3]) !!}
+            {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
         </div>
 
         <div>
@@ -66,10 +78,6 @@
 
         <div>
             {!! Form::submit('Änderungen speichern') !!}
-        </div>
-
-        <div>
-            <span><i class="required"></i>Diese Felder müssen ausgefüllt werden.</span>
         </div>
     {!! Form::close() !!}
 @stop

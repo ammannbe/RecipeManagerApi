@@ -10,9 +10,13 @@
     }
 }
 
-.arrowRight::before {
+.arrow-right::before {
     @extend %icons;
     content: "\002192";
+}
+
+.arrow-down::before {
+    content: "\2193";
 }
 
 .plus-sign::before {

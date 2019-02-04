@@ -70,7 +70,8 @@ class LoginController extends Controller
                 $user->password = '';
             }
 
-            $sync_attrs = $this->retrieveSyncAttributes($username);
+            $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
+            $sync_attrs = $this->retrieveSyncAttributes($ldapUser);
             foreach ($sync_attrs as $field => $value) {
                 $user->$field = $value !== null ? $value : '';
             }
@@ -83,14 +84,8 @@ class LoginController extends Controller
 
     }
 
-    protected function retrieveSyncAttributes($username) {
-        $ldapuser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
-        if ( !$ldapuser ) {
-            return false;
-        }
-
+    protected function retrieveSyncAttributes($ldapUser) {
         $ldapuser_attrs = null;
-
         $attrs = [];
 
         foreach (config('ldap_auth.sync_attributes') as $local_attr => $ldap_attr) {
@@ -99,13 +94,13 @@ class LoginController extends Controller
             }
 
             $method = 'get' . $ldap_attr;
-            if (method_exists($ldapuser, $method)) {
-                $attrs[$local_attr] = $ldapuser->$method();
+            if (method_exists($ldapUser, $method)) {
+                $attrs[$local_attr] = $ldapUser->$method();
                 continue;
             }
 
             if ($ldapuser_attrs === null) {
-                $ldapuser_attrs = self::accessProtected($ldapuser, 'attributes');
+                $ldapuser_attrs = self::accessProtected($ldapUser, 'attributes');
             }
 
             if (!isset($ldapuser_attrs[$ldap_attr])) {
