@@ -6,6 +6,7 @@ use Auth;
 use Hash;
 use App\User;
 use App\Recipe;
+use App\Cookbook;
 use App\Http\Requests\EditUser;
 use Adldap\Laravel\Facades\Adldap;
 
@@ -14,7 +15,8 @@ class UserController extends Controller
 
     public function dashboard() {
         $recipes = Recipe::where('user_id', Auth::user()->id)->orderBy('cookbook_id')->get();
-        return view('home', compact('recipes'));
+        $cookoobks = Cookbook::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+        return view('home', compact('recipes', 'cookoobks'));
     }
 
     public function editForm() {

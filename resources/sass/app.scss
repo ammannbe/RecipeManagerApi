@@ -21,6 +21,10 @@ html, body {
     padding: 0;
 }
 
+h4 {
+    margin-bottom: 0.5rem;
+}
+
 .noscript {
     top: 0;
     left: 0;
@@ -36,7 +40,7 @@ html, body {
 a {
     text-decoration: none;
     color: #1483df;
-    
+
     &:hover {
         color: #404fd2;
     }

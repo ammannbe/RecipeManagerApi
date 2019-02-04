@@ -24,4 +24,18 @@ class CookbookController extends Controller
             abort(500);
         }
     }
+
+    public function delete(Cookbook $cookbook) {
+        if (Auth::user()->id == $cookbook->user_id) {
+            if ($cookbook->delete()) {
+                \Toast::success('Kochbuch erfolgreich gelöscht.');
+                return redirect('/profile');
+            } else {
+                abort(500);
+            }
+        } else {
+            \Toast::error('Du hast kein Recht dieses Kochbuch zu löschen.');
+            return redirect('/profile');
+        }
+    }
 }
