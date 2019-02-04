@@ -30,7 +30,7 @@ class CreateIngredientDetailsTable extends Migration
             $table->foreign('unit_id')->references('id')->on('units')->nullable()->default(NULL);
             $table->foreign('ingredient_id')->references('id')->on('ingredients');
             $table->foreign('prep_id')->references('id')->on('preps');
-            $table->foreign('ingredient_detail_group_id')->references('id')->on('ingredient_detail_groups');
+            $table->foreign('ingredient_detail_group_id')->references('id')->on('ingredient_detail_groups')->onDelete('cascade');
             $table->foreign('ingredient_alternate_id')->references('id')->on('ingredients')->onDelete('cascade')->nullable()->default(NULL);
         });
     }

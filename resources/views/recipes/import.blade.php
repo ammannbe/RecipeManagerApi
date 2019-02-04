@@ -9,10 +9,13 @@
     {!! Form::open(['url' => 'recipes/import', 'enctype="multipart/form-data"']) !!}
         <div>
             {!! Form::label('Kochbuch') !!}
-            {!! Form::select('cookbook_id', $cookbooks) !!}
-            <div class="info-text">
-                Nichts gefunden? Neues <a href="{{ url('/cookbooks/create') }}" target="_blank"><i class="link"></i>Kochbuch</a> erstellen.
-            </div>
+            {!! Form::text('cookbook', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+            <i class="arrow-down"></i>
+            <ul class="list-input">
+                @foreach ($cookbooks as $cookbook)
+                    <li>{{ $cookbook }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div>
