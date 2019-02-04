@@ -43,6 +43,7 @@ class ImportController extends Controller
     }
 
     public function form() {
+        $cookbooks = [];
         foreach (Cookbook::orderBy('name')->get() as $cookbook) {
             $cookbooks[$cookbook->id] = $cookbook->name;
         }
