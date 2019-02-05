@@ -51,7 +51,7 @@ class IngredientDetailController extends Controller
 
         if ($input['unit']) {
             if (! $unit = Unit::where('name', $input['unit'])->first()) {
-                $unit = Unit::create(['name' => $input['unit'], 'user_id' => $user->id]);
+                $unit = Unit::create(['name' => $input['unit'], 'user_id' => Auth::user()->id]);
             }
             $ingredientDetail->unit_id = $unit->id;
         }
