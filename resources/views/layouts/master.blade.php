@@ -22,13 +22,15 @@
     </head>
 
     <body>
-        @extends('layouts.toast')               {{--  Toast messagess --}}
-        @extends('layouts.navigation')          {{--  Main navigation --}}
-        @extends('layouts.noscript')            {{--   Noscript info  --}}
-        @extends('layouts.header')              {{--    Main header   --}}
+        {{-- @extends are in a reversed order, so the files are rendered in a correct order --}}
+
+        @extends('layouts.footer')              {{--      Footer      --}}
         @extends('layouts.content')             {{--   Main content   --}}
         @extends('layouts.navigation-right')    {{-- Right navigation --}}
-        @extends('layouts.footer')              {{--      Footer      --}}
+        @extends('layouts.header')              {{--    Main header   --}}
+        @extends('layouts.noscript')            {{--   Noscript info  --}}
+        @extends('layouts.navigation')          {{--  Main navigation --}}
+        @extends('layouts.toast')               {{--  Toast messagess --}}
     </body>
 
 </html>
