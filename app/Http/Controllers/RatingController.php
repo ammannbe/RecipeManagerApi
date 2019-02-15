@@ -29,7 +29,8 @@ class RatingController extends Controller
 
         if ($request->input('rating_criterion')) {
             if (! $ratingCriterion = RatingCriterion::where('name', $request->input('rating_criterion'))->first()) {
-                $ratingCriterion = RatingCriterion::create(['name' => $request->input('rating_criterion')]);
+                \Toast::error('Dieses Kriterium existiert nicht!');
+                return redirect('/ratings/add/'.$recipe->id)->withInput();
             }
             $rating->rating_criterion_id = $ratingCriterion->id;
         }
@@ -55,7 +56,9 @@ class RatingController extends Controller
 
         if ($request->input('rating_criterion')) {
             if (! $ratingCriterion = RatingCriterion::where('name', $request->input('rating_criterion'))->first()) {
-                $ratingCriterion = RatingCriterion::create(['name' => $request->input('rating_criterion')]);
+                return redirect('/ratings/edit/'.$recipe->id)
+                    ->withErrors(['Dieses Kriterium existiert nicht!'])
+                    ->withInput();
             }
             $rating->rating_criterion_id = $ratingCriterion->id;
         }

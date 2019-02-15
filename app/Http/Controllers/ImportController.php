@@ -25,7 +25,9 @@ class ImportController extends Controller
 
         if (isset($input['cookbook']) && $input['cookbook']) {
             if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => Auth::user()->id]);
+                return redirect('/recipes/import')
+                    ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                    ->withInput();
             }
         }
 
@@ -38,8 +40,9 @@ class ImportController extends Controller
         if (method_exists($this, $call)) {
             return $this->$call($file['content'], $cookbook);
         } else {
-            \Toast::error('Dieses Format wird nicht unterstützt.');
-            return redirect('/recipes/import');
+            return redirect('/recipes/import')
+                ->withErrors(['Dieses Format wird nicht unterstützt.'])
+                ->withInput();
         }
     }
 
@@ -99,7 +102,7 @@ class ImportController extends Controller
             }
         }
 
-        \Toast::info('Rezept(e) wurden importiert.');
+        \Toast::info('Rezepte wurden importiert.');
         return redirect('/');
     }
 

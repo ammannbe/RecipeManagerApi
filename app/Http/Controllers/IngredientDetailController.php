@@ -40,7 +40,7 @@ class IngredientDetailController extends Controller
 
         $ingredientDetailsAlternate = [];
         foreach (IngredientDetail::get() as $ingredientDetailAlternate) {
-            $ingredientDetailsAlternate[$ingredientDetailAlternate->id] = RecipeHelper::beautifyIngredientDetail($ingredientDetailAlternate);;
+            $ingredientDetailsAlternate[$ingredientDetailAlternate->id] = RecipeHelper::beautifyIngredientDetail($ingredientDetailAlternate);
         }
 
         return view('ingredientDetails.create', compact('recipe', 'units', 'ingredients', 'preps', 'ingredientDetailGroups', 'ingredientDetailsAlternate'));
@@ -52,21 +52,24 @@ class IngredientDetailController extends Controller
 
         if ($input['unit']) {
             if (! $unit = Unit::where('name', $input['unit'])->first()) {
-                $unit = Unit::create(['name' => $input['unit'], 'user_id' => Auth::user()->id]);
+                \Toast::error('Diese Einheit existiert nicht!');
+                return redirect('/ingredient-details/create/'.$recipe->id)->withInput();
             }
             $ingredientDetail->unit_id = $unit->id;
         }
 
         if ($input['ingredient']) {
             if (! $ingredient = Ingredient::where('name', $input['ingredient'])->first()) {
-                $ingredient = Ingredient::create(['name' => $input['ingredient']]);
+                \Toast::error('Diese Zutat existiert nicht!');
+                return redirect('/ingredient-details/create/'.$recipe->id)->withInput();
             }
             $ingredientDetail->ingredient_id = $ingredient->id;
         }
 
         if ($input['prep']) {
             if (! $prep = Prep::where('name', $input['prep'])->first()) {
-                $prep = Prep::create(['name' => $input['prep']]);
+                \Toast::error('Diese Vorbereitung existiert nicht!');
+                return redirect('/ingredient-details/create/'.$recipe->id)->withInput();
             }
             $ingredientDetail->prep_id = $prep->id;
         }
@@ -82,7 +85,6 @@ class IngredientDetailController extends Controller
 
         $ingredientDetail->recipe_id    = $recipe->id;
         $ingredientDetail->amount       = $input['amount'];
-        $ingredientDetail->amount_max   = $input['amount_max'];
         $ingredientDetail->position     = $input['position'];
 
         if ($ingredientDetail->save()) {
@@ -101,8 +103,8 @@ class IngredientDetailController extends Controller
                 abort(500);
             }
         } else {
-            \Toast::error('Du hast kein Recht diese Zutat zu löschen.');
-            return redirect('/recipes/'.$recipe->id);
+            return redirect('/recipes/'.$recipe->id)
+                ->withErrors(['Du hast kein Recht diese Zutat zu löschen.']);
         }
     }
 }
