@@ -6,33 +6,31 @@
 
 @section('content-class', 'recipe form')
 @section('content')
+
     {!! Form::open(['url' => 'recipes/edit/'.$recipe->id, 'files' => true]) !!}
-        <div>
+
+        {!! FormHelper::groups(['cluster', 'input']) !!}
             {!! Form::label('Name', NULL, ['class' => 'required']) !!}
             {!! Form::text('name', $recipe->name, ['maxlength' => 200, 'required', 'autofocus']) !!}
-        </div>
+        {!! FormHelper::close(2) !!}
 
-        <div>
-            {!! Form::label('Kochbuch') !!}
-            {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
-            <i class="arrow-down"></i>
-            <ul class="list-input">
-                @foreach ($cookbooks as $cookbook)
-                    <li>{{ $cookbook }}</li>
-                @endforeach
-            </ul>
-        </div>
 
-        <div>
-            {!! Form::label('Autor') !!}
-            {!! Form::text('author', $authors[$recipe->author_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
-            <i class="arrow-down"></i>
-            <ul class="list-input">
-                @foreach ($authors as $author)
-                    <li>{{ $author }}</li>
-                @endforeach
-            </ul>
-        </div>
+        {!! FormHelper::group('cluster') !!}
+            <div>
+                {!! Form::label('Kochbuch') !!}
+                {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+
+                {!! FormHelper::jsDropdown($cookbooks) !!}
+            </div>
+
+            <div>
+                {!! Form::label('Autor') !!}
+                {!! Form::text('author', $authors[$recipe->author_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+
+                {!! FormHelper::jsDropdown($authors) !!}
+            </div>
+        {!! FormHelper::close() !!}
+
 
         @php
             $selectedCategories = [];
@@ -40,44 +38,53 @@
                 array_push($selectedCategories, $category->id);
             }
         @endphp
-        <div>
-            {!! Form::label('Kategorien') !!}
-            {!! Form::select('categories[]', $categories, $selectedCategories, ['multiple']) !!}
-        </div>
 
-        <div>
-            {!! Form::label('Portionen') !!}
-            {!! Form::number('yield_amount', $recipe->yield_amount, ['max' => 999, 'size' => 3]) !!}
-        </div>
+        {!! FormHelper::group('cluster') !!}
+            <div>
+                {!! Form::label('Kategorien') !!}
+                {!! Form::select('categories[]', $categories, $selectedCategories, ['multiple']) !!}
+            </div>
 
-        <div>
-            {!! Form::label('Portionen maximal') !!}
-            {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
-        </div>
+            <div>
+                {!! Form::label('Portionen') !!}
+                {!! Form::number('yield_amount', $recipe->yield_amount, ['max' => 999, 'size' => 3]) !!}
+            </div>
 
-        <div>
+            <div>
+                {!! Form::label('Portionen maximal') !!}
+                {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
+            </div>
+
+            <div>
+                {!! Form::label('Zubereitungszeit') !!}
+                {!! Form::time('preparation_time', date('H:i', strtotime($recipe->preparation_time))) !!}
+            </div>
+        {!! FormHelper::close() !!}
+
+
+        {!! FormHelper::group('cluster') !!}
             {!! Form::label('Zubereitung', NULL, ['class' => 'required']) !!}
             {!! Form::textarea('instructions', $recipe->instructions, ['required']) !!}
-        </div>
+        {!! FormHelper::close() !!}
 
-        <div class="checkbox">
-            {!! Form::label('Altes Foto löschen (falls vorhanden)?') !!}
-            {!! Form::checkbox('delete_photo') !!}
-        </div>
 
-        <div>
-            {!! Form::label('Altes Foto überschreiben (max 2MB)') !!}
-            {!! Form::file('photo') !!}
-            {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!}
-        </div>
+        {!! FormHelper::group('cluster') !!}
+            <div class="checkbox">
+                {!! Form::label('Altes Foto löschen (falls vorhanden)?') !!}
+                {!! Form::checkbox('delete_photo') !!}
+            </div>
 
-        <div>
-            {!! Form::label('Zubereitungszeit') !!}
-            {!! Form::time('preparation_time', NULL) !!}
-        </div>
+            <div>
+                {!! Form::label('Altes Foto überschreiben (max 2MB)') !!}
+                {!! Form::file('photo') !!}
+                {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!}
+            </div>
 
-        <div>
-            {!! Form::submit('Änderungen speichern') !!}
-        </div>
+            <div>
+                {!! Form::submit('Änderungen speichern') !!}
+            </div>
+        {!! FormHelper::close() !!}
+
     {!! Form::close() !!}
+
 @stop

@@ -17,12 +17,27 @@ body {
     @media screen and (max-width: 600px) {
         grid-template-areas:
             'nav-top nav-top nav-top nav-top nav-top'
+            'nav-right  nav-right nav-right nav-right nav-right'
             'noscript noscript noscript noscript noscript'
-            'header  header  header  nav-right  nav-right'
+            'header  header  header  header  header'
             'content content content content content'
             'footer  footer  footer  footer  footer';
     }
 
+    @media screen and (max-width: 375px) {
+        grid-template-areas:
+            'nav-top'
+            'nav-right'
+            'noscript'
+            'header'
+            'content'
+            'footer';
+    }
+
     grid-column-gap: 0;
     grid-template-columns: auto auto auto auto 20%;
+
+    @media screen and (max-width: 375px) {
+        grid-template-columns: 100%;
+    }
 }

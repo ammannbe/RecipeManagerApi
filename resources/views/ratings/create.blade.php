@@ -6,25 +6,27 @@
 
 @section('content-class', 'ingredient form')
 @section('content')
+
     {!! Form::open(['url' => 'ratings/add/' . $recipe->id]) !!}
-        <div>
-            {!! Form::label('Kriterium', NULL, ['class' => 'required']) !!}
-            {!! Form::text('rating_criterion', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
-            <i class="arrow-down"></i>
-            <ul class="list-input">
-                @foreach ($ratingCriteria as $ratingCriterion)
-                    <li>{{ $ratingCriterion }}</li>
-                @endforeach
-            </ul>
-        </div>
 
-        <div>
-            {!! Form::label('Kommentar', NULL, ['class' => 'required']) !!}
-            {!! Form::textarea('comment', NULL, ['maxlength' => 16777215, 'required']) !!}
-        </div>
+        {!! FormHelper::group('cluster') !!}
+            <div>
+                {!! Form::label('Kriterium', NULL, ['class' => 'required']) !!}
+                {!! Form::text('rating_criterion', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
 
-        <div>
-            {!! Form::submit('Bewertung hinzufügen') !!}
-        </div>
+                {!! FormHelper::jsDropdown($ratingCriteria) !!}
+            </div>
+
+            <div>
+                {!! Form::label('Kommentar', NULL, ['class' => 'required']) !!}
+                {!! Form::textarea('comment', NULL, ['maxlength' => 16777215, 'required']) !!}
+            </div>
+
+            <div>
+                {!! Form::submit('Bewertung hinzufügen') !!}
+            </div>
+        {!! FormHelper::close() !!}
+
     {!! Form::close() !!}
+
 @stop

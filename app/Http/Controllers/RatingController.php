@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \App\RatingCriterion;
 use \App\Recipe;
 use \App\Rating;
+use App\Helpers\FormHelper;
 use \Request;
 use App\Http\Requests\RatingFormRequest;
 use \Auth;

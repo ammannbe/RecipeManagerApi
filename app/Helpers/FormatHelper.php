@@ -4,16 +4,16 @@ namespace App\Helpers;
 
 class FormatHelper
 {
-    public static function date($date = NULL) {
-        if (!is_null($date)) {
+    public static function date(String $date = NULL) {
+        if ($date) {
             $dateTime = new \DateTime($date);
             return $dateTime->format('d.m.Y');
         } else {
-            return '-';
+            return NULL;
         }
     }
 
-    public static function time($time = NULL, $format = ['hours', 'minutes', 'seconds']) {
+    public static function time(String $time = NULL, $format = ['hours', 'minutes', 'seconds']) {
         if ($time && $format) {
             $formatString = '';
             (in_array('hours', $format))   ? $formatString .=  'H\h' : '';
@@ -23,7 +23,7 @@ class FormatHelper
             $dateTime = $dateTime->format($formatString);
             return $dateTime;
         } else {
-            return '-';
+            return NULL;
         }
     }
 

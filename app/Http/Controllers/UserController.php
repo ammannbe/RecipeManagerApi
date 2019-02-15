@@ -7,6 +7,7 @@ use Hash;
 use App\User;
 use App\Recipe;
 use App\Cookbook;
+use App\Helpers\FormHelper;
 use App\Http\Requests\EditUser;
 use Adldap\Laravel\Facades\Adldap;
 

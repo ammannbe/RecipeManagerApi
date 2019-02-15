@@ -6,6 +6,7 @@
 @import 'layouts/inheritance';
 @import 'layouts/icons';
 @import 'layouts/form';
+@import 'layouts/forms/recipe';
 @import 'layouts/toast';
 @import 'layouts/colors';
 @import 'layouts/pagination';
@@ -19,6 +20,7 @@ html, body {
     margin: 0;
     margin-right: 1px;
     padding: 0;
+    overflow-x: hidden;
 }
 
 h2 {
@@ -59,6 +61,7 @@ a {
 section.content {
     margin: 0 auto;
     padding: 0 5%;
+    max-width: 100%;
 
     @media (max-width: 412px) {
         padding: 0;

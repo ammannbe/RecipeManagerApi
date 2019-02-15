@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\IngredientFormRequest;
+use App\Helpers\FormHelper;
 use App\Ingredient;
 
 class IngredientController extends Controller

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RatingCriterionFormRequest;
+use App\Helpers\FormHelper;
 use App\RatingCriterion;
 
 class RatingCriterionController extends Controller

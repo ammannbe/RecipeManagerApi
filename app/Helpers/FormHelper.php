@@ -5,13 +5,13 @@ namespace App\Helpers;
 class FormHelper
 {
     public static function group(String $group) {
-        return '<div class="groups '.$group.'">';
+        return '<div class="group '.$group.'">';
     }
 
     public static function groups(Array $groups) {
         $html = '';
         foreach ($groups as $group) {
-            $html .= '<div class="groups '.$group.'">';
+            $html .= '<div class="group '.$group.'">';
         }
         return $html;
     }
@@ -25,7 +25,7 @@ class FormHelper
     }
 
     public static function jsDropdown(Array $items) {
-        $html  = '<i class="arrow-down"></i>';
+        $html  = '<button class="arrow-down"></button>';
         $html .= '<ul class="hidden js-dropdown">';
         foreach ($items as $item) {
             $html .= '<li>'.$item.'</li>';

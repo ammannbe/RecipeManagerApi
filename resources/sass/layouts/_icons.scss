@@ -64,7 +64,7 @@
     content: "\27F3";
 }
 
-.required::after {
+.required::before {
     @extend %icons;
     content: "\2A";
     color: map-get($colors, red);
@@ -80,4 +80,9 @@
     background-color: map-get($colors, light-blue);
     color: white;
     font-weight: bold;
+}
+
+.hourglass::before {
+    @extend %icons;
+    content: "\0231B";
 }
