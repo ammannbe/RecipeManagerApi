@@ -12,13 +12,12 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Kochbuch') !!}
-                {!! Form::text('cookbook', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
-                <i class="arrow-down"></i>
-                <ul class="list-input hidden">
-                    @foreach ($cookbooks as $cookbook)
-                        <li>{{ $cookbook }}</li>
-                    @endforeach
-                </ul>
+                {!! Form::text('cookbook', NULL, [
+                    'maxlength'     => 200,
+                    'class'         => 'text-input',
+                    'autocomplete'  => 'off',
+                    'required']) !!}
+                {!! FormHelper::jsDropdown($cookbooks) !!}
             </div>
 
             <div>
