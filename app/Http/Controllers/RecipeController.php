@@ -117,6 +117,46 @@ class RecipeController extends Controller
     public function edit(RecipeFormRequest $request, Recipe $recipe) {
         $input = $request->all();
 
+        if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                ->withInput();
+        } else {
+            $recipe->cookbook_id = $cookbook->id;
+        }
+
+        if (isset($input['author']) && $input['author']) {
+            if (! $author = Author::where('name', $input['author'])->first()) {
+                return redirect('/recipes/edit/'.$recipe->id)
+                    ->withErrors(['Dieser Author existiert nicht!'])
+                    ->withInput();
+            } else {
+                $recipe->author_id = $author->id;
+            }
+        } else {
+            $recipe->author_id = NULL;
+        }
+
+        if (isset($input['yield_amount']) && $input['yield_amount']) {
+            $recipe->yield_amount = $input['yield_amount'];
+        }
+
+        if (isset($input['yield_amount_max']) && $input['yield_amount_max']) {
+            $recipe->yield_amount_max = $input['yield_amount_max'];
+        }
+
+        if (isset($input['instructions']) && $input['instructions']) {
+            $recipe->instructions = $input['instructions'];
+        } else {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Die Zubereitung fehlt!'])
+                ->withInput();
+        }
+
+        if (isset($input['preparation_tme']) && $input['preparation_tme']) {
+            $recipe->preparation_tme = $input['preparation_tme'];
+        }
+
         if (isset($input['delete_photo']) && !isset($input['photo'])) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
             $recipe->photo = NULL;

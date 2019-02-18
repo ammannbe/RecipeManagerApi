@@ -17,15 +17,22 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kochbuch') !!}
-                {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+                {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
+                {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], [
+                    'maxlength' => 200,
+                    'class' => 'text-input',
+                    'autocomplete' => 'off',
+                    'required']) !!}
 
                 {!! FormHelper::jsDropdown($cookbooks) !!}
             </div>
 
             <div>
                 {!! Form::label('Autor') !!}
-                {!! Form::text('author', $authors[$recipe->author_id], ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
+                {!! Form::text('author', $authors[$recipe->author_id], [
+                    'maxlength' => 200,
+                    'class' => 'text-input',
+                    'autocomplete' => 'off']) !!}
 
                 {!! FormHelper::jsDropdown($authors) !!}
             </div>
@@ -42,7 +49,9 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Kategorien') !!}
-                {!! Form::select('categories[]', $categories, $selectedCategories, ['multiple']) !!}
+                {!! Form::select('categories[]', $categories, $selectedCategories, [
+                    'multiple',
+                    'size' => 7]) !!}
             </div>
 
             <div>
@@ -52,7 +61,7 @@
 
             <div>
                 {!! Form::label('Portionen maximal') !!}
-                {!! Form::number('yield_amount', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
+                {!! Form::number('yield_amount_max', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
             </div>
 
             <div>
