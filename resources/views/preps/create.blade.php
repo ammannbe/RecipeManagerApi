@@ -12,7 +12,7 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Name', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 40, 'required', 'autofocus']) !!}
+                {!! Form::text('name', NULL, ['maxlength' => 40, 'required', 'placeholder' => 'Bsp: gehackt', 'autofocus']) !!}
             </div>
 
             <div>

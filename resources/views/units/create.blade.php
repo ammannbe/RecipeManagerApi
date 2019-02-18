@@ -12,22 +12,22 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Name (Singular)', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 20, 'required', 'autofocus']) !!}
+                {!! Form::text('name', NULL, ['maxlength' => 20, 'required', 'placeholder' => 'Bsp: Flasche', 'autofocus']) !!}
             </div>
 
             <div>
                 {!! Form::label('Abkürzung (Singular)') !!}
-                {!! Form::text('name_shortcut', NULL, ['maxlength' => 20]) !!}
+                {!! Form::text('name_shortcut', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Fl.']) !!}
             </div>
 
             <div>
                 {!! Form::label('Name (Plural)') !!}
-                {!! Form::text('name_plural', NULL, ['maxlength' => 20]) !!}
+                {!! Form::text('name_plural', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Flaschen']) !!}
             </div>
 
             <div>
                 {!! Form::label('Abkürzung (Plural)') !!}
-                {!! Form::text('name_plural_shortcut', NULL, ['maxlength' => 20]) !!}
+                {!! Form::text('name_plural_shortcut', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Fl.']) !!}
             </div>
 
             <div>
