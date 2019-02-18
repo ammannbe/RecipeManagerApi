@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Suchen')
+@section('title', 'Suche')
 
 
 @section('content-class', 'search form')
