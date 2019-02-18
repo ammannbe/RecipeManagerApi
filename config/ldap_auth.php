@@ -275,6 +275,7 @@ return [
         'username' => 'uid',
         'name' => 'cn',
         'email' => 'email',
+        'user_type' => 'employeeType'
 
     ],
 
