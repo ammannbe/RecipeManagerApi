@@ -20,7 +20,7 @@ class CreateRecipesTable extends Migration
             $table->unsignedInteger('author_id')->nullable()->default(NULL);
             $table->string('name', 191);
             $table->decimal('yield_amount', 3, 0)->nullable()->default(4);
-            $table->decimal('yield_amount_max')->nullable()->default(NULL);
+            $table->decimal('yield_amount_max', 3, 0)->nullable()->default(NULL);
             $table->mediumtext('instructions');
             $table->string('photo', 191)->nullable()->default(NULL);
             $table->time('preparation_time')->nullable()->default(NULL);
