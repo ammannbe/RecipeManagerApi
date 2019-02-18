@@ -29,12 +29,14 @@
 
             <div>
                 {!! Form::label('Autor') !!}
-                {!! Form::text('author', $authors[$recipe->author_id], [
+                {!! Form::text('author', (isset($authors) ? $authors[$recipe->author_id] : NULL), [
                     'maxlength' => 200,
                     'class' => 'text-input',
                     'autocomplete' => 'off']) !!}
 
-                {!! FormHelper::jsDropdown($authors) !!}
+                @if (isset($authors))
+                    {!! FormHelper::jsDropdown($authors) !!}
+                @endif
             </div>
         {!! FormHelper::close() !!}
 
