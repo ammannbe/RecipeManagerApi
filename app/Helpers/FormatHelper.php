@@ -23,7 +23,7 @@ class FormatHelper
             $dateTime = $dateTime->format($formatString);
             return $dateTime;
         } else {
-            return NULL;
+            return '-';
         }
     }
 
