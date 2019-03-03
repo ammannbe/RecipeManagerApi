@@ -58,8 +58,7 @@ class RecipeController extends Controller
         $recipe = new Recipe();
 
         if (isset($input['photo']) && $input['photo']) {
-            $nameSlug = FormatHelper::slugify($input['name']);
-            $recipe->photo = $nameSlug.'-'.time().'.'.request()->photo->getClientOriginalExtension();
+            $recipe->photo = time().'-'.FormatHelper::slugify($input['name']).'.'.request()->photo->getClientOriginalExtension();
             $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
 
