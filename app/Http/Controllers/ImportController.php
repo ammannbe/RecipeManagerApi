@@ -94,12 +94,14 @@ class ImportController extends Controller
                 }
             }
 
+            $syncCategories = NULL;
             foreach ($parsedRecipe['categories'] as $categoryName) {
                 if (! $category = Category::where(['name' => $categoryName])->get()->first()) {
                     $category = Category::create(['name' => $categoryName]);
                 }
-                $recipe->categories()->sync($category->id);
+                $syncCategories[] = $category->id;
             }
+            $recipe->categories()->sync($syncCategories);
         }
 
         \Toast::info('Rezepte wurden importiert.');
