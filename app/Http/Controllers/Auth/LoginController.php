@@ -73,7 +73,7 @@ class LoginController extends Controller
             $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
             $sync_attrs = $this->retrieveSyncAttributes($ldapUser);
             foreach ($sync_attrs as $field => $value) {
-                $user->$field = $value !== null ? $value : '';
+                $user->$field = $value !== null ? $value : NULL;
             }
 
             $this->guard()->login($user, true);
