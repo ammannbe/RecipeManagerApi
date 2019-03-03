@@ -83,7 +83,11 @@ class RecipeController extends Controller
         $recipe->user_id            = $user->id;
         $recipe->name               = $input['name'];
         $recipe->yield_amount       = $input['yield_amount'];
-        $recipe->yield_amount_max   = $input['yield_amount_max'];
+
+        if ($recipe->yield_amount != $recipe->yield_amount_max) {
+            $recipe->yield_amount_max = $input['yield_amount_max'];
+        }
+
         $recipe->instructions       = $input['instructions'];
         $recipe->preparation_time   = $input['preparation_time'];
         $recipe->save();
