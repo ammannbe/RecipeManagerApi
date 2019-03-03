@@ -132,8 +132,9 @@
         <h2>Zubereitung</h2>
         <ul>
             @php
-                if ($recipe->yield_amount_max) {
-                    $recipe->yield_amount_text = "{$recipe->yield_amount} - {$recipe->yield_amount_max}";
+                if (($recipe->yield_amount && $recipe->yield_amount_max) &&
+                    ($recipe->yield_amount != $recipe->yield_amount_max)) {
+                        $recipe->yield_amount_text = "{$recipe->yield_amount} - {$recipe->yield_amount_max}";
                 } else {
                     $recipe->yield_amount_text = "{$recipe->yield_amount}";
                 }
