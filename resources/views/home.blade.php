@@ -6,12 +6,19 @@
 
 @section('content-class', 'dashboard')
 @section('content')
+
+    @auth
+        <article class="manage">
+            Verwaltung {!! FormHelper::switch('edit-mode switch') !!}
+        </article>
+    @endauth
+
     <article class="profile">
         <h2>Details</h2>
         <div class="profile">
             <span>Name: {{ Auth::User()->name }}</span><br>
             <span>E-Mail: {{ Auth::User()->email }}</span><br>
-            <a class="edit" href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
+            <a class="edit edit-mode item hidden" href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
         </div>
     </article>
 
@@ -21,7 +28,7 @@
             @if (!isset($cookbookID) || $cookbookID != $recipe->cookbook->id)
                 <h4>{{ $recipe->cookbook->name }}
                     @if ($recipe->cookbook->user_id == Auth::user()->id)
-                        <a href="{{ url('/cookbooks/delete/'.$recipe->cookbook->id) }}"><i class="big red cross"></i></a>
+                        <a class="edit-mode item hidden" href="{{ url('/cookbooks/delete/'.$recipe->cookbook->id) }}"><i class="big red cross"></i></a>
                     @endif
                 </h4>
             @endif

@@ -18,11 +18,17 @@
     @endphp
 
     <article class="manage">
+        @auth
+            @if ($isRecipeOwner)
+                Verwaltung {!! FormHelper::switch('edit-mode switch') !!}
+            @endif
+        @endauth
+
         <ul>
             @auth
                 @if ($isRecipeOwner)
-                    <li><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li>
-                    <li>
+                    <li class="edit-mode item hidden"><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li>
+                    <li class="edit-mode item hidden">
                         <a href="{{ url('/recipes/delete/'.$recipe->id) }}">
                             <i class="cross red"></i>
                             Löschen
@@ -67,7 +73,7 @@
                 Zutaten
                 @auth
                     @if ($isRecipeOwner)
-                        <a href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                        <a class="edit-mode item hidden" href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
                     @endif
                 @endauth
             </h2>
@@ -86,7 +92,7 @@
                         @endif
                         @auth
                             @if ($isRecipeOwner)
-                                <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                <a class="edit-mode item hidden" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                             @endif
                         @endauth
                     </li>
@@ -111,7 +117,7 @@
                                 @endif
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                        <a class="edit-mode item hidden" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                                     @endif
                                 @endauth
                             </li>
@@ -136,7 +142,7 @@
             <li>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
         </ul>
         <p>
-                {!! nl2br(e($recipe->instructions)) !!}
+            {!! nl2br(e($recipe->instructions)) !!}
         </p>
     </article>
 

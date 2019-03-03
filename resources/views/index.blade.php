@@ -7,6 +7,13 @@
 @section('content-class', 'overview')
 @section('content')
 
+    @auth
+        <article class="manage">
+            Verwaltung {!! FormHelper::switch('edit-mode switch') !!}
+        </article>
+    @endauth
+
+
     @foreach ($recipes as $recipe)
         <article>
             <a href="{{ url('/recipes/' . $recipe->id) }}">
@@ -37,7 +44,7 @@
 
                 @auth
                     @if ($recipe->user_id == Auth::user()->id)
-                        <div class="manage">
+                        <div class="manage edit-mode item hidden">
                             <a href="{{ url('recipes/edit/'.$recipe->id) }}"><i class="pencil black big"></i></a>
                             <a href="{{ url('recipes/delete/'.$recipe->id) }}"><i class="cross red big"></i></a>
                         </div>
