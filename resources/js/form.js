@@ -6,12 +6,10 @@ Form.switch = function($switch) {
     if($input.is(":checked")) {
         if ($switch.hasClass('edit-mode')) {
             Form.enableEditMode();
-            console.log('enabled');
         }
     } else {
         if ($switch.hasClass('edit-mode')) {
             Form.disableEditMode();
-            console.log('disabled');
         }
     }
 }
@@ -79,7 +77,5 @@ $(document).ready(function () {
             $listInput.addClass('show');
         }
         $listInput.children('li').show();
-        // $listInput.toggle();
     });
-
 });

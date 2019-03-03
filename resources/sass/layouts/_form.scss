@@ -42,8 +42,11 @@ section.form {
                 text-align: right;
                 display: inline-block;
 
-                ~ .input {
-                    width: auto;
+
+                @media screen and (max-width: 800px) {
+                    width: 100%;
+                    text-align: left;
+                    display: block;
                 }
 
                 ~ textarea,
@@ -52,10 +55,17 @@ section.form {
                 }
             }
 
+            input,
+            select,
+            textarea {
+                font-size: 1rem;
+                margin-left: 10px;
+            }
+
             input {
                 width: 60%;
                 max-width: 200px;
-                margin-left: 4%;
+                height: 33px;
                 display: inline-block;
 
                 &[type=text],
@@ -70,6 +80,7 @@ section.form {
                 &[type=submit] {
                     width: unset;
                     float: right;
+                    font-size: smaller;
                 }
 
                 &[type=file] {
@@ -80,17 +91,11 @@ section.form {
             select {
                 resize: vertical;
                 overflow: auto;
-                margin-left: 4%;
             }
 
             textarea {
                 max-width: 100%;
-                margin-left: 4%;
-            }
-
-            .group.input {
-                display: inline-block;
-                margin-left: 4%;
+                padding: 5px;
             }
 
             .js-dropdown {
