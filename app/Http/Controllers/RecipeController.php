@@ -9,6 +9,7 @@ use App\Recipe;
 use App\Category;
 use App\Cookbook;
 use App\IngredientDetail;
+use App\Helpers\FormHelper;
 use App\Helpers\FormatHelper;
 use App\Helpers\RecipeHelper;
 use App\Http\Requests\RecipeFormRequest;
@@ -64,14 +65,18 @@ class RecipeController extends Controller
 
         if (isset($input['cookbook']) && $input['cookbook']) {
             if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => $user->id]);
+                return redirect('/recipes/create')
+                    ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                    ->withInput();
             }
             $recipe->cookbook_id = $cookbook->id;
         }
 
         if (isset($input['author']) && $input['author']) {
             if (! $author = Author::where('name', $input['author'])->first()) {
-                $author = Author::create(['name' => $input['author']]);
+                return redirect('/recipes/create')
+                    ->withErrors(['Dieser Author existiert nicht!'])
+                    ->withInput();
             }
             $recipe->author_id = $author->id;
         }
@@ -112,6 +117,46 @@ class RecipeController extends Controller
     public function edit(RecipeFormRequest $request, Recipe $recipe) {
         $input = $request->all();
 
+        if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                ->withInput();
+        } else {
+            $recipe->cookbook_id = $cookbook->id;
+        }
+
+        if (isset($input['author']) && $input['author']) {
+            if (! $author = Author::where('name', $input['author'])->first()) {
+                return redirect('/recipes/edit/'.$recipe->id)
+                    ->withErrors(['Dieser Author existiert nicht!'])
+                    ->withInput();
+            } else {
+                $recipe->author_id = $author->id;
+            }
+        } else {
+            $recipe->author_id = NULL;
+        }
+
+        if (isset($input['yield_amount']) && $input['yield_amount']) {
+            $recipe->yield_amount = $input['yield_amount'];
+        }
+
+        if (isset($input['yield_amount_max']) && $input['yield_amount_max']) {
+            $recipe->yield_amount_max = $input['yield_amount_max'];
+        }
+
+        if (isset($input['instructions']) && $input['instructions']) {
+            $recipe->instructions = $input['instructions'];
+        } else {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Die Zubereitung fehlt!'])
+                ->withInput();
+        }
+
+        if (isset($input['preparation_tme']) && $input['preparation_tme']) {
+            $recipe->preparation_tme = $input['preparation_tme'];
+        }
+
         if (isset($input['delete_photo']) && !isset($input['photo'])) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
             $recipe->photo = NULL;
@@ -144,8 +189,9 @@ class RecipeController extends Controller
                 abort(500);
             }
         } else {
-            \Toast::error('Du hast kein Recht dieses Rezept zu löschen.');
-            return redirect('/recipes/'.$recipe->id);
+            return redirect('/recipes/'.$recipe->id)
+                ->withErrors(['Du hast kein Recht dieses Rezept zu löschen.'])
+                ->withInput();
         }
     }
 }

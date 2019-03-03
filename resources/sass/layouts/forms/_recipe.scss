@@ -1,0 +1,9 @@
+section.recipe.form {
+    .form-group, .groups.cluster {
+        > div {
+            width: auto;
+            margin: 10px;
+            place-self: center;
+        }
+    }
+}

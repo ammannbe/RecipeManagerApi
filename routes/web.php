@@ -12,25 +12,7 @@
 */
 
 Route::middleware('checklogin')->group(function() {
-    Route::get('/cookbooks/create', 'CookbookController@createForm');
-    Route::post('/cookbooks/create', 'CookbookController@create');
     Route::get('/cookbooks/delete/{cookbook}', 'CookbookController@delete');
-
-    Route::get('/authors/create', 'AuthorController@createForm');
-    Route::post('/authors/create', 'AuthorController@create');
-
-    Route::get('/categories/create', 'CategoryController@createForm');
-    Route::post('/categories/create', 'CategoryController@create');
-
-    Route::get('/ingredients/create', 'IngredientController@createForm');
-    Route::post('/ingredients/create', 'IngredientController@create');
-
-    Route::get('/units/create', 'UnitController@createForm');
-    Route::post('/units/create', 'UnitController@create');
-
-    Route::get('/preps/create', 'PrepController@createForm');
-    Route::post('/preps/create', 'PrepController@create');
-
 
     Route::get('/recipes/create', 'RecipeController@createForm');
     Route::post('/recipes/create', 'RecipeController@create');
@@ -52,6 +34,30 @@ Route::middleware('checklogin')->group(function() {
 
     Route::get('/rating-criteria/create', 'RatingCriterionController@createForm');
     Route::post('/rating-criteria/create', 'RatingCriterionController@create');
+});
+
+Route::middleware('admin')->group(function() {
+    Route::get('/administration', function() {
+        return view('user.administration');
+    });
+
+    Route::get('/cookbooks/create', 'CookbookController@createForm');
+    Route::post('/cookbooks/create', 'CookbookController@create');
+
+    Route::get('/authors/create', 'AuthorController@createForm');
+    Route::post('/authors/create', 'AuthorController@create');
+
+    Route::get('/categories/create', 'CategoryController@createForm');
+    Route::post('/categories/create', 'CategoryController@create');
+
+    Route::get('/ingredients/create', 'IngredientController@createForm');
+    Route::post('/ingredients/create', 'IngredientController@create');
+
+    Route::get('/units/create', 'UnitController@createForm');
+    Route::post('/units/create', 'UnitController@create');
+
+    Route::get('/preps/create', 'PrepController@createForm');
+    Route::post('/preps/create', 'PrepController@create');
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

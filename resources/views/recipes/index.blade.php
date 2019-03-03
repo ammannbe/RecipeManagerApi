@@ -125,11 +125,18 @@
     <article class="instructions">
         <h2>Zubereitung</h2>
         <ul>
-            <li>Portionen: {{ $recipe->yield_amount }}</li>
+            @php
+                if ($recipe->yield_amount_max) {
+                    $recipe->yield_amount_text = "{$recipe->yield_amount} - {$recipe->yield_amount_max}";
+                } else {
+                    $recipe->yield_amount_text = "{$recipe->yield_amount}";
+                }
+            @endphp
+            <li>Portionen: {{ $recipe->yield_amount_text }}</li>
             <li>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
         </ul>
         <p>
-            {!! nl2br($recipe->instructions) !!}
+                {!! nl2br(e($recipe->instructions)) !!}
         </p>
     </article>
 

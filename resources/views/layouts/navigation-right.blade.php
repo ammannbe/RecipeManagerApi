@@ -10,6 +10,12 @@
                 </li>
             @endif
         @else
+            @if (Auth::user()->user_type == 'admin')
+                <li>
+                    <a href="{{ url('/administration') }}">Administration</a>
+                </li>
+            @endif
+
             <li>
                 <a href="{{ url('/profile') }}">Profil</a>
             </li>

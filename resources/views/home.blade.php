@@ -1,17 +1,16 @@
 @extends('layouts.master')
 
 
-@section('title', 'Dashboard')
+@section('title', 'Profil')
 
 
 @section('content-class', 'dashboard')
 @section('content')
     <article class="profile">
-        <h2>Profil</h2>
+        <h2>Details</h2>
         <div class="profile">
             <span>Name: {{ Auth::User()->name }}</span><br>
             <span>E-Mail: {{ Auth::User()->email }}</span><br>
-            <span>Registriert: {{ FormatHelper::date(Auth::User()->created_at) }}</span>
             <a class="edit" href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
         </div>
     </article>

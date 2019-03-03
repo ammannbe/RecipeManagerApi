@@ -1,28 +1,25 @@
 $(document).ready(function () {
-    var cssFormPath = 'html body section.content .form form';
-
-    //TODO: remove this block
-    $(cssFormPath + ' .info-text').click(function() {
-        if (! $(cssFormPath + ' .info-text a i.reload').length) {
-            $(this).append('<a href="#" onclick="location.reload()">Liste neu laden<i class="reload"></i></a>');
-        }
-    });
+    var cssFormPath = '.form form';
 
     $(window).click(function() {
-        $(cssFormPath + ' .list-input').hide();
+        $(cssFormPath + ' .js-dropdown').removeClass('show');
+        $(cssFormPath + ' .js-dropdown').addClass('hidden');
     });
 
-    $(cssFormPath + ' ul.list-input li').click(function(event) {
+    $(cssFormPath + ' .js-dropdown li').click(function(event) {
         event.stopPropagation(); // Prevent hide on $(window).click
     });
 
     $(cssFormPath + ' .text-input').on('keyup', function() {
-        var $listInput = $(this).siblings('.list-input');
+        var $listInput = $(this).siblings('.js-dropdown');
 
         if (!$.trim($(this).val())) {
-            $listInput.hide();
+            $listInput.addClass('hidden');
+            $listInput.removeClass('show');
         } else {
-            $listInput.show();
+            $listInput.removeClass('hidden');
+            $listInput.addClass('show');
+
             var value = $(this).val().toLowerCase();
             $listInput.children('li').filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -30,19 +27,28 @@ $(document).ready(function () {
         }
     });
 
-    $(cssFormPath + ' ul.list-input li').click(function() {
+    $(cssFormPath + ' .js-dropdown li').click(function() {
         var $listInput = $(this).parent();
         var $textInput = $listInput.siblings('.text-input');
 
         $textInput.val($(this).text());
-        $listInput.hide();
+        $listInput.removeClass('show');
+        $listInput.addClass('hidden');
     });
 
-    $(cssFormPath + ' i.arrow-down').click(function(event) {
+    $(cssFormPath + ' button.arrow-down').click(function(event) {
+        event.preventDefault();
         event.stopPropagation(); // Prevent hide on $(window).click
-        var $listInput = $(this).siblings('ul.list-input');
-        $listInput.toggle();
+        var $listInput = $(this).siblings('ul.js-dropdown');
+        if ($listInput.is(':visible')) {
+            $listInput.removeClass('show');
+            $listInput.addClass('hidden');
+        } else {
+            $listInput.removeClass('hidden');
+            $listInput.addClass('show');
+        }
         $listInput.children('li').show();
+        // $listInput.toggle();
     });
 
 });

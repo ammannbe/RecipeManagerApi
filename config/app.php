@@ -225,11 +225,14 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'FormatHelper' => App\Helpers\FormatHelper::class,
-        'CodeHelper' => App\Helpers\CodeHelper::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
-        'RecipeHelper' => Nathanmac\Utilities\Parser\Facades\RecipeHelper::class,
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+
+        'FormatHelper' => App\Helpers\FormatHelper::class,
+        'FormHelper'   => App\Helpers\FormHelper::class,
+        'CodeHelper'   => App\Helpers\CodeHelper::class,
+        'RecipeHelper' => App\Helpers\RecipeHelper::class,
+        'CodeHelper'   => App\Helpers\FormHelper::class,
 
     ],
 

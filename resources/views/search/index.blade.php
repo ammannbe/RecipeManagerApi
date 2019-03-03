@@ -1,24 +1,28 @@
 @extends('layouts.master')
 
 
-@section('title', 'Suchen')
+@section('title', 'Suche')
 
 
 @section('content-class', 'search form')
 @section('content')
+
     {!! Form::open(['url' => 'search']) !!}
-        <div>
-            {!! Form::label('Suchen in') !!}
-            {!! Form::select('item', $tables, $default) !!}
-        </div>
 
-        <div>
-            {!! Form::label('Suchkriterium') !!}
-            {!! Form::text('term', NULL, ['autofocus']) !!}
-        </div>
+        {!! FormHelper::group('cluster') !!}
+            <div>
+                {!! Form::label('Suchen in') !!}
+                {!! Form::select('item', $tables, $default) !!}
+            </div>
 
-        <div>
-            {!! Form::submit('Rezepte suchen') !!}
-        </div>
+            <div>
+                {!! Form::label('Suchkriterium') !!}
+                {!! Form::text('term', NULL, ['autofocus']) !!}
+
+                {!! Form::submit('Rezepte suchen') !!}
+            </div>
+
+        {!! FormHelper::close() !!}
     {!! Form::close() !!}
+
 @stop

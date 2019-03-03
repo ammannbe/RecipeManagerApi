@@ -70,7 +70,8 @@ class KremlParser extends Model
                     } else {
                         $groups = $kremlIngredients['ingredient-group'];
                     }
-                    self::ingredientGroups($groups);
+
+                    $recipes[$key]['ingredientDetails'] = self::ingredientGroups($groups);
                 }
             } else {
                 if (isset($kremlIngredients['ingredient-group']['@name'])) {
@@ -132,7 +133,7 @@ class KremlParser extends Model
 
     private static function ingredientGroups(Array $kremlIngredientDetailGroups) {
         foreach ($kremlIngredientDetailGroups as $kremlIngredientDetailGroup) {
-            $group = (isset($kremlIngredientDetailGroup['@name']) ? trim($kremlIngredientDetailGroup['@name']) : NULL);
+            $group = trim($kremlIngredientDetailGroup['@name']);
             $position = 0;
             foreach ($kremlIngredientDetailGroup['ingredient'] as $i) {
                 if (isset($i['amount']) && is_array($i['amount'])) {

@@ -1,83 +1,129 @@
+
+select { // TODO: check this code block. Didn't worked in the section.form block...
+    max-width: 100%;
+}
+
 section.form {
     form {
-        > div {
+        max-width: 100%;
+
+        .group.cluster {
             @extend %border;
-            margin-bottom: 10px;
+            width: 70%;
+            margin: 10px auto;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             text-align: left;
             align-items: flex-start;
-            position: relative;
 
             &.checkbox {
                 justify-content: unset;
                 place-self: flex-start;
             }
 
-            > i {
-                position: absolute;
-                top: 55px;
-                right: 25px;
-                cursor: pointer;
-            }
-
-            > select {
-                resize: vertical;
-                overflow: auto;
-            }
-
-            > div.span-input {
-                display: none;
+            > div {
                 width: 100%;
                 box-sizing: border-box;
+                margin: 10px auto;
             }
 
-            > ul.list-input {
+            button {
                 @extend %border;
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
-                display: none;
+                padding: 7px 9px;
+                cursor: pointer;
+                user-select: none;
+                display: inline-block;
+                margin: 5px auto;
+                background-color: map-get($colors, white);
+            }
+
+            label {
+                width: 30%;
+                text-align: right;
+                display: inline-block;
+
+                ~ .input {
+                    width: auto;
+                }
+
+                ~ textarea,
+                ~ select {
+                    width: 65%;
+                }
+            }
+
+            input {
+                width: 60%;
+                max-width: 200px;
+                margin-left: 4%;
+                display: inline-block;
+
+                &[type=text],
+                &[type=password] {
+                    height: 33px;
+                }
+
+                &[type=checkbox] {
+                    width: unset;
+                }
+
+                &[type=submit] {
+                    width: unset;
+                    float: right;
+                }
+
+                &[type=file] {
+                    width: auto;
+                }
+            }
+
+            select {
+                resize: vertical;
+                overflow: auto;
+                margin-left: 4%;
+            }
+
+            textarea {
+                max-width: 100%;
+                margin-left: 4%;
+            }
+
+            .group.input {
+                display: inline-block;
+                margin-left: 4%;
+            }
+
+            .js-dropdown {
+                @extend %border;
+                width: auto;
                 position: absolute;
-                width: 90%;
-                top: 80px;
                 background-color: map-get($colors, white);
                 list-style-type: none;
                 margin: 0;
+                margin-top: 5px;
                 padding: 0;
                 z-index: 99;
                 cursor: pointer;
 
-                > li:hover {
-                    background-color: map-get($colors, light-blue);
+                &.hidden {
+                    display: none;
                 }
-            }
 
-            > :first-child {
-                margin-right: 20px;
-                margin-bottom: 10px;
-            }
+                &.show {
+                    display: block;
+                    @media screen and (min-width: 733px) {
+                        display: inline-block;
+                        margin-left: 10px !important;
+                    }
+                }
 
-            > :nth-child(2) {
-                width: 100%;
-                box-sizing: border-box;
-            }
+                li {
+                    padding: 5px;
 
-            > input[type="text"], >input[type="password"] {
-                height: 33px;
-            }
-
-            > input[type="checkbox"] {
-                width: unset;
-            }
-
-            > input[type="submit"] {
-                width: 100%;
-                margin: 0 !important;
-            }
-
-            > div.info-text {
-                margin-top: 10px;
+                    &:hover {
+                        background-color: map-get($colors, light-blue);
+                    }
+                }
             }
         }
     }

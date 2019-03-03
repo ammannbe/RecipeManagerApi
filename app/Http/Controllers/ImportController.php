@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ImportFormRequest;
 use App\Helpers\KremlParser;
 use App\Helpers\FormatHelper;
+use App\Helpers\FormHelper;
 use App\Cookbook;
 use App\Author;
 use App\Category;
@@ -24,7 +25,9 @@ class ImportController extends Controller
 
         if (isset($input['cookbook']) && $input['cookbook']) {
             if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-                $cookbook = Cookbook::create(['name' => $input['cookbook'], 'user_id' => Auth::user()->id]);
+                return redirect('/recipes/import')
+                    ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                    ->withInput();
             }
         }
 
@@ -37,8 +40,9 @@ class ImportController extends Controller
         if (method_exists($this, $call)) {
             return $this->$call($file['content'], $cookbook);
         } else {
-            \Toast::error('Dieses Format wird nicht unterstützt.');
-            return redirect('/recipes/import');
+            return redirect('/recipes/import')
+                ->withErrors(['Dieses Format wird nicht unterstützt.'])
+                ->withInput();
         }
     }
 
@@ -90,15 +94,17 @@ class ImportController extends Controller
                 }
             }
 
+            $syncCategories = NULL;
             foreach ($parsedRecipe['categories'] as $categoryName) {
                 if (! $category = Category::where(['name' => $categoryName])->get()->first()) {
                     $category = Category::create(['name' => $categoryName]);
                 }
-                $recipe->categories()->sync($category->id);
+                $syncCategories[] = $category->id;
             }
+            $recipe->categories()->sync($syncCategories);
         }
 
-        \Toast::info('Rezept(e) wurden importiert.');
+        \Toast::info('Rezepte wurden importiert.');
         return redirect('/');
     }
 
