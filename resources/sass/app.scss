@@ -7,6 +7,7 @@
 @import 'layouts/icons';
 @import 'layouts/form';
 @import 'layouts/forms/recipe';
+@import 'layouts/forms/switch';
 @import 'layouts/toast';
 @import 'layouts/colors';
 @import 'layouts/pagination';
@@ -66,4 +67,8 @@ section.content {
     @media (max-width: 412px) {
         padding: 0;
     }
+}
+
+.hidden {
+    visibility: hidden;
 }

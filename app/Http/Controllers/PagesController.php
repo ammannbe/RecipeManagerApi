@@ -14,7 +14,7 @@ class PagesController extends Controller
         return view('index', compact('recipes'));
     }
 
-    public function searchForm($default = NULL) {
+    public function searchForm($default = 'recipe') {
         $tables = [
             'author'        => 'Autoren',
             'category'      => 'Kategorien',

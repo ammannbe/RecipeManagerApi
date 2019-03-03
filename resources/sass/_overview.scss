@@ -36,15 +36,6 @@ section.content.overview {
             justify-content: center;
         }
 
-        .manage {
-            @media (max-width: 370px) { display: none; }
-
-            @extend %flexbox-column;
-            justify-content: start;
-            padding: 0;
-            margin-left: 10px;
-        }
-
         .image, .info {
             display: inline-block;
         }

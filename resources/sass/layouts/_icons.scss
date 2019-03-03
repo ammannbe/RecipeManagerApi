@@ -86,3 +86,18 @@
     @extend %icons;
     content: "\0231B";
 }
+
+.bust::before {
+    @extend %icons;
+    content: "\1F464";
+}
+
+.hammer-and-wrench::before {
+    @extend %icons;
+    content: "\1F6E0";
+}
+
+.fork-with-knife-and-plate::before {
+    @extend %icons;
+    content: "\1F37D";
+}

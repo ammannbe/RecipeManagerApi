@@ -19,7 +19,7 @@
                     'max'   => 99999999,
                     'size'  => 8,
                     'step'  => '0.25',
-                    'placeholder' => 50,
+                    'placeholder' => 'z.B. 50',
                     'autofocus']) !!}
             </div>
 
@@ -28,7 +28,7 @@
                     'maxlength'     => 200,
                     'class'         => 'text-input',
                     'autocomplete'  => 'off',
-                    'placeholder'   => 'Gramm']) !!}
+                    'placeholder'   => 'z.B. Gramm']) !!}
                 {!! FormHelper::jsDropdown($units) !!}
             </div>
 
@@ -37,7 +37,7 @@
                     'maxlength'     => 200,
                     'class'         => 'text-input',
                     'autocomplete'  => 'off',
-                    'placeholder'   => 'Mandeln',
+                    'placeholder'   => 'z.B. Mandeln',
                     'required']) !!}
                 {!! FormHelper::jsDropdown($ingredients) !!}</li>
             </div>
@@ -47,7 +47,7 @@
                     'maxlength'     => 200,
                     'class'         => 'text-input',
                     'autocomplete'  => 'off',
-                    'placeholder'   => 'gehackt']) !!}
+                    'placeholder'   => 'z.B. gehackt']) !!}
                 {!! FormHelper::jsDropdown($preps) !!}
             </div>
         {!! FormHelper::close() !!}
@@ -59,7 +59,8 @@
                 {!! Form::text('ingredient_detail_group', NULL, [
                     'maxlength'     => 200,
                     'class'         => 'text-input',
-                    'autocomplete'  => 'off']) !!}
+                    'autocomplete'  => 'off',
+                    'placeholder'   => 'z.B. Sauce']) !!}
                 {!! FormHelper::jsDropdown($ingredientDetailGroups) !!}
             </div>
         {!! FormHelper::close() !!}
@@ -67,7 +68,7 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Alternative') !!}
+                {!! Form::label('Alternative zu dieser Zutat') !!}
                 {!! Form::select('ingredient_detail_id', array_merge([NULL], $ingredientDetailsAlternate)) !!}
             </div>
         {!! FormHelper::close() !!}

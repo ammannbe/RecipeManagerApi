@@ -24,6 +24,9 @@ php artisan config:cache
 php artisan route:cache
 ```
 
+**If you have problems on login, try to remove the config cache:**
+`php artisan config:clear`
+
 ## Update Database (on updates)
 ```
 php artisan migrate
