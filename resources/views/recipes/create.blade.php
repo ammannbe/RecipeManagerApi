@@ -20,8 +20,8 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
                 {!! FormHelper::group('input') !!}
+                    {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
                     {!! Form::text('cookbook', reset($cookbooks), [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
@@ -32,8 +32,8 @@
             </div>
 
             <div>
-                {!! Form::label('Autor', NULL) !!}
                 {!! FormHelper::group('input') !!}
+                    {!! Form::label('Autor', NULL) !!}
                     {!! Form::text('author', NULL, [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
