@@ -29,7 +29,7 @@
 
             <div>
                 {!! Form::label('Autor') !!}
-                {!! Form::text('author', (isset($authors) ? $authors[$recipe->author_id] : NULL), [
+                {!! Form::text('author', ($recipe->author_id ? $authors[$recipe->author_id] : NULL), [
                     'maxlength' => 200,
                     'class' => 'text-input',
                     'autocomplete' => 'off']) !!}
