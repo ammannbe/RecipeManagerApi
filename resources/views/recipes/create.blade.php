@@ -22,11 +22,10 @@
             <div>
                 {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
                 {!! FormHelper::group('input') !!}
-                    {!! Form::text('cookbook', NULL, [
+                    {!! Form::text('cookbook', reset($cookbooks), [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
                         'autocomplete'  => 'off',
-                        'placeholder'   => 'Narrenhaus',
                         'required']) !!}
                     {!! FormHelper::jsDropdown($cookbooks) !!}
                 {!! FormHelper::close() !!}
@@ -39,7 +38,7 @@
                         'maxlength'     => 200,
                         'class'         => 'text-input',
                         'autocomplete'  => 'off',
-                        'placeholder'   => 'Benjamin Ammann']) !!}
+                        'placeholder'   => NULL]) !!}
                     {!! FormHelper::jsDropdown($authors) !!}
                 {!! FormHelper::close() !!}
             </div>
@@ -80,7 +79,7 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('photo', 'Foto (max 2MB)') !!}
+                {!! Form::label('photo', 'Foto (max. 2MB)') !!}
                 {!! Form::file('photo') !!}
                 {!! Form::hidden('MAX_FILE_SIZE', '2097152') !!}
             </div>
