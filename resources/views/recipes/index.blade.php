@@ -47,24 +47,39 @@
     @endif
 
     <article class="info">
-        <div>
-            <h2>Kochbuch</h2>
-            <span>{{ $recipe->cookbook->name }}</span>
-        </div>
-        @if (isset($recipe->author->name))
-            <div>
-                <h2>Autor</h2>
-                <span>{{ $recipe->author->name }}</span>
-            </div>
-        @endif
-        <div>
-            <h2>Kategorien</h2>
-            <ul>
-                @foreach ($recipe->categories as $category)
-                    <li>{{ $category->name }}</li>
-                @endforeach
-            </ul>
-        </div>
+        <h2>Details</h2>
+        <table>
+            @if ($recipe->cookbook)
+                <tr>
+                    <th>Kochbuch:</th>
+                    <td>{{ $recipe->cookbook->name }}</td>
+                </tr>
+            @endif
+            @if ($recipe->author)
+                <tr>
+                    <th>Autor:</th>
+                    <td>{{ $recipe->author->name }}</td>
+                </tr>
+            @endif
+            @if ($recipe->category)
+                <tr>
+                    <th>Kategorie:</th>
+                    <td>{{ $recipe->category->name }}</td>
+                </tr>
+            @endif
+            @if ($recipe->yield_amount)
+                <tr>
+                    <th>Portionen:</th>
+                    <td>{{ $recipe->yield_amount }}</td>
+                </tr>
+            @endif
+            @if ($recipe->preparation_time)
+                <tr>
+                    <th>Zubereitungszeit:</th>
+                    <td>{{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</td>
+                </tr>
+            @endif
+        </table>
     </article>
 
     <article class="ingredients">
@@ -129,19 +144,6 @@
     </article>
 
     <article class="instructions">
-        <h2>Zubereitung</h2>
-        <ul>
-            @php
-                if (($recipe->yield_amount && $recipe->yield_amount_max) &&
-                    ($recipe->yield_amount != $recipe->yield_amount_max)) {
-                        $recipe->yield_amount_text = "{$recipe->yield_amount} - {$recipe->yield_amount_max}";
-                } else {
-                    $recipe->yield_amount_text = "{$recipe->yield_amount}";
-                }
-            @endphp
-            <li>Portionen: {{ $recipe->yield_amount_text }}</li>
-            <li>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
-        </ul>
         <p>
             {!! nl2br(e($recipe->instructions)) !!}
         </p>

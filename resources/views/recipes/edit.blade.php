@@ -41,19 +41,15 @@
         {!! FormHelper::close() !!}
 
 
-        @php
-            $selectedCategories = [];
-            foreach ($recipe->categories as $category) {
-                array_push($selectedCategories, $category->id);
-            }
-        @endphp
-
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kategorien') !!}
-                {!! Form::select('categories[]', $categories, $selectedCategories, [
-                    'multiple',
-                    'size' => 7]) !!}
+                {!! Form::label('Kategorie', NULL, ['class' => 'required']) !!}
+                {!! Form::text('category', ($recipe->category_id ? $categories[$recipe->category_id] : NULL), [
+                    'maxlength'     => 50,
+                    'class'         => 'text-input',
+                    'autocomplete'  => 'off',
+                    'required']) !!}
+                {!! FormHelper::jsDropdown($categories) !!}
             </div>
 
             <div>

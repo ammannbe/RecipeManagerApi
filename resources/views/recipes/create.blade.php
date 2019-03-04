@@ -47,11 +47,13 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kategorien', NULL, ['class' => 'required']) !!}
-                {!! Form::select('categories[]', $categories, NULL, [
-                    'multiple'  => 'multiple',
-                    'size'      => 5,
+                {!! Form::label('Kategorie', NULL, ['class' => 'required']) !!}
+                {!! Form::text('category', NULL, [
+                    'maxlength'     => 50,
+                    'class'         => 'text-input',
+                    'autocomplete'  => 'off',
                     'required']) !!}
+                {!! FormHelper::jsDropdown($categories) !!}
             </div>
 
             <div>

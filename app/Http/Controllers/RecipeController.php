@@ -80,6 +80,15 @@ class RecipeController extends Controller
             $recipe->author_id = $author->id;
         }
 
+        if (isset($input['category']) && $input['category']) {
+            if (! $category = Category::where('name', $input['category'])->first()) {
+                return redirect('/recipes/create')
+                    ->withErrors(['Diese Kategorie existiert nicht!'])
+                    ->withInput();
+            }
+            $recipe->category_id = $category->id;
+        }
+
         $recipe->user_id            = $user->id;
         $recipe->name               = $input['name'];
         $recipe->yield_amount       = $input['yield_amount'];
@@ -90,10 +99,8 @@ class RecipeController extends Controller
 
         $recipe->instructions       = $input['instructions'];
         $recipe->preparation_time   = $input['preparation_time'];
-        $recipe->save();
 
-        if ($recipe->id) {
-            $recipe->categories()->attach($input['categories']);
+        if ($recipe->save()) {
             \Toast::success('Rezept erfolgreich erstellt');
             return redirect('recipes/'.$recipe->id);
         } else {
@@ -140,6 +147,14 @@ class RecipeController extends Controller
             $recipe->author_id = NULL;
         }
 
+        if (! $category = Category::where('name', $input['category'])->first()) {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Diese Kategorie existiert nicht!'])
+                ->withInput();
+        } else {
+            $recipe->category_id = $category->id;
+        }
+
         if (isset($input['yield_amount']) && $input['yield_amount']) {
             $recipe->yield_amount = $input['yield_amount'];
         }
@@ -172,8 +187,6 @@ class RecipeController extends Controller
         }
 
         if ($recipe->update()) {
-            (isset($input['categories']) ? $categories = $input['categories'] : $categories = NULL);
-            $recipe->categories()->sync($categories);
             \Toast::success('Rezept erfolgreich aktualisiert.');
             return redirect('recipes/'.$recipe->id);
         } else {

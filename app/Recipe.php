@@ -11,7 +11,7 @@ class Recipe extends Model
     public static function setDetails(Recipe &$recipe) {
         $recipe->author;
         $recipe->cookbook;
-        $recipe->categories;
+        $recipe->category;
         $recipe->ingredientDetails;
         $recipe->ratings;
 
@@ -39,8 +39,8 @@ class Recipe extends Model
         return $this->belongsTo('\App\Author');
     }
 
-    public function categories() {
-        return $this->belongsToMany('\App\Category');
+    public function category() {
+        return $this->belongsTo('\App\Category');
     }
 
     public function ingredientDetails() {

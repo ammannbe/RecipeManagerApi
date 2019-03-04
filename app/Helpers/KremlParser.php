@@ -41,7 +41,7 @@ class KremlParser extends Model
                 'yieldAmount'       => $yieldAmount,
                 'yieldAmountMax'    => $yieldAmountMax,
                 'instructions'      => (isset($kremlRecipe['krecipes-instructions'])  ? trim($kremlRecipe['krecipes-instructions'])  : NULL),
-                'categories'        => self::categories($kremlDescriptions['category']['cat']),
+                'category'          => $kremlDescriptions['category']['cat'],
             ];
 
             end($recipes);
@@ -92,19 +92,6 @@ class KremlParser extends Model
 
         }
         return $recipes;
-    }
-
-    private static function categories($kremlCategories) {
-        if (is_null($kremlCategories)) {
-            return [];
-        }
-        if (is_string($kremlCategories)) {
-            $kremlCategories = explode(',', $kremlCategories);
-        }
-        foreach ($kremlCategories as $kremlCategory) {
-            $categories[] = trim($kremlCategory);
-        }
-        return $categories;
     }
 
     private static function ingredientDetails(Array $kremlIngredientDetails) {

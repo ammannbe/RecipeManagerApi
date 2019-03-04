@@ -26,6 +26,7 @@ class RecipeFormRequest extends FormRequest
         return [
             'name'              => ['required', 'string'],
             'cookbook'          => ['required', 'string'],
+            'category'          => ['required', 'string'],
             'author'            => ['nullable', 'string'],
             'yield_amount'      => ['nullable', 'numeric'],
             'yield_amount_max'  => ['nullable', 'numeric'],

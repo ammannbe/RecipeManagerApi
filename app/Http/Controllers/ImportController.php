@@ -65,6 +65,10 @@ class ImportController extends Controller
                 }
             }
 
+            if (! $category = Category::where(['name' => $parsedRecipe['category']])->get()->first()) {
+                $category = Category::create(['name' => $parsedRecipe['category']]);
+            }
+
             if (isset($parsedRecipe['photo'])) {
                 $parsedRecipe['photo']['name'] = time().'-'.FormatHelper::slugify($parsedRecipe['name']).'.'.$parsedRecipe['photo']['extension'];
                 $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
@@ -79,10 +83,10 @@ class ImportController extends Controller
             $recipe = Recipe::create([
                 'author_id'         => (isset($author->id) ? $author->id : NULL),
                 'cookbook_id'       => $cookbook->id,
+                'category_id'       => $category->id,
                 'user_id'           => Auth::user()->id,
                 'name'              => $parsedRecipe['name'],
                 'yield_amount'      => $parsedRecipe['yieldAmount'],
-                'yield_amount_max'  => $parsedRecipe['yieldAmountMax'],
                 'instructions'      => $parsedRecipe['instructions'],
                 'photo'             => $parsedRecipe['photo']['name'],
                 'preparation_time'  => $parsedRecipe['preparationTime'],
@@ -93,15 +97,6 @@ class ImportController extends Controller
                     $this->mapIngredientDetail($recipe, $parsedIngredientDetail);
                 }
             }
-
-            $syncCategories = NULL;
-            foreach ($parsedRecipe['categories'] as $categoryName) {
-                if (! $category = Category::where(['name' => $categoryName])->get()->first()) {
-                    $category = Category::create(['name' => $categoryName]);
-                }
-                $syncCategories[] = $category->id;
-            }
-            $recipe->categories()->sync($syncCategories);
         }
 
         \Toast::info('Rezepte wurden importiert.');

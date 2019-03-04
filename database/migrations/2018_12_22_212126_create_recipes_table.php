@@ -17,6 +17,7 @@ class CreateRecipesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('cookbook_id')->onDelete('cascade');
+            $table->unsignedInteger('category_id');
             $table->unsignedInteger('author_id')->nullable()->default(NULL);
             $table->string('name', 191);
             $table->decimal('yield_amount', 3, 0)->nullable()->default(4);
@@ -28,6 +29,7 @@ class CreateRecipesTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('cookbook_id')->references('id')->on('recipes');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('author_id')->references('id')->on('authors');
         });
     }
