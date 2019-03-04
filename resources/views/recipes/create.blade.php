@@ -26,8 +26,7 @@
                         'maxlength'     => 200,
                         'class'         => 'text-input',
                         'autocomplete'  => 'off',
-                        'required']) !!}
-                    {!! FormHelper::jsDropdown($cookbooks) !!}
+                        'required', 'readonly']) !!}
                 {!! FormHelper::close() !!}
             </div>
 
