@@ -93,10 +93,6 @@ class RecipeController extends Controller
         $recipe->name               = $input['name'];
         $recipe->yield_amount       = $input['yield_amount'];
 
-        if ($recipe->yield_amount != $recipe->yield_amount_max) {
-            $recipe->yield_amount_max = $input['yield_amount_max'];
-        }
-
         $recipe->instructions       = $input['instructions'];
         $recipe->preparation_time   = $input['preparation_time'];
 
@@ -157,10 +153,6 @@ class RecipeController extends Controller
 
         if (isset($input['yield_amount']) && $input['yield_amount']) {
             $recipe->yield_amount = $input['yield_amount'];
-        }
-
-        if (isset($input['yield_amount_max']) && $input['yield_amount_max']) {
-            $recipe->yield_amount_max = $input['yield_amount_max'];
         }
 
         if (isset($input['instructions']) && $input['instructions']) {

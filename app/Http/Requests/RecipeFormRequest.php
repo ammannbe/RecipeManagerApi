@@ -29,7 +29,6 @@ class RecipeFormRequest extends FormRequest
             'category'          => ['required', 'string'],
             'author'            => ['nullable', 'string'],
             'yield_amount'      => ['nullable', 'numeric'],
-            'yield_amount_max'  => ['nullable', 'numeric'],
             'instructions'      => ['required', 'string'],
             'photo'             => ['nullable', 'image'],
         ];
