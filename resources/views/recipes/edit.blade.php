@@ -33,10 +33,7 @@
                     'maxlength' => 200,
                     'class' => 'text-input',
                     'autocomplete' => 'off']) !!}
-
-                @if (isset($authors))
-                    {!! FormHelper::jsDropdown($authors) !!}
-                @endif
+                {!! FormHelper::jsDropdown($authors) !!}
             </div>
         {!! FormHelper::close() !!}
 

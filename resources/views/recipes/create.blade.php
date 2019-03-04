@@ -36,8 +36,7 @@
                     {!! Form::text('author', NULL, [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
-                        'autocomplete'  => 'off',
-                        'placeholder'   => NULL]) !!}
+                        'autocomplete'  => 'off']) !!}
                     {!! FormHelper::jsDropdown($authors) !!}
                 {!! FormHelper::close() !!}
             </div>
