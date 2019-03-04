@@ -22,6 +22,21 @@ Form.disableEditMode = function() {
     $('.edit-mode.item').addClass('hidden');
 }
 
+Form.dropdown = function(event, $element) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent hide on $(window).click
+
+    var $listInput = $element.siblings('ul.js-dropdown');
+    if ($listInput.is(':visible')) {
+        $listInput.removeClass('show');
+        $listInput.addClass('hidden');
+    } else {
+        $listInput.removeClass('hidden');
+        $listInput.addClass('show');
+    }
+    $listInput.children('li').show();
+}
+
 $(document).ready(function () {
     var cssFormPath = '.form form';
 
@@ -66,16 +81,6 @@ $(document).ready(function () {
     });
 
     $(cssFormPath + ' button.arrow-down').click(function(event) {
-        event.preventDefault();
-        event.stopPropagation(); // Prevent hide on $(window).click
-        var $listInput = $(this).siblings('ul.js-dropdown');
-        if ($listInput.is(':visible')) {
-            $listInput.removeClass('show');
-            $listInput.addClass('hidden');
-        } else {
-            $listInput.removeClass('hidden');
-            $listInput.addClass('show');
-        }
-        $listInput.children('li').show();
+        Form.dropdown(event, $(this));
     });
 });
