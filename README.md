@@ -4,7 +4,7 @@ Homepage for Cookbooks
 
 Written with laravel
 
-# Deploy on i-MSCP
+# Deploy on Webserver with SSH access
 
 ## Clone Repo
 ### On new installation
@@ -16,6 +16,10 @@ git clone http://haumea.narrenhaus.local:3000/Narrenhaus/Cookbook.git
 ```
 git pull
 ```
+
+## Setup .env file
+- Edit `.env.example` to your needs
+- Rename `.env.example` to `.env`
 
 ## Clear cache and Optimization
 ```
