@@ -29,7 +29,7 @@
                 @if ($isRecipeOwner)
                     <li class="edit-mode item hidden"><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li>
                     <li class="edit-mode item hidden">
-                        <a href="{{ url('/recipes/delete/'.$recipe->id) }}">
+                        <a class="delete confirm" href="{{ url('/recipes/delete/'.$recipe->id) }}">
                             <i class="cross red"></i>
                             Löschen
                         </a>
@@ -107,7 +107,7 @@
                         @endif
                         @auth
                             @if ($isRecipeOwner)
-                                <a class="edit-mode item hidden" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                             @endif
                         @endauth
                     </li>
@@ -132,7 +132,7 @@
                                 @endif
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a class="edit-mode item hidden" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                        <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                                     @endif
                                 @endauth
                             </li>
@@ -182,7 +182,7 @@
                     @if ($ratingOwner)
                         <div class="manage">
                             <a href="{{ url('ratings/edit/'.$rating->id) }}"><i class="pencil black big"></i></a>
-                            <a href="{{ url('ratings/delete/'.$rating->id) }}"><i class="cross red big"></i></a>
+                            <a class="delete confirm" href="{{ url('ratings/delete/'.$rating->id) }}"><i class="cross red big"></i></a>
                         </div>
                     @endif
                 @endauth

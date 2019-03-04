@@ -28,7 +28,7 @@
             @if (!isset($cookbookID) || $cookbookID != $recipe->cookbook->id)
                 <h4>{{ $recipe->cookbook->name }}
                     @if ($recipe->cookbook->user_id == Auth::user()->id)
-                        <a class="edit-mode item hidden" href="{{ url('/cookbooks/delete/'.$recipe->cookbook->id) }}"><i class="big red cross"></i></a>
+                        <a class="edit-mode item hidden delete confirm" href="{{ url('/cookbooks/delete/'.$recipe->cookbook->id) }}"><i class="big red cross"></i></a>
                     @endif
                 </h4>
             @endif
