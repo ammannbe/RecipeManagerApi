@@ -20,7 +20,7 @@
     <article class="manage">
         @auth
             @if ($isRecipeOwner)
-                Verwaltung {!! FormHelper::switch('edit-mode switch') !!}
+                Bearbeiten {!! FormHelper::switch('edit-mode switch') !!}
             @endif
         @endauth
 

@@ -9,7 +9,7 @@
 
     @auth
         <article class="manage">
-            Verwaltung {!! FormHelper::switch('edit-mode switch') !!}
+            Bearbeiten {!! FormHelper::switch('edit-mode switch') !!}
         </article>
     @endauth
 
