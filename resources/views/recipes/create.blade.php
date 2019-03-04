@@ -61,11 +61,6 @@
             </div>
 
             <div>
-                {!! Form::label('Portionen maximal') !!}
-                {!! Form::number('yield_amount_max', 4, ['max' => 999, 'size' => 3]) !!}
-            </div>
-
-            <div>
                 {!! Form::label('Zubereitungszeit') !!}
                 {!! Form::time('preparation_time', NULL) !!}
             </div>
