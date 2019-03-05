@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\IngredientDetail;
 use App\Unit;
 
-class RecipeHelper extends Model
+class RecipeHelper
 {
 
     public static function beautifyIngredientDetail(IngredientDetail $ingredientDetail) {

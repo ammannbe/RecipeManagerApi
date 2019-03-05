@@ -2,9 +2,7 @@
 
 namespace App\Helpers;
 
-use Illuminate\Database\Eloquent\Model;
-
-class CodeHelper extends Model
+class CodeHelper
 {
     public static function any($arguments) {
         $arguments = func_get_args();

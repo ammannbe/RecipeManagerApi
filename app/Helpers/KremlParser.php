@@ -3,9 +3,7 @@
 namespace App\Helpers;
 use Parser;
 
-use Illuminate\Database\Eloquent\Model;
-
-class KremlParser extends Model
+class KremlParser
 {
 
     public static function parse(String $kreml) {
