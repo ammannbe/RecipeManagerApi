@@ -28,11 +28,12 @@
             </div>
 
             <div>
-                {!! Form::label('Autor') !!}
+                {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
                 {!! Form::text('author', ($recipe->author_id ? $authors[$recipe->author_id] : NULL), [
-                    'maxlength' => 200,
-                    'class' => 'text-input',
-                    'autocomplete' => 'off']) !!}
+                    'maxlength'    => 200,
+                    'class'        => 'text-input',
+                    'autocomplete' => 'off',
+                    'required']) !!}
                 {!! FormHelper::jsDropdown($authors) !!}
             </div>
         {!! FormHelper::close() !!}

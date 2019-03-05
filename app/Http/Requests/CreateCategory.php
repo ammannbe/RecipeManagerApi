@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PrepFormRequest extends FormRequest
+class CreateCategory extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class PrepFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'category_id'   => ['nullable', 'integer'],
+            'name'          => ['required', 'string'],
         ];
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use Auth;
 
-class EditUser extends FormRequest
+class CreateRating extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +24,8 @@ class EditUser extends FormRequest
     public function rules()
     {
         return [
-            'name'             => ['required', 'max:255'],
-            'email'            => ['required', 'max:255', 'email', 'unique:users,email,'.Auth::user()->id],
-            'current_password' => ['nullable', 'max:255'],
-            'new_password'     => ['nullable', 'required_with:current_password', 'max:255', 'confirmed', 'min:6'],
+            'rating_criterion' => ['required', 'string'],
+            'comment'          => ['required', 'string'],
         ];
     }
 }

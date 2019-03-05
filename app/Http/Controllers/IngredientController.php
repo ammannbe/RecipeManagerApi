@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\IngredientFormRequest;
+use App\Http\Requests\CreateIngredient as CreateIngredientFormRequest;
 use App\Helpers\FormHelper;
 use App\Ingredient;
 
@@ -13,10 +12,8 @@ class IngredientController extends Controller
         return view('ingredients.create');
     }
 
-    public function create(IngredientFormRequest $request) {
-        $input = $request->all();
-        $ingredient = Ingredient::create($input);
-        if ($ingredient->id) {
+    public function create(CreateIngredientFormRequest $request) {
+        if (Ingredient::create($request->all())) {
             \Toast::success('Zutat erfolgreich erstellt');
             return view('ingredients.create');
         } else {

@@ -2,11 +2,21 @@
 
 namespace App;
 
+use App\RatingCriterion;
 use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
-    protected $fillable = ['cookbook_id', 'author_id', 'name', 'yield_amount', 'instructions', 'photo', 'preparation_time', 'user_id'];
+    protected $fillable = [
+        'cookbook_id',
+        'author_id',
+        'name',
+        'yield_amount',
+        'instructions',
+        'photo',
+        'preparation_time',
+        'user_id'
+    ];
 
     public static function setDetails(Recipe &$recipe) {
         $recipe->author;
@@ -17,7 +27,7 @@ class Recipe extends Model
 
         foreach ($recipe->ratings as $rating) {
             if ($rating->rating_criterion_id) {
-                $rating->criterion = \App\RatingCriterion::find($rating->rating_criterion_id);
+                $rating->criterion = RatingCriterion::find($rating->rating_criterion_id);
             }
         }
 
@@ -47,17 +57,13 @@ class Recipe extends Model
         return $this->hasMany('\App\IngredientDetail')->orderBy('position');
     }
 
-/*     public function ingredientDetailGroups() {
-        return $this->hasMany('\App\IngredientDetailGroup');
-    } */
-
     public function ratings() {
         return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
     }
 
     public function search($term) {
         return $this->where('instructions', 'LIKE', '%'.$term.'%')
-                    ->orWhere('name', 'LIKE', '%'.$term.'%')
-                    ->get();
+            ->orWhere('name', 'LIKE', '%'.$term.'%')
+            ->get();
     }
 }

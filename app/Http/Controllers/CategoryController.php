@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\CategoryFormRequest;
+use App\Http\Requests\CreateCategory as CreateCategoryFormRequest;
 use App\Helpers\FormHelper;
 use App\Category;
 use Auth;
@@ -14,10 +13,8 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    public function create(CategoryFormRequest $request) {
-        $input = $request->all();
-        $category = Category::create($input);
-        if ($category->id) {
+    public function create(CreateCategoryFormRequest $request) {
+        if (Category::create($request->all())) {
             \Toast::success('Kategorie erfolgreich erstellt');
             return view('categories.create');
         } else {

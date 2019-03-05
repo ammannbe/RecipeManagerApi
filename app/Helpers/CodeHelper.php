@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class CodeHelper
 {
     public static function any($arguments) {
@@ -21,5 +23,23 @@ class CodeHelper
         if ($array[$index] == 0)     return NULL;
 
         return $array[$index];
+    }
+
+    public static function getCollectionProperty(Collection $collections, String $property = 'name') {
+        $array = [];
+        foreach ($collections as $collection) {
+            $array[$collection->id] = $collection->{$property};
+        }
+        return $array;
+    }
+
+    public static function getObjectProperty(String $model, String $value = NULL, String $property = 'id', String $where = 'name') {
+        $class = '\\App\\'.$model;
+        $object = $class::where($where, $value)->first();
+        if ($object) {
+            return $object->{$property};
+        } else {
+            return NULL;
+        }
     }
 }

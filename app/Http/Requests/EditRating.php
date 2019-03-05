@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CookbookFormRequest extends FormRequest
+class EditRating extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CookbookFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,7 +24,8 @@ class CookbookFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'rating_criterion' => ['required', 'string'],
+            'comment'          => ['required', 'string'],
         ];
     }
 }

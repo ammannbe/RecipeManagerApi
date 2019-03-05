@@ -21,10 +21,8 @@ use Auth;
 class ImportController extends Controller
 {
     public function index(ImportFormRequest $request) {
-        $input = $request->all();
-
-        if (isset($input['cookbook']) && $input['cookbook']) {
-            if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
+        if ($request->cookbook) {
+            if (! $cookbook = Cookbook::where('name', $request->cookbook)->first()) {
                 return redirect('/recipes/import')
                     ->withErrors(['Dieses Kochbuch existiert nicht!'])
                     ->withInput();
@@ -32,8 +30,8 @@ class ImportController extends Controller
         }
 
         $file = [
-            'content'   => file_get_contents($input['file']),
-            'extension' => $input['file']->getClientOriginalExtension(),
+            'content'   => file_get_contents($request->file),
+            'extension' => $request->file->getClientOriginalExtension(),
         ];
 
         $call = $file['extension'];

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\IngredientDetail;
+use App\Helpers\CodeHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class Ingredient extends Model
@@ -11,7 +13,7 @@ class Ingredient extends Model
     public function search($name) {
         $ingredients = $this->where('name', 'LIKE', '%'.$name.'%')->get();
         foreach ($ingredients as $ingredient) {
-            $ingredientDetails = \App\IngredientDetail::where('ingredient_id', '=', $ingredient->id)->get();
+            $ingredientDetails = IngredientDetail::where('ingredient_id', $ingredient->id)->get();
             foreach ($ingredientDetails as $ingredientDetail) {
                 $result[$ingredientDetail->id] = $ingredientDetail;
             }

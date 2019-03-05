@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CookbookFormRequest;
+use App\Http\Requests\CreateCookbook as CreateCookbookFormRequest;
 use App\Helpers\FormHelper;
 use App\Cookbook;
 use Auth;
@@ -14,11 +14,10 @@ class CookbookController extends Controller
         return view('cookbooks.create');
     }
 
-    public function create(CookbookFormRequest $request) {
+    public function create(CreateCookbookFormRequest $request) {
         $input = $request->all();
         $input['user_id'] = Auth::user()->id;
-        $cookbook = Cookbook::create($input);
-        if ($cookbook->id) {
+        if (Cookbook::create($input)) {
             \Toast::success('Kochbuch erfolgreich erstellt');
             return view('cookbooks.create');
         } else {
@@ -27,7 +26,7 @@ class CookbookController extends Controller
     }
 
     public function delete(Cookbook $cookbook) {
-        if (Auth::user()->id == $cookbook->user_id) {
+        if (Auth::user()->id === $cookbook->user_id) {
             if ($cookbook->delete()) {
                 \Toast::success('Kochbuch erfolgreich gelöscht.');
                 return redirect('/profile');

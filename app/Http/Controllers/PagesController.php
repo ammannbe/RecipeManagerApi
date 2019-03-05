@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use App\Recipe;
 use App\Helpers\FormHelper;
-use \App\Recipe;
+use App\Http\Requests\Search as SearchFormRequest;
 
 class PagesController extends Controller
 {
@@ -25,14 +24,12 @@ class PagesController extends Controller
         return view('search.index', compact('tables', 'default'));
     }
 
-    public function search(Request $request) {
-        $item = $request->input('item');
-        $term = $request->input('term');
+    public function search(SearchFormRequest $request) {
+        $cname   = ucfirst($request->item);
+        $class   = '\\App\\' . $cname;
+        $object  = new $class;
+        $results = $object->search($request->term);
 
-        $cname = ucfirst($item);
-        $class = '\\App\\' . $cname;
-        $object = new $class;
-        $results = $object->search($term);
         foreach ($results as $result) {
             if ($cname == 'Recipe') {
                 $recipes[$result->id] = $result;
@@ -47,6 +44,7 @@ class PagesController extends Controller
                 }
             }
         }
+
         if (isset($recipes)) {
             return view('index', compact('recipes'));
             \Toast::clear();

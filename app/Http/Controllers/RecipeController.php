@@ -9,10 +9,12 @@ use App\Recipe;
 use App\Category;
 use App\Cookbook;
 use App\IngredientDetail;
+use App\Helpers\CodeHelper;
 use App\Helpers\FormHelper;
 use App\Helpers\FormatHelper;
 use App\Helpers\RecipeHelper;
-use App\Http\Requests\RecipeFormRequest;
+use App\Http\Requests\EditRecipe as EditRecipeFormRequest;
+use App\Http\Requests\CreateRecipe as CreateRecipeFormRequest;
 
 class RecipeController extends Controller
 {
@@ -34,67 +36,50 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
-        $cookbooks = [];
-        foreach (Cookbook::orderBy('name')->get() as $cookbook) {
-            $cookbooks[$cookbook->id] = $cookbook->name;
-        }
-
-        $authors = [];
-        foreach (Author::orderBy('name')->get() as $author) {
-            $authors[$author->id] = $author->name;
-        }
-
-        $categories = [];
-        foreach (Category::orderBy('name')->get() as $category) {
-            $categories[$category->id] = $category->name;
-        }
+        $cookbooks  = CodeHelper::getCollectionProperty(Cookbook::orderBy('name')->get());
+        $authors    = CodeHelper::getCollectionProperty(Author::orderBy('name')->get());
+        $categories = CodeHelper::getCollectionProperty(Category::orderBy('name')->get());
 
         return view('recipes.create', compact('authors', 'cookbooks', 'categories'));
     }
 
-    public function create(RecipeFormRequest $request) {
-        $input = $request->all();
-        $user = Auth::user();
+    public function create(CreateRecipeFormRequest $request) {
         $recipe = new Recipe();
 
-        if (isset($input['photo']) && $input['photo']) {
-            $recipe->photo = time().'-'.FormatHelper::slugify($input['name']).'.'.request()->photo->getClientOriginalExtension();
+        if ($request->photo) {
+            $recipe->photo = time() . '-' .
+                FormatHelper::slugify($request->name) . '.' .
+                request()->photo->getClientOriginalExtension();
+
             $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
 
-        if (isset($input['cookbook']) && $input['cookbook']) {
-            if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-                return redirect('/recipes/create')
-                    ->withErrors(['Dieses Kochbuch existiert nicht!'])
-                    ->withInput();
-            }
-            $recipe->cookbook_id = $cookbook->id;
+        $recipe->cookbook_id = CodeHelper::getObjectProperty('Cookbook', $request->cookbook);
+        if (! $recipe->cookbook_id) {
+            return redirect('/recipes/create')
+                ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                ->withInput();
         }
 
-        if (isset($input['author']) && $input['author']) {
-            if (! $author = Author::where('name', $input['author'])->first()) {
-                return redirect('/recipes/create')
-                    ->withErrors(['Dieser Author existiert nicht!'])
-                    ->withInput();
-            }
-            $recipe->author_id = $author->id;
+        $recipe->author_id = CodeHelper::getObjectProperty('Author', $request->author);
+        if (! $recipe->author_id) {
+            return redirect('/recipes/create')
+                ->withErrors(['Dieser Autor existiert nicht!'])
+                ->withInput();
         }
 
-        if (isset($input['category']) && $input['category']) {
-            if (! $category = Category::where('name', $input['category'])->first()) {
-                return redirect('/recipes/create')
-                    ->withErrors(['Diese Kategorie existiert nicht!'])
-                    ->withInput();
-            }
-            $recipe->category_id = $category->id;
+        $recipe->category_id = CodeHelper::getObjectProperty('Category', $request->category);
+        if (! $recipe->category_id) {
+            return redirect('/recipes/create')
+                ->withErrors(['Diese Kategorie existiert nicht!'])
+                ->withInput();
         }
 
-        $recipe->user_id            = $user->id;
-        $recipe->name               = $input['name'];
-        $recipe->yield_amount       = $input['yield_amount'];
-
-        $recipe->instructions       = $input['instructions'];
-        $recipe->preparation_time   = $input['preparation_time'];
+        $recipe->user_id          = Auth::user()->id;
+        $recipe->name             = $request->name;
+        $recipe->yield_amount     = $request->yield_amount;
+        $recipe->instructions     = $request->instructions;
+        $recipe->preparation_time = $request->preparation_time;
 
         if ($recipe->save()) {
             \Toast::success('Rezept erfolgreich erstellt');
@@ -105,75 +90,57 @@ class RecipeController extends Controller
     }
 
     public function editForm(Recipe $recipe) {
-        foreach (Cookbook::orderBy('name')->get() as $cookbook) {
-            $cookbooks[$cookbook->id] = $cookbook->name;
-        }
-
-        foreach (Author::orderBy('name')->get() as $author) {
-            $authors[$author->id] = $author->name;
-        }
-
-        foreach (Category::orderBy('name')->get() as $category) {
-            $categories[$category->id] = $category->name;
-        }
+        $cookbooks  = CodeHelper::getCollectionProperty(Cookbook::orderBy('name')->get());
+        $authors    = CodeHelper::getCollectionProperty(Author::orderBy('name')->get());
+        $categories = CodeHelper::getCollectionProperty(Category::orderBy('name')->get());
 
         return view('recipes.edit', compact('recipe', 'authors', 'cookbooks', 'categories'));
     }
 
-    public function edit(RecipeFormRequest $request, Recipe $recipe) {
-        $input = $request->all();
-
-        if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-            return redirect('/recipes/edit/'.$recipe->id)
-                ->withErrors(['Dieses Kochbuch existiert nicht!'])
-                ->withInput();
-        } else {
-            $recipe->cookbook_id = $cookbook->id;
+    public function edit(EditRecipeFormRequest $request, Recipe $recipe) {
+        if ($request->yield_amount) {
+            $recipe->yield_amount = $request->yield_amount;
         }
 
-        if (isset($input['author']) && $input['author']) {
-            if (! $author = Author::where('name', $input['author'])->first()) {
-                return redirect('/recipes/edit/'.$recipe->id)
-                    ->withErrors(['Dieser Author existiert nicht!'])
-                    ->withInput();
-            } else {
-                $recipe->author_id = $author->id;
-            }
-        } else {
-            $recipe->author_id = NULL;
+        if ($request->preparation_tme) {
+            $recipe->preparation_tme = $request->preparation_tme;
         }
 
-        if (! $category = Category::where('name', $input['category'])->first()) {
-            return redirect('/recipes/edit/'.$recipe->id)
-                ->withErrors(['Diese Kategorie existiert nicht!'])
-                ->withInput();
-        } else {
-            $recipe->category_id = $category->id;
-        }
-
-        if (isset($input['yield_amount']) && $input['yield_amount']) {
-            $recipe->yield_amount = $input['yield_amount'];
-        }
-
-        if (isset($input['instructions']) && $input['instructions']) {
-            $recipe->instructions = $input['instructions'];
-        } else {
+        $recipe->instructions = $request->instructions;
+        if (! $recipe->instructions) {
             return redirect('/recipes/edit/'.$recipe->id)
                 ->withErrors(['Die Zubereitung fehlt!'])
                 ->withInput();
         }
 
-        if (isset($input['preparation_tme']) && $input['preparation_tme']) {
-            $recipe->preparation_tme = $input['preparation_tme'];
+        $recipe->cookbook_id = CodeHelper::getObjectProperty('Cookbook', $request->cookbook);
+        if (! $recipe->cookbook_id) {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Dieses Kochbuch existiert nicht!'])
+                ->withInput();
         }
 
-        if (isset($input['delete_photo']) && !isset($input['photo'])) {
+        $recipe->author_id = CodeHelper::getObjectProperty('Author', $request->author);
+        if (! $recipe->cookbook_id && $request->author) {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Dieser Author existiert nicht!'])
+                ->withInput();
+        }
+
+        $recipe->category_id = CodeHelper::getObjectProperty('Category', $request->category);
+        if (! $recipe->cookbook_id) {
+            return redirect('/recipes/edit/'.$recipe->id)
+                ->withErrors(['Dieses Kategorie existiert nicht!'])
+                ->withInput();
+        }
+
+        if ($request->delete_photo && !$request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
             $recipe->photo = NULL;
-        } elseif(isset($input['photo'])) {
+        } elseif($request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
 
-            $nameSlug = FormatHelper::slugify($input['name']);
+            $nameSlug = FormatHelper::slugify($request->name);
             $recipe->photo = $nameSlug.'-'.time().'.'.request()->photo->getClientOriginalExtension();
             $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
@@ -187,7 +154,7 @@ class RecipeController extends Controller
     }
 
     public function delete(Recipe $recipe) {
-        if (Auth::user()->id == $recipe->user_id) {
+        if (Auth::user()->id === $recipe->user_id) {
             if ($recipe->delete()) {
                 File::delete(public_path().'/images/recipes/'.$recipe->photo);
 
@@ -197,9 +164,7 @@ class RecipeController extends Controller
                 abort(500);
             }
         } else {
-            return redirect('/recipes/'.$recipe->id)
-                ->withErrors(['Du hast kein Recht dieses Rezept zu löschen.'])
-                ->withInput();
+            abort(403);
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Database\Eloquent\Model;
 use App\IngredientDetail;
 use App\Unit;
 

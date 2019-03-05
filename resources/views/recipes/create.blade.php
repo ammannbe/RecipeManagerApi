@@ -32,11 +32,12 @@
 
             <div>
                 {!! FormHelper::group('input') !!}
-                    {!! Form::label('Autor', NULL) !!}
+                    {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
                     {!! Form::text('author', NULL, [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
-                        'autocomplete'  => 'off']) !!}
+                        'autocomplete'  => 'off',
+                        'required']) !!}
                     {!! FormHelper::jsDropdown($authors) !!}
                 {!! FormHelper::close() !!}
             </div>

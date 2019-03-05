@@ -8,14 +8,14 @@ use App\User;
 use App\Recipe;
 use App\Cookbook;
 use App\Helpers\FormHelper;
-use App\Http\Requests\EditUser;
+use App\Http\Requests\EditUser as EditUserFormRequest;
 use Adldap\Laravel\Facades\Adldap;
 
 class UserController extends Controller
 {
 
     public function dashboard() {
-        $recipes = Recipe::where('user_id', Auth::user()->id)->orderBy('cookbook_id')->get();
+        $recipes   = Recipe::where('user_id', Auth::user()->id)->orderBy('cookbook_id')->get();
         $cookoobks = Cookbook::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         return view('home', compact('recipes', 'cookoobks'));
     }
@@ -25,9 +25,9 @@ class UserController extends Controller
         return view('user.edit', compact('user'));
     }
 
-    public function edit(EditUser $request) {
+    public function edit(EditUserFormRequest $request) {
         $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', Auth::user()->username)->first();
-        $user = Auth::user();
+        $user     = Auth::user();
 
         if ($request->current_password) {
             if (in_array($request->current_password, $ldapUser->userPassword)) {
