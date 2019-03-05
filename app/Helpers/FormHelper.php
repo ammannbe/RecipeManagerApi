@@ -11,7 +11,7 @@ class FormHelper
     public static function groups(Array $groups) {
         $html = '';
         foreach ($groups as $group) {
-            $html .= '<div class="group '.$group.'">';
+            $html .= self::group($group);
         }
         return $html;
     }
