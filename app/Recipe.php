@@ -9,6 +9,7 @@ class Recipe extends Model
 {
     protected $fillable = [
         'cookbook_id',
+        'category_id',
         'author_id',
         'name',
         'yield_amount',

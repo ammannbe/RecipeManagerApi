@@ -24,11 +24,15 @@ class KremlParser
             $kremlDescriptions = $kremlRecipe['krecipes-description'];
 
             if (isset($kremlDescriptions['yield']['amount']) && is_array($kremlDescriptions['yield']['amount'])) {
-                $yieldAmount    = (isset($kremlDescriptions['yield']['amount']['min']) ? trim($kremlDescriptions['yield']['amount']['min']) : NULL);
-                $yieldAmountMax = (isset($kremlDescriptions['yield']['amount']['max']) ? trim($kremlDescriptions['yield']['amount']['max']) : NULL);
+                $yieldAmount = (isset($kremlDescriptions['yield']['amount']['min']) ? trim($kremlDescriptions['yield']['amount']['min']) : NULL);
             } else {
-                $yieldAmount    = (isset($kremlDescriptions['yield']['amount']) ? trim($kremlDescriptions['yield']['amount']) : NULL);
-                $yieldAmountMax = NULL;
+                $yieldAmount = (isset($kremlDescriptions['yield']['amount']) ? trim($kremlDescriptions['yield']['amount']) : NULL);
+            }
+
+            if (is_array($kremlDescriptions['category']['cat'])) {
+                $category = trim($kremlDescriptions['category']['cat'][0]);
+            } else {
+                $category = trim($kremlDescriptions['category']['cat']);
             }
 
             $recipes[] = [
@@ -37,9 +41,8 @@ class KremlParser
                                     $kremlDescriptions['preparation-time'] != '00:00' ? trim($kremlDescriptions['preparation-time']) : NULL),
                 'name'              => (isset($kremlDescriptions['title'])            ? trim($kremlDescriptions['title'])            : NULL),
                 'yieldAmount'       => $yieldAmount,
-                'yieldAmountMax'    => $yieldAmountMax,
                 'instructions'      => (isset($kremlRecipe['krecipes-instructions'])  ? trim($kremlRecipe['krecipes-instructions'])  : NULL),
-                'category'          => $kremlDescriptions['category']['cat'],
+                'category'          => $category,
             ];
 
             end($recipes);
