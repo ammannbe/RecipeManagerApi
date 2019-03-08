@@ -1,27 +1,5 @@
 var Form = {};
 
-Form.switch = function($switch) {
-    $input = $switch.children('input');
-
-    if($input.is(":checked")) {
-        if ($switch.hasClass('edit-mode')) {
-            Form.enableEditMode();
-        }
-    } else {
-        if ($switch.hasClass('edit-mode')) {
-            Form.disableEditMode();
-        }
-    }
-}
-
-Form.enableEditMode = function() {
-    $('.edit-mode.item').removeClass('hidden');
-}
-
-Form.disableEditMode = function() {
-    $('.edit-mode.item').addClass('hidden');
-}
-
 Form.dropdown = function(event, $element) {
     event.preventDefault();
     event.stopPropagation(); // Prevent hide on $(window).click
@@ -43,11 +21,6 @@ $(document).ready(function () {
     $(window).click(function() {
         $(cssFormPath + ' .js-dropdown').removeClass('show');
         $(cssFormPath + ' .js-dropdown').addClass('hidden');
-    });
-
-    Form.switch($('.switch'));
-    $('.switch input[type=checkbox]').change(function() {
-        Form.switch($(this).parent());
     });
 
     $(cssFormPath + ' .js-dropdown li').click(function(event) {

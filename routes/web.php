@@ -17,6 +17,7 @@ Route::middleware('checklogin')->group(function() {
     Route::get('/recipes/edit/{recipe}', 'RecipeController@editForm');
     Route::post('/recipes/edit/{recipe}', 'RecipeController@edit');
     Route::get('/recipes/delete/{recipe}', 'RecipeController@delete');
+
     Route::post('/recipes/import', 'ImportController@index');
     Route::get('/recipes/import', 'ImportController@form');
 
@@ -33,6 +34,10 @@ Route::middleware('checklogin')->group(function() {
     Route::get('/profile', 'UserController@dashboard');
     Route::get('/profile/edit', 'UserController@editForm');
     Route::post('/profile/edit', 'UserController@edit');
+
+    Route::get('/edit-mode', 'EditModeController@get');
+    Route::get('/edit-mode/enable', 'EditModeController@enable');
+    Route::get('/edit-mode/disable', 'EditModeController@disable');
 });
 
 Route::middleware('checklogin', 'checkadmin')->group(function() {

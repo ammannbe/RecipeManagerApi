@@ -9,3 +9,4 @@ require('./toast.js');
 require('./form.js');
 require('./noscript.js');
 require('./delete.js');
+require('./editMode.js');
