@@ -57,8 +57,11 @@ class ImportController extends Controller
         $parsedRecipes = KremlParser::parse($kreml);
 
         foreach ($parsedRecipes as $parsedRecipe) {
-            if (isset($parsedRecipe['author'])) {
-                if (!$author = Author::where('name', $parsedRecipe['author'])->first()) {
+            unset($author);
+            unset($category);
+
+            if (isset($parsedRecipe['author']) && $parsedRecipe['author']) {
+                if (! $author = Author::where('name', $parsedRecipe['author'])->first()) {
                     $author = Author::create(['name' => $parsedRecipe['author']]);
                 }
             }
