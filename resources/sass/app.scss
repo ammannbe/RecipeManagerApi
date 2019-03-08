@@ -48,6 +48,18 @@ h4 {
     color: map-get($colors, white);
     background-color: map-get($colors, red-dark);
     padding: 5px 0;
+    animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+        height: 0;
+    }
+    to {
+        opacity: 1;
+        height: 19px;
+    }
 }
 
 a {

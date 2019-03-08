@@ -1,9 +1,10 @@
 var NoScript = {};
 
 NoScript.remove = function() {
-    $('.noscript').remove();
+    NoScript.$_item.remove();
 }
 
 $(document).ready(function () {
+    NoScript.$_item = $('.noscript');
     NoScript.remove();
 });

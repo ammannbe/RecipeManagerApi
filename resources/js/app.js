@@ -5,8 +5,9 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
-require('./toast.js');
-require('./form.js');
-require('./noscript.js');
-require('./delete.js');
-require('./editMode.js');
+require('./NoScript.js');
+
+require('./Toast.js');
+require('./Form.js');
+require('./Delete.js');
+require('./EditMode.js');

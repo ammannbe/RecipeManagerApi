@@ -9,7 +9,7 @@ body {
     display: grid;
     grid-template-areas:
         'nav-top nav-top nav-top nav-top nav-top'
-        'noscript noscript noscript noscript noscript'
+        'noscript noscript noscript noscript nav-right'
         'header  header  header  header  nav-right'
         'content content content content nav-right'
         'footer  footer  footer  footer  footer';
@@ -18,7 +18,7 @@ body {
         grid-template-areas:
             'nav-top nav-top nav-top nav-top nav-top'
             'nav-right  nav-right nav-right nav-right nav-right'
-            'noscript noscript noscript noscript noscript'
+            'noscript noscript noscript noscript nav-right'
             'header  header  header  header  header'
             'content content content content content'
             'footer  footer  footer  footer  footer';
