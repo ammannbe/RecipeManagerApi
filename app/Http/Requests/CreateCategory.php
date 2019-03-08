@@ -25,7 +25,7 @@ class CreateCategory extends FormRequest
     {
         return [
             'category_id'   => ['nullable', 'integer'],
-            'name'          => ['required', 'string'],
+            'name'          => ['required', 'string', 'max:50', 'unique:categories,name'],
         ];
     }
 }

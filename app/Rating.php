@@ -12,4 +12,12 @@ class Rating extends Model
         'rating_criterion_id',
         'comment'
     ];
+
+    public function user() {
+        return $this->belongsTo('\App\User');
+    }
+
+    public function ratingCriterion() {
+        return $this->belongsTo('\App\RatingCriterion');
+    }
 }

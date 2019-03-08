@@ -15,74 +15,45 @@ use App\Http\Requests\CreateRating as CreateRatingFormRequest;
 class RatingController extends Controller
 {
     public function createForm(Recipe $recipe) {
-        $ratingCriteria = CodeHelper::getCollectionProperty(RatingCriterion::orderBy('name')->get());
+        $this->authorize('create', [Rating::class, $recipe]);
+        $ratingCriteria = RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
         return view('ratings.create', compact('recipe', 'ratingCriteria'));
     }
 
     public function create(CreateRatingFormRequest $request, Recipe $recipe) {
-        $rating             = new Rating();
-        $rating->recipe_id  = $recipe->id;
-        $rating->user_id    = Auth::user()->id;
-        $rating->comment    = $request->comment;
+        $rating = [
+            'recipe_id'           => $recipe->id,
+            'user_id'             => auth()->user()->id,
+            'comment'             => $request->comment,
+            'rating_criterion_id' => RatingCriterion::where('name', $request->rating_criterion)->first()->id,
+        ];
+        Rating::create($rating);
+        \Toast::success('Bewertung gespeichert.');
 
-        if ($request->rating_criterion) {
-            $ratingCriterion = RatingCriterion::where('name', $request->rating_criterion)->first();
-            if (! $ratingCriterion) {
-                \Toast::error('Dieses Kriterium existiert nicht!');
-                return redirect('/ratings/add/'.$recipe->id)->withInput();
-            }
-            $rating->rating_criterion_id = $ratingCriterion->id;
-        }
-
-        if ($rating->save()) {
-            return redirect('recipes/'.$recipe->id);
-        } else {
-            abort(500);
-        }
+        return redirect('recipes/'.$recipe->id);
     }
 
     public function editForm(Rating $rating) {
-        $ratingCriteria = CodeHelper::getCollectionProperty(RatingCriterion::orderBy('name')->get());
-        $default['ratingCriterion'] = RatingCriterion::find($rating->rating_criterion_id);
+        $this->authorize('update', [Rating::class, $rating]);
+        $ratingCriteria = RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('ratings.edit', compact('rating', 'ratingCriteria', 'default'));
+        return view('ratings.edit', compact('rating', 'ratingCriteria'));
     }
 
     public function edit(EditRatingFormRequest $request, Rating $rating) {
-        if (Auth::user()->id === $rating->user_id) {
-            $rating->comment = $request->comment;
+        $rating->update([
+            'comment'             => $request->comment,
+            'rating_criterion_id' => RatingCriterion::where('name', $request->rating_criterion)->first()->id,
+        ]);
+        \Toast::success('Rezept erfolgreich aktualisiert.');
 
-            if ($request->rating_criterion) {
-                $ratingCriterion = RatingCriterion::where('name', $request->rating_criterion)->first();
-                if (! $ratingCriterion) {
-                    return redirect('/ratings/edit/'.$recipe->id)
-                        ->withErrors(['Dieses Kriterium existiert nicht!'])
-                        ->withInput();
-                }
-                $rating->rating_criterion_id = $ratingCriterion->id;
-            }
-
-            if ($rating->update()) {
-                \Toast::success('Rezept erfolgreich aktualisiert.');
-                return redirect('recipes/'.$rating->recipe_id);
-            } else {
-                abort(500);
-            }
-        } else {
-            abort(403);
-        }
+        return redirect('recipes/'.$rating->recipe_id);
     }
 
     public function delete(Rating $rating) {
-        if (Auth::user()->id === $rating->user_id) {
-            if ($rating->delete()) {
-                \Toast::success('Bewertung erfolgreich gelöscht.');
-                return redirect('/recipes/'.$rating->recipe_id);
-            } else {
-                abort(500);
-            }
-        } else {
-            abort(403);
-        }
+        $this->authorize('update', [Rating::class, $rating]);
+        $rating->delete();
+        \Toast::success('Bewertung erfolgreich gelöscht.');
+        return redirect('recipes/'.$rating->recipe_id);
     }
 }

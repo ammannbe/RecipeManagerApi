@@ -10,8 +10,8 @@
     @php
         $isRecipeOwner = FALSE;
 
-        if (Auth::check()) {
-            if (Auth::user()->id == $recipe->user_id) {
+        if (auth()->check()) {
+            if (auth()->user()->id == $recipe->user_id) {
                 $isRecipeOwner = TRUE;
             }
         }
@@ -36,7 +36,6 @@
                     </li>
                 @endif
             @endauth
-            {{-- <li><a href="{{ url('/recipes/print/'.$recipe->id) }}">Drucken</a></li> --}}
         </ul>
     </article>
 
@@ -164,14 +163,10 @@
         @endauth
 
         @foreach ($recipe->ratings as $rating)
-            @php
-                $user = \App\User::find($rating->user_id);
-                $ratingOwner = FALSE;
-            @endphp
-
             @auth
                 @php
-                    if (\Auth::user()->id == $rating->user_id) {
+                    $ratingOwner = FALSE;
+                    if (auth()->user()->id == $rating->user_id) {
                         $ratingOwner = TRUE;
                     }
                 @endphp
@@ -187,13 +182,13 @@
                     @endif
                 @endauth
                 <strong>
-                    {{ $rating->criterion->name }}
+                    {{ $rating->ratingCriterion->name }}
                 </strong>
                 <div>
                     {{ $rating->comment }}
                 </div>
                 <div>
-                    <small>{{ $user->name }}, {{ FormatHelper::date($rating->created_at) }}</small>
+                    <small>{{ $rating->user->name }}, {{ FormatHelper::date($rating->created_at) }}</small>
                 </div>
             </article>
         @endforeach

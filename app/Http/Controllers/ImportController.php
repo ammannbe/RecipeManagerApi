@@ -21,13 +21,7 @@ use Auth;
 class ImportController extends Controller
 {
     public function index(ImportFormRequest $request) {
-        if ($request->cookbook) {
-            if (! $cookbook = Cookbook::where('name', $request->cookbook)->first()) {
-                return redirect('/recipes/import')
-                    ->withErrors(['Dieses Kochbuch existiert nicht!'])
-                    ->withInput();
-            }
-        }
+        $cookbook = Cookbook::where('name', $request->cookbook)->first();
 
         $file = [
             'content'   => file_get_contents($request->file),
@@ -45,11 +39,7 @@ class ImportController extends Controller
     }
 
     public function form() {
-        $cookbooks = [];
-        foreach (Cookbook::orderBy('name')->get() as $cookbook) {
-            $cookbooks[$cookbook->id] = $cookbook->name;
-        }
-
+        $cookbooks = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
         return view('recipes.import', compact('cookbooks'));
     }
 
@@ -71,7 +61,7 @@ class ImportController extends Controller
             }
 
             if (isset($parsedRecipe['photo'])) {
-                $parsedRecipe['photo']['name'] = time().'-'.FormatHelper::slugify($parsedRecipe['name']).'.'.$parsedRecipe['photo']['extension'];
+                $parsedRecipe['photo']['name'] = FormatHelper::generatePhotoName($parsedRecipe['name'], $parsedRecipe['photo']['extension']);
                 $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
 
                 if (! file_put_contents($parsedRecipe['photo']['path'], base64_decode($parsedRecipe['photo']['base64']))) {

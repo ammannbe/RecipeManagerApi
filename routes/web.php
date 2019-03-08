@@ -12,8 +12,6 @@
 */
 
 Route::middleware('checklogin')->group(function() {
-    Route::get('/cookbooks/delete/{cookbook}', 'CookbookController@delete');
-
     Route::get('/recipes/create', 'RecipeController@createForm');
     Route::post('/recipes/create', 'RecipeController@create');
     Route::get('/recipes/edit/{recipe}', 'RecipeController@editForm');
@@ -32,21 +30,17 @@ Route::middleware('checklogin')->group(function() {
     Route::post('/ratings/edit/{rating}', 'RatingController@edit');
     Route::get('/ratings/delete/{rating}', 'RatingController@delete');
 
-    Route::get('/rating-criteria/create', 'RatingCriterionController@createForm');
-    Route::post('/rating-criteria/create', 'RatingCriterionController@create');
-
     Route::get('/profile', 'UserController@dashboard');
     Route::get('/profile/edit', 'UserController@editForm');
     Route::post('/profile/edit', 'UserController@edit');
 });
 
-Route::middleware('admin')->group(function() {
-    Route::get('/administration', function() {
-        return view('user.administration');
-    });
+Route::middleware('checklogin', 'checkadmin')->group(function() {
+    Route::get('/admin', 'PagesController@admin');
 
     Route::get('/cookbooks/create', 'CookbookController@createForm');
     Route::post('/cookbooks/create', 'CookbookController@create');
+    Route::get('/cookbooks/delete/{cookbook}', 'CookbookController@delete');
 
     Route::get('/authors/create', 'AuthorController@createForm');
     Route::post('/authors/create', 'AuthorController@create');
@@ -62,6 +56,9 @@ Route::middleware('admin')->group(function() {
 
     Route::get('/preps/create', 'PrepController@createForm');
     Route::post('/preps/create', 'PrepController@create');
+
+    Route::get('/rating-criteria/create', 'RatingCriterionController@createForm');
+    Route::post('/rating-criteria/create', 'RatingCriterionController@create');
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

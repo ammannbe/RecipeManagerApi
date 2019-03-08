@@ -11,8 +11,10 @@ class Cookbook extends Model
         'user_id'
     ];
 
-    public function search($name) {
-        return $this->where('name', 'LIKE', '%'.$name.'%')->get();
+    public function searchRecipes($name) {
+        return $this->where('name', 'LIKE', '%'.$name.'%')
+            ->with(['recipes', 'recipes.author', 'recipes.category'])
+            ->get();
     }
 
     public function recipes() {

@@ -21,14 +21,14 @@ class RecipeHelper
     }
 
     public static function getSuitableUnit(Unit $unit = NULL, Int $amount = NULL) {
-        if ($unit) {
-            if ($amount > 1 && ($unit->name_plural || $unit->name_plural)) {
-                return CodeHelper::any($unit->name_plural_shortcut, $unit->name_plural);
-            } else {
-                return CodeHelper::any($unit->name_shortcut, $unit->name);
-            }
-        } else {
+        if (! $unit) {
             return NULL;
+        }
+
+        if ($amount > 1 && ($unit->name_plural || $unit->name_plural)) {
+            return CodeHelper::any($unit->name_plural_shortcut, $unit->name_plural);
+        } else {
+            return CodeHelper::any($unit->name_shortcut, $unit->name);
         }
     }
 }

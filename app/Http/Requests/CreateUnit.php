@@ -24,10 +24,10 @@ class CreateUnit extends FormRequest
     public function rules()
     {
         return [
-            'name'                 => ['required', 'string'],
-            'name_shortcut'        => ['nullable', 'string'],
-            'name_plural'          => ['nullable', 'string'],
-            'name_plural_shortcut' => ['nullable', 'string'],
+            'name'                 => ['required', 'string', 'max:20'],
+            'name_shortcut'        => ['nullable', 'string', 'max:20'],
+            'name_plural'          => ['nullable', 'string', 'max:20'],
+            'name_plural_shortcut' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\IngredientDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateIngredientDetail extends FormRequest
@@ -13,7 +14,7 @@ class CreateIngredientDetail extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', [IngredientDetail::class, $this->recipe]);
     }
 
     /**
@@ -24,14 +25,13 @@ class CreateIngredientDetail extends FormRequest
     public function rules()
     {
         return [
-            'amount'                    => ['nullable', 'numeric'],
-            'amount_max'                => ['nullable', 'numeric'],
-            'unit'                      => ['nullable', 'string'],
-            'ingredient'                => ['required', 'string'],
-            'prep'                      => ['nullable', 'string'],
+            'amount'                    => ['nullable', 'numeric', 'max:99999999.99'],
+            'unit'                      => ['nullable', 'string', 'exists:units,name'],
+            'ingredient'                => ['required', 'string', 'exists:ingredients,name'],
+            'prep'                      => ['nullable', 'string', 'exists:preps,name'],
             'position'                  => ['nullable', 'numeric'],
             'ingredient_detail_group'   => ['nullable', 'string'],
-            'ingredient_detail_id'      => ['nullable', 'string'],
+            'ingredient_detail_id'      => ['nullable', 'numeric'],
         ];
     }
 }

@@ -16,7 +16,7 @@ class CreateRecipesTable extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('cookbook_id')->onDelete('cascade');
+            $table->unsignedInteger('cookbook_id');
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('author_id')->nullable()->default(NULL);
             $table->string('name', 191);
@@ -27,7 +27,7 @@ class CreateRecipesTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('cookbook_id')->references('id')->on('recipes');
+            $table->foreign('cookbook_id')->references('id')->on('cookbooks');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('author_id')->references('id')->on('authors');
         });

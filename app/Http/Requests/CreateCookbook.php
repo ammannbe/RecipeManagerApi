@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Cookbook;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCookbook extends FormRequest
@@ -24,7 +25,7 @@ class CreateCookbook extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:20', 'unique:cookbooks,name'],
         ];
     }
 }

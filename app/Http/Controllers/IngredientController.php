@@ -13,11 +13,9 @@ class IngredientController extends Controller
     }
 
     public function create(CreateIngredientFormRequest $request) {
-        if (Ingredient::create($request->all())) {
-            \Toast::success('Zutat erfolgreich erstellt');
-            return view('ingredients.create');
-        } else {
-            abort(500);
-        }
+        Ingredient::create($request->all());
+        \Toast::success('Zutat erfolgreich erstellt');
+
+        return view('ingredients.create');
     }
 }

@@ -19,29 +19,6 @@ class Recipe extends Model
         'user_id'
     ];
 
-    public static function setDetails(Recipe &$recipe) {
-        $recipe->author;
-        $recipe->cookbook;
-        $recipe->category;
-        $recipe->ingredientDetails;
-        $recipe->ratings;
-
-        foreach ($recipe->ratings as $rating) {
-            if ($rating->rating_criterion_id) {
-                $rating->criterion = RatingCriterion::find($rating->rating_criterion_id);
-            }
-        }
-
-        foreach ($recipe->ingredientDetails as $ingredientDetail) {
-            $ingredientDetail->unit;
-            $ingredientDetail->ingredient;
-            $ingredientDetail->prep;
-            $ingredientDetail->group;
-        }
-
-        return $recipe;
-    }
-
     public function cookbook() {
         return $this->belongsTo('\App\Cookbook');
     }
@@ -55,16 +32,21 @@ class Recipe extends Model
     }
 
     public function ingredientDetails() {
-        return $this->hasMany('\App\IngredientDetail')->orderBy('position');
+        return $this->hasMany('\App\IngredientDetail')
+            ->with(['unit', 'ingredient', 'prep', 'group'])
+            ->orderBy('position');
     }
 
     public function ratings() {
-        return $this->hasMany('\App\Rating')->orderBy('created_at', 'DESC');
+        return $this->hasMany('\App\Rating')
+            ->with(['ratingCriterion', 'user'])
+            ->latest();
     }
 
-    public function search($term) {
+    public function searchRecipes($term) {
         return $this->where('instructions', 'LIKE', '%'.$term.'%')
             ->orWhere('name', 'LIKE', '%'.$term.'%')
+            ->with(['author', 'category'])
             ->get();
     }
 }

@@ -15,11 +15,8 @@ class PrepController extends Controller
     }
 
     public function create(CreatePrepFormRequest $request) {
-        if (Prep::create($request->all())) {
-            \Toast::success('Vorbereitung erfolgreich erstellt');
-            return view('preps.create');
-        } else {
-            abort(500);
-        }
+        Prep::create($request->all());
+        \Toast::success('Vorbereitung erfolgreich erstellt');
+        return view('preps.create');
     }
 }

@@ -6,6 +6,6 @@ Toast.remove = function($element) {
 
 $(document).ready(function () {
     $('.toast .alert button').click(function () {
-        Toast.remove(this);
+        Toast.remove($(this));
     });
 });

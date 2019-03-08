@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rating;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRating extends FormRequest
@@ -13,7 +14,7 @@ class EditRating extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->can('update', [Rating::class, $this->rating]);
     }
 
     /**
@@ -24,7 +25,7 @@ class EditRating extends FormRequest
     public function rules()
     {
         return [
-            'rating_criterion' => ['required', 'string'],
+            'rating_criterion' => ['required', 'string', 'exists:rating_criteria,name'],
             'comment'          => ['required', 'string'],
         ];
     }

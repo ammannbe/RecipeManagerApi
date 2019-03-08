@@ -25,10 +25,10 @@ class CreateRecipe extends FormRequest
     {
         return [
             'name'         => ['required', 'string', 'max:255', 'unique:recipes,name'],
-            'cookbook'     => ['required', 'string'],
-            'category'     => ['required', 'string'],
-            'author'       => ['required', 'string'],
-            'yield_amount' => ['nullable', 'numeric'],
+            'cookbook'     => ['required', 'string', 'exists:cookbooks,name'],
+            'category'     => ['required', 'string', 'exists:categories,name'],
+            'author'       => ['required', 'string', 'exists:authors,name'],
+            'yield_amount' => ['nullable', 'numeric', 'max:999'],
             'instructions' => ['required', 'string'],
             'photo'        => ['nullable', 'image'],
         ];

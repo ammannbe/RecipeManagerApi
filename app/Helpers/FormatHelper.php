@@ -45,4 +45,11 @@ class FormatHelper
             return $text;
         }
     }
+
+    public static function generatePhotoName(String $name, String $extension) {
+        $time = time();
+        $slug = self::slugify($name);
+
+        return "{$time}-{$slug}.{$extension}";
+    }
 }

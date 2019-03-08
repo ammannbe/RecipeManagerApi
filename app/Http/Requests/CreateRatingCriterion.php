@@ -24,7 +24,7 @@ class CreateRatingCriterion extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => ['required', 'string', 'max:20', 'unique:rating_criteria,name'],
         ];
     }
 }

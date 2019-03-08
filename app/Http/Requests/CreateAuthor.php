@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Author;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAuthor extends FormRequest
@@ -24,7 +25,7 @@ class CreateAuthor extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:50', 'unique:authros,name'],
         ];
     }
 }

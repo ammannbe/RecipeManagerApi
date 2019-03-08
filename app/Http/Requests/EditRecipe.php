@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Recipe;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRecipe extends FormRequest
@@ -13,7 +14,7 @@ class EditRecipe extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', [Recipe::class, $this->recipe]);
     }
 
     /**
@@ -24,11 +25,11 @@ class EditRecipe extends FormRequest
     public function rules()
     {
         return [
-            'name'         => ['required', 'string', 'max:255', 'unique:recipes,name'],
-            'cookbook'     => ['required', 'string'],
-            'category'     => ['required', 'string'],
-            'author'       => ['required', 'string'],
-            'yield_amount' => ['nullable', 'numeric'],
+            'name'         => ['required', 'string', 'max:255', 'unique:recipes,name,'.$this->recipe->id],
+            'cookbook'     => ['required', 'string', 'exists:cookbooks,name'],
+            'category'     => ['required', 'string', 'exists:categories,name'],
+            'author'       => ['required', 'string', 'exists:authors,name'],
+            'yield_amount' => ['nullable', 'numeric', 'max:999'],
             'instructions' => ['required', 'string'],
             'photo'        => ['nullable', 'image'],
         ];

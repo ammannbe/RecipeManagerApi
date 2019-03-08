@@ -12,7 +12,7 @@
         @else
             @if (Auth::user()->user_type == 'admin')
                 <li>
-                    <a href="{{ url('/administration') }}">Administration</a>
+                    <a href="{{ url('/admin') }}">Administration</a>
                 </li>
             @endif
 

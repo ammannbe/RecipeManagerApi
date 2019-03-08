@@ -17,6 +17,10 @@ class IngredientDetail extends Model
         'ingredient_detail_id'
     ];
 
+    public function recipe() {
+        return $this->belongsTo('\App\Recipe');
+    }
+
     public function unit() {
         return $this->belongsTo('\App\Unit');
     }

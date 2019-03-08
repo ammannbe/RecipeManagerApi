@@ -13,13 +13,12 @@ use App\Helpers\CodeHelper;
 use App\Helpers\FormHelper;
 use App\Helpers\FormatHelper;
 use App\Helpers\RecipeHelper;
-use App\Http\Requests\EditRecipe as EditRecipeFormRequest;
-use App\Http\Requests\CreateRecipe as CreateRecipeFormRequest;
+use App\Http\Requests\EditRecipe;
+use App\Http\Requests\CreateRecipe;
 
 class RecipeController extends Controller
 {
     public function show(Recipe $recipe) {
-        Recipe::setDetails($recipe);
         foreach ($recipe->ingredientDetails as $key => &$ingredientDetail) {
             $ingredientDetail->display = RecipeHelper::beautifyIngredientDetail($ingredientDetail);
 
@@ -36,135 +35,82 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
-        $cookbooks  = CodeHelper::getCollectionProperty(Cookbook::orderBy('name')->get());
-        $authors    = CodeHelper::getCollectionProperty(Author::orderBy('name')->get());
-        $categories = CodeHelper::getCollectionProperty(Category::orderBy('name')->get());
+        $cookbooks  = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
+        $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
+        $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
 
         return view('recipes.create', compact('authors', 'cookbooks', 'categories'));
     }
 
-    public function create(CreateRecipeFormRequest $request) {
-        $recipe = new Recipe();
+    public function create(CreateRecipe $request) {
+        $recipe = array_merge(
+                $request->all(),
+                [
+                    'cookbook_id' => Cookbook::where('name', $request->cookbook)->first()->id,
+                    'author_id'   => Author::where('name', $request->author)->first()->id,
+                    'category_id' => Category::where('name', $request->category)->first()->id,
+                    'user_id'     => auth()->user()->id,
+                ]
+            );
 
         if ($request->photo) {
-            $recipe->photo = time() . '-' .
-                FormatHelper::slugify($request->name) . '.' .
-                request()->photo->getClientOriginalExtension();
-
-            $request->photo->move(public_path('images/recipes'), $recipe->photo);
+            $recipe['photo'] = FormatHelper::generatePhotoName(
+                    $request->name,
+                    $request->photo->getClientOriginalExtension()
+                );
+            $request->photo->move(public_path('images/recipes'), $recipe['photo']);
         }
 
-        $recipe->cookbook_id = CodeHelper::getObjectProperty('Cookbook', $request->cookbook);
-        if (! $recipe->cookbook_id) {
-            return redirect('/recipes/create')
-                ->withErrors(['Dieses Kochbuch existiert nicht!'])
-                ->withInput();
-        }
+        $recipe = Recipe::create($recipe);
+        \Toast::success('Rezept erfolgreich erstellt');
 
-        $recipe->author_id = CodeHelper::getObjectProperty('Author', $request->author);
-        if (! $recipe->author_id) {
-            return redirect('/recipes/create')
-                ->withErrors(['Dieser Autor existiert nicht!'])
-                ->withInput();
-        }
-
-        $recipe->category_id = CodeHelper::getObjectProperty('Category', $request->category);
-        if (! $recipe->category_id) {
-            return redirect('/recipes/create')
-                ->withErrors(['Diese Kategorie existiert nicht!'])
-                ->withInput();
-        }
-
-        $recipe->user_id          = Auth::user()->id;
-        $recipe->name             = $request->name;
-        $recipe->yield_amount     = $request->yield_amount;
-        $recipe->instructions     = $request->instructions;
-        $recipe->preparation_time = $request->preparation_time;
-
-        if ($recipe->save()) {
-            \Toast::success('Rezept erfolgreich erstellt');
-            return redirect('recipes/'.$recipe->id);
-        } else {
-            abort(500);
-        }
+        return redirect('recipes/'.$recipe->id);
     }
 
     public function editForm(Recipe $recipe) {
-        $cookbooks  = CodeHelper::getCollectionProperty(Cookbook::orderBy('name')->get());
-        $authors    = CodeHelper::getCollectionProperty(Author::orderBy('name')->get());
-        $categories = CodeHelper::getCollectionProperty(Category::orderBy('name')->get());
+        $this->authorize('update', [Recipe::class, $recipe]);
+
+        $cookbooks  = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
+        $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
+        $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
 
         return view('recipes.edit', compact('recipe', 'authors', 'cookbooks', 'categories'));
     }
 
-    public function edit(EditRecipeFormRequest $request, Recipe $recipe) {
-        if ($request->yield_amount) {
-            $recipe->yield_amount = $request->yield_amount;
-        }
-
-        if ($request->preparation_tme) {
-            $recipe->preparation_tme = $request->preparation_tme;
-        }
-
-        $recipe->instructions = $request->instructions;
-        if (! $recipe->instructions) {
-            return redirect('/recipes/edit/'.$recipe->id)
-                ->withErrors(['Die Zubereitung fehlt!'])
-                ->withInput();
-        }
-
-        $recipe->cookbook_id = CodeHelper::getObjectProperty('Cookbook', $request->cookbook);
-        if (! $recipe->cookbook_id) {
-            return redirect('/recipes/edit/'.$recipe->id)
-                ->withErrors(['Dieses Kochbuch existiert nicht!'])
-                ->withInput();
-        }
-
-        $recipe->author_id = CodeHelper::getObjectProperty('Author', $request->author);
-        if (! $recipe->cookbook_id && $request->author) {
-            return redirect('/recipes/edit/'.$recipe->id)
-                ->withErrors(['Dieser Author existiert nicht!'])
-                ->withInput();
-        }
-
-        $recipe->category_id = CodeHelper::getObjectProperty('Category', $request->category);
-        if (! $recipe->cookbook_id) {
-            return redirect('/recipes/edit/'.$recipe->id)
-                ->withErrors(['Dieses Kategorie existiert nicht!'])
-                ->withInput();
-        }
+    public function edit(EditRecipe $request, Recipe $recipe) {
+        $recipe->fill(array_merge(
+                $request->all(),
+                [
+                    'cookbook_id' => Cookbook::where('name', $request->cookbook)->first()->id,
+                    'author_id'   =>   Author::where('name', $request->author)->first()->id,
+                    'category_id' => Category::where('name', $request->category)->first()->id,
+                ]
+            ));
 
         if ($request->delete_photo && !$request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
             $recipe->photo = NULL;
         } elseif($request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
-
-            $nameSlug = FormatHelper::slugify($request->name);
-            $recipe->photo = $nameSlug.'-'.time().'.'.request()->photo->getClientOriginalExtension();
+            $recipe->photo = FormatHelper::generatePhotoName(
+                    $request->name,
+                    request()->photo->getClientOriginalExtension()
+                );
             $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
 
-        if ($recipe->update()) {
-            \Toast::success('Rezept erfolgreich aktualisiert.');
-            return redirect('recipes/'.$recipe->id);
-        } else {
-            abort(500);
-        }
+        $recipe->update();
+        \Toast::success('Rezept erfolgreich aktualisiert.');
+
+        return redirect('recipes/'.$recipe->id);
     }
 
     public function delete(Recipe $recipe) {
-        if (Auth::user()->id === $recipe->user_id) {
-            if ($recipe->delete()) {
-                File::delete(public_path().'/images/recipes/'.$recipe->photo);
+        $this->authorize('delete', [Recipe::class, $recipe]);
+        File::delete(public_path().'/images/recipes/'.$recipe->photo);
+        $recipe->delete();
 
-                \Toast::success('Rezept erfolgreich gelöscht.');
-                return redirect('/');
-            } else {
-                abort(500);
-            }
-        } else {
-            abort(403);
-        }
+        \Toast::success('Rezept erfolgreich gelöscht.');
+        return redirect('/');
     }
 }

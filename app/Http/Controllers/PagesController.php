@@ -9,17 +9,19 @@ use App\Http\Requests\Search as SearchFormRequest;
 class PagesController extends Controller
 {
     public function index() {
-        $recipes = Recipe::orderBy('created_at', 'DESC')->paginate(10);
+        $recipes = Recipe::with(['category', 'author'])
+            ->latest()
+            ->paginate(10);
         return view('index', compact('recipes'));
     }
 
     public function searchForm($default = 'recipe') {
         $tables = [
-            'author'        => 'Autoren',
-            'category'      => 'Kategorien',
-            'cookbook'      => 'Kochbücher',
-            'recipe'        => 'Rezept / Zubereitung',
-            'ingredient'    => 'Zutaten',
+            'author'     => 'Autoren',
+            'category'   => 'Kategorien',
+            'cookbook'   => 'Kochbücher',
+            'recipe'     => 'Rezept / Zubereitung',
+            'ingredient' => 'Zutaten',
         ];
         return view('search.index', compact('tables', 'default'));
     }
@@ -28,19 +30,18 @@ class PagesController extends Controller
         $cname   = ucfirst($request->item);
         $class   = '\\App\\' . $cname;
         $object  = new $class;
-        $results = $object->search($request->term);
+        $results = $object->searchRecipes($request->term);
 
         foreach ($results as $result) {
-            if ($cname == 'Recipe') {
+            if ($cname === 'Recipe') {
                 $recipes[$result->id] = $result;
-            } elseif ($cname == 'Ingredient') {
-                $recipe = $result->recipes;
-                if (isset($recipe->id)) {
-                    $recipes[$recipe->id] = $recipe;
+            } elseif ($cname === 'Ingredient') {
+                foreach ($result->ingredientDetail as $ingredientDetail) {
+                    $recipes[] = $ingredientDetail->recipe;
                 }
             } else {
                 foreach ($result->recipes as $recipe) {
-                    $recipes[$recipe->id] = $recipe;
+                    $recipes[] = $recipe;
                 }
             }
         }
@@ -52,5 +53,9 @@ class PagesController extends Controller
             \Toast::info('Keine Rezepte gefunden.');
             return redirect('/search');
         }
+    }
+
+    public function admin() {
+        return view('user.admin');
     }
 }

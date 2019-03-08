@@ -15,46 +15,40 @@ class UserController extends Controller
 {
 
     public function dashboard() {
-        $recipes   = Recipe::where('user_id', Auth::user()->id)->orderBy('cookbook_id')->get();
-        $cookoobks = Cookbook::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
-        return view('home', compact('recipes', 'cookoobks'));
+        $recipes = Recipe::where('user_id', auth()->user()->id)
+            ->with(['cookbook'])
+            ->orderBy('cookbook_id')
+            ->get();
+        return view('home', compact('recipes'));
     }
 
     public function editForm() {
-        $user = Auth::user();
+        $user = auth()->user();
         return view('user.edit', compact('user'));
     }
 
     public function edit(EditUserFormRequest $request) {
-        $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', Auth::user()->username)->first();
-        $user     = Auth::user();
+        $user     = auth()->user();
+        $ldapUser = Adldap::search()
+            ->where(env('LDAP_USER_ATTRIBUTE'), '=', $user->username)
+            ->first();
 
         if ($request->current_password) {
             if (in_array($request->current_password, $ldapUser->userPassword)) {
                 $ldapUser->updateAttribute('userPassword', $request->new_password);
-                $passwordUpdated = TRUE;
-            }
-
-            if (!isset($passwordUpdated)) {
+            } else {
                 return redirect('profile/edit')
                     ->withErrors(['Falsches Passwort'])
                     ->withInput();
             }
         }
 
-        if ($request->name) {
-            $user->name = $ldapUser->cn = $request->name;
-        }
+        $user->name  = $ldapUser->cn   = $request->name;
+        $user->email = $ldapUser->mail = $request->email;
 
-        if ($request->email) {
-            $user->email = $ldapUser->mail = $request->email;
-        }
+        $ldapUser->save() && $user->update();
+        \Toast::success('Profil erfolgreich aktualisiert.');
 
-        if ($ldapUser->save() && $user->update()) {
-            \Toast::success('Profil erfolgreich aktualisiert.');
-            return redirect('/profile');
-        } else {
-            return view('home');
-        }
+        return redirect('/profile');
     }
 }
