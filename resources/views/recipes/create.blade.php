@@ -20,25 +20,24 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
                 {!! FormHelper::group('input') !!}
+                    {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
                     {!! Form::text('cookbook', reset($cookbooks), [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
                         'autocomplete'  => 'off',
-                        'required']) !!}
-                    {!! FormHelper::jsDropdown($cookbooks) !!}
+                        'required', 'readonly']) !!}
                 {!! FormHelper::close() !!}
             </div>
 
             <div>
-                {!! Form::label('Autor', NULL) !!}
                 {!! FormHelper::group('input') !!}
+                    {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
                     {!! Form::text('author', NULL, [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
                         'autocomplete'  => 'off',
-                        'placeholder'   => NULL]) !!}
+                        'required']) !!}
                     {!! FormHelper::jsDropdown($authors) !!}
                 {!! FormHelper::close() !!}
             </div>
@@ -47,21 +46,18 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kategorien', NULL, ['class' => 'required']) !!}
-                {!! Form::select('categories[]', $categories, NULL, [
-                    'multiple'  => 'multiple',
-                    'size'      => 5,
+                {!! Form::label('Kategorie', NULL, ['class' => 'required']) !!}
+                {!! Form::text('category', NULL, [
+                    'maxlength'     => 50,
+                    'class'         => 'text-input',
+                    'autocomplete'  => 'off',
                     'required']) !!}
+                {!! FormHelper::jsDropdown($categories) !!}
             </div>
 
             <div>
                 {!! Form::label('Portionen') !!}
                 {!! Form::number('yield_amount', 4, ['max' => 999, 'size' => 3]) !!}
-            </div>
-
-            <div>
-                {!! Form::label('Portionen maximal') !!}
-                {!! Form::number('yield_amount_max', 4, ['max' => 999, 'size' => 3]) !!}
             </div>
 
             <div>
@@ -85,6 +81,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button']) !!}
                 {!! Form::submit('Rezept hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

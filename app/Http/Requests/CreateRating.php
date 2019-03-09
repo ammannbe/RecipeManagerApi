@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rating;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CookbookFormRequest extends FormRequest
+class CreateRating extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class CookbookFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', [Rating::class, $this->recipe]);
     }
 
     /**
@@ -24,7 +25,8 @@ class CookbookFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'rating_criterion' => ['required', 'string', 'exists:rating_criteria,name'],
+            'comment'          => ['required', 'string'],
         ];
     }
 }

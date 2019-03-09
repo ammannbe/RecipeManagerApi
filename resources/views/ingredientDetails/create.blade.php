@@ -43,12 +43,7 @@
             </div>
 
             <div>
-                {!! Form::text('prep', NULL, [
-                    'maxlength'     => 200,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'placeholder'   => 'z.B. gehackt']) !!}
-                {!! FormHelper::jsDropdown($preps) !!}
+                {!! Form::select('preps[]', $preps, NULL, ['size' => 7, 'multiple']) !!}
             </div>
         {!! FormHelper::close() !!}
 
@@ -75,15 +70,19 @@
 
 
         {!! FormHelper::group('cluster') !!}
-            {!! Form::label('Position') !!}
-            {!! Form::number('position', 0, [
-                'min'  => 0,
-                'size' => 3,
-                'step' => '1']) !!}
+            <div>
+                {!! Form::label('Position') !!}
+                {!! Form::number('position', 0, [
+                    'min'  => 0,
+                    'size' => 3,
+                    'step' => '1']) !!}
+            </div>
+            <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->id}") !!}
+                {!! Form::submit('Zutat hinzufügen') !!}
+            </div>
         {!! FormHelper::close() !!}
 
-
-        {!! Form::submit('Zutat hinzufügen') !!}
     {!! Form::close() !!}
 
 @stop

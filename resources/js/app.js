@@ -5,6 +5,24 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
-require('./toast.js');
-require('./form.js');
-require('./noscript.js');
+require('./NoScript.js');
+
+require('./Toast.js');
+require('./Dropdown.js');
+require('./Delete.js');
+require('./EditMode.js');
+
+
+disableDefault = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+$(document).ready(function () {
+    $('article.recipes button.show-more').click(function(e) {
+        disableDefault(e);
+
+        $(this).siblings('ul').children('li').removeClass('forced hidden');
+        $(this).remove();
+    });
+});

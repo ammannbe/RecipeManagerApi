@@ -11,7 +11,7 @@ class FormHelper
     public static function groups(Array $groups) {
         $html = '';
         foreach ($groups as $group) {
-            $html .= '<div class="group '.$group.'">';
+            $html .= self::group($group);
         }
         return $html;
     }
@@ -34,11 +34,24 @@ class FormHelper
         return $html;
     }
 
-    public static function switch($class = 'admin') {
+    public static function switch(String $class = 'admin') {
         return
             '<label class="switch '.$class.'">' .
                 \Form::checkbox(NULL, NULL, FALSE) .
                 '<span class="slider round"></span>' .
             '</label>';
+    }
+
+    public static function backButton(String $text, Array $properties = [], String $fallbackUri = '/') {
+        if (!isset($properties['href'])) {
+            $properties['href'] = CodeHelper::previousUrl($fallbackUri);
+        }
+
+        $propertiesText = '';
+        foreach ($properties as $key => $property) {
+            $propertiesText .= " {$key}=\"{$property}\"";
+        }
+
+        return "<a {$propertiesText}>{$text}</a>";
     }
 }

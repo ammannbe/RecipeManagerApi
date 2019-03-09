@@ -31,6 +31,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
                 {!! Form::submit('Einheit hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Cookbook;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IngredientFormRequest extends FormRequest
+class CreateCookbook extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,7 @@ class IngredientFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:20', 'unique:cookbooks,name'],
         ];
     }
 }

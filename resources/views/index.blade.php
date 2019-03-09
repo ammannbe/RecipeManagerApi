@@ -19,21 +19,17 @@
 
                 <div class="info">
                     <strong>{{ $recipe->name }}</strong>
-                    @if ($recipe->categories)
+                    @if ($recipe->category)
                         <i class="fork-with-knife-and-plate"></i>
+                        <span>{{ $recipe->category->name }}</span><br>
                     @endif
 
-                    @foreach ($recipe->categories as $category)
-                        <span>{{ $category->name }}</span><br>
-                        @php break; @endphp
-                    @endforeach
-
-                        @if ($recipe->preparation_time)
-                            <small class="hourglass">{{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</small><br>
-                        @endif
-                        @if ($recipe->author)
-                            <small><i class="bust"></i>{{ $recipe->author->name }}</small><br>
-                        @endif
+                    @if ($recipe->preparation_time)
+                        <small class="hourglass">{{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</small><br>
+                    @endif
+                    @if ($recipe->author)
+                        <small><i class="bust"></i>{{ $recipe->author->name }}</small><br>
+                    @endif
                     <small><i class="hammer-and-wrench"></i>Erstellt: {{ FormatHelper::date($recipe->created_at) }}</small>
                 </div>
 

@@ -10,33 +10,27 @@
     @php
         $isRecipeOwner = FALSE;
 
-        if (Auth::check()) {
-            if (Auth::user()->id == $recipe->user_id) {
+        if (auth()->check()) {
+            if (auth()->user()->id == $recipe->user_id) {
                 $isRecipeOwner = TRUE;
             }
         }
     @endphp
 
     <article class="manage">
-        @auth
-            @if ($isRecipeOwner)
-                Verwaltung {!! FormHelper::switch('edit-mode switch') !!}
-            @endif
-        @endauth
-
         <ul>
             @auth
                 @if ($isRecipeOwner)
+                    <li><span>Bearbeiten</span> {!! FormHelper::switch('edit-mode') !!}</li>
                     <li class="edit-mode item hidden"><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li>
                     <li class="edit-mode item hidden">
-                        <a href="{{ url('/recipes/delete/'.$recipe->id) }}">
+                        <a class="delete confirm" href="{{ url('/recipes/delete/'.$recipe->id) }}">
                             <i class="cross red"></i>
                             Löschen
                         </a>
                     </li>
                 @endif
             @endauth
-            {{-- <li><a href="{{ url('/recipes/print/'.$recipe->id) }}">Drucken</a></li> --}}
         </ul>
     </article>
 
@@ -47,24 +41,39 @@
     @endif
 
     <article class="info">
-        <div>
-            <h2>Kochbuch</h2>
-            <span>{{ $recipe->cookbook->name }}</span>
-        </div>
-        @if (isset($recipe->author->name))
-            <div>
-                <h2>Autor</h2>
-                <span>{{ $recipe->author->name }}</span>
-            </div>
-        @endif
-        <div>
-            <h2>Kategorien</h2>
-            <ul>
-                @foreach ($recipe->categories as $category)
-                    <li>{{ $category->name }}</li>
-                @endforeach
-            </ul>
-        </div>
+        <h2>Details</h2>
+        <table>
+            @if ($recipe->cookbook)
+                <tr>
+                    <th>Kochbuch:</th>
+                    <td>{{ $recipe->cookbook->name }}</td>
+                </tr>
+            @endif
+            @if ($recipe->author)
+                <tr>
+                    <th>Autor:</th>
+                    <td>{{ $recipe->author->name }}</td>
+                </tr>
+            @endif
+            @if ($recipe->category)
+                <tr>
+                    <th>Kategorie:</th>
+                    <td>{{ $recipe->category->name }}</td>
+                </tr>
+            @endif
+            @if ($recipe->yield_amount)
+                <tr>
+                    <th>Portionen:</th>
+                    <td>{{ $recipe->yield_amount }}</td>
+                </tr>
+            @endif
+            @if ($recipe->preparation_time)
+                <tr>
+                    <th>Zubereitungszeit:</th>
+                    <td>{{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</td>
+                </tr>
+            @endif
+        </table>
     </article>
 
     <article class="ingredients">
@@ -92,7 +101,7 @@
                         @endif
                         @auth
                             @if ($isRecipeOwner)
-                                <a class="edit-mode item hidden" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                             @endif
                         @endauth
                     </li>
@@ -117,7 +126,7 @@
                                 @endif
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a class="edit-mode item hidden" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                        <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                                     @endif
                                 @endauth
                             </li>
@@ -129,18 +138,6 @@
     </article>
 
     <article class="instructions">
-        <h2>Zubereitung</h2>
-        <ul>
-            @php
-                if ($recipe->yield_amount_max) {
-                    $recipe->yield_amount_text = "{$recipe->yield_amount} - {$recipe->yield_amount_max}";
-                } else {
-                    $recipe->yield_amount_text = "{$recipe->yield_amount}";
-                }
-            @endphp
-            <li>Portionen: {{ $recipe->yield_amount_text }}</li>
-            <li>Zubereitungszeit: {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
-        </ul>
         <p>
             {!! nl2br(e($recipe->instructions)) !!}
         </p>
@@ -161,14 +158,10 @@
         @endauth
 
         @foreach ($recipe->ratings as $rating)
-            @php
-                $user = \App\User::find($rating->user_id);
-                $ratingOwner = FALSE;
-            @endphp
-
             @auth
                 @php
-                    if (\Auth::user()->id == $rating->user_id) {
+                    $ratingOwner = FALSE;
+                    if (auth()->user()->id == $rating->user_id) {
                         $ratingOwner = TRUE;
                     }
                 @endphp
@@ -179,18 +172,18 @@
                     @if ($ratingOwner)
                         <div class="manage">
                             <a href="{{ url('ratings/edit/'.$rating->id) }}"><i class="pencil black big"></i></a>
-                            <a href="{{ url('ratings/delete/'.$rating->id) }}"><i class="cross red big"></i></a>
+                            <a class="delete confirm" href="{{ url('ratings/delete/'.$rating->id) }}"><i class="cross red big"></i></a>
                         </div>
                     @endif
                 @endauth
                 <strong>
-                    {{ $rating->criterion->name }}
+                    {{ $rating->ratingCriterion->name }}
                 </strong>
                 <div>
                     {{ $rating->comment }}
                 </div>
                 <div>
-                    <small>{{ $user->name }}, {{ FormatHelper::date($rating->created_at) }}</small>
+                    <small>{{ $rating->user->name }}, {{ FormatHelper::date($rating->created_at) }}</small>
                 </div>
             </article>
         @endforeach

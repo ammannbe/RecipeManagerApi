@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
-class CodeHelper extends Model
+class CodeHelper
 {
     public static function any($arguments) {
         $arguments = func_get_args();
@@ -16,12 +16,11 @@ class CodeHelper extends Model
         return end($args);
     }
 
-    public static function weakArrayTypeCheck(Array $array, String $index) {
-        if (!isset($array[$index]))  return NULL;
-        if (empty($array[$index]))   return NULL;
-        if (!$array[$index])         return NULL;
-        if ($array[$index] == 0)     return NULL;
-
-        return $array[$index];
+    public static function previousUrl(String $fallback = '/') {
+        $url = url()->previous();
+        if ($url === url()->current()) {
+            $url = url($fallback);
+        }
+        return $url;
     }
 }

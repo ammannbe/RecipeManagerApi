@@ -3,9 +3,7 @@
 namespace App\Helpers;
 use Parser;
 
-use Illuminate\Database\Eloquent\Model;
-
-class KremlParser extends Model
+class KremlParser
 {
 
     public static function parse(String $kreml) {
@@ -26,11 +24,15 @@ class KremlParser extends Model
             $kremlDescriptions = $kremlRecipe['krecipes-description'];
 
             if (isset($kremlDescriptions['yield']['amount']) && is_array($kremlDescriptions['yield']['amount'])) {
-                $yieldAmount    = (isset($kremlDescriptions['yield']['amount']['min']) ? trim($kremlDescriptions['yield']['amount']['min']) : NULL);
-                $yieldAmountMax = (isset($kremlDescriptions['yield']['amount']['max']) ? trim($kremlDescriptions['yield']['amount']['max']) : NULL);
+                $yieldAmount = (isset($kremlDescriptions['yield']['amount']['min']) ? trim($kremlDescriptions['yield']['amount']['min']) : NULL);
             } else {
-                $yieldAmount    = (isset($kremlDescriptions['yield']['amount']) ? trim($kremlDescriptions['yield']['amount']) : NULL);
-                $yieldAmountMax = NULL;
+                $yieldAmount = (isset($kremlDescriptions['yield']['amount']) ? trim($kremlDescriptions['yield']['amount']) : NULL);
+            }
+
+            if (is_array($kremlDescriptions['category']['cat'])) {
+                $category = trim($kremlDescriptions['category']['cat'][0]);
+            } else {
+                $category = trim($kremlDescriptions['category']['cat']);
             }
 
             $recipes[] = [
@@ -39,9 +41,8 @@ class KremlParser extends Model
                                     $kremlDescriptions['preparation-time'] != '00:00' ? trim($kremlDescriptions['preparation-time']) : NULL),
                 'name'              => (isset($kremlDescriptions['title'])            ? trim($kremlDescriptions['title'])            : NULL),
                 'yieldAmount'       => $yieldAmount,
-                'yieldAmountMax'    => $yieldAmountMax,
                 'instructions'      => (isset($kremlRecipe['krecipes-instructions'])  ? trim($kremlRecipe['krecipes-instructions'])  : NULL),
-                'categories'        => self::categories($kremlDescriptions['category']['cat']),
+                'category'          => $category,
             ];
 
             end($recipes);
@@ -94,19 +95,6 @@ class KremlParser extends Model
         return $recipes;
     }
 
-    private static function categories($kremlCategories) {
-        if (is_null($kremlCategories)) {
-            return [];
-        }
-        if (is_string($kremlCategories)) {
-            $kremlCategories = explode(',', $kremlCategories);
-        }
-        foreach ($kremlCategories as $kremlCategory) {
-            $categories[] = trim($kremlCategory);
-        }
-        return $categories;
-    }
-
     private static function ingredientDetails(Array $kremlIngredientDetails) {
         $position = 0;
         foreach ($kremlIngredientDetails as $i) {
@@ -123,7 +111,7 @@ class KremlParser extends Model
                 'unit'          => (isset($i['unit']) ? trim($i['unit'])   : NULL),
                 'amount'        => $amount,
                 'amountMax'     => $amountMax,
-                'prep'          => (isset($i['prep']) ? trim($i['prep'])   : NULL),
+                'preps'         => (isset($i['prep']) ? explode(',', $i['prep']) : NULL),
                 'position'      => $position++,
                 'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails([$i['substitutes']['ingredient']])[0] : NULL),
             ];
@@ -150,7 +138,7 @@ class KremlParser extends Model
                     'unit'          => (isset($i['unit']) ? trim($i['unit'])   : NULL),
                     'amount'        => $amount,
                     'amountMax'     => $amountMax,
-                    'prep'          => (isset($i['prep']) ? trim($i['prep'])   : NULL),
+                    'preps'         => (isset($i['prep']) ? explode(',', $i['prep']) : NULL),
                     'position'      => $position++,
                     'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails($i['substitutes']['ingredient']) : NULL),
                 ];

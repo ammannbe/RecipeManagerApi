@@ -27,11 +27,11 @@ class FormatHelper
         }
     }
 
-    public static function shorten($text, $length = 30, $marker = '...') {
+    public static function shorten(String $text, Int $length = 30, String $marker = '...') {
         return mb_strimwidth($text, 0, $length, $marker);
     }
 
-    public static function slugify($text) {
+    public static function slugify(String $text = '') {
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);    // replace non letter or digits by -
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // transliterate
         $text = preg_replace('~[^-\w]+~', '', $text);        // remove unwanted characters
@@ -41,8 +41,15 @@ class FormatHelper
 
         if (empty($text)) {
             return NULL;
+        } else {
+            return $text;
         }
+    }
 
-        return $text;
+    public static function generatePhotoName(String $name, String $extension) {
+        $time = time();
+        $slug = self::slugify($name);
+
+        return "{$time}-{$slug}.{$extension}";
     }
 }

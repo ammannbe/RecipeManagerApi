@@ -11,11 +11,14 @@ class IngredientDetail extends Model
         'amount',
         'unit_id',
         'ingredient_id',
-        'prep_id',
         'ingredient_detail_group_id',
         'position',
         'ingredient_detail_id'
     ];
+
+    public function recipe() {
+        return $this->belongsTo('\App\Recipe');
+    }
 
     public function unit() {
         return $this->belongsTo('\App\Unit');
@@ -25,8 +28,8 @@ class IngredientDetail extends Model
         return $this->belongsTo('\App\Ingredient');
     }
 
-    public function prep() {
-        return $this->belongsTo('\App\Prep');
+    public function preps() {
+        return $this->belongsToMany('\App\Prep');
     }
 
     public function group() {

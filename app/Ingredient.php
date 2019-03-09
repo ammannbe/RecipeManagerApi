@@ -2,24 +2,25 @@
 
 namespace App;
 
+use App\IngredientDetail;
+use App\Helpers\CodeHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class Ingredient extends Model
 {
     protected $fillable = ['name'];
 
-    public function search($name) {
-        $ingredients = $this->where('name', 'LIKE', '%'.$name.'%')->get();
-        foreach ($ingredients as $ingredient) {
-            $ingredientDetails = \App\IngredientDetail::where('ingredient_id', '=', $ingredient->id)->get();
-            foreach ($ingredientDetails as $ingredientDetail) {
-                $result[$ingredientDetail->id] = $ingredientDetail;
-            }
-        }
-        return (isset($result) ? $result : []);
+    public function searchRecipes($name) {
+        return $this->where('name', 'LIKE', '%'.$name.'%')
+            ->with([
+                'ingredientDetail.recipe',
+                'ingredientDetail.recipe.author',
+                'ingredientDetail.recipe.category',
+            ])
+            ->get();
     }
 
-    public function recipes() {
-        return $this->belongsToMany('\App\Recipe');
+    public function ingredientDetail() {
+        return $this->hasMany('\App\IngredientDetail');
     }
 }

@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cookbook extends Model
 {
-    protected $fillable = ['name', 'user_id'];
+    protected $fillable = [
+        'name',
+        'user_id'
+    ];
 
-    public function search($name) {
-        return $this->where('name', 'LIKE', '%'.$name.'%')->get();
+    public function searchRecipes($name) {
+        return $this->where('name', 'LIKE', '%'.$name.'%')
+            ->with(['recipes', 'recipes.author', 'recipes.category'])
+            ->get();
     }
 
     public function recipes() {

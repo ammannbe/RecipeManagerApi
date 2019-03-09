@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryFormRequest extends FormRequest
+class CreateRatingCriterion extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class CategoryFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id'   => ['nullable', 'integer'],
-            'name'          => ['required', 'string'],
+            'name' => ['required', 'string', 'max:20', 'unique:rating_criteria,name'],
         ];
     }
 }

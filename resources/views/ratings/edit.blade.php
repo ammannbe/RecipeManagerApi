@@ -11,9 +11,12 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kriterium') !!}
-                {!! Form::text('rating_criterion', $default['ratingCriterion']->name, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
-
+                {!! Form::label('Kriterium', NULL, ['class' => 'required']) !!}
+                {!! Form::text('rating_criterion', $ratingCriteria[$rating->rating_criterion_id], [
+                    'maxlength'    => 200,
+                    'class'        => 'text-input',
+                    'autocomplete' => 'off',
+                    'required']) !!}
                 {!! FormHelper::jsDropdown($ratingCriteria) !!}
             </div>
 

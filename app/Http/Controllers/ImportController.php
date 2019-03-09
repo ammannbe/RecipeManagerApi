@@ -21,19 +21,11 @@ use Auth;
 class ImportController extends Controller
 {
     public function index(ImportFormRequest $request) {
-        $input = $request->all();
-
-        if (isset($input['cookbook']) && $input['cookbook']) {
-            if (! $cookbook = Cookbook::where('name', $input['cookbook'])->first()) {
-                return redirect('/recipes/import')
-                    ->withErrors(['Dieses Kochbuch existiert nicht!'])
-                    ->withInput();
-            }
-        }
+        $cookbook = Cookbook::where('name', $request->cookbook)->first();
 
         $file = [
-            'content'   => file_get_contents($input['file']),
-            'extension' => $input['file']->getClientOriginalExtension(),
+            'content'   => file_get_contents($request->file),
+            'extension' => $request->file->getClientOriginalExtension(),
         ];
 
         $call = $file['extension'];
@@ -47,11 +39,7 @@ class ImportController extends Controller
     }
 
     public function form() {
-        $cookbooks = [];
-        foreach (Cookbook::orderBy('name')->get() as $cookbook) {
-            $cookbooks[$cookbook->id] = $cookbook->name;
-        }
-
+        $cookbooks = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
         return view('recipes.import', compact('cookbooks'));
     }
 
@@ -59,14 +47,17 @@ class ImportController extends Controller
         $parsedRecipes = KremlParser::parse($kreml);
 
         foreach ($parsedRecipes as $parsedRecipe) {
-            if (isset($parsedRecipe['author'])) {
-                if (!$author = Author::where('name', $parsedRecipe['author'])->first()) {
-                    $author = Author::create(['name' => $parsedRecipe['author']]);
-                }
+            unset($author);
+            unset($category);
+
+            if (isset($parsedRecipe['author']) && $parsedRecipe['author']) {
+                $author = Author::firstOrCreate(['name' => $parsedRecipe['author']]);
             }
 
+            $category = Category::firstOrCreate(['name' => $parsedRecipe['category']]);
+
             if (isset($parsedRecipe['photo'])) {
-                $parsedRecipe['photo']['name'] = time().'-'.FormatHelper::slugify($parsedRecipe['name']).'.'.$parsedRecipe['photo']['extension'];
+                $parsedRecipe['photo']['name'] = FormatHelper::generatePhotoName($parsedRecipe['name'], $parsedRecipe['photo']['extension']);
                 $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
 
                 if (! file_put_contents($parsedRecipe['photo']['path'], base64_decode($parsedRecipe['photo']['base64']))) {
@@ -79,10 +70,10 @@ class ImportController extends Controller
             $recipe = Recipe::create([
                 'author_id'         => (isset($author->id) ? $author->id : NULL),
                 'cookbook_id'       => $cookbook->id,
+                'category_id'       => $category->id,
                 'user_id'           => Auth::user()->id,
                 'name'              => $parsedRecipe['name'],
                 'yield_amount'      => $parsedRecipe['yieldAmount'],
-                'yield_amount_max'  => $parsedRecipe['yieldAmountMax'],
                 'instructions'      => $parsedRecipe['instructions'],
                 'photo'             => $parsedRecipe['photo']['name'],
                 'preparation_time'  => $parsedRecipe['preparationTime'],
@@ -93,19 +84,10 @@ class ImportController extends Controller
                     $this->mapIngredientDetail($recipe, $parsedIngredientDetail);
                 }
             }
-
-            $syncCategories = NULL;
-            foreach ($parsedRecipe['categories'] as $categoryName) {
-                if (! $category = Category::where(['name' => $categoryName])->get()->first()) {
-                    $category = Category::create(['name' => $categoryName]);
-                }
-                $syncCategories[] = $category->id;
-            }
-            $recipe->categories()->sync($syncCategories);
         }
 
         \Toast::info('Rezepte wurden importiert.');
-        return redirect('/');
+        return redirect('/admin');
     }
 
     private function mapIngredientDetail(Recipe $recipe, Array $ingredientDetailToMap) {
@@ -113,12 +95,17 @@ class ImportController extends Controller
             return NULL;
         }
 
-        foreach (['ingredient', 'unit', 'prep'] as $name) {
+        foreach (['ingredient', 'unit'] as $name) {
             if (isset($ingredientDetailToMap[$name]) && !is_null($ingredientDetailToMap[$name])) {
                 $cname = '\\App\\'.ucfirst($name);
-                if (! $obj[$name] = $cname::where('name', $ingredientDetailToMap[$name])->first()) {
-                    $obj[$name] = $cname::create(['name' => $ingredientDetailToMap[$name]]);
-                }
+                $obj[$name] = $cname::firstOrCreate(['name' => $ingredientDetailToMap[$name]]);
+            }
+        }
+
+        unset($preps);
+        if ($ingredientDetailToMap['preps']) {
+            foreach ($ingredientDetailToMap['preps'] as $prep) {
+                $preps[] = Prep::firstOrCreate(['name' => $prep])->id;
             }
         }
 
@@ -128,25 +115,26 @@ class ImportController extends Controller
                 'recipe_id' => $recipe->id,
             ];
 
-            if (! $group = IngredientDetailGroup::where($groupArray)->first()) {
-                $group = IngredientDetailGroup::create($groupArray);
-            }
+            $group = IngredientDetailGroup::firstOrCreate($groupArray);
         }
 
         if (isset($ingredientDetailToMap['alternate']) && !is_null($ingredientDetailToMap['alternate'])) {
             $ingredientDetailAlternate = $this->mapIngredientDetail($recipe, $ingredientDetailToMap['alternate']);
         }
 
-        return $ingredientDetail = IngredientDetail::create([
+        $ingredientDetail = IngredientDetail::create([
             'recipe_id'                     => $recipe->id,
             'amount'                        => $ingredientDetailToMap['amount'],
             'amount_max'                    => $ingredientDetailToMap['amountMax'],
             'unit_id'                       => (isset($obj['unit']) ? $obj['unit']->id : NULL),
             'ingredient_id'                 => $obj['ingredient']->id,
-            'prep_id'                       => (isset($obj['prep']) ? $obj['prep']->id : NULL),
             'ingredient_detail_group_id'    => (isset($group) ? $group->id : NULL),
             'position'                      => $ingredientDetailToMap['position'],
             'ingredient_detail_id'          => (isset($ingredientDetailAlternate) ? $ingredientDetailAlternate->id : NULL),
         ]);
+
+        if (isset($preps)) {
+            $ingredientDetail->preps()->sync($preps);
+        }
     }
 }

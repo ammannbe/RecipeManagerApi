@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use ReflectionClass;
 use Illuminate\Http\Request;
-
 use Adldap\Laravel\Facades\Adldap;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -49,20 +49,18 @@ class LoginController extends Controller
     protected function validateLogin(Request $request) {
         $this->validate($request, [
                 $this->username() => 'required|string|regex:/^\w+$/',
-                'password' => 'required|string',
+                'password'        => 'required|string',
             ]);
     }
 
     protected function attemptLogin(Request $request) {
         $credentials = $request->only($this->username(), 'password');
-        $username = $credentials[$this->username()];
-        $password = $credentials['password'];
-
+        $username    = $credentials[$this->username()];
+        $password    = $credentials['password'];
         $user_format = env('LDAP_USER_FORMAT', 'cn=%s,'.env('LDAP_BASE_DN', ''));
-        $userdn = sprintf($user_format, $username);
+        $userdn      = sprintf($user_format, $username);
 
-        if(Adldap::auth()->attempt($userdn, $password, $bindAsUser = true)) {
-
+        if(Adldap::auth()->attempt($userdn, $password, $bindAsUser = TRUE)) {
             // the user doesn't exist in the local database, so we have to create one
             if (! $user = User::where($this->username(), $username)->first()) {
                 $user = new User();
@@ -73,23 +71,23 @@ class LoginController extends Controller
             $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
             $sync_attrs = $this->retrieveSyncAttributes($ldapUser);
             foreach ($sync_attrs as $field => $value) {
-                $user->$field = $value !== null ? $value : NULL;
+                $user->$field = $value !== NULL ? $value : NULL;
             }
 
-            $this->guard()->login($user, true);
-            return true;
+            $this->guard()->login($user, TRUE);
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
 
     }
 
     protected function retrieveSyncAttributes($ldapUser) {
-        $ldapuser_attrs = null;
+        $ldapuser_attrs = NULL;
         $attrs = [];
 
         foreach (config('ldap_auth.sync_attributes') as $local_attr => $ldap_attr) {
-            if ( $local_attr == 'username' ) {
+            if ($local_attr == 'username') {
                 continue;
             }
 
@@ -99,12 +97,12 @@ class LoginController extends Controller
                 continue;
             }
 
-            if ($ldapuser_attrs === null) {
+            if ($ldapuser_attrs === NULL) {
                 $ldapuser_attrs = self::accessProtected($ldapUser, 'attributes');
             }
 
             if (!isset($ldapuser_attrs[$ldap_attr])) {
-                $attrs[$local_attr] = null;
+                $attrs[$local_attr] = NULL;
                 continue;
             }
 
@@ -113,7 +111,7 @@ class LoginController extends Controller
             }
 
             if (count($ldapuser_attrs[$ldap_attr]) == 0) {
-                $attrs[$local_attr] = null;
+                $attrs[$local_attr] = NULL;
                 continue;
             }
 
@@ -124,9 +122,9 @@ class LoginController extends Controller
     }
 
     protected static function accessProtected ($obj, $prop) {
-        $reflection = new \ReflectionClass($obj);
-        $property = $reflection->getProperty($prop);
-        $property->setAccessible(true);
+        $reflection = new ReflectionClass($obj);
+        $property   = $reflection->getProperty($prop);
+        $property->setAccessible(TRUE);
         return $property->getValue($obj);
     }
 }

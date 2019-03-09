@@ -12,10 +12,11 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Name', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 50, 'placeholder' => 'Bsp: Dessert', 'required', 'autofocus']) !!}
+                {!! Form::text('name', NULL, ['maxlength' => 50, 'placeholder' => 'Bsp: Apéros', 'required', 'autofocus']) !!}
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
                 {!! Form::submit('Kategorie hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

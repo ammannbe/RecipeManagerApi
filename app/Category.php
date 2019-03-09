@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'category_id'];
+    protected $fillable = ['name'];
 
-    public function search($name) {
-        return $this->where('name', 'LIKE', '%'.$name.'%')->get();
+    public function searchRecipes($name) {
+        return $this->where('name', 'LIKE', '%'.$name.'%')
+            ->with(['recipes', 'recipes.author', 'recipes.category'])
+            ->get();
     }
 
     public function recipes() {
-        return $this->belongsToMany('\App\Recipe');
+        return $this->hasMany('\App\Recipe');
     }
 }

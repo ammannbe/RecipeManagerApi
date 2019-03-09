@@ -28,32 +28,26 @@
             </div>
 
             <div>
-                {!! Form::label('Autor') !!}
-                {!! Form::text('author', (isset($authors) ? $authors[$recipe->author_id] : NULL), [
-                    'maxlength' => 200,
-                    'class' => 'text-input',
-                    'autocomplete' => 'off']) !!}
-
-                @if (isset($authors))
-                    {!! FormHelper::jsDropdown($authors) !!}
-                @endif
+                {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
+                {!! Form::text('author', ($recipe->author_id ? $authors[$recipe->author_id] : NULL), [
+                    'maxlength'    => 200,
+                    'class'        => 'text-input',
+                    'autocomplete' => 'off',
+                    'required']) !!}
+                {!! FormHelper::jsDropdown($authors) !!}
             </div>
         {!! FormHelper::close() !!}
 
 
-        @php
-            $selectedCategories = [];
-            foreach ($recipe->categories as $category) {
-                array_push($selectedCategories, $category->id);
-            }
-        @endphp
-
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kategorien') !!}
-                {!! Form::select('categories[]', $categories, $selectedCategories, [
-                    'multiple',
-                    'size' => 7]) !!}
+                {!! Form::label('Kategorie', NULL, ['class' => 'required']) !!}
+                {!! Form::text('category', ($recipe->category_id ? $categories[$recipe->category_id] : NULL), [
+                    'maxlength'     => 50,
+                    'class'         => 'text-input',
+                    'autocomplete'  => 'off',
+                    'required']) !!}
+                {!! FormHelper::jsDropdown($categories) !!}
             </div>
 
             <div>
@@ -62,13 +56,14 @@
             </div>
 
             <div>
-                {!! Form::label('Portionen maximal') !!}
-                {!! Form::number('yield_amount_max', $recipe->yield_amount_max, ['max' => 999, 'size' => 3]) !!}
-            </div>
-
-            <div>
                 {!! Form::label('Zubereitungszeit') !!}
-                {!! Form::time('preparation_time', date('H:i', strtotime($recipe->preparation_time))) !!}
+                @php
+                    $preparation_time = NULL;
+                    if ($recipe->preparation_time) {
+                        date('H:i', strtotime($recipe->preparation_time));
+                    }
+                @endphp
+                {!! Form::time('preparation_time', $preparation_time) !!}
             </div>
         {!! FormHelper::close() !!}
 
@@ -92,6 +87,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->id}") !!}
                 {!! Form::submit('Änderungen speichern') !!}
             </div>
         {!! FormHelper::close() !!}

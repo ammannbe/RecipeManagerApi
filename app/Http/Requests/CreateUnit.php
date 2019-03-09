@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RatingFormRequest extends FormRequest
+class CreateUnit extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class RatingFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'rating_criterion'   => ['required', 'string'],
-            'comment'            => ['required', 'string'],
+            'name'                 => ['required', 'string', 'max:20'],
+            'name_shortcut'        => ['nullable', 'string', 'max:20'],
+            'name_plural'          => ['nullable', 'string', 'max:20'],
+            'name_plural_shortcut' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

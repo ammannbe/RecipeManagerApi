@@ -26,10 +26,10 @@ class EditUser extends FormRequest
     public function rules()
     {
         return [
-            'name'                  => ['required', 'max:255'],
-            'email'                 => ['required', 'max:255', 'email', 'unique:users,email,'.Auth::user()->id],
-            'current_password'      => ['nullable', 'max:255'],
-            'new_password'          => ['nullable', 'required_with:current_password', 'max:255', 'confirmed', 'min:6']
+            'name'             => ['required', 'string', 'max:255'],
+            'email'            => ['required', 'string', 'max:255', 'email', 'unique:users,email,'.auth()->user()->id],
+            'current_password' => ['nullable', 'string', 'max:255'],
+            'new_password'     => ['nullable', 'string', 'max:255', 'min:6', 'required_with:current_password', 'confirmed'],
         ];
     }
 }
