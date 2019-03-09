@@ -4,12 +4,18 @@
     {{-- This is the master layout, where the base layout structure is defined. --}}
 
     <head>
-        <title>Cookbook - @yield('title', 'Narrenhaus')</title>
+        <title>@yield('title', 'Narrenhaus') - Cookbook</title>
 
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        @if(isset($metaTags))
+            @foreach ($metaTags as $meta)
+                <meta name="{{ $meta['name'] }}" content="{{ $meta['content'] }}">
+            @endforeach
+        @endif
 
         <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
