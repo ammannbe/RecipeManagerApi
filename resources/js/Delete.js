@@ -2,13 +2,14 @@ var Delete = {};
 
 Delete.confirm = function(event) {
     if (! confirm('Bist du sicher?')) {
-        event.stopPropagation();
-        event.preventDefault();
+        disableDefault(event);
     }
 }
 
 $(document).ready(function () {
-    $('.delete.confirm').on('click', function (event) {
+    Delete.$_confirm = $('.delete.confirm');
+
+    Delete.$_confirm.on('click', function (event) {
         Delete.confirm(event);
     });
 });

@@ -8,6 +8,12 @@
 require('./NoScript.js');
 
 require('./Toast.js');
-require('./Form.js');
+require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
+
+
+disableDefault = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
