@@ -20,7 +20,6 @@ class CreateIngredientDetailsTable extends Migration
             $table->float('amount_max')->nullable()->default(NULL);
             $table->unsignedInteger('unit_id')->nullable()->default(NULL);
             $table->unsignedInteger('ingredient_id');
-            $table->unsignedInteger('prep_id')->nullable()->default(NULL);
             $table->unsignedInteger('ingredient_detail_group_id')->nullable()->default(NULL);
             $table->unsignedInteger('ingredient_detail_id')->comment('alternate')->nullable()->default(NULL);
             $table->integer('position')->nullable()->default(NULL);
@@ -29,7 +28,6 @@ class CreateIngredientDetailsTable extends Migration
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->nullable()->default(NULL);
             $table->foreign('ingredient_id')->references('id')->on('ingredients');
-            $table->foreign('prep_id')->references('id')->on('preps');
             $table->foreign('ingredient_detail_group_id')->references('id')->on('ingredient_detail_groups')->onDelete('cascade');
             $table->foreign('ingredient_detail_id')->references('id')->on('ingredient_details')->onDelete('cascade')->nullable()->default(NULL);
         });

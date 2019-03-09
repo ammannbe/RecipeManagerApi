@@ -25,7 +25,7 @@ class CreateAuthor extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:50', 'unique:authros,name'],
+            'name' => ['required', 'string', 'max:50', 'unique:authors,name'],
         ];
     }
 }

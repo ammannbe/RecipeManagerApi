@@ -111,7 +111,7 @@ class KremlParser
                 'unit'          => (isset($i['unit']) ? trim($i['unit'])   : NULL),
                 'amount'        => $amount,
                 'amountMax'     => $amountMax,
-                'prep'          => (isset($i['prep']) ? trim($i['prep'])   : NULL),
+                'preps'         => (isset($i['prep']) ? explode(',', $i['prep']) : NULL),
                 'position'      => $position++,
                 'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails([$i['substitutes']['ingredient']])[0] : NULL),
             ];
@@ -138,7 +138,7 @@ class KremlParser
                     'unit'          => (isset($i['unit']) ? trim($i['unit'])   : NULL),
                     'amount'        => $amount,
                     'amountMax'     => $amountMax,
-                    'prep'          => (isset($i['prep']) ? trim($i['prep'])   : NULL),
+                    'preps'         => (isset($i['prep']) ? explode(',', $i['prep']) : NULL),
                     'position'      => $position++,
                     'alternate'     => (isset($i['substitutes']['ingredient']) ? self::ingredientDetails($i['substitutes']['ingredient']) : NULL),
                 ];

@@ -16,7 +16,9 @@ class RecipeHelper
         if ($ingredientDetail->amount_max) $text = $text.$ingredientDetail->amount_max;
         if ($ingredientDetail->unit)       $text = $text.' '.self::getSuitableUnit($ingredientDetail->unit, $ingredientDetail->amount);;
         if ($ingredientDetail->ingredient) $text = $text.' '.$ingredientDetail->ingredient->name;
-        if ($ingredientDetail->prep)       $text = $text.', '.$ingredientDetail->prep->name;
+        foreach ($ingredientDetail->preps as $prep) {
+            $text = $text.', '.$prep->name;
+        }
         return $text;
     }
 

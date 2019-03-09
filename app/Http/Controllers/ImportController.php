@@ -51,14 +51,10 @@ class ImportController extends Controller
             unset($category);
 
             if (isset($parsedRecipe['author']) && $parsedRecipe['author']) {
-                if (! $author = Author::where('name', $parsedRecipe['author'])->first()) {
-                    $author = Author::create(['name' => $parsedRecipe['author']]);
-                }
+                $author = Author::firstOrCreate(['name' => $parsedRecipe['author']]);
             }
 
-            if (! $category = Category::where(['name' => $parsedRecipe['category']])->get()->first()) {
-                $category = Category::create(['name' => $parsedRecipe['category']]);
-            }
+            $category = Category::firstOrCreate(['name' => $parsedRecipe['category']]);
 
             if (isset($parsedRecipe['photo'])) {
                 $parsedRecipe['photo']['name'] = FormatHelper::generatePhotoName($parsedRecipe['name'], $parsedRecipe['photo']['extension']);
@@ -99,12 +95,17 @@ class ImportController extends Controller
             return NULL;
         }
 
-        foreach (['ingredient', 'unit', 'prep'] as $name) {
+        foreach (['ingredient', 'unit'] as $name) {
             if (isset($ingredientDetailToMap[$name]) && !is_null($ingredientDetailToMap[$name])) {
                 $cname = '\\App\\'.ucfirst($name);
-                if (! $obj[$name] = $cname::where('name', $ingredientDetailToMap[$name])->first()) {
-                    $obj[$name] = $cname::create(['name' => $ingredientDetailToMap[$name]]);
-                }
+                $obj[$name] = $cname::firstOrCreate(['name' => $ingredientDetailToMap[$name]]);
+            }
+        }
+
+        unset($preps);
+        if ($ingredientDetailToMap['preps']) {
+            foreach ($ingredientDetailToMap['preps'] as $prep) {
+                $preps[] = Prep::firstOrCreate(['name' => $prep])->id;
             }
         }
 
@@ -114,25 +115,26 @@ class ImportController extends Controller
                 'recipe_id' => $recipe->id,
             ];
 
-            if (! $group = IngredientDetailGroup::where($groupArray)->first()) {
-                $group = IngredientDetailGroup::create($groupArray);
-            }
+            $group = IngredientDetailGroup::firstOrCreate($groupArray);
         }
 
         if (isset($ingredientDetailToMap['alternate']) && !is_null($ingredientDetailToMap['alternate'])) {
             $ingredientDetailAlternate = $this->mapIngredientDetail($recipe, $ingredientDetailToMap['alternate']);
         }
 
-        return $ingredientDetail = IngredientDetail::create([
+        $ingredientDetail = IngredientDetail::create([
             'recipe_id'                     => $recipe->id,
             'amount'                        => $ingredientDetailToMap['amount'],
             'amount_max'                    => $ingredientDetailToMap['amountMax'],
             'unit_id'                       => (isset($obj['unit']) ? $obj['unit']->id : NULL),
             'ingredient_id'                 => $obj['ingredient']->id,
-            'prep_id'                       => (isset($obj['prep']) ? $obj['prep']->id : NULL),
             'ingredient_detail_group_id'    => (isset($group) ? $group->id : NULL),
             'position'                      => $ingredientDetailToMap['position'],
             'ingredient_detail_id'          => (isset($ingredientDetailAlternate) ? $ingredientDetailAlternate->id : NULL),
         ]);
+
+        if (isset($preps)) {
+            $ingredientDetail->preps()->sync($preps);
+        }
     }
 }

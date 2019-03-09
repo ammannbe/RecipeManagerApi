@@ -33,7 +33,7 @@ class Recipe extends Model
 
     public function ingredientDetails() {
         return $this->hasMany('\App\IngredientDetail')
-            ->with(['unit', 'ingredient', 'prep', 'group'])
+            ->with(['unit', 'ingredient', 'preps', 'group'])
             ->orderBy('position');
     }
 

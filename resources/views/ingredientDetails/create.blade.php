@@ -43,12 +43,7 @@
             </div>
 
             <div>
-                {!! Form::text('prep', NULL, [
-                    'maxlength'     => 200,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'placeholder'   => 'z.B. gehackt']) !!}
-                {!! FormHelper::jsDropdown($preps) !!}
+                {!! Form::select('preps[]', $preps, NULL, ['size' => 7, 'multiple']) !!}
             </div>
         {!! FormHelper::close() !!}
 

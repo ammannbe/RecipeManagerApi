@@ -29,7 +29,7 @@ class IngredientDetailController extends Controller
             ->toArray();
 
         $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
-            ->with('unit', 'ingredient', 'prep')
+            ->with('unit', 'ingredient', 'preps')
             ->get();
 
         $ingredientDetailsAlternate = [];
@@ -58,9 +58,6 @@ class IngredientDetailController extends Controller
         if ($request->ingredient) {
             $ingredientDetail->ingredient_id = Ingredient::where('name', $request->ingredient)->first()->id;
         }
-        if ($request->prep) {
-            $ingredientDetail->prep_id = Prep::where('name', $request->prep)->first()->id;
-        }
         if ($request->ingredient_detail_id) {
             $ingredientDetail->ingredient_detail_id = $request->ingredient_detail_id;
         }
@@ -70,17 +67,21 @@ class IngredientDetailController extends Controller
         $ingredientDetail->position  = $request->position;
 
         if ($request->ingredient_detail_group) {
-            $ingredientDetailGroup = IngredientDetailGroup::where('name', $request->ingredient_detail_group)->first();
-            if (! $ingredientDetailGroup) {
-                $ingredientDetailGroup = IngredientDetailGroup::create([
-                        'recipe_id' => $recipe->id,
-                        'name'      => $request->ingredient_detail_group,
-                    ]);
-            }
+            $ingredientDetailGroup = IngredientDetailGroup::firstOrCreate(
+                [
+                    'recipe_id' => $recipe->id,
+                    'name'      => $request->ingredient_detail_group
+                ]);
             $ingredientDetail->ingredient_detail_group_id = $ingredientDetailGroup->id;
         }
 
         $ingredientDetail->save();
+        if ($request->preps) {
+            $ingredientDetail->preps()->sync($request->preps);
+        } else {
+            $ingredientDetail->preps()->detach();
+        }
+
         \Toast::success('Zutat erfolgreich hinzugefügt');
         return redirect('ingredient-details/create/'.$recipe->id);
     }
@@ -88,6 +89,9 @@ class IngredientDetailController extends Controller
     public function delete(IngredientDetail $ingredientDetail) {
         $this->authorize('delete', [IngredientDetail::class, $ingredientDetail->recipe]);
         $ingredientDetail->delete();
+        if (! IngredientDetail::where(['ingredient_detail_group_id' => $ingredientDetail->ingredient_detail_group_id])->exists()) {
+            IngredientDetailGroup::find($ingredientDetail->ingredient_detail_group_id)->delete();
+        }
         \Toast::success('Zutat erfolgreich gelöscht.');
 
         return redirect('/recipes/'.$ingredientDetail->recipe->id);
