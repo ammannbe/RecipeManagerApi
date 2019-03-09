@@ -62,6 +62,7 @@ class RecipeController extends Controller
         }
 
         $recipe = Recipe::create($recipe);
+        session(['edit-mode' => TRUE]);
         \Toast::success('Rezept erfolgreich erstellt');
 
         return redirect('recipes/'.$recipe->id);
