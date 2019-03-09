@@ -2,7 +2,7 @@ var EditMode = {};
 
 EditMode.init = function() {
     $.get(EditMode._uri, function (editMode) {
-        if (editMode) {
+        if (editMode == true) {
             EditMode.enable();
         } else {
             EditMode.disable();
@@ -36,6 +36,7 @@ EditMode.disable = function() {
 
 $(document).ready(function () {
     EditMode.$_switch = $('.switch.edit-mode');
+
     if (EditMode.$_switch.length) {
         EditMode.$_item   = $('.edit-mode.item');
         EditMode.$_input  = $('.switch.edit-mode input[type=checkbox]');
