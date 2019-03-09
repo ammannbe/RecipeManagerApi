@@ -87,7 +87,7 @@ class ImportController extends Controller
         }
 
         \Toast::info('Rezepte wurden importiert.');
-        return redirect('/');
+        return redirect('/admin');
     }
 
     private function mapIngredientDetail(Recipe $recipe, Array $ingredientDetailToMap) {

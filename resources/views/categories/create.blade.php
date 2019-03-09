@@ -16,6 +16,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
                 {!! Form::submit('Kategorie hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

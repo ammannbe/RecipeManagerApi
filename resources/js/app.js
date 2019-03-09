@@ -17,3 +17,12 @@ disableDefault = function(event) {
     event.preventDefault();
     event.stopPropagation();
 }
+
+$(document).ready(function () {
+    $('article.recipes button.show-more').click(function(e) {
+        disableDefault(e);
+
+        $(this).siblings('ul').children('li').removeClass('forced hidden');
+        $(this).remove();
+    });
+});

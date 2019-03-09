@@ -38,6 +38,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/profile') !!}
                 {!! Form::submit('Änderungen speichern') !!}
             </div>
         {!! FormHelper::close() !!}

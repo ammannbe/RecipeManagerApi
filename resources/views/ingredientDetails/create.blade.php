@@ -78,6 +78,7 @@
                     'step' => '1']) !!}
             </div>
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->id}") !!}
                 {!! Form::submit('Zutat hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

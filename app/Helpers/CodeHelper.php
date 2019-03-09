@@ -15,4 +15,12 @@ class CodeHelper
 
         return end($args);
     }
+
+    public static function previousUrl(String $fallback = '/') {
+        $url = url()->previous();
+        if ($url === url()->current()) {
+            $url = url($fallback);
+        }
+        return $url;
+    }
 }

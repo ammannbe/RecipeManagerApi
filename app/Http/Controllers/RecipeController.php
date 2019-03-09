@@ -88,6 +88,10 @@ class RecipeController extends Controller
                 ]
             ));
 
+        if ($request->preparation_time === '00:00') {
+            $recipe->preparation_time = NULL;
+        }
+
         if ($request->delete_photo && !$request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
             $recipe->photo = NULL;

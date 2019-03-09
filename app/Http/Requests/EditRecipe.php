@@ -25,13 +25,14 @@ class EditRecipe extends FormRequest
     public function rules()
     {
         return [
-            'name'         => ['required', 'string', 'max:255', 'unique:recipes,name,'.$this->recipe->id],
-            'cookbook'     => ['required', 'string', 'exists:cookbooks,name'],
-            'category'     => ['required', 'string', 'exists:categories,name'],
-            'author'       => ['required', 'string', 'exists:authors,name'],
-            'yield_amount' => ['nullable', 'numeric', 'max:999'],
-            'instructions' => ['required', 'string'],
-            'photo'        => ['nullable', 'image'],
+            'name'             => ['required', 'string', 'max:255', 'unique:recipes,name,'.$this->recipe->id],
+            'cookbook'         => ['required', 'string', 'exists:cookbooks,name'],
+            'category'         => ['required', 'string', 'exists:categories,name'],
+            'author'           => ['required', 'string', 'exists:authors,name'],
+            'yield_amount'     => ['nullable', 'numeric', 'max:999'],
+            'instructions'     => ['required', 'string'],
+            'preparation_time' => ['nullable', 'string'],
+            'photo'            => ['nullable', 'image'],
         ];
     }
 }

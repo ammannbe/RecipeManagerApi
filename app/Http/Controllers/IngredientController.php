@@ -16,6 +16,6 @@ class IngredientController extends Controller
         Ingredient::create($request->all());
         \Toast::success('Zutat erfolgreich erstellt');
 
-        return view('ingredients.create');
+        return redirect('/admin');
     }
 }

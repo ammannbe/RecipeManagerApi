@@ -81,6 +81,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button']) !!}
                 {!! Form::submit('Rezept hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

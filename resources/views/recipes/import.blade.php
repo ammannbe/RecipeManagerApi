@@ -26,6 +26,7 @@
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
                 {!! Form::submit('Rezept importieren') !!}
             </div>
         {!! FormHelper::close() !!}

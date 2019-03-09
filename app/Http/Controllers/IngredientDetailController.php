@@ -82,7 +82,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        \Toast::success('Zutat erfolgreich hinzugefügt');
+        \Toast::success('Zutat erfolgreich hinzugefügt<br><a href="/recipes/'.$recipe->id.'">Zurück zum Rezept</a>');
         return redirect('ingredient-details/create/'.$recipe->id);
     }
 

@@ -52,14 +52,8 @@ h4 {
 }
 
 @keyframes fadein {
-    from {
-        opacity: 0;
-        height: 0;
-    }
-    to {
-        opacity: 1;
-        height: 19px;
-    }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 a {
@@ -83,4 +77,8 @@ section.content {
 
 .hidden {
     visibility: hidden;
+
+    &.forced {
+        display: none;
+    }
 }

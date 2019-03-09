@@ -19,7 +19,7 @@ class CookbookController extends Controller
         Cookbook::create($request->all());
         \Toast::success('Kochbuch erfolgreich erstellt');
 
-        return view('cookbooks.create');
+        return redirect('/admin');
     }
 
     public function delete(Cookbook $cookbook) {

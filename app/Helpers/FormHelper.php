@@ -41,4 +41,17 @@ class FormHelper
                 '<span class="slider round"></span>' .
             '</label>';
     }
+
+    public static function backButton(String $text, Array $properties = [], String $fallbackUri = '/') {
+        if (!isset($properties['href'])) {
+            $properties['href'] = CodeHelper::previousUrl($fallbackUri);
+        }
+
+        $propertiesText = '';
+        foreach ($properties as $key => $property) {
+            $propertiesText .= " {$key}=\"{$property}\"";
+        }
+
+        return "<a {$propertiesText}>{$text}</a>";
+    }
 }

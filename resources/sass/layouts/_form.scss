@@ -27,7 +27,7 @@ section.form {
                 margin: 10px auto;
             }
 
-            button {
+            button, .button, input[type=submit] {
                 @extend %border;
                 padding: 7px 9px;
                 cursor: pointer;
@@ -35,6 +35,8 @@ section.form {
                 display: inline-block;
                 margin: 5px auto;
                 background-color: map-get($colors, white);
+                font-size: smaller;
+                color: unset;
             }
 
             label {

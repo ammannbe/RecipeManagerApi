@@ -17,6 +17,7 @@ class PrepController extends Controller
     public function create(CreatePrepFormRequest $request) {
         Prep::create($request->all());
         \Toast::success('Vorbereitung erfolgreich erstellt');
-        return view('preps.create');
+
+        return redirect('/admin');
     }
 }

@@ -18,6 +18,6 @@ class AuthorController extends Controller
         Author::create($request->all());
         \Toast::success('Autor erfolgreich erstellt');
 
-        return view('authors.create');
+        return redirect('/admin');
     }
 }

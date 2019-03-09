@@ -19,7 +19,7 @@ class UserController extends Controller
             ->with(['cookbook'])
             ->orderBy('cookbook_id')
             ->get();
-        return view('home', compact('recipes'));
+        return view('user.index', compact('recipes'));
     }
 
     public function editForm() {
