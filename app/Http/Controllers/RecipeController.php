@@ -19,19 +19,15 @@ use App\Http\Requests\CreateRecipe;
 class RecipeController extends Controller
 {
     public function show(Recipe $recipe) {
-        foreach ($recipe->ingredientDetails as $key => &$ingredientDetail) {
-            $ingredientDetail->display = RecipeHelper::beautifyIngredientDetail($ingredientDetail);
-
-            if ($ingredientDetail->ingredient_detail_id) {
-                $ingredientDetail->alternate = IngredientDetail::find($ingredientDetail->ingredient_detail_id);
-                $ingredientDetail->alternate->display = RecipeHelper::beautifyIngredientDetail($ingredientDetail->alternate);
-            }
-
-            if ($ingredientDetail->group) {
-                $ingredientDetailGroups[$ingredientDetail->group->name][] = $ingredientDetail;
+        $gropus = $alternatives = [];
+        foreach ($recipe->ingredientDetails as $ingredientDetail) {
+            if ($ingredientDetail->group && !$ingredientDetail->isAlternative()) {
+                $groups[$ingredientDetail->group->name][] = $ingredientDetail;
+            } elseif ($ingredientDetail->ingredientDetail) {
+                $alternatives[] = $ingredientDetail->ingredientDetail->id;
             }
         }
-        return view('recipes.index', compact('recipe', 'ingredientDetailGroups'));
+        return view('recipes.index', compact('recipe', 'groups', 'alternatives'));
     }
 
     public function createForm() {

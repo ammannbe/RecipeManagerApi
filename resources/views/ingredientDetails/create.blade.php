@@ -9,6 +9,8 @@
 
     {!! Form::open(['url' => 'ingredient-details/create/' . $recipe->id]) !!}
 
+        {!! FormHelper::backButton('<i class="arrow-left"></i>Zurück', [], "/recipes/{$recipe->id}") !!}
+
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Zutat') !!}
@@ -51,7 +53,7 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Gruppe') !!}
-                {!! Form::text('ingredient_detail_group', NULL, [
+                {!! Form::text('ingredient_detail_group', $default['ingredientDetailGroup'], [
                     'maxlength'     => 200,
                     'class'         => 'text-input',
                     'autocomplete'  => 'off',

@@ -82,7 +82,9 @@
                 Zutaten
                 @auth
                     @if ($isRecipeOwner)
-                        <a class="edit-mode item hidden" href="{{ url('/ingredient-details/create/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                        <a class="edit-mode item hidden" href="{{ url('/ingredient-details/create/' . $recipe->id) }}" title="Zutat hinzufügen">
+                            <i class="plus-sign"></i>
+                        </a>
                     @endif
                 @endauth
             </h2>
@@ -91,38 +93,35 @@
                 @foreach ($recipe->ingredientDetails as $ingredientDetail)
                     @php
                         if ($ingredientDetail->group) continue;
-                        if ($ingredientDetail->ingredient_detail_id) continue;
                     @endphp
 
-                    <li>
-                        {{ $ingredientDetail->display }}
-                        @if ($ingredientDetail->alternate)
-                            <i class="question-mark" title="Oder {{ $ingredientDetail->alternate->display }}"></i>
-                        @endif
-                        @auth
-                            @if ($isRecipeOwner)
-                                <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                    @if (!in_array($ingredientDetail->id, $alternatives))
+                        <li>
+                            {{ $ingredientDetail->beautify() }}
+                            @if ($ingredientDetail->ingredientDetail)
+                                <i class="question-mark" title="Oder {{ $ingredientDetail->ingredientDetail->beautify() }}"></i>
                             @endif
-                        @endauth
-                    </li>
+                            @auth
+                                @if ($isRecipeOwner)
+                                    <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                @endif
+                            @endauth
+                        </li>
+                    @endif
                 @endforeach
             </ul>
         </section>
 
-        @if (isset($ingredientDetailGroups) && $ingredientDetailGroups)
-            @foreach ($ingredientDetailGroups as $name => $group)
+        @if (isset($groups) && $groups)
+            @foreach ($groups as $name => $group)
                 <section class="list">
                     <h3>{{ $name }}</h3>
                     <ul>
                         @foreach ($group as $ingredientDetail)
-                            @php
-                                if ($ingredientDetail->ingredient_detail_id) continue;
-                            @endphp
-
                             <li>
-                                {{ $ingredientDetail->display }}
-                                @if ($ingredientDetail->alternate)
-                                    <i class="question-mark" title="Oder {{ $ingredientDetail->alternate->display }}"></i>
+                                {{ $ingredientDetail->beautify() }}
+                                @if ($ingredientDetail->ingredientDetail)
+                                    <i class="question-mark" title="Oder {{ $ingredientDetail->ingredientDetail->beautify() }}"></i>
                                 @endif
                                 @auth
                                     @if ($isRecipeOwner)
@@ -131,6 +130,14 @@
                                 @endauth
                             </li>
                         @endforeach
+
+                        @auth
+                            @if ($isRecipeOwner)
+                                <a class="edit-mode item hidden" href="{{ url("/ingredient-details/create/{$recipe->id}?group={$name}") }}">
+                                    <i class="plus-sign"></i> Zutat hinzufügen
+                                </a>
+                            @endif
+                        @endauth
                     </ul>
                 </section>
             @endforeach

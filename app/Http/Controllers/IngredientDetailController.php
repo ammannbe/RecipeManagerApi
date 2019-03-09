@@ -20,6 +20,8 @@ class IngredientDetailController extends Controller
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [IngredientDetail::class, $recipe]);
 
+        $default['ingredientDetailGroup'] = request()->input('group');
+
         $units = Unit::orderBy('name')->pluck('name', 'id')->toArray();
         $preps = Prep::orderBy('name')->pluck('name', 'id')->toArray();
         $ingredients = Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
@@ -43,7 +45,8 @@ class IngredientDetailController extends Controller
                 'preps',
                 'ingredients',
                 'ingredientDetailGroups',
-                'ingredientDetailsAlternate'
+                'ingredientDetailsAlternate',
+                'default'
             );
 
         return view('ingredientDetails.create', $compact);
@@ -82,7 +85,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        \Toast::success('Zutat erfolgreich hinzugefügt<br><a href="/recipes/'.$recipe->id.'">Zurück zum Rezept</a>');
+        \Toast::success('Zutat erfolgreich hinzugefügt');
         return redirect('ingredient-details/create/'.$recipe->id);
     }
 
