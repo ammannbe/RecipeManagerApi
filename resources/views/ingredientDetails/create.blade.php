@@ -75,15 +75,18 @@
 
 
         {!! FormHelper::group('cluster') !!}
-            {!! Form::label('Position') !!}
-            {!! Form::number('position', 0, [
-                'min'  => 0,
-                'size' => 3,
-                'step' => '1']) !!}
+            <div>
+                {!! Form::label('Position') !!}
+                {!! Form::number('position', 0, [
+                    'min'  => 0,
+                    'size' => 3,
+                    'step' => '1']) !!}
+            </div>
+            <div>
+                {!! Form::submit('Zutat hinzufügen') !!}
+            </div>
         {!! FormHelper::close() !!}
 
-
-        {!! Form::submit('Zutat hinzufügen') !!}
     {!! Form::close() !!}
 
 @stop
