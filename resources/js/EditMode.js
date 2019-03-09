@@ -36,14 +36,16 @@ EditMode.disable = function() {
 
 $(document).ready(function () {
     EditMode.$_switch = $('.switch.edit-mode');
-    EditMode.$_item   = $('.edit-mode.item');
-    EditMode.$_input  = $('.switch.edit-mode input[type=checkbox]');
-    EditMode._enabled = false;
-    EditMode._uri     = '/edit-mode';
+    if (EditMode.$_switch.length) {
+        EditMode.$_item   = $('.edit-mode.item');
+        EditMode.$_input  = $('.switch.edit-mode input[type=checkbox]');
+        EditMode._enabled = false;
+        EditMode._uri     = '/edit-mode';
 
-    EditMode.init();
+        EditMode.init();
 
-    EditMode.$_input.change(function() {
-        EditMode.toggle();
-    });
+        EditMode.$_input.change(function() {
+            EditMode.toggle();
+        });
+    }
 });
