@@ -18,15 +18,10 @@
     @endphp
 
     <article class="manage">
-        @auth
-            @if ($isRecipeOwner)
-                Bearbeiten {!! FormHelper::switch('edit-mode') !!}
-            @endif
-        @endauth
-
         <ul>
             @auth
                 @if ($isRecipeOwner)
+                    <li><span>Bearbeiten</span> {!! FormHelper::switch('edit-mode') !!}</li>
                     <li class="edit-mode item hidden"><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li>
                     <li class="edit-mode item hidden">
                         <a class="delete confirm" href="{{ url('/recipes/delete/'.$recipe->id) }}">
