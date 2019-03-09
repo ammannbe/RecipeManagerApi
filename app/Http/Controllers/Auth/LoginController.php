@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Author;
 use ReflectionClass;
 use Illuminate\Http\Request;
 use Adldap\Laravel\Facades\Adldap;
@@ -73,6 +74,8 @@ class LoginController extends Controller
             foreach ($sync_attrs as $field => $value) {
                 $user->$field = $value !== NULL ? $value : NULL;
             }
+
+            Author::firstOrCreate(['name' => $user->name]);
 
             $this->guard()->login($user, TRUE);
             return TRUE;
