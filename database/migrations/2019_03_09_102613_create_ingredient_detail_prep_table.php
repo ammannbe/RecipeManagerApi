@@ -14,10 +14,10 @@ class CreateIngredientDetailPrepTable extends Migration
     public function up()
     {
         Schema::create('ingredient_detail_prep', function (Blueprint $table) {
-            $table->unsignedInteger('ingredient_detail_id')->onDelete('cascade');
+            $table->unsignedInteger('ingredient_detail_id');
             $table->unsignedInteger('prep_id');
 
-            $table->foreign('ingredient_detail_id')->references('id')->on('ingredient_details');
+            $table->foreign('ingredient_detail_id')->references('id')->on('ingredient_details')->onDelete('cascade');
             $table->foreign('prep_id')->references('id')->on('preps');
         });
     }
