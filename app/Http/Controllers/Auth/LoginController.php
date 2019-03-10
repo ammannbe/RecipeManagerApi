@@ -78,6 +78,7 @@ class LoginController extends Controller
             Author::firstOrCreate(['name' => $user->name]);
 
             $this->guard()->login($user, TRUE);
+            $user->update();
             return TRUE;
         } else {
             return FALSE;
