@@ -46,42 +46,33 @@ class ImportController extends Controller
     private function kreml(String $kreml, Cookbook $cookbook) {
         $parsedRecipes = KremlParser::parse($kreml);
 
-        foreach ($parsedRecipes as $parsedRecipe) {
-            unset($author);
-            unset($category);
+        foreach ($parsedRecipes as $pRecipe) {
+            $author = $category = NULL;
 
-            if (isset($parsedRecipe['author']) && $parsedRecipe['author']) {
-                $author = Author::firstOrCreate(['name' => $parsedRecipe['author']]);
+            if ($pRecipe['author']['name']) {
+                $author = Author::firstOrCreate(['name' => $pRecipe['author']['name']]);
             }
 
-            $category = Category::firstOrCreate(['name' => $parsedRecipe['category']]);
+            $category = Category::firstOrCreate(['name' => $pRecipe['category']['name']]);
 
-            if (isset($parsedRecipe['photo'])) {
-                $parsedRecipe['photo']['name'] = FormatHelper::generatePhotoName($parsedRecipe['name'], $parsedRecipe['photo']['extension']);
-                $parsedRecipe['photo']['path'] = public_path().'/images/recipes/'.$parsedRecipe['photo']['name'];
-
-                if (! file_put_contents($parsedRecipe['photo']['path'], base64_decode($parsedRecipe['photo']['base64']))) {
-                    \Toast::error('Fehler beim Hochladen des Bildes für Rezept "' . $parsedRecipe['name'] . '"');
-                }
-            } else {
-                $parsedRecipe['photo']['name'] = NULL;
+            if ($pRecipe['photo']['extension']) {
+                $pRecipe['recipe']['photo'] = FormatHelper::generatePhotoName($pRecipe['recipe']['name'], $pRecipe['photo']['extension']);
+                $pRecipe['photo']['path'] = public_path().'/images/recipes/'.$pRecipe['recipe']['photo'];
+                file_put_contents($pRecipe['photo']['path'], base64_decode($pRecipe['photo']['base64']));
             }
 
-            $recipe = Recipe::create([
-                'author_id'         => (isset($author->id) ? $author->id : NULL),
-                'cookbook_id'       => $cookbook->id,
-                'category_id'       => $category->id,
-                'user_id'           => Auth::user()->id,
-                'name'              => $parsedRecipe['name'],
-                'yield_amount'      => $parsedRecipe['yieldAmount'],
-                'instructions'      => $parsedRecipe['instructions'],
-                'photo'             => $parsedRecipe['photo']['name'],
-                'preparation_time'  => $parsedRecipe['preparationTime'],
-            ]);
+            $recipe = Recipe::create(
+                    array_merge($pRecipe['recipe'], [
+                        'author_id'         => ($author ? $author->id : NULL),
+                        'cookbook_id'       => $cookbook->id,
+                        'category_id'       => $category->id,
+                        'user_id'           => auth()->user()->id,
+                    ]
+                ));
 
-            if (isset($parsedRecipe['ingredientDetails'])) {
-                foreach ($parsedRecipe['ingredientDetails'] as $parsedIngredientDetail) {
-                    $this->mapIngredientDetail($recipe, $parsedIngredientDetail);
+            if ($pRecipe['ingredient_details']) {
+                foreach ($pRecipe['ingredient_details'] as $ingredientDetail) {
+                    $this->addIngredientDetail($recipe, $ingredientDetail);
                 }
             }
         }
@@ -90,51 +81,44 @@ class ImportController extends Controller
         return redirect('/admin');
     }
 
-    private function mapIngredientDetail(Recipe $recipe, Array $ingredientDetailToMap) {
-        if (!isset($ingredientDetailToMap['ingredient']) || is_null($ingredientDetailToMap['ingredient'])) {
-            return NULL;
+    private function addIngredientDetail(Recipe $recipe, Array $ingredientDetail, IngredientDetail $alternateTo = NULL) {
+        if (!isset($ingredientDetail['ingredient']) || ! $ingredientDetail['ingredient']) {
+            return;
         }
+        $ingredient = $unit = $preps = $group = NULL;
 
-        foreach (['ingredient', 'unit'] as $name) {
-            if (isset($ingredientDetailToMap[$name]) && !is_null($ingredientDetailToMap[$name])) {
-                $cname = '\\App\\'.ucfirst($name);
-                $obj[$name] = $cname::firstOrCreate(['name' => $ingredientDetailToMap[$name]]);
-            }
+        $ingredientDetail['recipe_id'] = $recipe->id;
+        if ($alternateTo) {
+            $ingredientDetail['ingredient_detail_id'] = $alternateTo->id;
         }
-
-        unset($preps);
-        if ($ingredientDetailToMap['preps']) {
-            foreach ($ingredientDetailToMap['preps'] as $prep) {
+        if ($ingredientDetail['ingredient']) {
+            $ingredientDetail['ingredient_id'] = Ingredient::firstOrCreate(['name' => $ingredientDetail['ingredient']])->id;
+        }
+        if ($ingredientDetail['unit']) {
+            $ingredientDetail['unit_id'] = Unit::firstOrCreate(['name' => $ingredientDetail['unit']])->id;
+        }
+        if ($ingredientDetail['preps']) {
+            foreach ($ingredientDetail['preps'] as $prep) {
                 $preps[] = Prep::firstOrCreate(['name' => $prep])->id;
             }
         }
-
-        if (isset($ingredientDetailToMap['group'])) {
-            $groupArray = [
-                'name'      => $ingredientDetailToMap['group'],
-                'recipe_id' => $recipe->id,
-            ];
-
-            $group = IngredientDetailGroup::firstOrCreate($groupArray);
+        if ($ingredientDetail['group']) {
+            $ingredientDetail['ingredient_detail_group_id'] = IngredientDetailGroup::firstOrCreate([
+                    'name'      => $ingredientDetail['group'],
+                    'recipe_id' => $recipe->id,
+                ])->id;
         }
 
-        if (isset($ingredientDetailToMap['alternate']) && !is_null($ingredientDetailToMap['alternate'])) {
-            $ingredientDetailAlternate = $this->mapIngredientDetail($recipe, $ingredientDetailToMap['alternate']);
-        }
+        $ingredientDetail = IngredientDetail::create($ingreidentDetail);
 
-        $ingredientDetail = IngredientDetail::create([
-            'recipe_id'                     => $recipe->id,
-            'amount'                        => $ingredientDetailToMap['amount'],
-            'amount_max'                    => $ingredientDetailToMap['amountMax'],
-            'unit_id'                       => (isset($obj['unit']) ? $obj['unit']->id : NULL),
-            'ingredient_id'                 => $obj['ingredient']->id,
-            'ingredient_detail_group_id'    => (isset($group) ? $group->id : NULL),
-            'position'                      => $ingredientDetailToMap['position'],
-            'ingredient_detail_id'          => (isset($ingredientDetailAlternate) ? $ingredientDetailAlternate->id : NULL),
-        ]);
-
-        if (isset($preps)) {
+        if ($preps) {
             $ingredientDetail->preps()->sync($preps);
+        }
+
+        if ($ingredientDetail['alternate']) {
+            foreach ($ingredientDetail['alternate'] as $alternate) {
+                $this->addIngredientDetail($recipe, $ingredientDetail['alternate'], $ingredientDetail);
+            }
         }
     }
 }

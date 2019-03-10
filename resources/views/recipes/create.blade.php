@@ -32,8 +32,11 @@
 
             <div>
                 {!! FormHelper::group('input') !!}
+                    @php
+                        $default = array_search(auth()->user()->name, $authors);
+                    @endphp
                     {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
-                    {!! Form::text('author', NULL, [
+                    {!! Form::text('author', $authors[$default], [
                         'maxlength'     => 200,
                         'class'         => 'text-input',
                         'autocomplete'  => 'off',

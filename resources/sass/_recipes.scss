@@ -48,6 +48,17 @@ section.content.recipe {
         > * {
             flex-basis: 100%;
         }
+
+        > .list {
+            h2 {
+                margin-top: 0.5rem;
+            }
+
+            ul {
+                margin-bottom: 0;
+                margin-top: 0;
+            }
+        }
     }
 
     > .instructions {

@@ -10,9 +10,14 @@
     }
 }
 
+.arrow-left::before {
+    @extend %icons;
+    content: "\2190";
+}
+
 .arrow-right::before {
     @extend %icons;
-    content: "\002192";
+    content: "\2192";
 }
 
 .arrow-down::before {

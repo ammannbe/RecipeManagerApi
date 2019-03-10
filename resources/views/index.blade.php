@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Übersicht')
+@section('title', 'Rezepte')
 
 
 @section('content-class', 'overview')

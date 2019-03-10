@@ -32,7 +32,7 @@ class CreateIngredientDetail extends FormRequest
             'preps.*'                   => ['required_with:preps', 'exists:preps,id'],
             'position'                  => ['nullable', 'numeric'],
             'ingredient_detail_group'   => ['nullable', 'string'],
-            'ingredient_detail_id'      => ['nullable', 'numeric'],
+            'ingredient_detail_id'      => ['nullable', 'numeric', 'exists:ingredient_details,id'],
         ];
     }
 }

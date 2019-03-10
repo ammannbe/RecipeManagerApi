@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Author;
 use ReflectionClass;
 use Illuminate\Http\Request;
 use Adldap\Laravel\Facades\Adldap;
@@ -74,7 +75,10 @@ class LoginController extends Controller
                 $user->$field = $value !== NULL ? $value : NULL;
             }
 
+            Author::firstOrCreate(['name' => $user->name]);
+
             $this->guard()->login($user, TRUE);
+            $user->update();
             return TRUE;
         } else {
             return FALSE;
