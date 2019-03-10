@@ -20,6 +20,7 @@ class RecipeController extends Controller
 {
     public function show(Recipe $recipe) {
         $gropus = $alternatives = [];
+        $recipe->ingredientDetails->load('group', 'ingredientDetail');
         foreach ($recipe->ingredientDetails as $ingredientDetail) {
             if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
                 $groups[$ingredientDetail->group->name][] = $ingredientDetail;
