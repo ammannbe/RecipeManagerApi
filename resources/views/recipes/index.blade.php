@@ -191,7 +191,7 @@
                     <small>{{ $rating->user->name }}, {{ FormatHelper::date($rating->created_at) }}</small>
                 </div>
                 <div>
-                    @for ($i = 0; $i <= $rating->stars; $i++)
+                    @for ($i = 0; $i < $rating->stars; $i++)
                         <img src="{{ asset('/images/star-on-big.png') }}" alt="Stern">
                     @endfor
                 </div>
