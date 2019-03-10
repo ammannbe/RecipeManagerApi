@@ -1,0 +1,39 @@
+.stars {
+    overflow: hidden;
+    vertical-align: bottom;
+    display: inline-block;
+    width: 150px;
+    margin-left: 10px;
+    height: 30px;
+}
+.stars > input {
+    opacity: 0;
+    margin-right: -100%;
+}
+.stars > label {
+    position: relative;
+    display: block;
+    float: right;
+    background: url('../images/star-off-big.png');
+    background-size: 30px 30px;
+
+    // Overwrite default label style
+    width: unset !important;
+    text-align: unset !important;
+    display: block !important;
+}
+.stars > label:before {
+    display: block;
+    opacity: 0;
+    content: '';
+    width: 30px;
+    height: 30px;
+    background: url('../images/star-on-big.png');
+    background-size: 30px 30px;
+    transition: opacity 0.2s linear;
+}
+.stars > label:hover:before,
+.stars > label:hover ~ label:before,
+.stars:not(:hover) > :checked ~ label:before {
+    opacity: 1;
+}

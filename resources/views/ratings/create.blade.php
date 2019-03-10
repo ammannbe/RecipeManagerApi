@@ -18,11 +18,17 @@
             </div>
 
             <div>
+                {!! Form::label('Bewertung') !!}
+                {!! FormHelper::rating() !!}
+            </div>
+
+            <div>
                 {!! Form::label('Kommentar', NULL, ['class' => 'required']) !!}
                 {!! Form::textarea('comment', NULL, ['maxlength' => 16777215, 'required']) !!}
             </div>
 
             <div>
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/$recipe->slug") !!}
                 {!! Form::submit('Bewertung hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

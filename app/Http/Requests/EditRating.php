@@ -27,6 +27,7 @@ class EditRating extends FormRequest
         return [
             'rating_criterion' => ['required', 'string', 'exists:rating_criteria,name'],
             'comment'          => ['required', 'string'],
+            'stars'            => ['nullable', 'numeric', 'min:1', 'max:5'],
         ];
     }
 }

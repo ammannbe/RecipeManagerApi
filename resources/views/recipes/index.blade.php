@@ -150,9 +150,9 @@
 
     <article class="ratings">
         @auth
-            @if (! \App\Rating::where('user_id', Auth::User()->id)
-                ->where('recipe_id', $recipe->slug)
-                ->first())
+            @if (! \App\Rating::where([
+                    'user_id'   => auth()->user()->id,
+                    'recipe_id' => $recipe->id])->exists())
                     <h2>
                         Bewertungen
                         <a href="{{ url("ratings/add/{$recipe->slug}") }}"><i class="plus-sign"></i></a>
@@ -189,6 +189,11 @@
                 </div>
                 <div>
                     <small>{{ $rating->user->name }}, {{ FormatHelper::date($rating->created_at) }}</small>
+                </div>
+                <div>
+                    @for ($i = 0; $i <= $rating->stars; $i++)
+                        <img src="{{ asset('/images/star-on-big.png') }}" alt="Stern">
+                    @endfor
                 </div>
             </article>
         @endforeach
