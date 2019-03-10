@@ -30,7 +30,7 @@ class RatingController extends Controller
         Rating::create($rating);
         \Toast::success('Bewertung gespeichert.');
 
-        return redirect('recipes/'.$recipe->id);
+        return redirect("recipes/{$recipe->slug}");
     }
 
     public function editForm(Rating $rating) {

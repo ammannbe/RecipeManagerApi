@@ -47,6 +47,7 @@ class RecipeController extends Controller
                     'author_id'   => Author::where('name', $request->author)->first()->id,
                     'category_id' => Category::where('name', $request->category)->first()->id,
                     'user_id'     => auth()->user()->id,
+                    'slug'        => FormatHelper::slugify($request->name),
                 ]
             );
 
@@ -62,7 +63,7 @@ class RecipeController extends Controller
         session(['edit-mode' => TRUE]);
         \Toast::success('Rezept erfolgreich erstellt');
 
-        return redirect('recipes/'.$recipe->id);
+        return redirect("recipes/{$recipe->slug}");
     }
 
     public function editForm(Recipe $recipe) {
@@ -82,6 +83,7 @@ class RecipeController extends Controller
                     'cookbook_id' => Cookbook::where('name', $request->cookbook)->first()->id,
                     'author_id'   =>   Author::where('name', $request->author)->first()->id,
                     'category_id' => Category::where('name', $request->category)->first()->id,
+                    'slug'        => FormatHelper::slugify($request->name),
                 ]
             ));
 
@@ -104,7 +106,7 @@ class RecipeController extends Controller
         $recipe->update();
         \Toast::success('Rezept erfolgreich aktualisiert.');
 
-        return redirect('recipes/'.$recipe->id);
+        return redirect("recipes/{$recipe->slug}");
     }
 
     public function delete(Recipe $recipe) {

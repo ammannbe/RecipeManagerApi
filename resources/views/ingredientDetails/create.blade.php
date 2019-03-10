@@ -7,9 +7,9 @@
 @section('content-class', 'recipe form')
 @section('content')
 
-    {!! Form::open(['url' => 'ingredient-details/create/' . $recipe->id]) !!}
+    {!! Form::open(['url' => "ingredient-details/create/{$recipe->slug}"]) !!}
 
-        {!! FormHelper::backButton('<i class="arrow-left"></i>Zurück', [], "/recipes/{$recipe->id}") !!}
+        {!! FormHelper::backButton('<i class="arrow-left"></i>Zurück', [], "/recipes/{$recipe->slug}") !!}
 
         {!! FormHelper::group('cluster') !!}
             <div>
@@ -18,7 +18,8 @@
 
             <div>
                 {!! Form::number('amount', NULL, [
-                    'max'   => 99999999,
+                    'max'   => 999999.99,
+                    'min'   => 0,
                     'size'  => 8,
                     'step'  => '0.25',
                     'placeholder' => 'z.B. 50',
@@ -80,7 +81,7 @@
                     'step' => '1']) !!}
             </div>
             <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->id}") !!}
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->slug}") !!}
                 {!! Form::submit('Zutat hinzufügen') !!}
             </div>
         {!! FormHelper::close() !!}

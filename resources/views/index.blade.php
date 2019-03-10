@@ -9,11 +9,11 @@
 
     @foreach ($recipes as $recipe)
         <article>
-            <a href="{{ url('/recipes/' . $recipe->id) }}">
+            <a href="{{ url("/recipes/{$recipe->slug}") }}">
 
                 @if ($recipe->photo)
                     <div class="image">
-                        <img src="{{ url('/images/recipes/'.$recipe->photo) }}">
+                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}">
                     </div>
                 @endif
 

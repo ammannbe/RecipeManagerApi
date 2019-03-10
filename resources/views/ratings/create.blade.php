@@ -7,7 +7,7 @@
 @section('content-class', 'ingredient form')
 @section('content')
 
-    {!! Form::open(['url' => 'ratings/add/' . $recipe->id]) !!}
+    {!! Form::open(['url' => "ratings/add/{$recipe->slug}"]) !!}
 
         {!! FormHelper::group('cluster') !!}
             <div>

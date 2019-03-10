@@ -22,9 +22,9 @@
             @auth
                 @if ($isRecipeOwner)
                     <li><span>Bearbeiten</span> {!! FormHelper::switch('edit-mode') !!}</li>
-                    <li class="edit-mode item hidden"><a href="{{ url('/recipes/edit/'.$recipe->id) }}"><i class="pencil black"></i>Bearbeiten</a></li>
+                    <li class="edit-mode item hidden"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></li>
                     <li class="edit-mode item hidden">
-                        <a class="delete confirm" href="{{ url('/recipes/delete/'.$recipe->id) }}">
+                        <a class="delete confirm" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
                             <i class="cross red"></i>
                             Löschen
                         </a>
@@ -82,7 +82,7 @@
                 Zutaten
                 @auth
                     @if ($isRecipeOwner)
-                        <a class="edit-mode item hidden" href="{{ url('/ingredient-details/create/' . $recipe->id) }}" title="Zutat hinzufügen">
+                        <a class="edit-mode item hidden" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}" title="Zutat hinzufügen">
                             <i class="plus-sign"></i>
                         </a>
                     @endif
@@ -131,7 +131,7 @@
 
                         @auth
                             @if ($isRecipeOwner)
-                                <a class="edit-mode item hidden" href="{{ url("/ingredient-details/create/{$recipe->id}?group={$name}") }}">
+                                <a class="edit-mode item hidden" href="{{ url("/ingredient-details/create/{$recipe->slug}?group={$name}") }}">
                                     <i class="plus-sign"></i> Zutat hinzufügen
                                 </a>
                             @endif
@@ -151,11 +151,11 @@
     <article class="ratings">
         @auth
             @if (! \App\Rating::where('user_id', Auth::User()->id)
-                ->where('recipe_id', $recipe->id)
+                ->where('recipe_id', $recipe->slug)
                 ->first())
                     <h2>
                         Bewertungen
-                        <a href="{{ url('/ratings/add/' . $recipe->id) }}"><i class="plus-sign"></i></a>
+                        <a href="{{ url("ratings/add/{$recipe->slug}") }}"><i class="plus-sign"></i></a>
                     </h2>
             @else
                 <h2>Bewertungen</h2>

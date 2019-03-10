@@ -42,7 +42,7 @@
                 @else
                     <li>
                 @endif
-                    <a href="{{ url('recipes/'.$recipe->id) }}">{{ $recipe->name }}</a>
+                    <a href="{{ url("recipes/{$recipe->slug}") }}">{{ $recipe->name }}</a>
                 </li>
             @endforeach
         </ul>

@@ -34,7 +34,7 @@ class IngredientDetailController extends Controller
             ->with('unit', 'ingredient', 'preps')
             ->get();
 
-        $ingredientDetailsAlternate = [NULL];
+        $ingredientDetailsAlternate = [NULL => NULL];
         foreach ($ingredientDetails as $i) {
             $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
         }
@@ -86,7 +86,7 @@ class IngredientDetailController extends Controller
         }
 
         \Toast::success('Zutat erfolgreich hinzugefügt');
-        return redirect('ingredient-details/create/'.$recipe->id);
+        return redirect("ingredient-details/create/{$recipe->slug}");
     }
 
     public function delete(IngredientDetail $ingredientDetail) {
@@ -97,6 +97,6 @@ class IngredientDetailController extends Controller
         }
         \Toast::success('Zutat erfolgreich gelöscht.');
 
-        return redirect('/recipes/'.$ingredientDetail->recipe->id);
+        return redirect("recipes/{$ingredientDetail->recipe->slug}");
     }
 }

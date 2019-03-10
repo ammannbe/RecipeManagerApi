@@ -7,7 +7,7 @@
 @section('content-class', 'recipe form')
 @section('content')
 
-    {!! Form::open(['url' => 'recipes/edit/'.$recipe->id, 'files' => true]) !!}
+    {!! Form::open(['url' => "recipes/edit/{$recipe->slug}", 'files' => true]) !!}
 
         {!! FormHelper::groups(['cluster', 'input']) !!}
             {!! Form::label('Name', NULL, ['class' => 'required']) !!}
@@ -87,7 +87,7 @@
             </div>
 
             <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->id}") !!}
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->slug}") !!}
                 {!! Form::submit('Änderungen speichern') !!}
             </div>
         {!! FormHelper::close() !!}
