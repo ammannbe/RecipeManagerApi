@@ -21,10 +21,10 @@ class RecipeController extends Controller
     public function show(Recipe $recipe) {
         $gropus = $alternatives = [];
         foreach ($recipe->ingredientDetails as $ingredientDetail) {
-            if ($ingredientDetail->group && !$ingredientDetail->isAlternative()) {
+            if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
                 $groups[$ingredientDetail->group->name][] = $ingredientDetail;
             } elseif ($ingredientDetail->ingredientDetail) {
-                $alternatives[] = $ingredientDetail->ingredientDetail->id;
+                $alternatives[] = $ingredientDetail->ingredientDetail;
             }
         }
         return view('recipes.index', compact('recipe', 'groups', 'alternatives'));

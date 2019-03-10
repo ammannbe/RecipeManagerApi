@@ -31,15 +31,8 @@ class IngredientDetail extends Model
         return $text;
     }
 
-    public function isAlternative() {
-        if ($this->hasMany('\App\IngredientDetail')->exists()) {
-            return TRUE;
-        }
-        return FALSE;
-    }
-
     public function ingredientDetail() {
-        return $this->belongsTo('\App\IngredientDetail');
+        return $this->hasMany('\App\IngredientDetail');
     }
 
     public function recipe() {

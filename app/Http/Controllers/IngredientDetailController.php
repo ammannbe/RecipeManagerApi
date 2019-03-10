@@ -34,7 +34,7 @@ class IngredientDetailController extends Controller
             ->with('unit', 'ingredient', 'preps')
             ->get();
 
-        $ingredientDetailsAlternate = [];
+        $ingredientDetailsAlternate = [NULL];
         foreach ($ingredientDetails as $i) {
             $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
         }

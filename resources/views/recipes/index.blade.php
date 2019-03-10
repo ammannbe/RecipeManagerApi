@@ -95,19 +95,17 @@
                         if ($ingredientDetail->group) continue;
                     @endphp
 
-                    @if (!in_array($ingredientDetail->id, $alternatives))
-                        <li>
-                            {{ $ingredientDetail->beautify() }}
-                            @if ($ingredientDetail->ingredientDetail)
-                                <i class="question-mark" title="Oder {{ $ingredientDetail->ingredientDetail->beautify() }}"></i>
+                    <li>
+                        {{ $ingredientDetail->beautify() }}
+                        @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
+                            <br>Oder: {{ $ingredientDetailAlternate->beautify() }}
+                        @endforeach
+                        @auth
+                            @if ($isRecipeOwner)
+                                <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                             @endif
-                            @auth
-                                @if ($isRecipeOwner)
-                                    <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
-                                @endif
-                            @endauth
-                        </li>
-                    @endif
+                        @endauth
+                    </li>
                 @endforeach
             </ul>
         </section>
@@ -120,9 +118,9 @@
                         @foreach ($group as $ingredientDetail)
                             <li>
                                 {{ $ingredientDetail->beautify() }}
-                                @if ($ingredientDetail->ingredientDetail)
-                                    <i class="question-mark" title="Oder {{ $ingredientDetail->ingredientDetail->beautify() }}"></i>
-                                @endif
+                                @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
+                                <br>Oder: {{ $ingredientDetailAlternate->beautify() }}
+                                @endforeach
                                 @auth
                                     @if ($isRecipeOwner)
                                         <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>

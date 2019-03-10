@@ -65,8 +65,8 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Alternative zu dieser Zutat') !!}
-                {!! Form::select('ingredient_detail_id', array_merge([NULL], $ingredientDetailsAlternate)) !!}
+                {!! Form::label('Oder') !!}
+                {!! Form::select('ingredient_detail_id', $ingredientDetailsAlternate, [NULL]) !!}
             </div>
         {!! FormHelper::close() !!}
 

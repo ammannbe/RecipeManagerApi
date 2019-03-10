@@ -21,7 +21,7 @@ class CreateIngredientDetailsTable extends Migration
             $table->unsignedInteger('unit_id')->nullable()->default(NULL);
             $table->unsignedInteger('ingredient_id');
             $table->unsignedInteger('ingredient_detail_group_id')->nullable()->default(NULL);
-            $table->unsignedInteger('ingredient_detail_id')->comment('alternate')->nullable()->default(NULL);
+            $table->unsignedInteger('ingredient_detail_id')->comment('alternate to')->nullable()->default(NULL);
             $table->integer('position')->nullable()->default(NULL);
             $table->timestamps();
 
