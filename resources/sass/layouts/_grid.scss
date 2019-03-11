@@ -24,7 +24,7 @@ body {
             'footer  footer  footer  footer  footer';
     }
 
-    @media screen and (max-width: 375px) {
+    @media screen and (max-width: 470px) {
         grid-template-areas:
             'nav-top'
             'nav-right'
@@ -37,7 +37,7 @@ body {
     grid-column-gap: 0;
     grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr;
 
-    @media screen and (max-width: 375px) {
+    @media screen and (max-width: 470px) {
         grid-template-columns: 100%;
     }
 }

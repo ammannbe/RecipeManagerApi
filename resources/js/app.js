@@ -11,6 +11,7 @@ require('./Toast.js');
 require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
+require('./Nav.js');
 
 
 disableDefault = function(event) {

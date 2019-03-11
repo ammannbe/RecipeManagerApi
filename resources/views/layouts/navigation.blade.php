@@ -5,5 +5,8 @@
         @auth
             <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept</a></li>
         @endauth
+        <li class="forced hidden dropdown">
+            <a href="#">&#926;</a>
+        </li>
     </ul>
 </nav>

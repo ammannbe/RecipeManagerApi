@@ -1,15 +1,27 @@
 nav.top {
     ul {
         @extend %flexbox-row;
+
+        @media screen and (max-width: 470px) {
+            .dropdown {
+                display: block;
+                visibility: visible;
+            }
+        }
     }
 }
 
 nav.right {
     margin-bottom: -63px;
 
+    @media screen and (max-width: 470px) {
+        display: none;
+        margin-bottom: 0;
+    }
+
     ul {
-        border-left: 1px solid black;
-        border-bottom: 1px solid black;
+        border-left: 1px solid map-get($colors, black);
+        border-bottom: 1px solid map-get($colors, black);
         @extend %flexbox-column;
         background-color: rgb(85, 85, 85);
 
