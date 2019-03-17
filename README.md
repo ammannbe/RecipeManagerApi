@@ -6,7 +6,10 @@ Written with laravel
 
 # Deploy on Webserver with SSH access
 
+## Setup an LDAP server
+
 ## Clone Repo
+
 ### On new installation
 ```
 git clone http://haumea.narrenhaus.local:3000/Narrenhaus/Cookbook.git
@@ -31,7 +34,7 @@ php artisan route:cache
 **If you have problems on login, try to remove the config cache:**
 `php artisan config:clear`
 
-## Update Database (on updates)
+## Update Database
 ```
 php artisan migrate
 ```
