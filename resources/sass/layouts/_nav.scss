@@ -11,6 +11,10 @@ nav.top {
         ul.container {
             display: block;
 
+            li:first-child a i {
+                margin-left: 20px;
+            }
+
             li:not(:first-child) {
                 display: none;
             }
@@ -46,6 +50,8 @@ nav.right {
         border-left: 1px solid map-get($colors, black);
         border-bottom: 1px solid map-get($colors, black);
         background-color: rgb(85, 85, 85);
+        height: 100%;
+        box-sizing: border-box;
 
         li {
             &:hover {
