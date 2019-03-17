@@ -16,7 +16,7 @@ class CheckLogin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
+        if (auth()->check()) {
             return $next($request);
         } else {
             abort(401);
