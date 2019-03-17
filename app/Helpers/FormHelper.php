@@ -37,7 +37,7 @@ class FormHelper
     public static function switch(String $class = 'admin') {
         return
             '<label class="switch '.$class.'">' .
-                \Form::checkbox(NULL, NULL, FALSE) .
+                \Form::checkbox(NULL, NULL, TRUE) .
                 '<span class="slider round"></span>' .
             '</label>';
     }

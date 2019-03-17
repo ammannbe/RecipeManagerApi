@@ -21,9 +21,9 @@
         <ul>
             @auth
                 @if ($isRecipeOwner)
-                    <li><span>Bearbeiten</span> {!! FormHelper::switch('edit-mode') !!}</li>
-                    <li class="edit-mode item hidden"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></li>
-                    <li class="edit-mode item hidden">
+                    <li class="hidden"><span>Bearbeiten</span> {!! FormHelper::switch('edit-mode') !!}</li>
+                    <li class="edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></li>
+                    <li class="edit-mode item">
                         <a class="delete confirm" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
                             <i class="cross red"></i>
                             Löschen
@@ -82,7 +82,7 @@
                 Zutaten
                 @auth
                     @if ($isRecipeOwner)
-                        <a class="edit-mode item hidden" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}" title="Zutat hinzufügen">
+                        <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}" title="Zutat hinzufügen">
                             <i class="plus-sign"></i>
                         </a>
                     @endif
@@ -102,7 +102,7 @@
                         @endforeach
                         @auth
                             @if ($isRecipeOwner)
-                                <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                             @endif
                         @endauth
                     </li>
@@ -123,7 +123,7 @@
                                 @endforeach
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a class="edit-mode item hidden delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                        <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
                                     @endif
                                 @endauth
                             </li>
@@ -131,7 +131,7 @@
 
                         @auth
                             @if ($isRecipeOwner)
-                                <a class="edit-mode item hidden" href="{{ url("/ingredient-details/create/{$recipe->slug}?group={$name}") }}">
+                                <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}?group={$name}") }}">
                                     <i class="plus-sign"></i> Zutat hinzufügen
                                 </a>
                             @endif
@@ -163,10 +163,11 @@
         @endauth
 
         @foreach ($recipe->ratings as $rating)
+            @php $ratingOwner = FALSE; @endphp
+
             @auth
                 @php
-                    $ratingOwner = FALSE;
-                    if (auth()->user()->id == $rating->user_id) {
+                    if (auth()->user()->id === $rating->user_id) {
                         $ratingOwner = TRUE;
                     }
                 @endphp

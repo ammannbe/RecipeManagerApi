@@ -39,7 +39,7 @@ h4 {
     margin-bottom: 0.5rem;
 }
 
-.noscript {
+span div.noscript {
     top: 0;
     left: 0;
     width: 100%;
@@ -48,7 +48,7 @@ h4 {
     font-weight: bold;
     color: map-get($colors, white);
     background-color: map-get($colors, red-dark);
-    padding: 5px 0;
+    padding: 5px 1px;
     animation: fadein 2s;
 }
 
@@ -82,4 +82,16 @@ section.content {
     &.forced {
         display: none;
     }
+}
+
+input[type=submit] {
+    @extend %border;
+    padding: 7px 9px;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    margin: 5px auto;
+    background-color: map-get($colors, white);
+    font-size: smaller;
+    color: unset;
 }

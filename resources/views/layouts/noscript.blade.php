@@ -1,8 +1,10 @@
 {{-- Check if JavaScript is enabled --}}
 @auth
-    <div class="noscript">
+    <div class="noscript container">
         <noscript>
-            Aktiviere JavaScript um von allen Funktionen zu profitieren.
+            <div class="noscript">
+                Aktiviere JavaScript um von allen Funktionen zu profitieren.
+            </div>
         </noscript>
     </div>
 @endauth

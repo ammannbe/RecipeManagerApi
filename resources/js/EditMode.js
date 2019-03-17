@@ -1,8 +1,9 @@
 var EditMode = {};
+EditMode._enabled = false;
 
 EditMode.init = function() {
-    $.get(EditMode._uri, function (editMode) {
-        if (editMode == true) {
+    $.get(EditMode._uri, function(enabled) {
+        if (enabled == true) {
             EditMode.enable();
         } else {
             EditMode.disable();
@@ -36,6 +37,8 @@ EditMode.disable = function() {
 
 $(document).ready(function () {
     EditMode.$_switch = $('.switch.edit-mode');
+
+    EditMode.$_switch.parent().removeClass('hidden'); // Show switch only if JS is enabled
 
     if (EditMode.$_switch.length) {
         EditMode.$_item   = $('.edit-mode.item');
