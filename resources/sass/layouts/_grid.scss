@@ -1,6 +1,6 @@
 nav.top { grid-area: nav-top; }
 header { grid-area: header; }
-.noscript { grid-area: noscript; }
+div.noscript.container { grid-area: noscript; }
 section.content { grid-area: content; }
 nav.right { grid-area: nav-right; }
 footer { grid-area: footer; }
@@ -8,23 +8,22 @@ footer { grid-area: footer; }
 body {
     display: grid;
     grid-template-areas:
-        'nav-top nav-top nav-top nav-top nav-right'
+        'nav-top  nav-top  nav-top  nav-top  nav-right'
         'noscript noscript noscript noscript nav-right'
-        'header  header  header  header  header'
-        'content content content content content'
-        'footer  footer  footer  footer  footer';
+        'header   header   header   header   header'
+        'content  content  content  content  content'
+        'footer   footer   footer   footer   footer';
 
     @media screen and (max-width: 600px) {
         grid-template-areas:
-            'nav-top nav-top nav-top nav-top nav-right'
-            'nav-right  nav-right nav-right nav-right nav-right'
+            'nav-top  nav-top  nav-top  nav-top  nav-right'
             'noscript noscript noscript noscript nav-right'
-            'header  header  header  header  header'
-            'content content content content content'
-            'footer  footer  footer  footer  footer';
+            'header   header   header   header   header'
+            'content  content  content  content  content'
+            'footer   footer   footer   footer   footer';
     }
 
-    @media screen and (max-width: 375px) {
+    @media screen and (max-width: 470px) {
         grid-template-areas:
             'nav-top'
             'nav-right'
@@ -37,7 +36,7 @@ body {
     grid-column-gap: 0;
     grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr;
 
-    @media screen and (max-width: 375px) {
+    @media screen and (max-width: 470px) {
         grid-template-columns: 100%;
     }
 }

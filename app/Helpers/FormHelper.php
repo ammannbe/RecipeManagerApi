@@ -37,7 +37,7 @@ class FormHelper
     public static function switch(String $class = 'admin') {
         return
             '<label class="switch '.$class.'">' .
-                \Form::checkbox(NULL, NULL, FALSE) .
+                \Form::checkbox(NULL, NULL, TRUE) .
                 '<span class="slider round"></span>' .
             '</label>';
     }
@@ -53,5 +53,16 @@ class FormHelper
         }
 
         return "<a {$propertiesText}>{$text}</a>";
+    }
+
+    public static function rating(Int $default = NULL, Int $number = 5) {
+        $html = '<span class="stars">';
+        for ($i = $number; $i > 0; $i--) {
+            $html .= '<input id="star'.$i.'" type="radio" name="stars" value="'.$i.'"'.($default === $i ? 'checked' : NULL).'>';
+            $html .= '<label for="star'.$i.'">'.$i.'</label>';
+        }
+        $html .= '</span>';
+
+        return $html;
     }
 }

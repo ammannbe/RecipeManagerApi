@@ -5,8 +5,6 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
-require('./NoScript.js');
-
 require('./Toast.js');
 require('./Dropdown.js');
 require('./Delete.js');

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+    @extends('layouts.master')
 
 
 @section('title', 'Bewertung bearbeiten')
@@ -21,11 +21,18 @@
             </div>
 
             <div>
+                {!! Form::label('Bewertung') !!}
+                {!! FormHelper::rating($rating->stars) !!}
+            </div>
+
+            <div>
                 {!! Form::label('Kommentar', NULL, ['class' => 'required']) !!}
                 {!! Form::textarea('comment', $rating->comment, ['maxlength' => 16777215, 'required']) !!}
             </div>
 
             <div>
+                @php($recipe = App\Recipe::find($rating->recipe_id))
+                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], "/recipes/{$recipe->slug}") !!}
                 {!! Form::submit('Bewertung ändern') !!}
             </div>
         {!! FormHelper::close() !!}

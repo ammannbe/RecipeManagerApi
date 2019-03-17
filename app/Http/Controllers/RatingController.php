@@ -25,12 +25,13 @@ class RatingController extends Controller
             'recipe_id'           => $recipe->id,
             'user_id'             => auth()->user()->id,
             'comment'             => $request->comment,
+            'stars'               => $request->stars,
             'rating_criterion_id' => RatingCriterion::where('name', $request->rating_criterion)->first()->id,
         ];
         Rating::create($rating);
         \Toast::success('Bewertung gespeichert.');
 
-        return redirect('recipes/'.$recipe->id);
+        return redirect("recipes/{$recipe->slug}");
     }
 
     public function editForm(Rating $rating) {
@@ -43,17 +44,21 @@ class RatingController extends Controller
     public function edit(EditRatingFormRequest $request, Rating $rating) {
         $rating->update([
             'comment'             => $request->comment,
+            'stars'               => $request->stars,
             'rating_criterion_id' => RatingCriterion::where('name', $request->rating_criterion)->first()->id,
         ]);
         \Toast::success('Rezept erfolgreich aktualisiert.');
+        $recipe = Recipe::find($rating->recipe_id);
 
-        return redirect('recipes/'.$rating->recipe_id);
+        return redirect("recipes/{$recipe->slug}");
     }
 
     public function delete(Rating $rating) {
         $this->authorize('update', [Rating::class, $rating]);
         $rating->delete();
         \Toast::success('Bewertung erfolgreich gelöscht.');
-        return redirect('recipes/'.$rating->recipe_id);
+        $recipe = Recipe::find($rating->recipe_id);
+
+        return redirect("recipes/{$recipe->slug}");
     }
 }

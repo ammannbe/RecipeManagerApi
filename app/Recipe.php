@@ -16,8 +16,13 @@ class Recipe extends Model
         'instructions',
         'photo',
         'preparation_time',
-        'user_id'
+        'user_id',
+        'slug',
     ];
+
+    public function getRouteKeyName() {
+        return 'slug';
+    }
 
     public function cookbook() {
         return $this->belongsTo('\App\Cookbook');

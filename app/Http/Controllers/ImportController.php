@@ -67,6 +67,7 @@ class ImportController extends Controller
                         'cookbook_id'       => $cookbook->id,
                         'category_id'       => $category->id,
                         'user_id'           => auth()->user()->id,
+                        'slug'              => FormatHelper::slugify($pRecipe['recipe']['name']),
                     ]
                 ));
 
@@ -109,7 +110,7 @@ class ImportController extends Controller
                 ])->id;
         }
 
-        $ingredientDetail = IngredientDetail::create($ingreidentDetail);
+        $ingredientDetail = IngredientDetail::create($ingredientDetail);
 
         if ($preps) {
             $ingredientDetail->preps()->sync($preps);

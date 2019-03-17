@@ -1,35 +1,29 @@
 <nav class="right">
-    <ul>
+
+    @auth
+        <input type="checkbox" id="nav-checkbox-right" class="forced hidden"/>
+        <label for="nav-checkbox-right" class="nav-open">&#926;</label>
+    @endauth
+
+    <ul class="container">
         @guest
             <li>
                 <a href="{{ route('login') }}">{{ __('Login') }}</a>
             </li>
-            @if (Route::has('register'))
-                <li>
-                    <a href="{{ route('register') }}">Registrieren</a>
-                </li>
-            @endif
         @else
-            @if (Auth::user()->user_type == 'admin')
+            <li>
+                <a href="{{ url('/profile') }}">Profil</a>
+            </li>
+            @if (auth()->user()->user_type == 'admin')
                 <li>
                     <a href="{{ url('/admin') }}">Administration</a>
                 </li>
             @endif
-
-            <li>
-                <a href="{{ url('/profile') }}">Profil</a>
-            </li>
-
             <li>
                 <div>
-                    <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
-                            Abmelden
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
+                        <input type="submit" value="Abmelden">
                     </form>
                 </div>
             </li>

@@ -10,7 +10,8 @@ class Rating extends Model
         'recipe_id',
         'user_id',
         'rating_criterion_id',
-        'comment'
+        'comment',
+        'stars',
     ];
 
     public function user() {
