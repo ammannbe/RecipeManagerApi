@@ -2,6 +2,7 @@
 
 
 @section('title', 'Rezepte')
+@section('meta-description', 'Finde die besten Rezepte der über ' . (\App\Recipe::count() - rand(5, 10)) . ' aufgeführten Rezepte hier.')
 
 
 @section('content-class', 'overview')
@@ -13,7 +14,7 @@
 
                 @if ($recipe->photo)
                     <div class="image">
-                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}">
+                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
                     </div>
                 @endif
 
