@@ -2,6 +2,7 @@
 
 
 @section('title', $recipe->name)
+@section('meta-description', "{$recipe->name}, Autor: {$recipe->author} Kategorie: {$recipe->category}")
 
 
 @section('content-class', 'recipe')
@@ -36,7 +37,7 @@
 
     @if ($recipe->photo)
         <article class="image">
-            <img src="{{ url('/images/recipes/'.$recipe->photo) }}">
+            <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
         </article>
     @endif
 
@@ -193,7 +194,7 @@
                 </div>
                 <div>
                     @for ($i = 0; $i < $rating->stars; $i++)
-                        <img src="{{ asset('/images/star-on-big.png') }}" alt="Stern">
+                        <img src="{{ asset('/images/star-on-big.png') }}" alt="Bewertungsstern">
                     @endfor
                 </div>
             </article>

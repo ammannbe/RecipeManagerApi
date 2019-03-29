@@ -7,4 +7,12 @@ footer {
     > em {
         margin-right: 10px;
     }
+
+    > a {
+        color: #79BAF1;
+
+        &:hover {
+            color: #A1D1F7;
+        }
+    }
 }
