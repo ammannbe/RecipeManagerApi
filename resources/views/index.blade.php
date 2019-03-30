@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 
-@section('title', 'Rezepte')
-@section('meta-description', 'Finde die besten Rezepte der über ' . (\App\Recipe::count() - rand(5, 10)) . ' aufgeführten Rezepte hier.')
+@section('title', 'Übersicht')
+@section('meta-description', 'Finde hier die besten Rezepte unter den ' . \App\Recipe::count() . ' aufgeführten Rezepten.')
 
 
 @section('content-class', 'overview')

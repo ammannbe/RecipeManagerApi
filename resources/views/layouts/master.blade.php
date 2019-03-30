@@ -4,7 +4,7 @@
     {{-- This is the master layout, where the base layout structure is defined. --}}
 
     <head>
-        <title>@yield('title', 'Narrenhaus') - Rezepte</title>
+        <title>@yield('title', 'Narrenhaus') - {{ env('APP_NAME') }}</title>
 
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

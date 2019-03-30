@@ -1,6 +1,6 @@
-# Cookbook
+# Rezepte
 
-Homepage for Cookbooks
+Homepage for recipes
 
 Written with laravel
 

@@ -93,7 +93,8 @@
             <ul>
                 @foreach ($recipe->ingredientDetails as $ingredientDetail)
                     @php
-                        if ($ingredientDetail->group) continue;
+                        if ($ingredientDetail->group) continue; // We show grouped ingredientDetails separately
+                        if ($ingredientDetail->ingredient_detail_id) continue; // We show them as alternatives separately
                     @endphp
 
                     <li>
