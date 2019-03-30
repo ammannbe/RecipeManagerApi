@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 
-@section('title', 'Rezepte')
+@section('title', 'Übersicht')
+@section('meta-description', 'Finde hier die besten Rezepte unter den ' . \App\Recipe::count() . ' aufgeführten Rezepten.')
 
 
 @section('content-class', 'overview')
@@ -13,7 +14,7 @@
 
                 @if ($recipe->photo)
                     <div class="image">
-                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}">
+                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
                     </div>
                 @endif
 
