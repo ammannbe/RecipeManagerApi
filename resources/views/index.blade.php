@@ -2,7 +2,11 @@
 
 
 @section('title', 'Übersicht')
-@section('meta-description', 'Finde hier die besten Rezepte unter den ' . \App\Recipe::count() . ' aufgeführten Rezepten.')
+@section('meta-description',
+        'Weisst du nicht, was du heute Kochen sollst? ' .
+        'Finde hier die besten Rezepte unter den ' . \App\Recipe::count() . ' aufgeführten Rezepten. ' .
+        'Immer frisch. Immer aktuell. Immer gut.'
+    )
 
 
 @section('content-class', 'overview')
