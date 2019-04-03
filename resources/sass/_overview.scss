@@ -33,13 +33,13 @@ section.content.overview {
         @media (max-width: 400px) {
             max-width: 80%;
             margin-left: -25px;
+            border: unset;
+            border-bottom: 1px solid black;
+            border-radius: 0;
         }
         @media (max-width: 330px) {
             max-width: 95%;
             margin-left: -15px;
-            border: unset;
-            border-bottom: 1px solid black;
-            border-radius: 0;
         }
 
         &:hover {
