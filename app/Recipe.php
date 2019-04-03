@@ -54,4 +54,22 @@ class Recipe extends Model
             ->with(['author', 'category'])
             ->get();
     }
+
+    public static function best($recipes, Int $paginate = NULL) {
+        foreach ($recipes as $key => $recipe) {
+            $bestRecipes[$key] = $recipe;
+            $bestRecipes[$key]['stars_avg']   = $recipe->ratings()->avg('stars');
+            $bestRecipes[$key]['stars_count'] = $recipe->ratings()->count();
+        }
+
+        usort($bestRecipes, function($a, $b) {
+            return -($a->stars_avg <=> $b->stars_avg);
+        });
+
+        if ($paginate) {
+            return array_slice($bestRecipes, 0, $paginate);
+        } else {
+            return $bestRecipes;
+        }
+    }
 }

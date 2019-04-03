@@ -21,4 +21,8 @@ class Rating extends Model
     public function ratingCriterion() {
         return $this->belongsTo('\App\RatingCriterion');
     }
+
+    public function recipe() {
+        return $this->belongsTo('\App\Recipe');
+    }
 }
