@@ -37,6 +37,9 @@ section.content.overview {
         @media (max-width: 330px) {
             max-width: 95%;
             margin-left: -15px;
+            border: unset;
+            border-bottom: 1px solid black;
+            border-radius: 0;
         }
 
         &:hover {
@@ -54,7 +57,9 @@ section.content.overview {
         }
 
         .image {
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: auto;
             width: 95%;
 
@@ -67,7 +72,7 @@ section.content.overview {
             @media (max-width: 275px)  { height: 100px; }
 
             img {
-                width: 100%;
+                width: auto;
                 max-height: 200px;
             }
         }
