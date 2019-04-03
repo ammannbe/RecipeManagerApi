@@ -79,16 +79,7 @@
 
     <article class="ingredients">
         <section class="list">
-            <h2>
-                Zutaten
-                @auth
-                    @if ($isRecipeOwner)
-                        <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}" title="Zutat hinzufügen">
-                            <i class="plus-sign"></i>
-                        </a>
-                    @endif
-                @endauth
-            </h2>
+            <h2>Zutaten</h2>
 
             <ul>
                 @foreach ($recipe->ingredientDetails as $ingredientDetail)
@@ -109,6 +100,14 @@
                         @endauth
                     </li>
                 @endforeach
+
+                @auth
+                    @if ($isRecipeOwner)
+                        <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}">
+                            Zutat hinzufügen
+                        </a>
+                    @endif
+                @endauth
             </ul>
         </section>
 
@@ -145,6 +144,7 @@
     </article>
 
     <article class="instructions">
+        <h2>Zubereitung</h2>
         <p>
             {!! nl2br(e($recipe->instructions)) !!}
         </p>
@@ -155,10 +155,8 @@
             @if (! \App\Rating::where([
                     'user_id'   => auth()->user()->id,
                     'recipe_id' => $recipe->id])->exists())
-                    <h2>
-                        Bewertungen
-                        <a href="{{ url("ratings/add/{$recipe->slug}") }}"><i class="plus-sign"></i></a>
-                    </h2>
+                    <h2>Bewertungen</h2>
+                    <a href="{{ url("ratings/add/{$recipe->slug}") }}">Bewertung hinzufügen</a>
             @else
                 <h2>Bewertungen</h2>
             @endif

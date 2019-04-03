@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rating;
 use App\Recipe;
 use App\Helpers\FormHelper;
 use App\Http\Requests\Search as SearchFormRequest;
@@ -9,10 +10,22 @@ use App\Http\Requests\Search as SearchFormRequest;
 class PagesController extends Controller
 {
     public function index() {
-        $recipes = Recipe::with(['category', 'author'])
+        $newRecipes = Recipe::with(['category', 'author'])
+            ->whereNotNull('photo')
             ->latest()
-            ->paginate(10);
-        return view('index', compact('recipes'));
+            ->paginate(3);
+
+        $ratings = Rating::with(['recipe', 'ratingCriterion'])
+            ->latest()
+            ->paginate(3);
+
+        $recipes = Recipe::with('category', 'author', 'ratings')
+            ->whereNotNull('photo')
+            ->get();
+
+        $topRecipes = Recipe::best($recipes, 3);
+
+        return view('index', compact('newRecipes', 'ratings', 'topRecipes'));
     }
 
     public function searchForm($default = 'recipe') {
