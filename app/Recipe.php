@@ -58,8 +58,8 @@ class Recipe extends Model
     public static function best($recipes, Int $paginate = NULL) {
         foreach ($recipes as $key => $recipe) {
             $bestRecipes[$key] = $recipe;
-            $bestRecipes[$key]['stars_avg']   = $recipe->ratings()->avg('stars');
-            $bestRecipes[$key]['stars_count'] = $recipe->ratings()->count();
+            $bestRecipes[$key]['stars_avg']   = $recipe->ratings->avg('stars');
+            $bestRecipes[$key]['stars_count'] = $recipe->ratings->count();
         }
 
         usort($bestRecipes, function($a, $b) {

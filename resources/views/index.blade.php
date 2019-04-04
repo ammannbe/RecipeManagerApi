@@ -40,7 +40,7 @@
                     @endif
 
                     <div class="rating">
-                        @for ($i = 0; $i < $recipe->ratings()->avg('stars'); $i++)
+                        @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
                             <small>
                                 <i class="star-on"></i>
                             </small>
@@ -79,7 +79,7 @@
                     @endif
 
                     <div class="rating">
-                        @for ($i = 0; $i < $recipe->ratings()->avg('stars'); $i++)
+                        @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
                             <small>
                                 <i class="star-on"></i>
                             </small>

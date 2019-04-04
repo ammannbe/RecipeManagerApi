@@ -60,7 +60,7 @@ class PagesController extends Controller
         }
 
         if (isset($recipes)) {
-            return view('index', compact('recipes'));
+            return view('search.results', compact('recipes'));
             \Toast::clear();
         } else {
             \Toast::info('Keine Rezepte gefunden.');
