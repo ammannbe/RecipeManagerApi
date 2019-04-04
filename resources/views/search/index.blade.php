@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Suche')
+@section('title', 'Rezeptsuche')
 @section('meta-description', 'Einfach und schnell in über ' . (\App\Recipe::count() - rand(5, 10)) . ' Rezepten suchen.')
 
 

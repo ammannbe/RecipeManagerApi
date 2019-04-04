@@ -26,25 +26,21 @@
                 </div>
 
                 <div class="info">
-                    @if ($recipe->category)
-                        <small class="category">
-                            <i class="fork-with-knife-and-plate"></i>
-                            {{ $recipe->category->name }}
-                        </small>
-                    @endif
-
                     @if ($recipe->preparation_time)
-                        <small class="hourglass">
+                        <small>
                             {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}
                         </small>
                     @endif
 
-                    <div class="rating">
-                        @for ($i = 0; $i < $recipe->ratings()->avg('stars'); $i++)
-                            <small>
-                                <i class="star-on"></i>
-                            </small>
-                        @endfor
+                    <div class="recipe-rating">
+                        @if (count($recipe->ratings) > 0)
+                            @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
+                                <small>
+                                    <i class="star-on"></i>
+                                </small>
+                            @endfor
+                            <small class="count">({{ count($recipe->ratings) }})</small>
+                        @endif
                     </div>
                 </div>
             </a>
@@ -65,25 +61,21 @@
                 </div>
 
                 <div class="info">
-                    @if ($recipe->category)
-                        <small class="category">
-                            <i class="fork-with-knife-and-plate"></i>
-                            {{ $recipe->category->name }}
-                        </small>
-                    @endif
-
                     @if ($recipe->preparation_time)
-                        <small class="hourglass">
+                        <small>
                             {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}
                         </small>
                     @endif
 
-                    <div class="rating">
-                        @for ($i = 0; $i < $recipe->ratings()->avg('stars'); $i++)
-                            <small>
-                                <i class="star-on"></i>
-                            </small>
-                        @endfor
+                    <div class="recipe-rating">
+                        @if (count($recipe->ratings) > 0)
+                            @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
+                                <small>
+                                    <i class="star-on"></i>
+                                </small>
+                            @endfor
+                            <small class="count">({{ count($recipe->ratings) }})</small>
+                        @endif
                     </div>
                 </div>
             </a>

@@ -19,8 +19,12 @@ class FormatHelper
             (in_array('hours', $format))   ? $formatString .=  'H\h' : '';
             (in_array('minutes', $format)) ? $formatString .= ' i\m\i\n' : '';
             (in_array('seconds', $format)) ? $formatString .= ' s\s' : '';
+
             $dateTime = new \DateTime($time);
             $dateTime = $dateTime->format($formatString);
+            $dateTime = preg_replace("/00h/", "", $dateTime);
+            $dateTime = preg_replace("/00m/", "", $dateTime);
+            $dateTime = preg_replace("/00s/", "", $dateTime);
             return $dateTime;
         } else {
             return '-';
