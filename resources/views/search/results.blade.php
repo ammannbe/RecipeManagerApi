@@ -11,11 +11,13 @@
     @foreach ($recipes as $recipe)
         <article>
             <a href="{{ url("/recipes/{$recipe->slug}") }}">
-                @if ($recipe->photo)
-                    <div class="image">
-                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
-                    </div>
-                @endif
+                <div class="image">
+                    @if ($recipe->photo)
+                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->name }}">
+                    @else
+                        <img src="{{ url('/images/placeholder.png') }}" alt="{{ $recipe->name }}">
+                    @endif
+                </div>
 
                 <div class="instructions" title="{{ $recipe->instructions }}">
                     <h3>{{ $recipe->name }}</h3>
@@ -23,25 +25,21 @@
                 </div>
 
                 <div class="info">
-                    @if ($recipe->category)
-                        <small class="category">
-                            <i class="fork-with-knife-and-plate"></i>
-                            {{ $recipe->category->name }}
-                        </small>
-                    @endif
-
                     @if ($recipe->preparation_time)
-                        <small class="hourglass">
+                        <small>
                             {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}
                         </small>
                     @endif
 
-                    <div class="rating">
-                        @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
-                            <small>
-                                <i class="star-on"></i>
-                            </small>
-                        @endfor
+                    <div class="recipe-rating">
+                        @if (count($recipe->ratings) > 0)
+                            @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
+                                <small>
+                                    <i class="star-on"></i>
+                                </small>
+                            @endfor
+                            <small class="count">({{ count($recipe->ratings) }})</small>
+                        @endif
                     </div>
                 </div>
             </a>
