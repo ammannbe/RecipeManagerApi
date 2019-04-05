@@ -7,7 +7,7 @@
         <li><a href="{{ url('/') }}"><i class="home"></i>Übersicht</a></li>
         <li><a href="{{ url('/search') }}"><i class="magnifier"></i>Suche</a></li>
         @auth
-            <li><a href="{{ url('/recipes/create') }}"><i class="plus-sign"></i>Rezept</a></li>
+            <li><a href="{{ url('/recipes/create') }}">Rezept eingeben</a></li>
         @endauth
     </ul>
 </nav>
