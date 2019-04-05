@@ -25,7 +25,7 @@ nav.top {
             z-index: 99999;
             padding: 15px 16px;
             text-align: right;
-            display: inline-block;
+            display: block;
             float: right;
             color: map-get($colors, white);
 
@@ -89,7 +89,7 @@ nav.right {
             z-index: 99999;
             padding: 15px 16px;
             text-align: right;
-            display: inline-block;
+            display: block;
             float: right;
             color: map-get($colors, white);
 
