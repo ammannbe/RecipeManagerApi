@@ -1,6 +1,5 @@
 section.content.recipe {
     @extend %flexbox-row;
-    align-items: baseline;
 
     > * {
         padding: 15px;
@@ -22,6 +21,9 @@ section.content.recipe {
 
             li {
                 margin: auto 10px;
+                @media screen and (max-width: 450px) {
+                    margin: auto;
+                }
                 display: block;
             }
         }
