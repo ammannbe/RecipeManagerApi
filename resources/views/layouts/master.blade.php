@@ -18,7 +18,6 @@
 
         @extends('layouts.footer')              {{--      Footer      --}}
         @extends('layouts.content')             {{--   Main content   --}}
-        @extends('layouts.navigation-right')    {{-- Right navigation --}}
         @extends('layouts.header')              {{--    Main header   --}}
         @extends('layouts.noscript')            {{--   Noscript info  --}}
         @extends('layouts.navigation')          {{--  Main navigation --}}

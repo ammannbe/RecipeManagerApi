@@ -8,16 +8,16 @@ footer { grid-area: footer; }
 body {
     display: grid;
     grid-template-areas:
-        'nav-top  nav-top  nav-top  nav-top  nav-right'
-        'noscript noscript noscript noscript nav-right'
+        'nav-top  nav-top  nav-top  nav-top  nav-top'
+        'noscript noscript noscript noscript noscript'
         'header   header   header   header   header'
         'content  content  content  content  content'
         'footer   footer   footer   footer   footer';
 
     @media screen and (max-width: 600px) {
         grid-template-areas:
-            'nav-top  nav-top  nav-top  nav-top  nav-right'
-            'noscript noscript noscript noscript nav-right'
+            'nav-top  nav-top  nav-top  nav-top  nav-top'
+            'noscript noscript noscript noscript noscript'
             'header   header   header   header   header'
             'content  content  content  content  content'
             'footer   footer   footer   footer   footer';
@@ -26,7 +26,6 @@ body {
     @media screen and (max-width: 470px) {
         grid-template-areas:
             'nav-top'
-            'nav-right'
             'noscript'
             'header'
             'content'

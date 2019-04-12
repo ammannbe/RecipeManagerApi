@@ -90,8 +90,10 @@ section.content.overview {
 
         .instructions {
             width: 95%;
+            max-width: 100%;
             min-height: 250px;
             flex-basis: 100%;
+            word-wrap: break-word;
 
             height: 200px;
             @media screen and (max-width: 1035px) { height: 250px; }

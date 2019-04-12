@@ -55,30 +55,30 @@ class LoginController extends Controller
     }
 
     protected function attemptLogin(Request $request) {
-        $credentials = $request->only($this->username(), 'password');
-        $username    = $credentials[$this->username()];
-        $password    = $credentials['password'];
+        $username = $request->{$this->username()};
+        $password = $request->password;
+
         $user_format = env('LDAP_USER_FORMAT', 'cn=%s,'.env('LDAP_BASE_DN', ''));
         $userdn      = sprintf($user_format, $username);
 
         if(Adldap::auth()->attempt($userdn, $password, $bindAsUser = TRUE)) {
             // the user doesn't exist in the local database, so we have to create one
-            if (! $user = User::where($this->username(), $username)->first()) {
-                $user = new User();
-                $user->username = $username;
-                $user->password = '';
-            }
+            $user = User::firstOrNew(
+                [$this->username() => $username],
+                ['password' => '']
+            );
 
             $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
             $sync_attrs = $this->retrieveSyncAttributes($ldapUser);
             foreach ($sync_attrs as $field => $value) {
-                $user->$field = $value !== NULL ? $value : NULL;
+                if (empty($value)) { $value = NULL; }
+                $user->{$field} = $value;
             }
+            $user->save();
 
             Author::firstOrCreate(['name' => $user->name]);
 
             $this->guard()->login($user, TRUE);
-            $user->update();
             return TRUE;
         } else {
             return FALSE;

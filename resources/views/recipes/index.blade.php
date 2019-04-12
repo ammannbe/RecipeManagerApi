@@ -14,6 +14,8 @@
         if (auth()->check()) {
             if (auth()->user()->id == $recipe->user_id) {
                 $isRecipeOwner = TRUE;
+            } elseif (auth()->user()->isAdmin()) {
+                $isRecipeOwner = TRUE;
             }
         }
     @endphp
@@ -154,7 +156,8 @@
         @auth
             @if (! \App\Rating::where([
                     'user_id'   => auth()->user()->id,
-                    'recipe_id' => $recipe->id])->exists())
+                    'recipe_id' => $recipe->id])->exists()
+                )
                     <h2>Bewertungen</h2>
                     <a href="{{ url("ratings/add/{$recipe->slug}") }}">Bewertung hinzufügen</a>
             @else
@@ -168,6 +171,8 @@
             @auth
                 @php
                     if (auth()->user()->id === $rating->user_id) {
+                        $ratingOwner = TRUE;
+                    } elseif (auth()->user()->isAdmin()) {
                         $ratingOwner = TRUE;
                     }
                 @endphp
