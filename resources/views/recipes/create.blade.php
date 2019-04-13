@@ -18,7 +18,7 @@
         {!! FormHelper::close(2) !!}
 
 
-        {!! FormHelper::group('cluster') !!}
+        {!! FormHelper::group('cluster forced hidden') !!}
             <div>
                 {!! FormHelper::group('input') !!}
                     @php
