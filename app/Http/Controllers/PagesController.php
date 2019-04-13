@@ -32,7 +32,6 @@ class PagesController extends Controller
         $tables = [
             'author'     => 'Autoren',
             'category'   => 'Kategorien',
-            'cookbook'   => 'Kochbücher',
             'recipe'     => 'Rezept / Zubereitung',
             'ingredient' => 'Zutaten',
         ];

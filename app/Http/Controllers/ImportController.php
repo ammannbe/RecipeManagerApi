@@ -7,7 +7,6 @@ use App\Http\Requests\ImportFormRequest;
 use App\Helpers\KremlParser;
 use App\Helpers\FormatHelper;
 use App\Helpers\FormHelper;
-use App\Cookbook;
 use App\Author;
 use App\Category;
 use App\Recipe;
@@ -21,8 +20,6 @@ use Auth;
 class ImportController extends Controller
 {
     public function index(ImportFormRequest $request) {
-        $cookbook = Cookbook::where('name', $request->cookbook)->first();
-
         $file = [
             'content'   => file_get_contents($request->file),
             'extension' => $request->file->getClientOriginalExtension(),
@@ -30,7 +27,7 @@ class ImportController extends Controller
 
         $call = $file['extension'];
         if (method_exists($this, $call)) {
-            return $this->$call($file['content'], $cookbook);
+            return $this->$call($file['content']);
         } else {
             return redirect('/recipes/import')
                 ->withErrors(['Dieses Format wird nicht unterstützt.'])
@@ -39,11 +36,10 @@ class ImportController extends Controller
     }
 
     public function form() {
-        $cookbooks = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
-        return view('recipes.import', compact('cookbooks'));
+        return view('recipes.import');
     }
 
-    private function kreml(String $kreml, Cookbook $cookbook) {
+    private function kreml(String $kreml) {
         $parsedRecipes = KremlParser::parse($kreml);
 
         foreach ($parsedRecipes as $pRecipe) {
@@ -64,7 +60,6 @@ class ImportController extends Controller
             $recipe = Recipe::create(
                     array_merge($pRecipe['recipe'], [
                         'author_id'         => ($author ? $author->id : NULL),
-                        'cookbook_id'       => $cookbook->id,
                         'category_id'       => $category->id,
                         'user_id'           => auth()->user()->id,
                         'slug'              => FormatHelper::slugify($pRecipe['recipe']['name']),

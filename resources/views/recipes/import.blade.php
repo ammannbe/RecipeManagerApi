@@ -11,16 +11,6 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kochbuch') !!}
-                {!! Form::text('cookbook', NULL, [
-                    'maxlength'     => 200,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'required']) !!}
-                {!! FormHelper::jsDropdown($cookbooks) !!}
-            </div>
-
-            <div>
                 {!! Form::label('file', 'Rezept (*.kreml)') !!}
                 {!! Form::file('file') !!}
             </div>

@@ -7,7 +7,6 @@ use File;
 use App\Author;
 use App\Recipe;
 use App\Category;
-use App\Cookbook;
 use App\IngredientDetail;
 use App\Helpers\CodeHelper;
 use App\Helpers\FormHelper;
@@ -32,18 +31,16 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
-        $cookbooks  = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
         $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('recipes.create', compact('authors', 'cookbooks', 'categories'));
+        return view('recipes.create', compact('authors', 'categories'));
     }
 
     public function create(CreateRecipe $request) {
         $recipe = array_merge(
                 $request->all(),
                 [
-                    'cookbook_id' => Cookbook::where('name', $request->cookbook)->first()->id,
                     'author_id'   => Author::where('name', $request->author)->first()->id,
                     'category_id' => Category::where('name', $request->category)->first()->id,
                     'user_id'     => auth()->user()->id,
@@ -69,18 +66,16 @@ class RecipeController extends Controller
     public function editForm(Recipe $recipe) {
         $this->authorize('update', [Recipe::class, $recipe]);
 
-        $cookbooks  = Cookbook::orderBy('name')->pluck('name', 'id')->toArray();
         $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('recipes.edit', compact('recipe', 'authors', 'cookbooks', 'categories'));
+        return view('recipes.edit', compact('recipe', 'authors', 'categories'));
     }
 
     public function edit(EditRecipe $request, Recipe $recipe) {
         $recipe->fill(array_merge(
                 $request->all(),
                 [
-                    'cookbook_id' => Cookbook::where('name', $request->cookbook)->first()->id,
                     'author_id'   =>   Author::where('name', $request->author)->first()->id,
                     'category_id' => Category::where('name', $request->category)->first()->id,
                     'slug'        => FormatHelper::slugify($request->name),

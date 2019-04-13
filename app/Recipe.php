@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Recipe extends Model
 {
     protected $fillable = [
-        'cookbook_id',
         'category_id',
         'author_id',
         'name',
@@ -22,10 +21,6 @@ class Recipe extends Model
 
     public function getRouteKeyName() {
         return 'slug';
-    }
-
-    public function cookbook() {
-        return $this->belongsTo('\App\Cookbook');
     }
 
     public function author() {

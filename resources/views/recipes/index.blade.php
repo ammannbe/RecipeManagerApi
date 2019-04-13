@@ -46,12 +46,6 @@
     <article class="info">
         <h2>Details</h2>
         <table>
-            @if ($recipe->cookbook)
-                <tr>
-                    <th>Kochbuch:</th>
-                    <td>{{ $recipe->cookbook->name }}</td>
-                </tr>
-            @endif
             @if ($recipe->author)
                 <tr>
                     <th>Autor:</th>
