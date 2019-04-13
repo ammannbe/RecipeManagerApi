@@ -26,7 +26,6 @@ class KremlParser
             $recipeArray = [
                 'recipe'   => [
                     'user_id'          => NULL,
-                    'cookbook_id'      => NULL,
                     'category_id'      => NULL,
                     'author_id'        => NULL,
                     'name'             => NULL,

@@ -6,7 +6,6 @@ use Auth;
 use Hash;
 use App\User;
 use App\Recipe;
-use App\Cookbook;
 use App\Helpers\FormHelper;
 use App\Http\Requests\EditUser as EditUserFormRequest;
 use Adldap\Laravel\Facades\Adldap;
@@ -15,10 +14,7 @@ class UserController extends Controller
 {
 
     public function dashboard() {
-        $recipes = Recipe::where('user_id', auth()->user()->id)
-            ->with(['cookbook'])
-            ->orderBy('cookbook_id')
-            ->get();
+        $recipes = Recipe::where('user_id', auth()->user()->id)->get();
         return view('user.index', compact('recipes'));
     }
 

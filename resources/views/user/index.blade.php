@@ -29,16 +29,7 @@
         <ul>
             @php($i = 0)
             @foreach ($recipes as $recipe)
-                @php($i++)
-                @if (!isset($cookbookID) || $cookbookID != $recipe->cookbook->id)
-                    <h4>{{ $recipe->cookbook->name }}
-                        @if ($recipe->cookbook->user_id == Auth::user()->id)
-                            <a class="edit-mode item delete confirm" href="{{ url("/cookbooks/delete/{$recipe->cookbook->id}") }}"><i class="big red cross"></i></a>
-                        @endif
-                    </h4>
-                @endif
-                @php($cookbookID = $recipe->cookbook->id)
-
+            @php($i++)
                 @if ($i >= 10)
                     <li class="forced hidden">
                 @else

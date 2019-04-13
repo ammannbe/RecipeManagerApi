@@ -17,17 +17,6 @@
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
-                {!! Form::text('cookbook', $cookbooks[$recipe->cookbook_id], [
-                    'maxlength' => 200,
-                    'class' => 'text-input',
-                    'autocomplete' => 'off',
-                    'required']) !!}
-
-                {!! FormHelper::jsDropdown($cookbooks) !!}
-            </div>
-
-            <div>
                 {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
                 {!! Form::text('author', ($recipe->author_id ? $authors[$recipe->author_id] : NULL), [
                     'maxlength'    => 200,

@@ -43,10 +43,6 @@ Route::middleware('checklogin')->group(function() {
 Route::middleware('checklogin', 'checkadmin')->group(function() {
     Route::get('/admin', 'PagesController@admin');
 
-    Route::get('/cookbooks/create', 'CookbookController@createForm');
-    Route::post('/cookbooks/create', 'CookbookController@create');
-    Route::get('/cookbooks/delete/{cookbook}', 'CookbookController@delete');
-
     Route::get('/authors/create', 'AuthorController@createForm');
     Route::post('/authors/create', 'AuthorController@create');
 

@@ -21,17 +21,6 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! FormHelper::group('input') !!}
-                    {!! Form::label('Kochbuch', NULL, ['class' => 'required']) !!}
-                    {!! Form::text('cookbook', reset($cookbooks), [
-                        'maxlength'     => 200,
-                        'class'         => 'text-input',
-                        'autocomplete'  => 'off',
-                        'required', 'readonly']) !!}
-                {!! FormHelper::close() !!}
-            </div>
-
-            <div>
-                {!! FormHelper::group('input') !!}
                     @php
                         $default = array_search(auth()->user()->name, $authors);
                     @endphp
