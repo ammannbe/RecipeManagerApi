@@ -2,7 +2,7 @@
 
 
 @section('title', $recipe->name)
-@section('meta-description', "{$recipe->name}, Autor: {$recipe->author} Kategorie: {$recipe->category}")
+@section('meta-description', "Rezept: {$recipe->name}, Autor: {$recipe->author->name}, Kategorie: {$recipe->category->name}")
 
 
 @section('content-class', 'recipe')
