@@ -16,19 +16,15 @@ class RatingController extends Controller
 {
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [Rating::class, $recipe]);
-        $ratingCriteria = RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
+        $ratingCriteria = [NULL => 'Bitte wählen'] + RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
         return view('ratings.create', compact('recipe', 'ratingCriteria'));
     }
 
     public function create(CreateRatingFormRequest $request, Recipe $recipe) {
-        $rating = [
-            'recipe_id'           => $recipe->id,
-            'user_id'             => auth()->user()->id,
-            'comment'             => $request->comment,
-            'stars'               => $request->stars,
-            'rating_criterion_id' => RatingCriterion::where('name', $request->rating_criterion)->first()->id,
-        ];
-        Rating::create($rating);
+        $rating = new Rating($request->all());
+        $rating->user_id = auth()->user()->id;
+        $rating->recipe_id = $recipe->id;
+        $rating->save();
         \Toast::success('Bewertung gespeichert.');
 
         return redirect("recipes/{$recipe->slug}");
@@ -45,7 +41,7 @@ class RatingController extends Controller
         $rating->update([
             'comment'             => $request->comment,
             'stars'               => $request->stars,
-            'rating_criterion_id' => RatingCriterion::where('name', $request->rating_criterion)->first()->id,
+            'rating_criterion_id' => $request->rating_criterion_id,
         ]);
         \Toast::success('Rezept erfolgreich aktualisiert.');
         $recipe = Recipe::find($rating->recipe_id);

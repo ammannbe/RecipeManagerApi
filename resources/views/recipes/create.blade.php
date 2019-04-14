@@ -18,19 +18,11 @@
         {!! FormHelper::close(2) !!}
 
 
-        {!! FormHelper::group('cluster forced hidden') !!}
+        {!! FormHelper::group('cluster') !!}
             <div>
                 {!! FormHelper::group('input') !!}
-                    @php
-                        $default = array_search(auth()->user()->name, $authors);
-                    @endphp
                     {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
-                    {!! Form::text('author', $authors[$default], [
-                        'maxlength'     => 200,
-                        'class'         => 'text-input',
-                        'autocomplete'  => 'off',
-                        'required']) !!}
-                    {!! FormHelper::jsDropdown($authors) !!}
+                    {!! Form::select('author_id', $authors, $default['authors'], ['class' => 'js-dropdown']) !!}
                 {!! FormHelper::close() !!}
             </div>
         {!! FormHelper::close() !!}
@@ -39,12 +31,7 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Kategorie', NULL, ['class' => 'required']) !!}
-                {!! Form::text('category', NULL, [
-                    'maxlength'     => 50,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'required']) !!}
-                {!! FormHelper::jsDropdown($categories) !!}
+                {!! Form::select('category_id', $categories, NULL, ['class' => 'js-dropdown']) !!}
             </div>
 
             <div>

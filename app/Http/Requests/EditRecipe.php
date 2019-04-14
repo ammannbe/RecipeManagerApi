@@ -26,8 +26,8 @@ class EditRecipe extends FormRequest
     {
         return [
             'name'             => ['required', 'string', 'max:255', 'unique:recipes,name,'.$this->recipe->id],
-            'category'         => ['required', 'string', 'exists:categories,name'],
-            'author'           => ['required', 'string', 'exists:authors,name'],
+            'category_id'      => ['required', 'numeric', 'exists:categories,id'],
+            'author_id'        => ['required', 'string', 'exists:authors,id'],
             'yield_amount'     => ['nullable', 'numeric', 'max:999'],
             'instructions'     => ['required', 'string'],
             'preparation_time' => ['nullable', 'string'],

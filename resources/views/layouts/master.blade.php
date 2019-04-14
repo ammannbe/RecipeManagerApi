@@ -24,8 +24,10 @@
         @extends('layouts.toast')               {{--  Toast messagess --}}
 
         <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+		<script src="{{ asset('js/select2-4.0.1.min.js') }}"></script>
         <script src="{{ mix('/js/app.js') }}"></script>
 
+        <link rel="stylesheet" href="{{ asset('css/select2-4.0.1.min.css') }}">
         <link rel="shortcut icon" href="/logo.png" type="image/x-icon">
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     </body>

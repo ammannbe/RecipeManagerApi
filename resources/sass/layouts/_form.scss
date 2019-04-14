@@ -59,12 +59,14 @@ section.form {
 
             input,
             select,
-            textarea {
+            textarea,
+            .select2-container {
                 font-size: 1rem;
                 margin-left: 10px;
             }
 
-            input {
+            input,
+            .select2-container {
                 width: 60%;
                 max-width: 200px;
                 height: 33px;
@@ -98,39 +100,6 @@ section.form {
             textarea {
                 max-width: 100%;
                 padding: 5px;
-            }
-
-            .js-dropdown {
-                @extend %border;
-                width: auto;
-                position: absolute;
-                background-color: map-get($colors, white);
-                list-style-type: none;
-                margin: 0;
-                margin-top: 5px;
-                padding: 0;
-                z-index: 99;
-                cursor: pointer;
-
-                &.hidden {
-                    display: none;
-                }
-
-                &.show {
-                    display: block;
-                    @media screen and (min-width: 733px) {
-                        display: inline-block;
-                        margin-left: 10px !important;
-                    }
-                }
-
-                li {
-                    padding: 5px;
-
-                    &:hover {
-                        background-color: map-get($colors, light-blue);
-                    }
-                }
             }
         }
     }

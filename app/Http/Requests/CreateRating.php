@@ -25,9 +25,9 @@ class CreateRating extends FormRequest
     public function rules()
     {
         return [
-            'rating_criterion' => ['required', 'string', 'exists:rating_criteria,name'],
-            'comment'          => ['required', 'string'],
-            'stars'            => ['nullable', 'numeric', 'min:1', 'max:5'],
+            'rating_criterion_id' => ['required', 'string', 'exists:rating_criteria,id'],
+            'comment'             => ['required', 'string'],
+            'stars'               => ['nullable', 'numeric', 'min:1', 'max:5'],
         ];
     }
 }

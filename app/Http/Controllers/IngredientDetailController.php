@@ -20,21 +20,21 @@ class IngredientDetailController extends Controller
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [IngredientDetail::class, $recipe]);
 
-        $default['ingredientDetailGroup'] = request()->input('group');
-
-        $units = Unit::orderBy('name')->pluck('name', 'id')->toArray();
+        $units = [NULL => 'Bitte wählen'] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
         $preps = Prep::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredients = Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredientDetailGroups = IngredientDetailGroup::orderBy('name')
+        $ingredients = [NULL => 'Bitte wählen'] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
+        $ingredientDetailGroups = [NULL => 'Bitte wählen'] + IngredientDetailGroup::orderBy('name')
             ->where('recipe_id', $recipe->id)
             ->pluck('name', 'id')
             ->toArray();
+
+        $default['ingredientDetailGroup'] = array_search(request()->input('group'), $ingredientDetailGroups);
 
         $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
             ->with('unit', 'ingredient', 'preps')
             ->get();
 
-        $ingredientDetailsAlternate = [NULL => NULL];
+        $ingredientDetailsAlternate = [NULL => 'Bitte wählen'];
         foreach ($ingredientDetails as $i) {
             $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
         }
@@ -53,32 +53,10 @@ class IngredientDetailController extends Controller
     }
 
     public function create(CreateIngredientDetail $request, Recipe $recipe) {
-        $ingredientDetail = new IngredientDetail();
-
-        if ($request->unit) {
-            $ingredientDetail->unit_id = Unit::where('name', $request->unit)->first()->id;
-        }
-        if ($request->ingredient) {
-            $ingredientDetail->ingredient_id = Ingredient::where('name', $request->ingredient)->first()->id;
-        }
-        if ($request->ingredient_detail_id) {
-            $ingredientDetail->ingredient_detail_id = $request->ingredient_detail_id;
-        }
-
+        $ingredientDetail = new IngredientDetail($request->all());
         $ingredientDetail->recipe_id = $recipe->id;
-        $ingredientDetail->amount    = $request->amount;
-        $ingredientDetail->position  = $request->position;
-
-        if ($request->ingredient_detail_group) {
-            $ingredientDetailGroup = IngredientDetailGroup::firstOrCreate(
-                [
-                    'recipe_id' => $recipe->id,
-                    'name'      => $request->ingredient_detail_group
-                ]);
-            $ingredientDetail->ingredient_detail_group_id = $ingredientDetailGroup->id;
-        }
-
         $ingredientDetail->save();
+
         if ($request->preps) {
             $ingredientDetail->preps()->sync($request->preps);
         } else {

@@ -12,9 +12,7 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Kriterium', NULL, ['class' => 'required']) !!}
-                {!! Form::text('rating_criterion', NULL, ['maxlength' => 200, 'class' => 'text-input', 'autocomplete' => 'off', 'required']) !!}
-
-                {!! FormHelper::jsDropdown($ratingCriteria) !!}
+                {!! Form::select('rating_criterion_id', $ratingCriteria, NULL, ['class' => 'js-dropdown']) !!}
             </div>
 
             <div>
