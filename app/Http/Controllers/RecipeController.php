@@ -31,10 +31,11 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
-        $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
-        $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $authors    = [NULL => 'Bitte wählen'] + Author::orderBy('name')->pluck('name', 'id')->toArray();
+        $categories = [NULL => 'Bitte wählen'] + Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $default['authors'] = array_search(auth()->user()->name, $authors);
 
-        return view('recipes.create', compact('authors', 'categories'));
+        return view('recipes.create', compact('authors', 'categories', 'default'));
     }
 
     public function create(CreateRecipe $request) {
@@ -76,11 +77,13 @@ class RecipeController extends Controller
         $recipe->fill(array_merge(
                 $request->all(),
                 [
-                    'author_id'   =>   Author::where('name', $request->author)->first()->id,
-                    'category_id' => Category::where('name', $request->category)->first()->id,
+                    'author_id'   => $request->author_id,
+                    'category_id' => $request->category_id,
                     'slug'        => FormatHelper::slugify($request->name),
                 ]
             ));
+
+        $recipe->user_id = auth()->user()->id; // Overwrite user_id for securiy
 
         if ($request->preparation_time === '00:00') {
             $recipe->preparation_time = NULL;

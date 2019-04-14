@@ -18,12 +18,7 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Autor', NULL, ['class' => 'required']) !!}
-                {!! Form::text('author', ($recipe->author_id ? $authors[$recipe->author_id] : NULL), [
-                    'maxlength'    => 200,
-                    'class'        => 'text-input',
-                    'autocomplete' => 'off',
-                    'required']) !!}
-                {!! FormHelper::jsDropdown($authors) !!}
+                {!! Form::select('author_id', $authors, $recipe->author_id, ['class' => 'js-dropdown']) !!}
             </div>
         {!! FormHelper::close() !!}
 
@@ -31,12 +26,7 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Kategorie', NULL, ['class' => 'required']) !!}
-                {!! Form::text('category', ($recipe->category_id ? $categories[$recipe->category_id] : NULL), [
-                    'maxlength'     => 50,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'required']) !!}
-                {!! FormHelper::jsDropdown($categories) !!}
+                {!! Form::select('category_id', $categories, $recipe->category_id, ['class' => 'js-dropdown']) !!}
             </div>
 
             <div>

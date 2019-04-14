@@ -24,16 +24,6 @@ class FormHelper
         return $html;
     }
 
-    public static function jsDropdown(Array $items) {
-        $html  = '<button class="arrow-down"></button>';
-        $html .= '<ul class="hidden js-dropdown">';
-        foreach ($items as $item) {
-            $html .= '<li>'.$item.'</li>';
-        }
-        $html .= '</ul>';
-        return $html;
-    }
-
     public static function switch(String $class = 'admin') {
         return
             '<label class="switch '.$class.'">' .

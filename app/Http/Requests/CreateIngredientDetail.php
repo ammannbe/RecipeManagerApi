@@ -25,14 +25,14 @@ class CreateIngredientDetail extends FormRequest
     public function rules()
     {
         return [
-            'amount'                    => ['nullable', 'numeric', 'max:99999999.99'],
-            'unit'                      => ['nullable', 'string', 'exists:units,name'],
-            'ingredient'                => ['required', 'string', 'exists:ingredients,name'],
-            'preps'                     => ['nullable', 'array'],
-            'preps.*'                   => ['required_with:preps', 'exists:preps,id'],
-            'position'                  => ['nullable', 'numeric'],
-            'ingredient_detail_group'   => ['nullable', 'string'],
-            'ingredient_detail_id'      => ['nullable', 'numeric', 'exists:ingredient_details,id'],
+            'amount'                     => ['nullable', 'numeric', 'max:99999999.99'],
+            'unit_id'                    => ['nullable', 'string', 'exists:units,id'],
+            'ingredient_id'              => ['required', 'string', 'exists:ingredients,id'],
+            'preps'                      => ['nullable', 'array'],
+            'preps.*'                    => ['required_with:preps', 'exists:preps,id'],
+            'position'                   => ['nullable', 'numeric'],
+            'ingredient_detail_group_id' => ['nullable', 'numeric', 'exists:ingredient_detail_group,id'],
+            'ingredient_detail_id'       => ['nullable', 'numeric', 'exists:ingredient_details,id'],
         ];
     }
 }

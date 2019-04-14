@@ -27,22 +27,11 @@
             </div>
 
             <div>
-                {!! Form::text('unit', NULL, [
-                    'maxlength'     => 200,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'placeholder'   => 'z.B. Gramm']) !!}
-                {!! FormHelper::jsDropdown($units) !!}
+                {!! Form::select('unit_id', $units, NULL, ['class' => 'js-dropdown']) !!}
             </div>
 
             <div>
-                {!! Form::text('ingredient', NULL, [
-                    'maxlength'     => 200,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'placeholder'   => 'z.B. Mandeln',
-                    'required']) !!}
-                {!! FormHelper::jsDropdown($ingredients) !!}</li>
+                {!! Form::select('ingredient_id', $ingredients, NULL, ['class' => 'js-dropdown']) !!}
             </div>
 
             <div>
@@ -54,20 +43,20 @@
         {!! FormHelper::group('cluster') !!}
             <div>
                 {!! Form::label('Gruppe') !!}
-                {!! Form::text('ingredient_detail_group', $default['ingredientDetailGroup'], [
-                    'maxlength'     => 200,
-                    'class'         => 'text-input',
-                    'autocomplete'  => 'off',
-                    'placeholder'   => 'z.B. Sauce']) !!}
-                {!! FormHelper::jsDropdown($ingredientDetailGroups) !!}
+                {!! Form::select(
+                        'ingredient_detail_group',
+                        $ingredientDetailGroups,
+                        $default['ingredientDetailGroup'],
+                        ['class' => 'js-dropdown'])
+                    !!}
             </div>
         {!! FormHelper::close() !!}
 
 
         {!! FormHelper::group('cluster') !!}
             <div>
-                {!! Form::label('Oder') !!}
-                {!! Form::select('ingredient_detail_id', $ingredientDetailsAlternate, [NULL]) !!}
+                {!! Form::label('Dieses Rezept als Alternative zu:') !!}
+                {!! Form::select('ingredient_detail_id', $ingredientDetailsAlternate, [NULL], ['class' => 'js-dropdown']) !!}
             </div>
         {!! FormHelper::close() !!}
 

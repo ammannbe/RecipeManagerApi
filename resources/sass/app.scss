@@ -79,7 +79,7 @@ section.content {
     visibility: hidden;
 
     &.forced {
-        display: none;
+        display: none !important;
     }
 }
 
