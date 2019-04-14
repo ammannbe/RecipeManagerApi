@@ -36,13 +36,7 @@
 
             <div>
                 {!! Form::label('Zubereitungszeit') !!}
-                @php
-                    $preparation_time = NULL;
-                    if ($recipe->preparation_time) {
-                        date('H:i', strtotime($recipe->preparation_time));
-                    }
-                @endphp
-                {!! Form::time('preparation_time', $preparation_time) !!}
+                {!! Form::time('preparation_time', ($recipe->preparation_time ? date('H:i', strtotime($recipe->preparation_time)) : NULL)) !!}
             </div>
         {!! FormHelper::close() !!}
 
