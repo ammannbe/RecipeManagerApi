@@ -28,6 +28,7 @@
         <script src="{{ mix('/js/app.js') }}"></script>
 
         <link rel="stylesheet" href="{{ asset('css/select2-4.0.1.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/w3-4.12.css') }}">
         <link rel="shortcut icon" href="/logo.png" type="image/x-icon">
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     </body>

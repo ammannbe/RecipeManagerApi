@@ -1,35 +1,28 @@
-<nav class="top">
+<div class="w3-bar w3-black nav top">
+    <a href="{{ url('/') }}" class="w3-bar-item w3-button w3-mobile w3-padding-16"><i class="home"></i>Übersicht</a>
+    <a href="{{ url('/search') }}" class="w3-bar-item w3-button w3-mobile w3-padding-16"><i class="magnifier"></i>Suche</a>
+    @auth
+        <a href="{{ url('/recipes/create') }}" class="w3-bar-item w3-button w3-mobile w3-padding-16">Rezept eingeben</a>
+    @endauth
 
-    <input type="checkbox" id="nav-checkbox-top" class="forced hidden"/>
-    <label for="nav-checkbox-top" class="nav-open">&#926;</label>
 
-    <ul class="container">
-        <li><a href="{{ url('/') }}"><i class="home"></i>Übersicht</a></li>
-        <li><a href="{{ url('/search') }}"><i class="magnifier"></i>Suche</a></li>
-        @auth
-            <li><a href="{{ url('/recipes/create') }}">Rezept eingeben</a></li>
-        @endauth
-        @guest
-            <li class="right">
-                <a href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-        @else
-            <li>
-                <a href="{{ url('/profile') }}">Profil</a>
-            </li>
-            @if (auth()->user()->user_type == 'admin')
-                <li class="desktop-hide right">
-                    <a href="{{ url('/admin') }}">Administration</a>
-                </li>
-            @endif
-            <li>
-                <div>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <input type="submit" value="Abmelden">
-                    </form>
-                </div>
-            </li>
-        @endguest
-    </ul>
-</nav>
+    @guest
+        <a href="{{ route('login') }}" class="w3-bar-item w3-button w3-mobile w3-padding-16 w3-right w3-grey"><i></i>Login</a>
+    @else
+        <div class="w3-dropdown-hover w3-mobile w3-right">
+            <button class="w3-button w3-padding-16 dropdown-button">Account<i class="black-down-pointing-triangle"></i></button>
+            <div class="w3-dropdown-content w3-bar-block w3-dark-grey">
+                <a href="{{ url('/profile') }}" class="w3-bar-item w3-button w3-mobile w3-padding-16">Profil</a>
+
+                @if (auth()->user()->user_type == 'admin')
+                    <a href="{{ url('/admin') }}" class="w3-bar-item w3-button w3-mobile w3-padding-16">Administration</a>
+                @endif
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <input type="submit" value="Abmelden" class="w3-button">
+                </form>
+            </div>
+        </div>
+    @endguest
+</div>

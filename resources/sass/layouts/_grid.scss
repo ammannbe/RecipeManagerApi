@@ -1,8 +1,7 @@
-nav.top { grid-area: nav-top; }
+.nav.top { grid-area: nav-top; }
 header { grid-area: header; }
 div.noscript.container { grid-area: noscript; }
 section.content { grid-area: content; }
-nav.right { grid-area: nav-right; }
 footer { grid-area: footer; }
 
 body {
