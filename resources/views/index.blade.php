@@ -14,7 +14,10 @@
 
     <h2>Neuste Rezepte</h2>
     <div class="w3-row">
-        @php $i = 0; $class = ''; @endphp
+        @php
+            $i = 0;
+            $class = '';
+        @endphp
         @foreach ($newRecipes as $recipe)
             @php
                 $i++;
@@ -28,7 +31,7 @@
 
                     <div class="image">
                         <div class="w3-container w3-center w3-padding">
-                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
+                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ "Rezept {$recipe->name}" }}">
                         </div>
                     </div>
 
@@ -62,11 +65,14 @@
 
     <h2>Beliebteste Rezepte</h2>
     <div class="w3-row">
-        @php $i = 0; $class = ''; @endphp
+        @php
+            $j = 0;
+            $class = '';
+        @endphp
         @foreach ($topRecipes as $recipe)
             @php
-                $i++;
-                if ($i >= 3)  { $class = 'w3-hide-medium'; }
+                $j++;
+                if ($j >= 3)  { $class = 'w3-hide-medium'; }
             @endphp
             <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
                 <a href="{{ url("/recipes/{$recipe->slug}") }}">
@@ -76,7 +82,7 @@
 
                     <div class="image">
                         <div class="w3-container w3-center w3-padding">
-                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
+                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ "Rezept {$recipe->name}" }}">
                         </div>
                     </div>
 
@@ -109,11 +115,14 @@
     <h2>Neuste Kommentare</h2>
     @if ($ratings)
         <div class="w3-row">
-            @php $i = 0; $class = ''; @endphp
+            @php
+                $k = 0;
+                $class = '';
+            @endphp
             @foreach ($ratings as $rating)
                 @php
-                    $i++;
-                    if ($i >= 3)  { $class = 'w3-hide-medium'; }
+                    $k++;
+                    if ($k >= 3)  { $class = 'w3-hide-medium'; }
                 @endphp
                 <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
                     <a href="{{ url("/recipes/{$rating->recipe->slug}") }}">
@@ -123,7 +132,7 @@
 
                         <div class="image">
                             <div class="w3-container w3-center w3-padding">
-                                <img class="w3-round" src="{{ url("/images/recipes/{$rating->recipe->photo}") }}" alt="{{ $rating->recipe->photo }}">
+                                <img class="w3-round" src="{{ url("/images/recipes/{$rating->recipe->photo}") }}" alt="{{ "Rezept {$rating->recipe->name}" }}">
                             </div>
                         </div>
 
