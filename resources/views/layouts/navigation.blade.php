@@ -1,7 +1,7 @@
 @php($w3BarItemClasses = 'w3-bar-item w3-button w3-mobile w3-padding-large')
 
 <div class="w3-bar w3-black nav top">
-    <a href="{{ url('/') }}" class="{{ $w3BarItemClasses }}"><i class="home"></i>Übersicht</a>
+    <a href="{{ url('/') }}" class="{{ $w3BarItemClasses }}"><i class="home"></i>Rezepte</a>
     <a href="{{ url('/search') }}" class="{{ $w3BarItemClasses }}"><i class="magnifier"></i>Suche</a>
     @auth
         <a href="{{ url('/recipes/create') }}" class="{{ $w3BarItemClasses }}">Rezept eingeben</a>
