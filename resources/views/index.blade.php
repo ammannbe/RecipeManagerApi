@@ -12,94 +12,136 @@
 @section('content-class', 'overview')
 @section('content')
 
-    <h2>Neusten Rezepte</h2>
-    @foreach ($newRecipes as $recipe)
-        <article>
-            <a href="{{ url("/recipes/{$recipe->slug}") }}">
-                <div class="image">
-                    <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
-                </div>
+    <h2>Neuste Rezepte</h2>
+    <div class="w3-row">
+        @php $i = 0; $class = ''; @endphp
+        @foreach ($newRecipes as $recipe)
+            @php
+                $i++;
+                if ($i >= 3)  { $class = 'w3-hide-medium'; }
+            @endphp
+            <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
+                <a href="{{ url("/recipes/{$recipe->slug}") }}">
+                    <header class="w3-container w3-white w3-center" title="{{ $recipe->name }}">
+                        <h3>{{ FormatHelper::shorten($recipe->name) }}</h3>
+                    </header>
 
-                <div class="instructions" title="{{ $recipe->instructions }}">
-                    <h3>{{ $recipe->name }}</h3>
-                    {!! nl2br(FormatHelper::shorten(preg_replace("/[\r\n]+/", "\n", $recipe->instructions), 200)) !!}
-                </div>
-
-                <div class="info">
-                    @if ($recipe->preparation_time)
-                        <small>
-                            {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}
-                        </small>
-                    @endif
-
-                    <div class="recipe-rating">
-                        @if (count($recipe->ratings) > 0)
-                            @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
-                                <small>
-                                    <i class="star-on"></i>
-                                </small>
-                            @endfor
-                            <small class="count">({{ count($recipe->ratings) }})</small>
-                        @endif
+                    <div class="image">
+                        <div class="w3-container w3-center w3-padding">
+                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
+                        </div>
                     </div>
-                </div>
-            </a>
-        </article>
-    @endforeach
+
+                    <p class="w3-container w3-white instructions" title="{{ $recipe->instructions }}">
+                        {{ $recipe->instructions }}
+                    </p>
+
+                    <footer class="w3-panel w3-border-top w3-padding">
+                        @if ($recipe->preparation_time)
+                            <div class="w3-col s4 m4 l4">
+                                <span>{{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</span>
+                            </div>
+                        @endif
+                        @if (count($recipe->ratings) > 0)
+                            <div class="w3-col s8 m8 l8">
+                                <div>
+                                    @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
+                                        <small><i class="star-on"></i></small>
+                                    @endfor
+                                    <small class="count">({{ count($recipe->ratings) }})</small>
+                                </div>
+                            </div>
+                        @elseif (count($recipe->ratings) <= 0 && !$recipe->preparation_time)
+                            -
+                        @endif
+                    </footer>
+                </a>
+            </article>
+        @endforeach
+    </div>
 
     <h2>Beliebteste Rezepte</h2>
-    @foreach ($topRecipes as $recipe)
-        <article>
-            <a href="{{ url("/recipes/{$recipe->slug}") }}">
-                <div class="image">
-                    <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
-                </div>
+    <div class="w3-row">
+        @php $i = 0; $class = ''; @endphp
+        @foreach ($topRecipes as $recipe)
+            @php
+                $i++;
+                if ($i >= 3)  { $class = 'w3-hide-medium'; }
+            @endphp
+            <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
+                <a href="{{ url("/recipes/{$recipe->slug}") }}">
+                    <header class="w3-container w3-white w3-center" title="{{ $recipe->name }}">
+                        <h3>{{ FormatHelper::shorten($recipe->name) }}</h3>
+                    </header>
 
-                <div class="instructions" title="{{ $recipe->instructions }}">
-                    <h3>{{ $recipe->name }}</h3>
-                    {!! nl2br(FormatHelper::shorten(preg_replace("/[\r\n]+/", "\n", $recipe->instructions), 200)) !!}
-                </div>
-
-                <div class="info">
-                    @if ($recipe->preparation_time)
-                        <small>
-                            {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}
-                        </small>
-                    @endif
-
-                    <div class="recipe-rating">
-                        @if (count($recipe->ratings) > 0)
-                            @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
-                                <small>
-                                    <i class="star-on"></i>
-                                </small>
-                            @endfor
-                            <small class="count">({{ count($recipe->ratings) }})</small>
-                        @endif
+                    <div class="image">
+                        <div class="w3-container w3-center w3-padding">
+                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->photo }}">
+                        </div>
                     </div>
-                </div>
-            </a>
-        </article>
-    @endforeach
 
-    <h2>Neuste Bewertungen</h2>
-    @foreach ($ratings as $rating)
-        <article class="new-ratings">
-            <a href="{{ url("/recipes/{$rating->recipe->slug}") }}">
-                <div class="image">
-                    <img src="{{ url("/images/recipes/{$rating->recipe->photo}") }}" alt="{{ $rating->recipe->photo }}">
-                </div>
+                    <p class="w3-container w3-white instructions" title="{{ $recipe->instructions }}">
+                        {{ $recipe->instructions }}
+                    </p>
 
-                <div class="rating">
-                    <h3>{{ $rating->recipe->name }}</h3>
-                    @for ($i = 0; $i < $rating->stars; $i++)
-                        <i class="star-on"></i>
-                    @endfor
+                    <footer class="w3-panel w3-border-top w3-padding">
+                        <div class="w3-col s4 m4 l4">
+                            @if ($recipe->preparation_time)
+                                <span>{{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</span>
+                            @endif
+                        </div>
+                        <div class="w3-col s8 m8 l8">
+                            @if (count($recipe->ratings) > 0)
+                                <div>
+                                    @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
+                                        <small><i class="star-on"></i></small>
+                                    @endfor
+                                    <small class="count">({{ count($recipe->ratings) }})</small>
+                                </div>
+                            @endif
+                        </div>
+                    </footer>
+                </a>
+            </article>
+        @endforeach
+    </div>
 
-                    <p><strong>{{ $rating->ratingCriterion->name }}:</strong> {{ $rating->comment }}</p>
-                </div>
-            </a>
-        </article>
-    @endforeach
+    <h2>Neuste Kommentare</h2>
+    @if ($ratings)
+        <div class="w3-row">
+            @php $i = 0; $class = ''; @endphp
+            @foreach ($ratings as $rating)
+                @php
+                    $i++;
+                    if ($i >= 3)  { $class = 'w3-hide-medium'; }
+                @endphp
+                <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
+                    <a href="{{ url("/recipes/{$rating->recipe->slug}") }}">
+                        <header class="w3-container w3-white w3-center" title="{{ $rating->recipe->name }}">
+                            <h3>{{ FormatHelper::shorten($rating->recipe->name) }}</h3>
+                        </header>
+
+                        <div class="image">
+                            <div class="w3-container w3-center w3-padding">
+                                <img class="w3-round" src="{{ url("/images/recipes/{$rating->recipe->photo}") }}" alt="{{ $rating->recipe->photo }}">
+                            </div>
+                        </div>
+
+                        <p class="w3-container w3-white rating-stars">
+                            @for ($i = 0; $i < $rating->stars; $i++)
+                                <i class="star-on"></i>
+                            @endfor
+                        </p>
+
+                        <p class="w3-container w3-white rating" title="{{ "{$rating->ratingCriterion->name}: {$rating->comment}" }}">
+                            <strong>{{ $rating->ratingCriterion->name }}:</strong> {{ $rating->comment }}
+                        </p>
+                    </a>
+                </article>
+            @endforeach
+        </div>
+    @else
+        <p>Keine Bewertungen vorhanden.</p>
+    @endif
 
 @endsection

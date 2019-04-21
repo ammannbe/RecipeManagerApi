@@ -13,17 +13,17 @@ class PagesController extends Controller
         $newRecipes = Recipe::with(['category', 'author'])
             ->whereNotNull('photo')
             ->latest()
-            ->paginate(3);
+            ->paginate(4);
 
         $ratings = Rating::with(['recipe', 'ratingCriterion'])
             ->latest()
-            ->paginate(3);
+            ->paginate(4);
 
         $recipes = Recipe::with('category', 'author', 'ratings')
             ->whereNotNull('photo')
             ->get();
 
-        $topRecipes = Recipe::best($recipes, 3);
+        $topRecipes = Recipe::best($recipes, 4);
 
         return view('index', compact('newRecipes', 'ratings', 'topRecipes'));
     }
