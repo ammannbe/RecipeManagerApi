@@ -6,6 +6,9 @@
     @auth
         <a href="{{ url('/recipes/create') }}" class="{{ $w3BarItemClasses }}">Rezept eingeben</a>
     @endauth
+    @if (auth()->user()->isAdmin())
+        <a href="{{ url('/admin') }}" class="{{ $w3BarItemClasses }}">Administration</a>
+    @endif
 
 
     @guest
@@ -15,10 +18,6 @@
             <button class="w3-button w3-padding-large dropdown-button">Account<i class="black-down-pointing-triangle"></i></button>
             <div class="w3-dropdown-content w3-bar-block w3-dark-grey">
                 <a href="{{ url('/profile') }}" class="{{ $w3BarItemClasses }}">Profil</a>
-
-                @if (auth()->user()->user_type == 'admin')
-                    <a href="{{ url('/admin') }}" class="{{ $w3BarItemClasses }}">Administration</a>
-                @endif
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf
