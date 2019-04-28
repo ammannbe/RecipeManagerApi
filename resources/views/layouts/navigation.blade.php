@@ -6,7 +6,7 @@
     @auth
         <a href="{{ url('/recipes/create') }}" class="{{ $w3BarItemClasses }}">Rezept eingeben</a>
     @endauth
-    @if (auth()->user()->isAdmin())
+    @if (auth()->check() && auth()->user()->isAdmin())
         <a href="{{ url('/admin') }}" class="{{ $w3BarItemClasses }}">Administration</a>
     @endif
 

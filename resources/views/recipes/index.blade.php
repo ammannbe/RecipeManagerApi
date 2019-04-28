@@ -166,7 +166,7 @@
                 @php
                     if (auth()->user()->id === $rating->user_id) {
                         $ratingOwner = TRUE;
-                    } elseif (auth()->user()->isAdmin()) {
+                    } elseif (auth()->check() && auth()->user()->isAdmin()) {
                         $ratingOwner = TRUE;
                     }
                 @endphp
