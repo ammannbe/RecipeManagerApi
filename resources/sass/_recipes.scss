@@ -1,91 +1,50 @@
 section.content.recipe {
-    @extend %flexbox-row;
+    margin: 10px;
 
-    > * {
-        padding: 15px;
+    .image {
+        display: inline-flex; // Display inline-flex to center image
+        place-content: center;
+        height: 200px;
+
+        > div {
+            place-self: center;
+
+            > img {
+                max-width: 100%;
+                max-height: 200px;
+            }
+        }
     }
 
-    > .manage {
-        width: 100%;
-        padding: 0;
+    .details {
+        display: inline-block;
+        place-self: center;
 
         ul {
-            display: flex;
             list-style-type: none;
-            justify-content: flex-start;
-            padding-left: 0;
+        }
+    }
 
-            @media screen and (max-width: 356px) {
-                flex-wrap: wrap;
-            }
-
-            li {
-                margin: auto 10px;
-                @media screen and (max-width: 450px) {
-                    margin: auto;
-                }
-                display: block;
+    .ratings {
+        .rating {
+            .manage {
+                float: right;
+                top: 0;
+                display: flex;
             }
         }
     }
 
-    > .image {
-        order: 1;
-
-        img {
-            width: auto;
-            height: 20vh;
-        }
-    }
-
-    > .info {
-        order: 2;
-
-        > table {
-            tr {
-                > th { text-align: right; }
-                > td { text-align: left; }
-            }
-        }
-    }
-
-    > .ingredients {
-        @extend %flexbox-row;
-        order: 3;
-
-        > * {
-            flex-basis: 100%;
-        }
-
+    .ingredients {
         > .list {
-            h2 {
-                margin-top: 0.5rem;
-            }
-
-            ul {
-                margin-bottom: 0;
-                margin-top: 0;
-            }
+            h2 { margin-top: 0;   }
+            h3 { margin-top: 1em; }
         }
     }
 
-    > .instructions {
-        order: 4;
-    }
-
-    > .ratings {
-        order: 5;
-        flex-basis: 100%;
-
-        article {
-            @extend %border;
-            margin-bottom: 20px;
-        }
-
-        .manage {
-            float: right;
-            top: 0;
-            display: flex;
-        }
+    .ingredients,
+    .instructions,
+    .ratings {
+        margin-top: 30px;
     }
 }
