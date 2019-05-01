@@ -40,7 +40,7 @@
     <article>
         @if ($recipe->photo)
             <div class="image">
-                <div class="w3-card w3-center">
+                <div class="w3-card w3-center" onclick="Modal.photo(this)">
                     <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="Rezept {{ $recipe->photo }}">
                 </div>
             </div>

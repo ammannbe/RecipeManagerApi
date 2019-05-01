@@ -22,6 +22,7 @@
         @extends('layouts.noscript')            {{--   Noscript info  --}}
         @extends('layouts.navigation')          {{--  Main navigation --}}
         @extends('layouts.toast')               {{--  Toast messagess --}}
+        @extends('layouts.modal')               {{--     Modal Box    --}}
 
         <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 		<script src="{{ asset('js/select2-4.0.1.min.js') }}"></script>

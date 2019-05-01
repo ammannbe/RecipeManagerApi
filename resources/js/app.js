@@ -9,6 +9,7 @@ require('./Toast.js');
 require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
+require('./Modal.js');
 
 
 disableDefault = function(event) {

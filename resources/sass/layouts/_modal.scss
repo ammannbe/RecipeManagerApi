@@ -1,0 +1,20 @@
+section#modal {
+    .content {
+        max-width: 90%;
+        margin: auto;
+
+        .image {
+            display: inline-flex; // Display inline-flex to center image
+            place-content: center;
+            height: 200px;
+
+            img {
+                place-self: center;
+            }
+        }
+    }
+
+    .close {
+        cursor: pointer;
+    }
+}
