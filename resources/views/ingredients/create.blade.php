@@ -7,20 +7,25 @@
 @section('content-class', 'ingredient form')
 @section('content')
 
-    {!! Form::open(['url' => 'ingredients/create/']) !!}
+    {{ Form::open(['url' => 'ingredients/create/', 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('Name', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 50, 'required', 'placeholder' => 'Bsp: Kürbis', 'autofocus']) !!}
-            </div>
+        <p>
+            {{ Form::label('name', 'Name') }}
+            {{ Form::text('name', NULL, [
+                'maxlength'   => 50,
+                'class'       => 'w3-input',
+                'placeholder' => 'Bsp: Kürbis',
+                'required', 'autofocus']) }}
+        </p>
 
-            <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
-                {!! Form::submit('Zutat hinzufügen') !!}
-            </div>
-        {!! FormHelper::close() !!}
+        <p>
+            {!! FormHelper::backButton('Abbrechen', [
+                'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
+            {{ Form::button('Zutat hinzufügen', [
+                'class' => 'w3-btn w3-black w3-right w3-margin-left',
+                'type'  => 'submit']) }}
+        </p>
 
-    {!! Form::close() !!}
+    {{ Form::close() }}
 
 @stop

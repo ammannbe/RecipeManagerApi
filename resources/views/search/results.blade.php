@@ -4,24 +4,25 @@
 @section('title', 'Suchresultate')
 
 
-@section('content-class', 'overview')
+@section('content-class', 'search-results')
 @section('content')
 
-    <h2>Neusten Rezepte</h2>
     @foreach ($recipes as $recipe)
-        <article>
+        <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card w3-margin-bottom w3-padding">
             <a href="{{ url("/recipes/{$recipe->slug}") }}">
                 <div class="image">
-                    @if ($recipe->photo)
-                        <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->name }}">
-                    @else
-                        <img src="{{ url('/images/placeholder.png') }}" alt="{{ $recipe->name }}">
-                    @endif
+                    <div class="w3-container w3-left w3-padding">
+                        @if ($recipe->photo)
+                            <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->name }}">
+                        @else
+                            <img src="{{ url('/images/placeholder.png') }}" alt="{{ $recipe->name }}">
+                        @endif
+                    </div>
                 </div>
 
                 <div class="instructions" title="{{ $recipe->instructions }}">
                     <h3>{{ $recipe->name }}</h3>
-                    {!! nl2br(FormatHelper::shorten(preg_replace("/[\r\n]+/", "\n", $recipe->instructions), 200)) !!}
+                    {{ $recipe->instructions }}
                 </div>
 
                 <div class="info">

@@ -1,25 +1,30 @@
 @extends('layouts.master')
 
 
-@section('title', 'Kriterium hinzufügen')
+@section('title', 'Bewertungs-Kriterium hinzufügen')
 
 
 @section('content-class', 'criterion form')
 @section('content')
 
-    {!! Form::open(['url' => 'rating-criteria/create']) !!}
+    {{ Form::open(['url' => 'rating-criteria/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('Name', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Geschmack', 'required', 'autofocus']) !!}
-            </div>
+        <p>
+            {{ Form::label('name', 'Name') }}
+            {{ Form::text('name', NULL, [
+                'maxlength'   => 20,
+                'class'       => 'w3-input',
+                'placeholder' => 'Bsp: Geschmack',
+                'required', 'autofocus']) }}
+        </p>
 
-            <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
-                {!! Form::submit('Kriterium hinzufügen') !!}
-            </div>
-        {!! FormHelper::close() !!}
+        <p>
+            {!! FormHelper::backButton('Abbrechen', [
+                'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
+            {{ Form::button('Kriterium hinzufügen', [
+                'class' => 'w3-btn w3-black w3-right w3-margin-left',
+                'type'  => 'submit']) }}
+        </p>
 
     {!! Form::close() !!}
 

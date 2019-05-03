@@ -7,20 +7,25 @@
 @section('content-class', 'category form')
 @section('content')
 
-    {!! Form::open(['url' => 'categories/create']) !!}
+    {{ Form::open(['url' => 'categories/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('Name', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 50, 'placeholder' => 'Bsp: Apéros', 'required', 'autofocus']) !!}
-            </div>
+        <p>
+            {{ Form::label('name', 'Name') }}
+            {{ Form::text('name', NULL, [
+                'maxlength' => 50,
+                'class'     => 'w3-input',
+                'placeholder' => 'Bsp: Apéros',
+                'required', 'autofocus']) }}
+        </p>
 
-            <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
-                {!! Form::submit('Kategorie hinzufügen') !!}
-            </div>
-        {!! FormHelper::close() !!}
+        <p>
+            {!! FormHelper::backButton('Abbrechen', [
+                'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
+            {{ Form::button('Kategorie hinzufügen', [
+                'class' => 'w3-btn w3-black w3-right w3-margin-left',
+                'type'  => 'submit']) }}
+        </p>
 
-    {!! Form::close() !!}
+    {{ Form::close() }}
 
 @stop

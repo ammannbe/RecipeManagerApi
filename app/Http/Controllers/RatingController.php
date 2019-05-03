@@ -33,8 +33,9 @@ class RatingController extends Controller
     public function editForm(Rating $rating) {
         $this->authorize('update', [Rating::class, $rating]);
         $ratingCriteria = RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
+        $recipe = Recipe::find($rating->recipe_id);
 
-        return view('ratings.edit', compact('rating', 'ratingCriteria'));
+        return view('ratings.edit', compact('rating', 'ratingCriteria', 'recipe'));
     }
 
     public function edit(EditRatingFormRequest $request, Rating $rating) {

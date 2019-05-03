@@ -21,23 +21,23 @@
     @endphp
 
     <article class="manage">
-        <ul>
+        <div class="w3-margin">
             @auth
                 @if ($isRecipeOwner)
-                    <li class="hidden"><span>Bearbeiten</span> {!! FormHelper::switch('edit-mode') !!}</li>
-                    <li class="edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></li>
-                    <li class="edit-mode item">
+                    <span class="w3-margin-right hidden">{!! FormHelper::switch('edit-mode') !!}</span>
+                    <span class="w3-margin-right ">Bearbeiten</span>
+                    <span class="w3-margin-right edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></span>
+                    <span class="w3-margin-right edit-mode item">
                         <a class="delete confirm" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
-                            <i class="cross red"></i>
-                            Löschen
+                            <i class="cross red"></i>Löschen
                         </a>
-                    </li>
+                    </span>
                 @endif
             @endauth
-        </ul>
+        </div>
     </article>
 
-    <article>
+    <article class="header">
         @if ($recipe->photo)
             <div class="image">
                 <div class="w3-card w3-center" onclick="Modal.photo(this)">
@@ -45,13 +45,6 @@
                 </div>
             </div>
         @endif
-
-        {{-- TODO: Bewertung hier rein --}}
-        {{-- @if (auth()->check())
-            @if ($recipe->ratings->where('user_id', auth()->user()->id))
-                <a href="{{ url("ratings/add/{$recipe->slug}") }}">Bewertung hinzufügen</a>
-            @endif
-        @endif --}}
 
         <div class="details">
             <div class="w3-container">
@@ -68,6 +61,26 @@
                     @if ($recipe->preparation_time)
                         <li><strong>Zubereitungszeit:</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
                     @endif
+                    <li><br></li>
+                    @if (count($recipe->ratings) > 0)
+                        <li>
+                            @for ($i = 0; $i < 5; $i++)
+                                @if ($i < $recipe->ratings->avg('stars'))
+                                    <small><i class="star-on"></i></small>
+                                @else
+                                    <small><i class="star-off"></i></small>
+                                @endif
+                            @endfor
+                            <small class="count">({{ count($recipe->ratings) }})</small>
+                        </li>
+                    @endif
+                    <li>
+                        @if (auth()->check())
+                            @if (! $recipe->ratings->where('user_id', auth()->user()->id)->first())
+                                <a href="{{ url("ratings/add/{$recipe->slug}") }}">Bewertung hinzufügen</a>
+                            @endif
+                        @endif
+                    </li>
                 </ul>
             </div>
         </div>
@@ -98,7 +111,7 @@
                                     @endforeach
                                     @auth
                                         @if ($isRecipeOwner)
-                                            <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                            <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red middle"></i></a>
                                         @endif
                                     @endauth
                                 </li>
@@ -135,7 +148,7 @@
                                             @endforeach
                                             @auth
                                                 @if ($isRecipeOwner)
-                                                    <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red big"></i></a>
+                                                    <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red middle"></i></a>
                                                 @endif
                                             @endauth
                                         </li>

@@ -48,8 +48,12 @@
                         @if (count($recipe->ratings) > 0)
                             <div class="w3-col s8 m8 l8">
                                 <div>
-                                    @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
-                                        <small><i class="star-on"></i></small>
+                                    @for ($i = 0; $i < 5; $i++)
+                                        @if ($i < $recipe->ratings->avg('stars'))
+                                            <small><i class="star-on"></i></small>
+                                        @else
+                                            <small><i class="star-off"></i></small>
+                                        @endif
                                     @endfor
                                     <small class="count">({{ count($recipe->ratings) }})</small>
                                 </div>

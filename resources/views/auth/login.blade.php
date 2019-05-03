@@ -7,21 +7,29 @@
 @section('content-class', 'login form')
 @section('content')
 
-    {{ Form::open(['url' => route('login')]) }}
+    {{ Form::open(['url' => route('login'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('username', 'Benutzername', ['class' => 'required']) !!}
-                {!! Form::text('username', NULL, ['maxlength' => 255, 'required', 'autofocus']) !!}
-            </div>
+        <p>
+            <i class="man"></i>
+            {{ Form::label('username', 'Benutzername') }}
+            {{ Form::text('username', NULL, [
+                'maxlength' => 255,
+                'class'     => 'w3-input',
+                'required', 'autofocus']) }}
+        </p>
+        <p>
+            <i class="key"></i>
+            {{ Form::label('password', 'Passwort') }}
+            {{ Form::password('password', [
+                'minlength' => 6,
+                'maxlength' => 255,
+                'class'     => 'w3-input',
+                'required']) }}
+        </p>
 
-            <div>
-                {!! Form::label('password', 'Passwort', ['class' => 'required']) !!}
-                {!! Form::password('password', NULL, ['minlength' => 6, 'maxlength' => 255, 'required']) !!}
-
-                {!! Form::submit('Login') !!}
-            </div>
-        {!! FormHelper::close(); !!}
+        {{ Form::button('Login', [
+            'class' => 'w3-btn w3-black w3-left w3-margin-left',
+            'type' => 'submit']) }}
 
     {{ Form::close() }}
 
