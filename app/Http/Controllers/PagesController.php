@@ -10,20 +10,16 @@ use App\Http\Requests\Search as SearchFormRequest;
 class PagesController extends Controller
 {
     public function index() {
-        $newRecipes = Recipe::with(['category', 'author'])
-            ->whereNotNull('photo')
-            ->latest()
-            ->paginate(4);
-
         $ratings = Rating::with(['recipe', 'ratingCriterion'])
             ->latest()
             ->paginate(4);
 
         $recipes = Recipe::with('category', 'author', 'ratings')
-            ->whereNotNull('photo')
-            ->get();
+            ->whereNotNull('photo');
 
-        $topRecipes = Recipe::best($recipes, 4);
+        $newRecipes = $recipes->latest()->paginate(4);
+
+        $topRecipes = Recipe::best($recipes->get(), 4);
 
         return view('index', compact('newRecipes', 'ratings', 'topRecipes'));
     }

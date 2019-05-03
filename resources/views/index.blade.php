@@ -23,7 +23,7 @@
                 $i++;
                 if ($i >= 3)  { $class = 'w3-hide-medium'; }
             @endphp
-            <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
+            <article class="w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
                 <a href="{{ url("/recipes/{$recipe->slug}") }}">
                     <header class="w3-container w3-white w3-center" title="{{ $recipe->name }}">
                         <h3>{{ FormatHelper::shorten($recipe->name) }}</h3>
@@ -78,7 +78,7 @@
                 $j++;
                 if ($j >= 3)  { $class = 'w3-hide-medium'; }
             @endphp
-            <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
+            <article class="w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
                 <a href="{{ url("/recipes/{$recipe->slug}") }}">
                     <header class="w3-container w3-white w3-center" title="{{ $recipe->name }}">
                         <h3>{{ FormatHelper::shorten($recipe->name) }}</h3>
@@ -128,7 +128,7 @@
                     $k++;
                     if ($k >= 3)  { $class = 'w3-hide-medium'; }
                 @endphp
-                <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
+                <article class="w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
                     <a href="{{ url("/recipes/{$rating->recipe->slug}") }}">
                         <header class="w3-container w3-white w3-center" title="{{ $rating->recipe->name }}">
                             <h3>{{ FormatHelper::shorten($rating->recipe->name) }}</h3>

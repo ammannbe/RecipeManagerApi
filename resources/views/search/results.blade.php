@@ -8,7 +8,7 @@
 @section('content')
 
     @foreach ($recipes as $recipe)
-        <article class="w3-animate-zoom w3-col w3-container w3-hover-shadow w3-card w3-margin-bottom w3-padding">
+        <article class="w3-col w3-container w3-hover-shadow w3-card w3-margin-bottom w3-padding">
             <a href="{{ url("/recipes/{$recipe->slug}") }}">
                 <div class="image">
                     <div class="w3-container w3-left w3-padding">
