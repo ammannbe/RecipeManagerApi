@@ -25,7 +25,7 @@
             {{ Form::label('comment', 'Kommentar', ['class' => 'required']) }}
             {{ Form::textarea('comment', NULL, [
                 'maxlength' => 16777215,
-                'class'     => 'w3-input w3-border'
+                'class'     => 'w3-input w3-border',
                 'required']) }}
         </p>
 
