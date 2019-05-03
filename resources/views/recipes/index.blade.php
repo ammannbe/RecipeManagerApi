@@ -24,10 +24,10 @@
         <div class="w3-margin">
             @auth
                 @if ($isRecipeOwner)
-                    <span class="w3-margin-right hidden">{!! FormHelper::switch('edit-mode') !!}</span>
-                    <span class="w3-margin-right ">Bearbeiten</span>
-                    <span class="w3-margin-right edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></span>
-                    <span class="w3-margin-right edit-mode item">
+                    <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
+                    <span class="w3-margin-right w3-margin-bottom">Bearbeiten</span>
+                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></span>
+                    <span class="w3-margin-right w3-margin-bottom edit-mode item">
                         <a class="delete confirm" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
                             <i class="cross red"></i>Löschen
                         </a>
