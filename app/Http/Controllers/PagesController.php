@@ -26,7 +26,7 @@ class PagesController extends Controller
 
     public function searchForm($default = 'recipe') {
         $tables = [
-            'author'     => 'Autoren',
+            'author'     => 'Verfasser',
             'category'   => 'Kategorien',
             'recipe'     => 'Rezept / Zubereitung',
             'ingredient' => 'Zutaten',

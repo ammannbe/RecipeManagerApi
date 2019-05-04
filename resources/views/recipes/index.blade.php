@@ -1,8 +1,12 @@
 @extends('layouts.master')
 
+@php
+    $author = '';
+    if ($recipe->author) { $author = "Verfasser: {$recipe->author->name},"; }
+@endphp
 
 @section('title', $recipe->name)
-@section('meta-description', "Rezept: {$recipe->name}, Autor: {$recipe->author->name}, Kategorie: {$recipe->category->name}")
+@section('meta-description', "Rezept: {$recipe->name}, $author Kategorie: {$recipe->category->name}")
 
 
 @section('content-class', 'recipe')
@@ -50,7 +54,7 @@
             <div class="w3-container">
                 <ul>
                     @if ($recipe->author)
-                        <li><strong>Autor:</strong> {{ $recipe->author->name }}</li>
+                        <li><strong>Verfasser:</strong> {{ $recipe->author->name }}</li>
                     @endif
                     @if ($recipe->category)
                         <li><strong>Kategorie:</strong> {{ $recipe->category->name }}</li>

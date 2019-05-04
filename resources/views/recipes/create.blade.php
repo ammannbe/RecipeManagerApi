@@ -20,7 +20,7 @@
         </p>
 
         <p>
-            {{ Form::label('autor', 'Autor', [
+            {{ Form::label('author_id', 'Verfasser', [
                 'class' => 'required']) }}
             {{ Form::select('author_id',
                 $authors, $default['authors'],

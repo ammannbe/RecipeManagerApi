@@ -16,7 +16,7 @@ class AuthorController extends Controller
     public function create(CreateAuthor $request) {
         $request->merge(['user_id' => auth()->user()->id]);
         Author::create($request->all());
-        \Toast::success('Autor erfolgreich erstellt');
+        \Toast::success('Verfasser erfolgreich erstellt');
 
         return redirect('/admin');
     }
