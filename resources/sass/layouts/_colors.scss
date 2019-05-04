@@ -1,3 +1,7 @@
+.white {
+    color: map-get($colors, white);
+}
+
 .red {
     color: map-get($colors, red)
 }
