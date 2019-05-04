@@ -72,7 +72,7 @@
             {!! FormHelper::backButton('Abbrechen', [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'],
                 "/recipes/{$recipe->slug}") !!}
-            {{ Form::button('Verfasser hinzufügen', [
+            {{ Form::button('Rezept ändern', [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>
