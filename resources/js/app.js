@@ -5,10 +5,13 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
+window.$ = window.jQuery = require('jquery');
+require('./3rd-party/select2-4.0.1.min.js');
 require('./Toast.js');
 require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
+require('./Modal.js');
 
 
 disableDefault = function(event) {

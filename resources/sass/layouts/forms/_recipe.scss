@@ -1,9 +1,16 @@
-section.recipe.form {
-    .form-group, .groups.cluster {
-        > div {
-            width: auto;
-            margin: 10px;
-            place-self: center;
-        }
+section.content.recipe-form {
+    span.select2 {
+        display: block;
+    }
+}
+
+section.content.ingredient-form {
+    select.w3-third ~ span.select2 {
+        display: inline-block;
+        width: 30%;
+    }
+
+    span.select2 {
+        display: block;
     }
 }

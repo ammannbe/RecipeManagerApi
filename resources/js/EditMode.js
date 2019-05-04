@@ -22,7 +22,7 @@ EditMode.toggle = function() {
 EditMode.enable = function() {
     EditMode._enabled = true;
     EditMode.$_input.prop('checked', true);
-    EditMode.$_item.removeClass('hidden');
+    EditMode.$_item.removeClass('hidden forced');
     $.get(`${EditMode._uri}/enable`);
 
 }
@@ -30,7 +30,7 @@ EditMode.enable = function() {
 EditMode.disable = function() {
     EditMode._enabled = false;
     EditMode.$_input.prop('checked', false);
-    EditMode.$_item.addClass('hidden');
+    EditMode.$_item.addClass('hidden forced');
     $.get(`${EditMode._uri}/disable`);
 }
 
@@ -38,7 +38,7 @@ EditMode.disable = function() {
 $(document).ready(function () {
     EditMode.$_switch = $('.switch.edit-mode');
 
-    EditMode.$_switch.parent().removeClass('hidden'); // Show switch only if JS is enabled
+    EditMode.$_switch.parent().removeClass('hidden forced'); // Show switch only if JS is enabled
 
     if (EditMode.$_switch.length) {
         EditMode.$_item   = $('.edit-mode.item');

@@ -5,13 +5,13 @@
 @import 'layouts/footer';
 @import 'layouts/inheritance';
 @import 'layouts/icons';
-@import 'layouts/form';
 @import 'layouts/forms/recipe';
 @import 'layouts/forms/switch';
 @import 'layouts/toast';
 @import 'layouts/colors';
 @import 'layouts/pagination';
 @import 'layouts/rating';
+@import 'layouts/modal';
 
 @import 'recipes';
 @import 'overview';
@@ -83,6 +83,10 @@ section.content {
     }
 }
 
+label {
+    cursor: pointer;
+}
+
 input[type=submit] {
     @extend %border;
     padding: 7px 9px;
@@ -93,4 +97,17 @@ input[type=submit] {
     background-color: map-get($colors, white);
     font-size: smaller;
     color: unset;
+}
+
+.w3-black {
+    background-color: map-get($colors, light-black) !important;
+}
+
+.w3-button {
+    &:focus {
+        background-color: map-get($colors, black);
+    }
+    &:hover {
+        background-color: map-get($colors, grey) !important;
+    }
 }

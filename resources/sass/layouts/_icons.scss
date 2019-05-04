@@ -1,9 +1,11 @@
-// Grössen in "em" angeben, damit sich diese an der Schrift anpasst
 %icons {
-    font-size: 1.5em;
     font-family: monospace;
     font-style: normal;
     margin: 0 0.3em;
+
+    &.middle {
+        font-size: 1.25em;
+    }
 
     &.big {
         font-size: 2em;
@@ -18,6 +20,11 @@
 .arrow-right::before {
     @extend %icons;
     content: "\2192";
+}
+
+.black-down-pointing-triangle::before {
+    @extend %icons;
+    content: "\25BC";
 }
 
 .arrow-down::before {
@@ -105,6 +112,16 @@
 .fork-with-knife-and-plate::before {
     @extend %icons;
     content: "\1F37D";
+}
+
+.key::before {
+    @extend %icons;
+    content: "\1F511";
+}
+
+.man::before {
+    @extend %icons;
+    content: "\1F468";
 }
 
 .star-on::before {

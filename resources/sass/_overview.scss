@@ -1,136 +1,77 @@
 section.content.overview {
-    @extend %flexbox-row;
-    margin: 0 auto;
-    width: 90%;
-    max-width: 1280px;
-
-    @media screen and (max-width: 590px) {
-        width: 70%;
-        justify-content: center;
+    a:focus {
+        outline: none;
     }
 
-    > h2 {
-        flex-basis: 100%;
+    article header,
+    article .instructions {
+        color: black;
     }
 
-    > article {
-        @extend %flexbox-row;
-        @extend %border-light;
+    header {
+        height: 100px;
+        display: flex;
 
-        width: 250px;
-        min-height: 400px;
-        flex-wrap: nowrap;
-        align-items: baseline;
-        justify-content: center;
-
-        margin: 0 2% 30px 2%;
-
-        @media screen and (max-width: 400px) {
-            margin-left: -25px;
-            border: unset;
-            border-bottom: 1px solid black;
-            border-radius: 0;
+        > h3 {
+            place-self: end;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-left: 0;
         }
-        @media screen and (max-width: 330px) {
-            max-width: 100%;
-            margin-left: -15px;
-        }
+    }
 
-        &:hover {
-            box-shadow: 0px 0px 12px -1px rgba(0,0,0,0.75);
-            cursor: pointer;
-        }
+    .image {
+        display: flex; // Display flex to center image
+        place-content: center;
+        height: 170px;
 
-        a {
-            color: initial;
-            display: flex;
-            flex-basis: 100%;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            max-width: 100%;
-        }
+        > div {
+            place-self: center;
 
-        .image {
-            display: flex;
-            flex-basis: 100%;
-            justify-content: center;
-            align-items: center;
-            height: auto;
-            width: 95%;
-            max-width: 100%;
-            height: 200px;
-
-            img {
-                @extend %border-radius;
-
-                width: auto;
-                max-height: 200px;
-            }
-        }
-
-        .info {
-            flex-grow: 2;
-            border-top: 1px dotted black;
-            margin-top: 10px;
-            padding-top: 5px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-
-            height: 30px;
-            @media screen and (max-width: 1035px) { height: 50px; }
-            @media screen and (max-width: 330px)  { height: 70px; }
-
-            > strong {
-                display: block;
-                margin-bottom: 3px;
-            }
-        }
-
-        .instructions {
-            width: 95%;
-            max-width: 100%;
-            min-height: 250px;
-            flex-basis: 100%;
-            word-wrap: break-word;
-
-            height: 200px;
-            @media screen and (max-width: 1035px) { height: 250px; }
-            @media screen and (max-width: 820px)  { height: 200px; }
-            @media screen and (max-width: 650px)  { height: 250px; }
-            @media screen and (max-width: 330px)  { height: 260px; }
-            @media screen and (max-width: 275px)  { height: 370px; }
-
-            > h3 {
-                margin-left: 0;
-                margin-top: 0.1em;
-            }
-        }
-
-        .recipe-rating {
-            display: flex;
-            align-items: center;
-
-            > small.count {
-                margin-left: 4px;
+            > img {
+                max-width: 100%;
+                max-height: 170px;
+                //margin-bottom: 20px;
             }
         }
     }
 
-    .new-ratings {
-        a {
-            justify-content: flex-start;
+    footer {
+        height: 70px;
+        max-height: 70px;
+        background-color: unset;
+        color: black;
+    }
 
-            div.image {
-                min-width: 150px;
-            }
-
-            div.rating {
-                > * {
-                    margin-left: 0;
-                }
+    .w3-container.w3-col {
+        margin-bottom: 20px;
+        &.m6 {
+            @media (min-width: 601px) {
+                width: 44%;
+                margin-left: 8px;
+                margin-right: 8px;
             }
         }
+
+        &.l3 {
+            @media (min-width: 993px) {
+                max-width: 330px;
+                width: 23%;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .instructions,
+    .rating {
+        margin-top: 10px;
+        height: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .rating {
+        height: 150px;
     }
 }

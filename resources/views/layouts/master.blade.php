@@ -15,21 +15,15 @@
 
     <body>
         {{-- @extends are in a reversed order, so the files are rendered in a correct order --}}
-
+        @extends('layouts.javascript')          {{--   JavaScripts    --}}
+        @extends('layouts.style')               {{--      Style       --}}
         @extends('layouts.footer')              {{--      Footer      --}}
         @extends('layouts.content')             {{--   Main content   --}}
         @extends('layouts.header')              {{--    Main header   --}}
         @extends('layouts.noscript')            {{--   Noscript info  --}}
         @extends('layouts.navigation')          {{--  Main navigation --}}
         @extends('layouts.toast')               {{--  Toast messagess --}}
-
-        <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-		<script src="{{ asset('js/select2-4.0.1.min.js') }}"></script>
-        <script src="{{ mix('/js/app.js') }}"></script>
-
-        <link rel="stylesheet" href="{{ asset('css/select2-4.0.1.min.css') }}">
-        <link rel="shortcut icon" href="/logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+        @extends('layouts.modal')               {{--     Modal Box    --}}
     </body>
 
 </html>

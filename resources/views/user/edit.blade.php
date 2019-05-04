@@ -4,44 +4,56 @@
 @section('title', 'Profil bearbeiten')
 
 
-@section('content-class', 'user form')
+@section('content-class', 'user-form')
 @section('content')
-    {!! Form::open(['url' => 'profile/edit']) !!}
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('Name', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', $user->name, ['maxlength' => 255, 'required', 'autofocus']) !!}
-            </div>
+    {{ Form::open(['url' => 'profile/edit', 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
-            <div>
-                {!! Form::label('E-Mail', NULL, ['class' => 'required']) !!}
-                {!! Form::email('email', $user->email, ['maxlength' => 255, 'required']) !!}
-            </div>
-        {!! FormHelper::close() !!}
+        <p>
+            {!! Form::label('name', 'Name',
+                ['class' => 'required']) !!}
+            {!! Form::text('name', $user->name, [
+                'maxlength' => 255,
+                'class'     => 'w3-input',
+                'required', 'autofocus']) !!}
+        </p>
 
+        <p>
+            {!! Form::label('email', 'E-Mail', ['class' => 'required']) !!}
+            {!! Form::email('email', $user->email, [
+                'maxlength' => 255,
+                'class'     => 'w3-input',
+                'required']) !!}
+        </p>
 
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('Aktuelles Passwort') !!}
-                {!! Form::password('current_password', NULL, ['maxlength' => 255]) !!}
-                <small>(Leer lassen um nicht zu ändern)</small>
-            </div>
+        <p>
+            {!! Form::label('current_password', 'Aktuelles Passwort') !!}
+            {!! Form::password('current_password', [
+                'maxlength' => 255,
+                'class'     => 'w3-input']) !!}
+            <small>(Leer lassen um nicht zu ändern)</small>
+        </p>
 
-            <div>
-                {!! Form::label('Neues Passwort') !!}
-                {!! Form::password('new_password', NULL, ['maxlength' => 255]) !!}
-            </div>
+        <p>
+            {!! Form::label('new_password', 'Neues Passwort') !!}
+            {!! Form::password('new_password', [
+                'maxlength' => 255,
+                'class'     => 'w3-input']) !!}
+        </p>
 
-            <div>
-                {!! Form::label('Passwort bestätigen') !!}
-                {!! Form::password('new_password_confirmation', NULL, ['maxlength' => 255]) !!}
-            </div>
+        <p>
+            {!! Form::label('new_password_confirmation', 'Passwort bestätigen') !!}
+            {!! Form::password('new_password_confirmation', [
+                    'maxlength' => 255,
+                    'class'     => 'w3-input']) !!}
+        </p>
 
-            <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/profile') !!}
-                {!! Form::submit('Änderungen speichern') !!}
-            </div>
-        {!! FormHelper::close() !!}
+        <p>
+            {!! FormHelper::backButton('Abbrechen', [
+                'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/profile') !!}
+            {{ Form::button('Änderungen speichern', [
+                'class' => 'w3-btn w3-black w3-right w3-margin-left',
+                'type'  => 'submit']) }}
+        </p>
 
     {!! Form::close() !!}
 @stop

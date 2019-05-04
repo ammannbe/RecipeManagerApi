@@ -7,35 +7,49 @@
 @section('content-class', 'unit form')
 @section('content')
 
-    {!! Form::open(['url' => 'units/create']) !!}
+    {{ Form::open(['url' => 'units/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
-        {!! FormHelper::group('cluster') !!}
-            <div>
-                {!! Form::label('Name (Singular)', NULL, ['class' => 'required']) !!}
-                {!! Form::text('name', NULL, ['maxlength' => 20, 'required', 'placeholder' => 'Bsp: Flasche', 'autofocus']) !!}
-            </div>
+        <p>
+            {{ Form::label('name', 'Name (Singular)', ['class' => 'required']) }}
+            {{ Form::text('name', NULL, [
+                'maxlength'   => 20,
+                'class'       => 'w3-input',
+                'placeholder' => 'Bsp: Flasche',
+                'required', 'autofocus']) }}
+        </p>
 
-            <div>
-                {!! Form::label('Abkürzung (Singular)') !!}
-                {!! Form::text('name_shortcut', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Fl.']) !!}
-            </div>
+        <p>
+            {{ Form::label('name_shortcut', 'Abkürzung (Singular)') }}
+            {{ Form::text('name_shortcut', NULL, [
+                'maxlength'   => 20,
+                'class'       => 'w3-input',
+                'placeholder' => 'Bsp: Fl.']) }}
+        </p>
 
-            <div>
-                {!! Form::label('Name (Plural)') !!}
-                {!! Form::text('name_plural', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Flaschen']) !!}
-            </div>
+        <p>
+            {{ Form::label('name_plural', 'Name (Plural)') }}
+            {{ Form::text('name_plural', NULL, [
+                'maxlength'   => 20,
+                'class'       => 'w3-input',
+                'placeholder' => 'Bsp: Flaschen']) }}
+        </p>
 
-            <div>
-                {!! Form::label('Abkürzung (Plural)') !!}
-                {!! Form::text('name_plural_shortcut', NULL, ['maxlength' => 20, 'placeholder' => 'Bsp: Fl.']) !!}
-            </div>
+        <p>
+            {{ Form::label('name_plural_shortcut', 'Abkürzung (Plural)') }}
+            {{ Form::text('name_plural_shortcut', NULL, [
+                'maxlength'   => 20,
+                'class'       => 'w3-input',
+                'placeholder' => 'Bsp: Fl.']) }}
+        </p>
 
-            <div>
-                {!! FormHelper::backButton('Abbrechen', ['class' => 'button'], '/admin') !!}
-                {!! Form::submit('Einheit hinzufügen') !!}
-            </div>
-        {!! FormHelper::close() !!}
+        <p>
+            {!! FormHelper::backButton('Abbrechen', [
+                'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
+            {{ Form::button('Einheit hinzufügen', [
+                'class' => 'w3-btn w3-black w3-right w3-margin-left',
+                'type'  => 'submit']) }}
+        </p>
 
-    {!! Form::close() !!}
+    {{ Form::close() }}
 
 @stop
