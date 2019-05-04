@@ -1,8 +1,12 @@
 @extends('layouts.master')
 
+@php
+    $author = '';
+    if ($recipe->author) { $author = "Author: {$recipe->author->name},"; }
+@endphp
 
 @section('title', $recipe->name)
-@section('meta-description', "{$recipe->name}, Autor: {$recipe->author} Kategorie: {$recipe->category}")
+@section('meta-description', "Rezept: {$recipe->name}, $author Kategorie: {$recipe->category->name}")
 
 
 @section('content-class', 'recipe')
