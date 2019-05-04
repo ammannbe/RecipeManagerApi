@@ -2,7 +2,7 @@
 
 @php
     $author = '';
-    if ($recipe->author) { $author = "Author: {$recipe->author->name},"; }
+    if ($recipe->author) { $author = "Autor: {$recipe->author->name},"; }
 @endphp
 
 @section('title', $recipe->name)
