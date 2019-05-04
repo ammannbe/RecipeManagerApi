@@ -2,7 +2,7 @@
 
 @php
     $author = '';
-    if ($recipe->author) { $author = "Autor: {$recipe->author->name},"; }
+    if ($recipe->author) { $author = "Verfasser: {$recipe->author->name},"; }
 @endphp
 
 @section('title', $recipe->name)
@@ -54,7 +54,7 @@
             <div class="w3-container">
                 <ul>
                     @if ($recipe->author)
-                        <li><strong>Autor:</strong> {{ $recipe->author->name }}</li>
+                        <li><strong>Verfasser:</strong> {{ $recipe->author->name }}</li>
                     @endif
                     @if ($recipe->category)
                         <li><strong>Kategorie:</strong> {{ $recipe->category->name }}</li>

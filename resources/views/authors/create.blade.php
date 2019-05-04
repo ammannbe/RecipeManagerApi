@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Autor hinzufügen')
+@section('title', 'Verfasser hinzufügen')
 
 
 @section('content-class', 'author form')
@@ -21,7 +21,7 @@
         <p>
             {!! FormHelper::backButton('Abbrechen', [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
-            {{ Form::button('Autor hinzufügen', [
+            {{ Form::button('Verfasser hinzufügen', [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>

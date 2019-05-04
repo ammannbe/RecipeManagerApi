@@ -21,7 +21,7 @@
         </p>
 
         <p>
-            {{ Form::label('author_id', 'Autor',
+            {{ Form::label('author_id', 'Verfasser',
                 ['class' => 'required']) }}
             {{ Form::select('author_id',
                 $authors, $recipe->author_id,
@@ -72,7 +72,7 @@
             {!! FormHelper::backButton('Abbrechen', [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'],
                 "/recipes/{$recipe->slug}") !!}
-            {{ Form::button('Autor hinzufügen', [
+            {{ Form::button('Verfasser hinzufügen', [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>
