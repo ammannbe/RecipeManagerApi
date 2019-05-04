@@ -31,7 +31,11 @@
 
                     <div class="image">
                         <div class="w3-container w3-center w3-padding">
-                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ "Rezept {$recipe->name}" }}">
+                            @if ($recipe->photo)
+                                <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->name }}">
+                            @else
+                                <img class="w3-round" src="{{ url('/images/placeholder.png') }}" alt="{{ $recipe->name }}">
+                            @endif
                         </div>
                     </div>
 
@@ -58,8 +62,6 @@
                                     <small class="count">({{ count($recipe->ratings) }})</small>
                                 </div>
                             </div>
-                        @elseif (count($recipe->ratings) <= 0 && !$recipe->preparation_time)
-                            -
                         @endif
                     </footer>
                 </a>
@@ -86,7 +88,11 @@
 
                     <div class="image">
                         <div class="w3-container w3-center w3-padding">
-                            <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ "Rezept {$recipe->name}" }}">
+                            @if ($recipe->photo)
+                                <img class="w3-round" src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ $recipe->name }}">
+                            @else
+                                <img class="w3-round" src="{{ url('/images/placeholder.png') }}" alt="{{ $recipe->name }}">
+                            @endif
                         </div>
                     </div>
 
@@ -103,8 +109,12 @@
                         <div class="w3-col s8 m8 l8">
                             @if (count($recipe->ratings) > 0)
                                 <div>
-                                    @for ($i = 0; $i < $recipe->ratings->avg('stars'); $i++)
-                                        <small><i class="star-on"></i></small>
+                                    @for ($i = 0; $i < 5; $i++)
+                                        @if ($i < $recipe->ratings->avg('stars'))
+                                            <small><i class="star-on"></i></small>
+                                        @else
+                                            <small><i class="star-off"></i></small>
+                                        @endif
                                     @endfor
                                     <small class="count">({{ count($recipe->ratings) }})</small>
                                 </div>
@@ -136,14 +146,26 @@
 
                         <div class="image">
                             <div class="w3-container w3-center w3-padding">
-                                <img class="w3-round" src="{{ url("/images/recipes/{$rating->recipe->photo}") }}" alt="{{ "Rezept {$rating->recipe->name}" }}">
+                                @if ($rating->recipe->photo)
+                                    <img class="w3-round" src="{{ url("/images/recipes/{$rating->recipe->photo}") }}" alt="{{ $rating->recipe->name }}">
+                                @else
+                                    <img class="w3-round" src="{{ url('/images/placeholder.png') }}" alt="{{ $rating->recipe->name }}">
+                                @endif
                             </div>
                         </div>
 
                         <p class="w3-container w3-white rating-stars">
-                            @for ($i = 0; $i < $rating->stars; $i++)
-                                <i class="star-on"></i>
-                            @endfor
+                            @if (count($recipe->ratings) > 0)
+                                <div>
+                                    @for ($i = 0; $i < 5; $i++)
+                                        @if ($i < $recipe->ratings->avg('stars'))
+                                            <small><i class="star-on"></i></small>
+                                        @else
+                                            <small><i class="star-off"></i></small>
+                                        @endif
+                                    @endfor
+                                </div>
+                            @endif
                         </p>
 
                         <p class="w3-container w3-white rating" title="{{ "{$rating->ratingCriterion->name}: {$rating->comment}" }}">

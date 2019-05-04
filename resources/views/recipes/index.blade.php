@@ -158,7 +158,7 @@
                                 @auth
                                     @if ($isRecipeOwner)
                                         <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}?group={$name}") }}">
-                                            <i class="plus-sign"></i> Zutat hinzufügen
+                                            Zutat hinzufügen
                                         </a>
                                     @endif
                                 @endauth

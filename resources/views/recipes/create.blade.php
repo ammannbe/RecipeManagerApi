@@ -24,7 +24,7 @@
                 'class' => 'required']) }}
             {{ Form::select('author_id',
                 $authors, $default['authors'],
-                ['class' => 'js-dropdown w3-input']) }}
+                ['class' => 'js-dropdown w3-select']) }}
         </p>
 
         <p>

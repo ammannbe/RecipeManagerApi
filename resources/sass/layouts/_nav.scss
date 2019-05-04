@@ -22,3 +22,8 @@ input[type="submit"] {
     border-radius: 0 !important;
 }
 
+.nav .w3-dropdown-content .w3-button {
+    @media (max-width: 600px) {
+        text-align: center;
+    }
+}
