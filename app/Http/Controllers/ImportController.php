@@ -26,13 +26,7 @@ class ImportController extends Controller
         ];
 
         $call = $file['extension'];
-        if (method_exists($this, $call)) {
-            return $this->$call($file['content']);
-        } else {
-            return redirect('/recipes/import')
-                ->withErrors(['Dieses Format wird nicht unterstützt.'])
-                ->withInput();
-        }
+        return $this->$call($file['content']);
     }
 
     public function form() {
