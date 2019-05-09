@@ -67,7 +67,7 @@ class ImportController extends Controller
             }
         }
 
-        \Toast::info('Rezepte wurden importiert.');
+        \Toast::info(__('import.success'));
         return redirect('/admin');
     }
 

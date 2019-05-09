@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function create(CreateCategory $request) {
         Category::create($request->all());
-        \Toast::success('Kategorie erfolgreich erstellt');
+        \Toast::success(__('toast.category.created'));
 
         return redirect('/admin');
     }

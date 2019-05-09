@@ -31,8 +31,8 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
-        $authors    = [NULL => 'Bitte wählen'] + Author::orderBy('name')->pluck('name', 'id')->toArray();
-        $categories = [NULL => 'Bitte wählen'] + Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $authors    = [NULL => __('form.dropdown-first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
+        $categories = [NULL => __('form.dropdown-first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
         $default['authors'] = array_search(auth()->user()->name, $authors);
 
         return view('recipes.create', compact('authors', 'categories', 'default'));
@@ -59,7 +59,7 @@ class RecipeController extends Controller
 
         $recipe = Recipe::create($recipe);
         session(['edit-mode' => TRUE]);
-        \Toast::success('Rezept erfolgreich erstellt');
+        \Toast::success(__('toast.recipe.created'));
 
         return redirect("recipes/{$recipe->slug}");
     }
@@ -102,7 +102,7 @@ class RecipeController extends Controller
         }
 
         $recipe->update();
-        \Toast::success('Rezept erfolgreich aktualisiert.');
+        \Toast::success(__('toast.recipe.updated'));
 
         return redirect("recipes/{$recipe->slug}");
     }
@@ -112,7 +112,7 @@ class RecipeController extends Controller
         File::delete(public_path().'/images/recipes/'.$recipe->photo);
         $recipe->delete();
 
-        \Toast::success('Rezept erfolgreich gelöscht.');
+        \Toast::success(__('toast.recipe.deleted'));
         return redirect('/');
     }
 }

@@ -54,11 +54,11 @@ class PagesController extends Controller
         }
 
         if (isset($recipes)) {
-            return view('search.results', compact('recipes'));
             \Toast::clear();
+            return view('search.results', compact('recipes'));
         } else {
-            \Toast::info('Keine Rezepte gefunden.');
-            return redirect('/search');
+            \Toast::info(__('toast.search.not-found'));
+            return back();
         }
     }
 

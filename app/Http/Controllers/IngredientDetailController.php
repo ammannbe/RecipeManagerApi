@@ -20,10 +20,10 @@ class IngredientDetailController extends Controller
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [IngredientDetail::class, $recipe]);
 
-        $units = [NULL => 'Bitte wählen'] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
+        $units = [NULL => __('form.dropdown-first')] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
         $preps = Prep::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredients = [NULL => 'Bitte wählen'] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredientDetailGroups = [NULL => 'Bitte wählen'] + IngredientDetailGroup::orderBy('name')
+        $ingredients = [NULL => __('form.dropdown-first')] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
+        $ingredientDetailGroups = [NULL => __('form.dropdown-first')] + IngredientDetailGroup::orderBy('name')
             ->where('recipe_id', $recipe->id)
             ->pluck('name', 'id')
             ->toArray();
@@ -34,7 +34,7 @@ class IngredientDetailController extends Controller
             ->with('unit', 'ingredient', 'preps')
             ->get();
 
-        $ingredientDetailsAlternate = [NULL => 'Bitte wählen'];
+        $ingredientDetailsAlternate = [NULL => __('form.dropdown-first')];
         foreach ($ingredientDetails as $i) {
             $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
         }
@@ -63,7 +63,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        \Toast::success('Zutat erfolgreich hinzugefügt');
+        \Toast::success(__('toast.ingredient.created'));
         return redirect("ingredient-details/create/{$recipe->slug}");
     }
 
@@ -73,7 +73,7 @@ class IngredientDetailController extends Controller
         if (! IngredientDetail::where(['ingredient_detail_group_id' => $ingredientDetail->ingredient_detail_group_id])->exists()) {
             IngredientDetailGroup::find($ingredientDetail->ingredient_detail_group_id)->delete();
         }
-        \Toast::success('Zutat erfolgreich gelöscht.');
+        \Toast::success(__('toast.ingredient.deleted'));
 
         return redirect("recipes/{$ingredientDetail->recipe->slug}");
     }

@@ -34,7 +34,7 @@ class UserController extends Controller
                 $ldapUser->updateAttribute('userPassword', $request->new_password);
             } else {
                 return redirect('profile/edit')
-                    ->withErrors(['Falsches Passwort'])
+                    ->withErrors([__('toast.user.wrong-password')])
                     ->withInput();
             }
         }
@@ -43,7 +43,7 @@ class UserController extends Controller
         $user->email = $ldapUser->mail = $request->email;
 
         $ldapUser->save() && $user->update();
-        \Toast::success('Profil erfolgreich aktualisiert.');
+        \Toast::success(__('toast.user.updated'));
 
         return redirect('/profile');
     }

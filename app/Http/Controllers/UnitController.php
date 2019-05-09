@@ -15,7 +15,7 @@ class UnitController extends Controller
 
     public function create(CreateUnit $request) {
         Unit::create($request->all());
-        \Toast::success('Einheit erfolgreich erstellt');
+        \Toast::success(__('toast.unit.created'));
 
         return redirect('/admin');
     }

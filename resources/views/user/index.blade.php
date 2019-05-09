@@ -7,20 +7,13 @@
 @section('content-class', 'dashboard')
 @section('content')
 
-    @auth
-        <article class="manage">
-            <span class="hidden">
-                Bearbeiten {!! FormHelper::switch('edit-mode switch') !!}
-            </span>
-        </article>
-    @endauth
-
     <article class="profile">
         <h2>Details</h2>
-        <div class="profile">
+        <div>
             <span>Name: {{ Auth::User()->name }}</span><br>
             <span>E-Mail: {{ Auth::User()->email }}</span><br>
-            <a class="edit edit-mode item" href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
+            <br>
+            <a href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
         </div>
     </article>
 

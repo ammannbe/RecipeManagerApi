@@ -16,7 +16,7 @@ class RatingController extends Controller
 {
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [Rating::class, $recipe]);
-        $ratingCriteria = [NULL => 'Bitte wählen'] + RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
+        $ratingCriteria = [NULL => __('form.dropdown-first')] + RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
         return view('ratings.create', compact('recipe', 'ratingCriteria'));
     }
 
@@ -25,7 +25,7 @@ class RatingController extends Controller
         $rating->user_id = auth()->user()->id;
         $rating->recipe_id = $recipe->id;
         $rating->save();
-        \Toast::success('Bewertung gespeichert.');
+        \Toast::success(__('toast.rating.created'));
 
         return redirect("recipes/{$recipe->slug}");
     }
@@ -44,7 +44,7 @@ class RatingController extends Controller
             'stars'               => $request->stars,
             'rating_criterion_id' => $request->rating_criterion_id,
         ]);
-        \Toast::success('Rezept erfolgreich aktualisiert.');
+        \Toast::success(__('toast.rating.updated'));
         $recipe = Recipe::find($rating->recipe_id);
 
         return redirect("recipes/{$recipe->slug}");
@@ -53,7 +53,7 @@ class RatingController extends Controller
     public function delete(Rating $rating) {
         $this->authorize('update', [Rating::class, $rating]);
         $rating->delete();
-        \Toast::success('Bewertung erfolgreich gelöscht.');
+        \Toast::success(__('toast.rating.deleted'));
         $recipe = Recipe::find($rating->recipe_id);
 
         return redirect("recipes/{$recipe->slug}");
