@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 
-@section('title', 'Suchresultate')
+@section('title', __('search.search_results'))
 
 
 @section('content-class', 'overview')
 @section('content')
 
-    <h2>Suchresultate</h2>
+    <h2>{{ __('search.search_results') }}</h2>
     <div class="w3-row">
         @php
             $i = 0;

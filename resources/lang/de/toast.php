@@ -12,10 +12,10 @@ return [
     */
 
     'search' => [
-        'not-found' => 'Keine Rezepte gefunden.',
+        'not_found' => 'Keine Rezepte gefunden.',
     ],
     'user' => [
-        'wrong-password' => 'Falsches Passwort.',
+        'wrong_password' => 'Falsches Passwort.',
         'updated' => 'Profil erfolgreich aktualisiert.',
     ],
 

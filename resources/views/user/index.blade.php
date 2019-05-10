@@ -1,24 +1,24 @@
 @extends('layouts.master')
 
 
-@section('title', 'Profil')
+@section('title', __('user.index.title'))
 
 
 @section('content-class', 'dashboard')
 @section('content')
 
     <article class="profile">
-        <h2>Details</h2>
+        <h2>{{ __('user.index.details') }}</h2>
         <div>
-            <span>Name: {{ Auth::User()->name }}</span><br>
-            <span>E-Mail: {{ Auth::User()->email }}</span><br>
+            <span>{{ __('user.index.name') }} {{ Auth::User()->name }}</span><br>
+            <span>{{ __('user.index.email') }} {{ Auth::User()->email }}</span><br>
             <br>
-            <a href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
+            <a href="/profile/edit">{{ __('user.index.edit_profile') }}<i class="pencil"></i></a>
         </div>
     </article>
 
     <article class="recipes">
-        <h2>Deine Rezepte</h2>
+        <h2>{{ __('user.index.yout_recipe') }}</h2>
         <ul>
             @php($i = 0)
             @foreach ($recipes as $recipe)
@@ -32,6 +32,6 @@
                 </li>
             @endforeach
         </ul>
-        {{ Form::button('Mehr anzeigen...', ['class' => 'show-more']) }}
+        {{ Form::button( __('user.index.show_more') , ['class' => 'show-more']) }}
     </article>
 @endsection

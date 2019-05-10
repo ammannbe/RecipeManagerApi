@@ -63,9 +63,9 @@ class KremlParser
                 $recipeArray['author']['name'] = trim($kremlDescriptions['author']);
             }
 
-            if (isset($kremlDescriptions['preparation-time'])) {
-                if ($kremlDescriptions['preparation-time'] !== '00:00') {
-                    $recipeArray['recipe']['preparation_time'] = trim($kremlDescriptions['preparation-time']);
+            if (isset($kremlDescriptions['preparation_time'])) {
+                if ($kremlDescriptions['preparation_time'] !== '00:00') {
+                    $recipeArray['recipe']['preparation_time'] = trim($kremlDescriptions['preparation_time']);
                 }
             }
 

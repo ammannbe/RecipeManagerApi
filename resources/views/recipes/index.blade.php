@@ -2,11 +2,14 @@
 
 @php
     $author = '';
-    if ($recipe->author) { $author = "Verfasser: {$recipe->author->name},"; }
+    if ($recipe->author) { $author = __('recipes.meta_author', ['author' => $recipe->author->name]); }
 @endphp
 
 @section('title', $recipe->name)
-@section('meta-description', "Rezept: {$recipe->name}, $author Kategorie: {$recipe->category->name}")
+@section('meta-description', __('recipes.meta_description', [
+    'name'     => $recipe->name,
+    'author'   => $author,
+    'category' => $recipe->category->name]))
 
 
 @section('content-class', 'recipe')
@@ -29,11 +32,11 @@
             @auth
                 @if ($isRecipeOwner)
                     <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
-                    <span class="w3-margin-right w3-margin-bottom">Bearbeiten</span>
-                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>Bearbeiten</a></span>
+                    <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit') }}</span>
+                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
                     <span class="w3-margin-right w3-margin-bottom edit-mode item">
-                        <a class="delete confirm" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
-                            <i class="cross red"></i>Löschen
+                        <a class="delete confirm" data-confirm="{{ __('forms.global.confirm') }}" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
+                            <i class="cross red"></i>{{ __('recipes.delete') }}
                         </a>
                     </span>
                 @endif
@@ -45,7 +48,7 @@
         @if ($recipe->photo)
             <div class="image">
                 <div class="w3-card w3-center" onclick="Modal.photo(this)">
-                    <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="Rezept {{ $recipe->photo }}">
+                    <img src="{{ url("/images/recipes/{$recipe->photo}") }}" alt="{{ __('recipes.recipe') }} {{ $recipe->photo }}">
                 </div>
             </div>
         @endif
@@ -54,16 +57,16 @@
             <div class="w3-container">
                 <ul>
                     @if ($recipe->author)
-                        <li><strong>Verfasser:</strong> {{ $recipe->author->name }}</li>
+                        <li><strong>{{ __('recipes.author') }}</strong> {{ $recipe->author->name }}</li>
                     @endif
                     @if ($recipe->category)
-                        <li><strong>Kategorie:</strong> {{ $recipe->category->name }}</li>
+                        <li><strong>{{ __('recipes.category') }}</strong> {{ $recipe->category->name }}</li>
                     @endif
                     @if ($recipe->yield_amount)
-                        <li><strong>Portionen:</strong> {{ $recipe->yield_amount }}</li>
+                        <li><strong>{{ __('recipes.yield_amount') }}</strong> {{ $recipe->yield_amount }}</li>
                     @endif
                     @if ($recipe->preparation_time)
-                        <li><strong>Zubereitungszeit:</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
+                        <li><strong>{{ __('recipes.preparation_time') }}</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
                     @endif
                     <li><br></li>
                     @if (count($recipe->ratings) > 0)
@@ -81,7 +84,7 @@
                     <li>
                         @if (auth()->check())
                             @if (! $recipe->ratings->where('user_id', auth()->user()->id)->first())
-                                <a href="{{ url("ratings/add/{$recipe->slug}") }}">Bewertung hinzufügen</a>
+                                <a href="{{ url("ratings/add/{$recipe->slug}") }}">{{ __('recipes.add_rating') }}</a>
                             @endif
                         @endif
                     </li>
@@ -115,7 +118,9 @@
                                     @endforeach
                                     @auth
                                         @if ($isRecipeOwner)
-                                            <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red middle"></i></a>
+                                            <a class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}" href="/ingredient-details/delete/{{ $ingredientDetail->id }}">
+                                                <i class="cross red middle"></i>
+                                            </a>
                                         @endif
                                     @endauth
                                 </li>
@@ -125,7 +130,7 @@
                         @auth
                             @if ($isRecipeOwner)
                                 <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}">
-                                    Zutat hinzufügen
+                                    {{ __('recipes.add_ingredient') }}
                                 </a>
                             @endif
                         @endauth
@@ -148,11 +153,11 @@
                                         <li>
                                             {{ $ingredientDetail->beautify() }}
                                             @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
-                                                <br>Oder: {{ $ingredientDetailAlternate->beautify() }}
+                                                <br>{{ __('recipes.or') }} {{ $ingredientDetailAlternate->beautify() }}
                                             @endforeach
                                             @auth
                                                 @if ($isRecipeOwner)
-                                                    <a class="edit-mode item delete confirm" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red middle"></i></a>
+                                                    <a class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red middle"></i></a>
                                                 @endif
                                             @endauth
                                         </li>
@@ -162,7 +167,7 @@
                                 @auth
                                     @if ($isRecipeOwner)
                                         <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}?group={$name}") }}">
-                                            Zutat hinzufügen
+                                            {{ __('recipes.add_ingredient') }}
                                         </a>
                                     @endif
                                 @endauth
@@ -178,7 +183,7 @@
     @endif
 
     <article class="instructions w3-card w3-padding">
-        <h2>Zubereitung</h2>
+        <h2>{{ __('recipes.preparation') }}</h2>
         <p>
             {!! nl2br(e($recipe->instructions)) !!}
         </p>
@@ -187,7 +192,7 @@
     @if ($recipe->ratings->count())
         <article class="ratings w3-padding">
             @auth
-                <h2>Bewertungen</h2>
+                <h2>{{ __('recipes.rating') }}</h2>
             @endauth
 
             @php
@@ -215,8 +220,8 @@
                     @auth
                         @if ($ratingOwner)
                             <div class="manage">
-                                <a href="{{ url('ratings/edit/'.$rating->id) }}" title="Bearbeiten"><i class="pencil black big"></i></a>
-                                <a href="{{ url('ratings/delete/'.$rating->id) }}" title="Löschen" class="delete confirm" ><i class="cross red big"></i></a>
+                                <a href="{{ url('ratings/edit/'.$rating->id) }}" title="{{ __('forms.edit') }}"><i class="pencil black big"></i></a>
+                                <a href="{{ url('ratings/delete/'.$rating->id) }}" title="{{ __('forms.delete') }}" class="delete confirm" data-confirm="{{ __('forms.global.confirm') }}"><i class="cross red big"></i></a>
                             </div>
                         @endif
                     @endauth
@@ -231,7 +236,7 @@
                     </div>
                     <div>
                         @for ($i = 0; $i < $rating->stars; $i++)
-                            <img src="{{ asset('/images/star-on-big.png') }}" alt="Bewertungsstern">
+                            <img src="{{ asset('/images/star-on-big.png') }}" alt="{{ __('recipes.rating_star') }}">
                         @endfor
                     </div>
                 </article>

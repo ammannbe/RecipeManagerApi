@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Bewertung bearbeiten')
+@section('title', __('forms.rating.edit'))
 
 
 @section('content-class', 'rating-form')
@@ -10,12 +10,12 @@
     {{ Form::open(['url' => "ratings/edit/{$rating->id}", 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('rating', 'Bewertung') }}
+            {{ Form::label('rating', __('forms.rating.rating')) }}
             {!! FormHelper::rating($rating->stars) !!}
         </p>
 
         <p>
-            {{ Form::label('rating_criterion_id', 'Kriterium',
+            {{ Form::label('rating_criterion_id', __('forms.rating.criterion'),
                 ['class' => 'required']) }}
             {{ Form::select('rating_criterion_id',
                 $ratingCriteria, $rating->rating_criterion_id,
@@ -23,7 +23,7 @@
         </p>
 
         <p>
-            {{ Form::label('comment', 'Kommentar',
+            {{ Form::label('comment', __('forms.rating.comment'),
             ['class' => 'required']) }}
             {{ Form::textarea('comment', $rating->comment, [
                 'maxlength' => 16777215,
@@ -32,10 +32,10 @@
         </p>
 
         <p>
-            {!! FormHelper::backButton('Abbrechen',
+            {!! FormHelper::backButton(__('forms.global.cancel'),
                 ['class' => 'w3-btn w3-black w3-left w3-margin-right'],
                 "/recipes/{$recipe->slug}") !!}
-            {{ Form::button('Änderungen speichern', [
+            {{ Form::button(__('forms.global.save_edits'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>

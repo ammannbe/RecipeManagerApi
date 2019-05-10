@@ -1,11 +1,8 @@
 @extends('layouts.master')
 
 
-@section('title', 'Übersicht Rezepte')
-@section('meta-description',
-        'Weisst du nicht, was du heute Kochen sollst? ' .
-        'Finde hier die besten Rezepte unter den ' . \App\Recipe::count() . ' aufgeführten Rezepten. ' .
-        'Immer frisch. Immer aktuell. Immer gut.'
+@section('title', __('home.title'))
+@section('meta-description', __('home.meta_description', ['count' => \App\Recipe::count()])
     )
 
 
@@ -13,7 +10,7 @@
 @section('content')
 
     @if ($newRecipes->count())
-        <h2>Neuste Rezepte</h2>
+        <h2>{{ __('home.new_recipes') }}</h2>
         <div class="w3-row">
             @php
                 $i = 0;
@@ -70,7 +67,7 @@
             @endforeach
         </div>
 
-        <h2>Beliebteste Rezepte</h2>
+        <h2>{{ __('home.top_recipes') }}</h2>
         <div class="w3-row">
             @php
                 $j = 0;
@@ -128,15 +125,15 @@
         </div>
     @else
         <p>
-            <strong>Keine Rezepte vorhanden!</strong><br>
+            <strong>{{ __('home.no_recipes') }}</strong><br>
             @auth
-                <a href="{{ url('/recipes/create') }}">Füge als erster ein Rezept hinzu!</a>
+                <a href="{{ url('/recipes/create') }}">{{ __('home.be_first') }}</a>
             @endauth
         </p>
     @endif
 
     @if ($ratings->count())
-        <h2>Neuste Kommentare</h2>
+        <h2>{{ __('home.new_comments') }}</h2>
         <div class="w3-row">
             @php
                 $k = 0;

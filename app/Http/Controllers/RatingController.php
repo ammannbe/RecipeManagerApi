@@ -16,7 +16,7 @@ class RatingController extends Controller
 {
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [Rating::class, $recipe]);
-        $ratingCriteria = [NULL => __('form.dropdown-first')] + RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
+        $ratingCriteria = [NULL => __('forms.global.dropdown_first')] + RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
         return view('ratings.create', compact('recipe', 'ratingCriteria'));
     }
 

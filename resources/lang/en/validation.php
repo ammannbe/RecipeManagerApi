@@ -146,4 +146,7 @@ return [
 
     'attributes' => [],
 
+
+    'noscript' => 'Activate JavaScript to profit from all functions.',
+
 ];

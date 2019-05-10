@@ -31,8 +31,8 @@ class RecipeController extends Controller
     }
 
     public function createForm() {
-        $authors    = [NULL => __('form.dropdown-first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
-        $categories = [NULL => __('form.dropdown-first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $authors    = [NULL => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
+        $categories = [NULL => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
         $default['authors'] = array_search(auth()->user()->name, $authors);
 
         return view('recipes.create', compact('authors', 'categories', 'default'));

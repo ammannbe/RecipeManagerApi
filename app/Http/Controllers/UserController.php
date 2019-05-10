@@ -34,7 +34,7 @@ class UserController extends Controller
                 $ldapUser->updateAttribute('userPassword', $request->new_password);
             } else {
                 return redirect('profile/edit')
-                    ->withErrors([__('toast.user.wrong-password')])
+                    ->withErrors([__('toast.user.wrong_password')])
                     ->withInput();
             }
         }

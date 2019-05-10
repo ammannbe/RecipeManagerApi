@@ -20,10 +20,10 @@ class IngredientDetailController extends Controller
     public function createForm(Recipe $recipe) {
         $this->authorize('create', [IngredientDetail::class, $recipe]);
 
-        $units = [NULL => __('form.dropdown-first')] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
+        $units = [NULL => __('forms.global.dropdown_first')] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
         $preps = Prep::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredients = [NULL => __('form.dropdown-first')] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredientDetailGroups = [NULL => __('form.dropdown-first')] + IngredientDetailGroup::orderBy('name')
+        $ingredients = [NULL => __('forms.global.dropdown_first')] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
+        $ingredientDetailGroups = [NULL => __('forms.global.dropdown_first')] + IngredientDetailGroup::orderBy('name')
             ->where('recipe_id', $recipe->id)
             ->pluck('name', 'id')
             ->toArray();
@@ -34,7 +34,7 @@ class IngredientDetailController extends Controller
             ->with('unit', 'ingredient', 'preps')
             ->get();
 
-        $ingredientDetailsAlternate = [NULL => __('form.dropdown-first')];
+        $ingredientDetailsAlternate = [NULL => __('forms.global.dropdown_first')];
         foreach ($ingredientDetails as $i) {
             $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
         }

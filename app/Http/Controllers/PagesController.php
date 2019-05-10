@@ -57,7 +57,7 @@ class PagesController extends Controller
             \Toast::clear();
             return view('search.results', compact('recipes'));
         } else {
-            \Toast::info(__('toast.search.not-found'));
+            \Toast::info(__('toast.search.not_found'));
             return back();
         }
     }

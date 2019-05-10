@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', $recipe->name . ': Zutat hinzufügen')
+@section('title', $recipe->name . ': ' . __('forms.ingredient.create'))
 
 
 @section('content-class', 'ingredient-form')
@@ -10,7 +10,7 @@
     {{ Form::open(['url' => "ingredient-details/create/{$recipe->slug}", 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('amount', 'Zutat') }}
+            {{ Form::label('amount', 'forms.ingredient.ingredient') }}
             <p>
                 {{ Form::number('amount', NULL, [
                     'max'   => 999999.99,
@@ -18,14 +18,14 @@
                     'size'  => 8,
                     'step'  => '0.25',
                     'class' => 'w3-inpupt',
-                    'placeholder' => 'z.B. 50',
+                    'placeholder' => __('forms.ingredient.examples.amount'),
                     'autofocus']) }}
                 {{ Form::select('unit_id', $units, NULL, ['class' => 'js-dropdown w3-select w3-third']) }}
                 {{ Form::select('ingredient_id', $ingredients, NULL, ['class' => 'js-dropdown w3-select w3-third']) }}
             </p>
         </p>
         <p>
-            {{ Form::label('preps', 'Eigenschaft') }}
+            {{ Form::label('preps', _('forms.ingredient.prep')) }}
             {{ Form::select('preps[]', $preps, NULL, ['size' => 7, 'multiple', 'class' => 'w3-select w3-border']) }}
         </p>
 
@@ -39,12 +39,12 @@
         </p>
 
         <p>
-            {{ Form::label('ingredient_detail_id', 'Dieses Rezept als Alternative zu:') }}
+            {{ Form::label('ingredient_detail_id', __('forms.ingredient.alternate')) }}
             {{ Form::select('ingredient_detail_id', $ingredientDetailsAlternate, [NULL], ['class' => 'js-dropdown w3-input']) }}
         </p>
 
         <p>
-            {{ Form::label('position', 'Position') }}
+            {{ Form::label('position', __('forms.ingredient.position')) }}
             {{ Form::number('position', 0, [
                 'min'   => 0,
                 'size'  => 3,
@@ -53,9 +53,9 @@
         </p>
 
         <p>
-            {!! FormHelper::backButton('Abbrechen', [
+            {!! FormHelper::backButton('forms.global.cancel', [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'], "/recipes/{$recipe->slug}") !!}
-            {{ Form::button('Zutat hinzufügen', [
+            {{ Form::button(__('forms.ingredient.create'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>

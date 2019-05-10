@@ -4,23 +4,23 @@
 
 <div class="nav top">
     <div class="w3-bar w3-black">
-        <a href="{{ url('/') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>Rezepte</a>
-        <a href="{{ url('/search') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>Suche</a>
+        <a href="{{ url('/') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>{{ __('navigation.home') }}</a>
+        <a href="{{ url('/search') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>{{ __('navigation.search') }}</a>
         @auth
-            <a href="{{ url('/recipes/create') }}" class="{{ $w3BarLargeItemClasses }}">Rezept eingeben</a>
+            <a href="{{ url('/recipes/create') }}" class="{{ $w3BarLargeItemClasses }}">{{ __('navigation.create') }}</a>
         @endauth
         @if (auth()->check() && auth()->user()->isAdmin())
-            <a href="{{ url('/admin') }}" class="{{ $w3BarLargeItemClasses }}">Administration</a>
+            <a href="{{ url('/admin') }}" class="{{ $w3BarLargeItemClasses }}">{{ __('navigation.admin') }}</a>
         @endif
 
         @guest
-            <a href="{{ route('login') }}" class="{{ $w3BarLargeItemClasses }} w3-right w3-grey"><i></i>Login</a>
+            <a href="{{ route('login') }}" class="{{ $w3BarLargeItemClasses }} w3-right w3-grey"><i></i>{{ __('navigation.login') }}</a>
         @else
-            <a href="{{ url('/profile') }}" class="{{ $w3BarLargeItemClasses }} w3-right">Profil</a>
+            <a href="{{ url('/profile') }}" class="{{ $w3BarLargeItemClasses }} w3-right">{{ __('navigation.profile') }}</a>
 
             <form id="logout-form" action="{{ route('logout') }}" class="w3-hide-small w3-right" method="POST">
                 @csrf
-                <input type="submit" value="Abmelden" class="w3-button">
+                <input type="submit" value="{{ __('navigation.logout') }}" class="w3-button">
             </form>
         @endguest
 
@@ -29,16 +29,16 @@
 
     <div class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium mobile">
         @auth
-            <a href="{{ url('/recipes/create') }}" class="{{ $w3BarSmallItemClasses }}">Rezept eingeben</a>
+            <a href="{{ url('/recipes/create') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.create') }}</a>
         @endauth
         @if (auth()->check() && auth()->user()->isAdmin())
-            <a href="{{ url('/admin') }}" class="{{ $w3BarSmallItemClasses }}">Administration</a>
+            <a href="{{ url('/admin') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.admin') }}</a>
         @endif
 
         @guest
-            <a href="{{ route('login') }}" class="{{ $w3BarSmallItemClasses }} w3-grey"><i></i>Login</a>
+            <a href="{{ route('login') }}" class="{{ $w3BarSmallItemClasses }} w3-grey"><i></i>{{ __('navigation.login') }}</a>
         @else
-            <a href="{{ url('/profile') }}" class="{{ $w3BarSmallItemClasses }}">Profil</a>
+            <a href="{{ url('/profile') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.profile') }}</a>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
                 @csrf

@@ -1,0 +1,132 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Form Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used various messages that we need
+    | to display in forms.
+    |
+    */
+
+    'global' => [
+        'dropdown_first' => 'Please choose',
+        'cancel'     => 'Cancel',
+        'save_edits' => 'Save changes',
+        'name'       => 'Name',
+        'confirm'    => 'Are you sure?',
+    ],
+
+    'auth' => [
+        'username' => 'Username',
+        'password' => 'Password',
+        'login'    => 'Login',
+    ],
+
+    'author' => [
+        'create' => 'Add author',
+        'examples' => [
+            'name' => 'e.g. Benjamin Ammann',
+        ],
+    ],
+
+    'category' => [
+        'create' => 'Add category',
+        'examples' => [
+            'name' => 'e.g. aperitif'
+        ],
+    ],
+
+    'ingredient' => [
+        'create'   => 'Add ingredient',
+        'examples' => [
+            'amount' => 'e.g. 50'
+        ],
+        'ingredient' => 'Ingredient',
+        'prep'       => 'Prep',
+        'alternate'  => 'This ingredient as alternate to:',
+        'position'   => 'Position',
+    ],
+
+    'prep' => [
+        'create' => 'Add prep',
+        'examples' => [
+            'name' => 'e.g. cut',
+        ],
+    ],
+
+    'rating-criterion' => [
+        'create' => 'Add rating criterion',
+        'examples' => [
+            'name' => 'e.g. taste',
+        ],
+    ],
+
+    'rating' => [
+        'create' => 'Add rating',
+        'edit'   => 'Edit rating',
+        'examples' => [
+            'name' => 'z.g. taste'
+        ],
+        'rating'    => 'Rating',
+        'criterion' => 'Criterion',
+        'comment'   => 'Comment',
+    ],
+
+    'recipe' => [
+        'create' => 'Add recipe',
+        'examples' => [
+            'name' => 'e.g. Benis Spezialkukis',
+        ],
+        'author'   => 'Author',
+        'category' => 'Category',
+        'yield_amount' => 'Yield amount',
+        'preparation_time' => 'Preparation time',
+        'instructions' => 'Instructions',
+        'photo' => 'Picture (max. 2MB)',
+        'delete_old_photo' => 'Delete old photo (if exists)?',
+        'overwrite_old_photo' => 'Overwrite old photo (max 2MB)',
+    ],
+
+    'import' => [
+        'create' => 'Import recipe',
+        'file' => 'Recipe (*.kreml)',
+    ],
+
+    'search' => [
+        'create' => 'Search recipe',
+        'examples' => [
+            'term' => 'e.g. Potatoes',
+        ],
+        'meta_description' => 'Search easy and fast in over :count recipes.',
+        'item' => 'Search in',
+        'term' => 'Search term',
+    ],
+
+    'unit' => [
+        'create' => 'Create unit',
+        'examples' => [
+            'name' => 'z.g. Gram',
+            'name_shortcut' => 'e.g. g.',
+            'name_plural' => 'e.g. grams',
+            'name_plural_shortcut' => 'e.g. g.',
+        ],
+        'name' => 'Name (singular)',
+        'name_shortcut' => 'Shortcut (singular)',
+        'name_plural'   => 'Name (plural)',
+        'name_plural_shortcut' => 'Shortcut (plural)',
+    ],
+
+    'user' => [
+        'edit' => 'Edit profile',
+        'email' => 'E-Mail',
+        'current_password' => 'Current passwort',
+        'let_empty' => '(Leave empty to change nothing)',
+        'new_password' => 'New password',
+        'new_password_confirm' => 'Confirm password',
+    ],
+
+];
