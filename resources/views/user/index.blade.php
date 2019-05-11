@@ -13,7 +13,7 @@
             <span>{{ __('user.index.name') }} {{ Auth::User()->name }}</span><br>
             <span>{{ __('user.index.email') }} {{ Auth::User()->email }}</span><br>
             <br>
-            <a href="{{ route('user.update') }}">{{ __('user.index.edit_profile') }}<i class="pencil"></i></a>
+            <a href="{{ route('user.edit') }}">{{ __('user.index.edit_profile') }}<i class="pencil"></i></a>
         </div>
     </article>
 

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Recipe;
-use Adldap\Adldap;
 use Illuminate\Http\Request;
 use App\Http\Requests\EditUser;
+use Adldap\Laravel\Facades\Adldap;
 
 class UserController extends Controller
 {
