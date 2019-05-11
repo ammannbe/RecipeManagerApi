@@ -9,7 +9,7 @@
 
 {{-- https://ourcodeworld.com/articles/read/359/top-7-best-markdown-editors-javascript-and-jquery-plugins --}}
 
-    {{ Form::open(['url' => "recipes{$recipe->slug}", 'enctype="multipart/form-data"', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('recipes.update', $recipe->slug), 'enctype="multipart/form-data"', 'class' => 'w3-container w3-card-4 w3-padding']) }}
         @method('PUT')
 
         <p>

@@ -231,7 +231,7 @@
                     @auth
                         @if ($ratingOwner)
                             <div class="manage">
-                                <a href="{{ route('recipes.ratings.edit', $recipe->slug, $rating->id) }}" title="{{ __('forms.global.edit') }}"><i class="pencil black big"></i></a>
+                                <a href="{{ route('recipes.ratings.edit', [$recipe->slug, $rating->id]) }}" title="{{ __('forms.global.edit') }}"><i class="pencil black big"></i></a>
 
                                 {{ Form::open(['url' => "/recipes/{$recipe->slug}/ratings/{$rating->id}", 'class' => 'delete']) }}
                                     @method('DELETE')

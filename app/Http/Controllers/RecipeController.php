@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Helpers\FormatHelper;
 use App\Http\Requests\EditRecipe;
 use App\Http\Requests\CreateRecipe;
+use Illuminate\Support\Facades\File;
 
 class RecipeController extends Controller
 {
