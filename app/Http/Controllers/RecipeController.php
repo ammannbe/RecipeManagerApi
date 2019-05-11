@@ -38,8 +38,6 @@ class RecipeController extends Controller
         $recipe = array_merge(
                 $request->all(),
                 [
-                    'author_id'   => Author::where('name', $request->author)->first()->id,
-                    'category_id' => Category::where('name', $request->category)->first()->id,
                     'user_id'     => auth()->user()->id,
                     'slug'        => FormatHelper::slugify($request->name),
                 ]
