@@ -59,7 +59,7 @@ return [
         ],
     ],
 
-    'rating-criterion' => [
+    'rating_criterion' => [
         'create' => 'Bewertungs-Kriterium hinzufügen',
         'examples' => [
             'name' => 'z.B. Geschmack',
