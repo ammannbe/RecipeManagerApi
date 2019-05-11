@@ -44,6 +44,8 @@ return [
         'created' => 'Recipe successfully created.',
         'updated' => 'Recipe successfully updated.',
         'deleted' => 'Recipe successfully deleted.',
+        'guest_create1' => 'You\'re not logged in!',
+        'guest_create2' => 'As a guest, you cannot edit recipes afterwards.'
     ],
     'unit' => [
         'created' => 'Unit successfully created.',

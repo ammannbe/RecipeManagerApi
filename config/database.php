@@ -95,4 +95,20 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default and guest cookbook
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify what name the default cookbook should have.
+    | All recipes from logged-in users will belong to this cookbook.
+    |
+    | You also can specify if you have a guest cookbook or not.
+    | In guest cookbooks every one without a login can create recipes.
+    |
+    */
+
+    'default_cookbook' => env('DEFAULT_COOKBOOK', 'Narrenhaus'),
+    'guest_recipes' => env('GUEST_RECIPES', TRUE),
+
 ];

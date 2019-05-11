@@ -22,7 +22,13 @@ class RecipeController extends Controller
     {
         $authors    = [NULL => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = [NULL => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
-        $default['authors'] = array_search(auth()->user()->name, $authors);
+        $default['authors'] = [];
+        if (auth()->user()) {
+            $default['authors'] = array_search(auth()->user()->name, $authors);
+        } else {
+            \Toast::warning(__('toast.recipe.guest_create1'));
+            \Toast::info(__('toast.recipe.guest_create2'));
+        }
 
         return view('recipes.create', compact('authors', 'categories', 'default'));
     }
@@ -35,10 +41,14 @@ class RecipeController extends Controller
      */
     public function store(CreateRecipe $request)
     {
+        $user_id = NULL;
+        if (auth()->user()) {
+            $user_id = auth()->user()->id;
+        }
         $recipe = array_merge(
                 $request->all(),
                 [
-                    'user_id'     => auth()->user()->id,
+                    'user_id'     => $user_id,
                     'slug'        => FormatHelper::slugify($request->name),
                 ]
             );

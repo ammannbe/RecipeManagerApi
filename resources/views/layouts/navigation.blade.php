@@ -10,9 +10,7 @@
         </div>
         <a href="{{ route('home') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>{{ __('navigation.home') }}</a>
         <a href="{{ route('search.index') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>{{ __('navigation.search') }}</a>
-        @auth
-            <a href="{{ route('recipes.create') }}" class="{{ $w3BarLargeItemClasses }}">{{ __('navigation.create') }}</a>
-        @endauth
+        <a href="{{ route('recipes.create') }}" class="{{ $w3BarLargeItemClasses }}">{{ __('navigation.create') }}</a>
         @if (auth()->check() && auth()->user()->isAdmin())
             <a href="{{ route('admin.index') }}" class="{{ $w3BarLargeItemClasses }}">{{ __('navigation.admin') }}</a>
         @endif
@@ -32,9 +30,7 @@
     </div>
 
     <div class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium mobile">
-        @auth
-            <a href="{{ route('recipes.create') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.create') }}</a>
-        @endauth
+        <a href="{{ route('recipes.create') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.create') }}</a>
         @if (auth()->check() && auth()->user()->isAdmin())
             <a href="{{ route('admin.index') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.admin') }}</a>
         @endif

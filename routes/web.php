@@ -14,7 +14,7 @@
 Route::middleware('checklogin')->group(function() {
 
     Route::resource('recipes', 'RecipeController')->only([
-        'create', 'store', 'edit', 'update', 'destroy'
+        'edit', 'update', 'destroy'
     ]);
 
     Route::resource('recipes.ratings', 'RatingController')->only([
@@ -68,6 +68,10 @@ Route::middleware('checklogin', 'checkadmin')->group(function() {
         'create', 'store'
     ]);
 });
+
+Route::resource('recipes', 'RecipeController')->only([
+    'create', 'store'
+]);
 
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, \Config::get('app.locales'))) {

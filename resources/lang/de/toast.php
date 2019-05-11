@@ -44,6 +44,8 @@ return [
         'created' => 'Rezept erfolgreich erstellt.',
         'updated' => 'Rezept erfolgreich aktualisiert.',
         'deleted' => 'Rezept erfolgreich gelöscht.',
+        'guest_create1' => 'Du bist nicht angemeldet!',
+        'guest_create2' => 'Als Gast kannst du die Rezepte später nicht mehr bearbeiten.'
     ],
     'unit' => [
         'created' => 'Einheit erfolgreich erstellt.',
