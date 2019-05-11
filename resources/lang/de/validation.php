@@ -144,7 +144,33 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'Der Name',
+        'category_id' => 'Die Kategorie',
+        'amount' => 'Die Menge',
+        'unit_id' => 'Die Einheit',
+        'ingredient_id' => 'Die Zutat',
+        'preps' => 'Die Vorbereitung',
+        'position' => 'Die Position',
+        'ingredient_detail_group_id' => 'Die Zutaten-Gruppe',
+        'ingredient_detail_id' => 'Die Zutaten-Alternative',
+        'rating_criterion_id' => 'Bewertungs-Kriterium',
+        'comment' => 'Kommentar',
+        'stars' => 'Stern',
+        'author_id' => 'Der Verfasser',
+        'yield_amount' => 'Die Portion',
+        'instructions' => 'Die Zubereitung',
+        'photo' => 'Das Foto',
+        'name_shortcut' => 'Die Abkürzung (Singular)',
+        'name_plural' => 'Der Name (Plural)',
+        'name_plural_shortcut' => 'Die Abkürzung (Plural)',
+        'email' => 'Die E-Mail',
+        'current_password' => 'Das aktuelle Passwort',
+        'new_password' => 'Passwort',
+        'file' => 'Die Datei',
+        'item' => 'Suchen in',
+        'term' => 'Der Suchbegriff',
+    ],
 
 
     'noscript' => 'Aktiviere JavaScript um von allen Funktionen zu profitieren.',
