@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
+
+    public function getRouteKeyName() {
+        return 'slug';
+    }
 
     public function searchRecipes($name) {
         return $this->where('name', 'LIKE', '%'.$name.'%')

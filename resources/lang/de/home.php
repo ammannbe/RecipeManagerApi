@@ -21,5 +21,6 @@ return [
     'no_recipes'   => 'Keine Rezepte vorhanden!',
     'be_first'     => 'Füge als erster ein Rezept hinzu!',
     'new_comments' => 'Neuste Kommentare',
+    'others'       => 'Weitere',
 
 ];

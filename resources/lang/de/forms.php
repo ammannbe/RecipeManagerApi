@@ -15,6 +15,7 @@ return [
     'global' => [
         'dropdown_first' => 'Bitte wählen',
         'cancel'     => 'Abbrechen',
+        'next'       => 'Weiter',
         'edit'       => 'Bearbeiten',
         'save_edits' => 'Änderungen speichern',
         'name'       => 'Name',
@@ -105,6 +106,14 @@ return [
         'meta_description' => 'Einfach und schnell in über :count Rezepten suchen.',
         'item' => 'Suchen in',
         'term' => 'Suchbegriff',
+        'category' => [
+            'title' => 'Nach Kategorie',
+            'text'  => 'Hier findest du alle Kategorien und die dazu passenden Rezepte.',
+        ],
+        'author' => [
+            'title' => 'Nach Verfasser',
+            'text'  => 'Hier findest du alle Verfasser und deren Rezepte.',
+        ],
     ],
 
     'unit' => [

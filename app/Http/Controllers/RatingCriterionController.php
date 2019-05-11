@@ -27,7 +27,7 @@ class RatingCriterionController extends Controller
     public function store(CreateRatingCriterion $request)
     {
         RatingCriterion::create($request->all());
-        \Toast::success(__('toast.rating-criterion.created'));
+        \Toast::success(__('toast.rating_criterion.created'));
 
         return view('ratingCriteria.create');
     }

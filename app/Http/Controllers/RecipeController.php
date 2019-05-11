@@ -35,13 +35,11 @@ class RecipeController extends Controller
      */
     public function store(CreateRecipe $request)
     {
-        $recipe = array_merge(
-                $request->all(),
-                [
-                    'user_id'     => auth()->user()->id,
-                    'slug'        => FormatHelper::slugify($request->name),
-                ]
-            );
+        $request->merge([
+            'user_id' => auth()->user()->id,
+            'slug'    => FormatHelper::slugify($request->name),
+        ]);
+        $recipe = $request->all();
 
         if ($request->photo) {
             $recipe['photo'] = FormatHelper::generatePhotoName(

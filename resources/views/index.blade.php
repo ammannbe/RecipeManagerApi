@@ -65,6 +65,11 @@
                     </a>
                 </article>
             @endforeach
+            <h3>
+                <a href="{{ route('categories.show', $recipe->category->slug) }}">
+                    <i class="arrow-right">{{ __('home.others') }} {{ $recipe->category->name }}</i>
+                </a>
+            </h3>
         </div>
 
         <h2>{{ __('home.top_recipes') }}</h2>
@@ -122,6 +127,11 @@
                     </a>
                 </article>
             @endforeach
+            <h3>
+                <a href="{{ route('categories.show', $recipe->category->slug) }}">
+                    <i class="arrow-right">{{ __('home.others') }} {{ $recipe->category->name }}</i>
+                </a>
+            </h3>
         </div>
     @else
         <p>

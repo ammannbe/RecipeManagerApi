@@ -34,4 +34,22 @@
 
     {{ Form::close() }}
 
+    <br>
+
+    <div class="w3-container w3-card w3-padding w3-margin-top">
+        <h3>{{ __('forms.search.category.title') }}</h3>
+        <p>
+            {{ __('forms.search.category.text') }}<br>
+            <a href="{{ route('categories.index') }}">{{ __('forms.global.next') }} <i class="arrow-right"></i></a>
+        </p>
+    </div>
+
+    <div class="w3-container w3-card w3-padding w3-margin-top">
+        <h3>{{ __('forms.search.author.title') }}</h3>
+        <p>
+            {{ __('forms.search.author.title') }}<br>
+            <a href="{{ route('authors.index') }}">{{ __('forms.global.next') }} <i class="arrow-right"></i></a>
+        </p>
+    </div>
+
 @stop
