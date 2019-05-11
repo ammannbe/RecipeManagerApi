@@ -4,6 +4,10 @@
 
 <div class="nav top">
     <div class="w3-bar w3-black">
+        <div class="w3-bar-item w3-padding-large">
+            <a class="w3-black" href="{{ route('lang', 'de') }}">DE</a> |
+            <a class="w3-black" href="{{ route('lang', 'en') }}">EN</a>
+        </div>
         <a href="{{ route('home') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>{{ __('navigation.home') }}</a>
         <a href="{{ route('search.index') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>{{ __('navigation.search') }}</a>
         @auth

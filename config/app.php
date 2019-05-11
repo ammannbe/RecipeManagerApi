@@ -82,6 +82,8 @@ return [
 
     'locale' => env('LOCALE', 'en'),
 
+    'locales' => explode(',', env('LOCALES', 'en')),
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale

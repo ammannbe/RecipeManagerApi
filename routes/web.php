@@ -69,6 +69,13 @@ Route::middleware('checklogin', 'checkadmin')->group(function() {
     ]);
 });
 
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, \Config::get('app.locales'))) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('lang');
+
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
