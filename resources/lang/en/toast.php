@@ -20,7 +20,9 @@ return [
     ],
 
     'author' => [
-        'created' => 'Author successfully created.',
+        'created'     => 'Author successfully created.',
+        'deleted'     => 'Author successfully deleted.',
+        'not_deleted' => 'Author couldn\'t be deleted. He still owns recipes.',
     ],
     'category' => [
         'created' => 'Category successfully created.',

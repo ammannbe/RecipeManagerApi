@@ -20,7 +20,9 @@ return [
     ],
 
     'author' => [
-        'created' => 'Verfasser erfolgreich erstellt.',
+        'created'     => 'Verfasser erfolgreich erstellt.',
+        'deleted'     => 'Verfasser erfolgreich gelöscht.',
+        'not_deleted' => 'Verfasser konnte nicht gelöscht werden. Er besitzt noch Rezepte.',
     ],
     'category' => [
         'created' => 'Kategorie erfolgreich erstellt.',

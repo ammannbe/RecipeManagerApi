@@ -59,4 +59,23 @@ class AuthorController extends Controller
         $recipes = Recipe::where('author_id', $author->id)->get();
         return view('authors.show', compact('author', 'recipes'));
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Author  $author
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Author $author)
+    {
+        $this->authorize('delete', [Author::class, $author]);
+        if (! Recipe::where('author_id', $author->id)->first()) {
+            $author->delete();
+            \Toast::success(__('toast.author.deleted'));
+        } else {
+            \Toast::error(__('toast.author.not_deleted'));
+        }
+
+        return back();
+    }
 }

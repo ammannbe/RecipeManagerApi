@@ -45,7 +45,7 @@ Route::middleware('checklogin', 'checkadmin')->group(function() {
     Route::get('/admin', 'PagesController@admin')->name('admin.index');
 
     Route::resource('authors', 'AuthorController')->only([
-        'create', 'store'
+        'create', 'store', 'destroy'
     ]);
 
     Route::resource('categories', 'CategoryController')->only([
