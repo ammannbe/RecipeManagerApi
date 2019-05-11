@@ -49,7 +49,7 @@ Route::middleware('checklogin', 'checkadmin')->group(function() {
     ]);
 
     Route::resource('categories', 'CategoryController')->only([
-        'create', 'store'
+        'create', 'store', 'destroy'
     ]);
 
     Route::resource('ingredients', 'IngredientController')->only([

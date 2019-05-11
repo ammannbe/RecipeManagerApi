@@ -25,7 +25,9 @@ return [
         'not_deleted' => 'Verfasser konnte nicht gelöscht werden. Er besitzt noch Rezepte.',
     ],
     'category' => [
-        'created' => 'Kategorie erfolgreich erstellt.',
+        'created'     => 'Kategorie erfolgreich erstellt.',
+        'deleted'     => 'Kategorie erfolgreich gelöscht.',
+        'not_deleted' => 'Kategorie konnte nicht gelöscht werden. Sie besitzt noch Rezepte.',
     ],
     'ingredient' => [
         'created' => 'Zutat erfolgreich erstellt.',

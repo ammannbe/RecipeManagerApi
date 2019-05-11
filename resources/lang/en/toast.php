@@ -25,7 +25,9 @@ return [
         'not_deleted' => 'Author couldn\'t be deleted. He still owns recipes.',
     ],
     'category' => [
-        'created' => 'Category successfully created.',
+        'created'     => 'Category successfully created.',
+        'deleted'     => 'Category successfully deleted.',
+        'not_deleted' => 'Category couldn\'t be deleted. It still owns recipes.',
     ],
     'ingredient' => [
         'created' => 'Ingredient successfully created.',

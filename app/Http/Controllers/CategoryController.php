@@ -56,4 +56,23 @@ class CategoryController extends Controller
         $recipes = Recipe::where('category_id', $category->id)->get();
         return view('categories.show', compact('category', 'recipes'));
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Category $category)
+    {
+        $this->authorize('delete', [Category::class, $category]);
+        if (! Recipe::where('category_id', $category->id)->first()) {
+            $category->delete();
+            \Toast::success(__('toast.category.deleted'));
+        } else {
+            \Toast::error(__('toast.category.not_deleted'));
+        }
+
+        return back();
+    }
 }
