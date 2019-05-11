@@ -10,7 +10,7 @@
     {{ Form::open(['url' => route('preps.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('name', __('prep.global.name')) }}
+            {{ Form::label('name', __('forms.global.name')) }}
             {{ Form::text('name', NULL, [
                 'maxlength'   => 40,
                 'class'       => 'w3-input',
