@@ -3,6 +3,10 @@ section.content.overview {
         outline: none;
     }
 
+    article {
+        max-width: 360px;
+    }
+
     article header,
     article .instructions {
         color: black;
