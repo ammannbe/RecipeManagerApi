@@ -7,7 +7,7 @@
 @section('content-class', 'category form')
 @section('content')
 
-    {{ Form::open(['url' => 'categories/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('categories.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('name', __('forms.global.name')) }}

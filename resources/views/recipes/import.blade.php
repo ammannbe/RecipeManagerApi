@@ -7,7 +7,7 @@
 @section('content-class', 'import form')
 @section('content')
 
-    {{ Form::open(['url' => 'recipes/import', 'enctype="multipart/form-data"', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => 'import', 'enctype="multipart/form-data"', 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('file', __('forms.import.file')) }}

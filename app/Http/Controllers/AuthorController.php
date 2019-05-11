@@ -2,22 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateAuthor;
-use App\Helpers\FormHelper;
 use App\Author;
-use Auth;
+use Illuminate\Http\Request;
+use App\Http\Requests\CreateAuthor;
 
 class AuthorController extends Controller
 {
-    public function createForm() {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('authors.create');
     }
 
-    public function create(CreateAuthor $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateAuthor  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateAuthor $request)
+    {
         $request->merge(['user_id' => auth()->user()->id]);
         Author::create($request->all());
         \Toast::success(__('toast.author.created'));
 
-        return redirect('/admin');
+        return redirect()->route('admin.index');
     }
 }

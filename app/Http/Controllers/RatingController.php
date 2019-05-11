@@ -2,35 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Request;
 use App\Rating;
 use App\Recipe;
 use App\RatingCriterion;
-use App\Helpers\CodeHelper;
-use App\Helpers\FormHelper;
-use App\Http\Requests\EditRating as EditRatingFormRequest;
-use App\Http\Requests\CreateRating as CreateRatingFormRequest;
+use Illuminate\Http\Request;
+use App\Http\Requests\EditRating;
+use App\Http\Requests\CreateRating;
 
 class RatingController extends Controller
 {
-    public function createForm(Recipe $recipe) {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Recipe $recipe)
+    {
         $this->authorize('create', [Rating::class, $recipe]);
         $ratingCriteria = [NULL => __('forms.global.dropdown_first')] + RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
         return view('ratings.create', compact('recipe', 'ratingCriteria'));
     }
 
-    public function create(CreateRatingFormRequest $request, Recipe $recipe) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateRating  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateRating $request, Recipe $recipe)
+    {
         $rating = new Rating($request->all());
         $rating->user_id = auth()->user()->id;
         $rating->recipe_id = $recipe->id;
         $rating->save();
         \Toast::success(__('toast.rating.created'));
 
-        return redirect("recipes/{$recipe->slug}");
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 
-    public function editForm(Rating $rating) {
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Rating  $rating
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Recipe $recipe, Rating $rating)
+    {
         $this->authorize('update', [Rating::class, $rating]);
         $ratingCriteria = RatingCriterion::orderBy('name')->pluck('name', 'id')->toArray();
         $recipe = Recipe::find($rating->recipe_id);
@@ -38,7 +55,15 @@ class RatingController extends Controller
         return view('ratings.edit', compact('rating', 'ratingCriteria', 'recipe'));
     }
 
-    public function edit(EditRatingFormRequest $request, Rating $rating) {
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\EditRating  $request
+     * @param  \App\Rating  $rating
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EditRating $request, Recipe $recipe, Rating $rating)
+    {
         $rating->update([
             'comment'             => $request->comment,
             'stars'               => $request->stars,
@@ -47,15 +72,22 @@ class RatingController extends Controller
         \Toast::success(__('toast.rating.updated'));
         $recipe = Recipe::find($rating->recipe_id);
 
-        return redirect("recipes/{$recipe->slug}");
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 
-    public function delete(Rating $rating) {
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Rating  $rating
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Recipe $recipe, Rating $rating)
+    {
         $this->authorize('update', [Rating::class, $rating]);
         $rating->delete();
         \Toast::success(__('toast.rating.deleted'));
         $recipe = Recipe::find($rating->recipe_id);
 
-        return redirect("recipes/{$recipe->slug}");
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 }

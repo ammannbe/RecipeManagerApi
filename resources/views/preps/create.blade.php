@@ -7,7 +7,7 @@
 @section('content-class', 'prep form')
 @section('content')
 
-    {{ Form::open(['url' => 'preps/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('preps.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('name', __('prep.global.name')) }}

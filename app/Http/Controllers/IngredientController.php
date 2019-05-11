@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateIngredient as CreateIngredientFormRequest;
-use App\Helpers\FormHelper;
 use App\Ingredient;
+use Illuminate\Http\Request;
+use App\Http\Requests\CreateIngredient;
 
 class IngredientController extends Controller
 {
-    public function createForm() {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('ingredients.create');
     }
 
-    public function create(CreateIngredientFormRequest $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateIngredient  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateIngredient $request)
+    {
         Ingredient::create($request->all());
         \Toast::success(__('toast.ingredient.created'));
 
-        return redirect('/admin');
+        return redirect()->route('admin.index');
     }
 }

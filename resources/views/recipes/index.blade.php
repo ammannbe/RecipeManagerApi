@@ -33,11 +33,14 @@
                 @if ($isRecipeOwner)
                     <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
                     <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit') }}</span>
-                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ url("/recipes/edit/{$recipe->slug}") }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
+                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
                     <span class="w3-margin-right w3-margin-bottom edit-mode item">
-                        <a class="delete confirm" data-confirm="{{ __('forms.global.confirm') }}" href="{{ url("/recipes/delete/{$recipe->slug}") }}">
-                            <i class="cross red"></i>{{ __('recipes.delete') }}
-                        </a>
+                        {{ Form::open(['url' => route('recipes.show', $recipe->slug), 'class' => 'delete']) }}
+                            @method('DELETE')
+                            <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                <i class="cross red middle"></i>{{ __('recipes.delete') }}
+                            </button>
+                        {{ Form::close() }}
                     </span>
                 @endif
             @endauth
@@ -84,7 +87,7 @@
                     <li>
                         @if (auth()->check())
                             @if (! $recipe->ratings->where('user_id', auth()->user()->id)->first())
-                                <a href="{{ url("ratings/add/{$recipe->slug}") }}">{{ __('recipes.add_rating') }}</a>
+                                <a href="{{ route('recipes.ratings.create', $recipe->slug) }}">{{ __('recipes.add_rating') }}</a>
                             @endif
                         @endif
                     </li>
@@ -118,9 +121,12 @@
                                     @endforeach
                                     @auth
                                         @if ($isRecipeOwner)
-                                            <a class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}" href="/ingredient-details/delete/{{ $ingredientDetail->id }}">
-                                                <i class="cross red middle"></i>
-                                            </a>
+                                            {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details/{$ingredientDetail->id}", 'class' => 'delete']) }}
+                                                @method('DELETE')
+                                                <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                                    <i class="cross red middle"></i>
+                                                </button>
+                                            {{ Form::close() }}
                                         @endif
                                     @endauth
                                 </li>
@@ -129,7 +135,7 @@
 
                         @auth
                             @if ($isRecipeOwner)
-                                <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}") }}">
+                                <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug) }}">
                                     {{ __('recipes.add_ingredient') }}
                                 </a>
                             @endif
@@ -157,7 +163,12 @@
                                             @endforeach
                                             @auth
                                                 @if ($isRecipeOwner)
-                                                    <a class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}" href="/ingredient-details/delete/{{ $ingredientDetail->id }}"><i class="cross red middle"></i></a>
+                                                    {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details", 'class' => 'delete']) }}
+                                                        @method('DELETE')
+                                                        <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                                            <i class="cross red middle"></i>
+                                                        </button>
+                                                    {{ Form::close() }}
                                                 @endif
                                             @endauth
                                         </li>
@@ -166,7 +177,7 @@
 
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a class="edit-mode item" href="{{ url("/ingredient-details/create/{$recipe->slug}?group={$name}") }}">
+                                        <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug, $name) }}">
                                             {{ __('recipes.add_ingredient') }}
                                         </a>
                                     @endif
@@ -220,8 +231,14 @@
                     @auth
                         @if ($ratingOwner)
                             <div class="manage">
-                                <a href="{{ url('ratings/edit/'.$rating->id) }}" title="{{ __('forms.edit') }}"><i class="pencil black big"></i></a>
-                                <a href="{{ url('ratings/delete/'.$rating->id) }}" title="{{ __('forms.delete') }}" class="delete confirm" data-confirm="{{ __('forms.global.confirm') }}"><i class="cross red big"></i></a>
+                                <a href="{{ route('recipes.ratings.edit', $recipe->slug, $rating->id) }}" title="{{ __('forms.global.edit') }}"><i class="pencil black big"></i></a>
+
+                                {{ Form::open(['url' => "/recipes/{$recipe->slug}/ratings/{$rating->id}", 'class' => 'delete']) }}
+                                    @method('DELETE')
+                                    <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                        <i class="cross red big"></i>
+                                    </button>
+                                {{ Form::close() }}
                             </div>
                         @endif
                     @endauth

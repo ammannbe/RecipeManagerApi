@@ -112,3 +112,14 @@ input[type=submit] {
         background-color: map-get($colors, grey) !important;
     }
 }
+
+form.delete {
+    display: inline;
+
+    button.delete {
+        background-color: unset;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+}

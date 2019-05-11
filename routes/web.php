@@ -12,28 +12,28 @@
 */
 
 Route::middleware('checklogin')->group(function() {
-    Route::get('/recipes/create', 'RecipeController@createForm');
-    Route::post('/recipes/create', 'RecipeController@create');
-    Route::get('/recipes/edit/{recipe}', 'RecipeController@editForm');
-    Route::post('/recipes/edit/{recipe}', 'RecipeController@edit');
-    Route::get('/recipes/delete/{recipe}', 'RecipeController@delete');
 
-    Route::post('/recipes/import', 'ImportController@index');
-    Route::get('/recipes/import', 'ImportController@form');
+    Route::resource('recipes', 'RecipeController')->only([
+        'create', 'store', 'edit', 'update', 'destroy'
+    ]);
 
-    Route::get('/ingredient-details/create/{recipe}', 'IngredientDetailController@createForm');
-    Route::post('/ingredient-details/create/{recipe}', 'IngredientDetailController@create');
-    Route::get('/ingredient-details/delete/{ingredientDetail}', 'IngredientDetailController@delete');
+    Route::resource('recipes.ratings', 'RatingController')->only([
+        'create', 'store', 'edit', 'update', 'destroy'
+    ]);
 
-    Route::get('/ratings/add/{recipe}', 'RatingController@createForm');
-    Route::post('/ratings/add/{recipe}', 'RatingController@create');
-    Route::get('/ratings/edit/{rating}', 'RatingController@editForm');
-    Route::post('/ratings/edit/{rating}', 'RatingController@edit');
-    Route::get('/ratings/delete/{rating}', 'RatingController@delete');
+    Route::resource('recipes.ingredient-details', 'IngredientDetailController')->only([
+        'create', 'store', 'destroy'
+    ]);
 
-    Route::get('/profile', 'UserController@dashboard');
-    Route::get('/profile/edit', 'UserController@editForm');
-    Route::post('/profile/edit', 'UserController@edit');
+    Route::resource('import', 'ImportController')->only([
+        'create', 'store',
+    ]);
+
+    Route::name('user.')->group(function () {
+        Route::get('profile',  'UserController@index')->name('index');
+        Route::get('profile/edit',   'UserController@edit')->name('edit');
+        Route::put('profile/update', 'UserController@update')->name('update');
+    });
 
     Route::get('/edit-mode', 'EditModeController@get');
     Route::get('/edit-mode/enable', 'EditModeController@enable');
@@ -41,34 +41,41 @@ Route::middleware('checklogin')->group(function() {
 });
 
 Route::middleware('checklogin', 'checkadmin')->group(function() {
-    Route::get('/admin', 'PagesController@admin');
 
-    Route::get('/authors/create', 'AuthorController@createForm');
-    Route::post('/authors/create', 'AuthorController@create');
+    Route::get('/admin', 'PagesController@admin')->name('admin.index');
 
-    Route::get('/categories/create', 'CategoryController@createForm');
-    Route::post('/categories/create', 'CategoryController@create');
+    Route::resource('authors', 'AuthorController')->only([
+        'create', 'store'
+    ]);
 
-    Route::get('/ingredients/create', 'IngredientController@createForm');
-    Route::post('/ingredients/create', 'IngredientController@create');
+    Route::resource('categories', 'CategoryController')->only([
+        'create', 'store'
+    ]);
 
-    Route::get('/units/create', 'UnitController@createForm');
-    Route::post('/units/create', 'UnitController@create');
+    Route::resource('ingredients', 'IngredientController')->only([
+        'create', 'store'
+    ]);
 
-    Route::get('/preps/create', 'PrepController@createForm');
-    Route::post('/preps/create', 'PrepController@create');
+    Route::resource('units', 'UnitController')->only([
+        'create', 'store'
+    ]);
 
-    Route::get('/rating-criteria/create', 'RatingCriterionController@createForm');
-    Route::post('/rating-criteria/create', 'RatingCriterionController@create');
+    Route::resource('preps', 'PrepController')->only([
+        'create', 'store'
+    ]);
+
+    Route::resource('rating-criteria', 'RatingCriterionController')->only([
+        'create', 'store'
+    ]);
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/', 'PagesController@index');
+Route::get('/', 'PagesController@index')->name('home');
 
-Route::get('/search', 'PagesController@searchForm');
-Route::post('/search', 'PagesController@search');
+Route::get('/search', 'PagesController@searchForm')->name('search.index');
+Route::post('/search', 'PagesController@search')->name('search.results');
 
-Route::get('/recipes/{recipe}', 'RecipeController@show');
+Route::resource('recipes', 'RecipeController')->only(['show']);

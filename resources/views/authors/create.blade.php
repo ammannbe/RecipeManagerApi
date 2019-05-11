@@ -7,7 +7,7 @@
 @section('content-class', 'author form')
 @section('content')
 
-    {{ Form::open(['url' => 'authors/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('authors.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('name', __('forms.global.name')) }}

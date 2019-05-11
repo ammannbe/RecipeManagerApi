@@ -13,12 +13,12 @@
             <span>{{ __('user.index.name') }} {{ Auth::User()->name }}</span><br>
             <span>{{ __('user.index.email') }} {{ Auth::User()->email }}</span><br>
             <br>
-            <a href="/profile/edit">{{ __('user.index.edit_profile') }}<i class="pencil"></i></a>
+            <a href="{{ route('user.update') }}">{{ __('user.index.edit_profile') }}<i class="pencil"></i></a>
         </div>
     </article>
 
     <article class="recipes">
-        <h2>{{ __('user.index.yout_recipe') }}</h2>
+        <h2>{{ __('user.index.your_recipes') }}</h2>
         <ul>
             @php($i = 0)
             @foreach ($recipes as $recipe)
@@ -28,7 +28,7 @@
                 @else
                     <li>
                 @endif
-                    <a href="{{ url("recipes/{$recipe->slug}") }}">{{ $recipe->name }}</a>
+                    <a href="{{ route('recipes.show', $recipe->slug) }}">{{ $recipe->name }}</a>
                 </li>
             @endforeach
         </ul>

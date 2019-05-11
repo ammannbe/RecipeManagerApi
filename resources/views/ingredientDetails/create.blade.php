@@ -7,10 +7,10 @@
 @section('content-class', 'ingredient-form')
 @section('content')
 
-    {{ Form::open(['url' => "ingredient-details/create/{$recipe->slug}", 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => "recipes/{$recipe->slug}/ingredient-details/create", 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('amount', 'forms.ingredient.ingredient') }}
+            {{ Form::label('amount', __('forms.ingredient.ingredient')) }}
             <p>
                 {{ Form::number('amount', NULL, [
                     'max'   => 999999.99,
@@ -25,7 +25,7 @@
             </p>
         </p>
         <p>
-            {{ Form::label('preps', _('forms.ingredient.prep')) }}
+            {{ Form::label('preps', __('forms.ingredient.prep')) }}
             {{ Form::select('preps[]', $preps, NULL, ['size' => 7, 'multiple', 'class' => 'w3-select w3-border']) }}
         </p>
 
@@ -53,7 +53,7 @@
         </p>
 
         <p>
-            {!! FormHelper::backButton('forms.global.cancel', [
+            {!! FormHelper::backButton(__('forms.global.cancel'), [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'], "/recipes/{$recipe->slug}") !!}
             {{ Form::button(__('forms.ingredient.create'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',

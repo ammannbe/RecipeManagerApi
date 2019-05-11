@@ -6,7 +6,8 @@
 
 @section('content-class', 'user-form')
 @section('content')
-    {{ Form::open(['url' => 'profile/edit', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('user.update'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
+        @method('PUT')
 
         <p>
             {!! Form::label('name', __('forms.global.name'),
@@ -49,7 +50,7 @@
 
         <p>
             {!! FormHelper::backButton(__('forms.global.cancel'), [
-                'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/profile') !!}
+                'class' => 'w3-btn w3-black w3-left w3-margin-right'], route('user.index')) !!}
             {{ Form::button(__('forms.global.save_edits'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}

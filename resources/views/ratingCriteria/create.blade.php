@@ -7,7 +7,7 @@
 @section('content-class', 'criterion form')
 @section('content')
 
-    {{ Form::open(['url' => 'rating-criteria/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('rating-criteria.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('name', __('forms.global.name')) }}

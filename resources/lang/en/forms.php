@@ -15,6 +15,7 @@ return [
     'global' => [
         'dropdown_first' => 'Please choose',
         'cancel'     => 'Cancel',
+        'edit'       => 'Edit',
         'save_edits' => 'Save changes',
         'name'       => 'Name',
         'confirm'    => 'Are you sure?',

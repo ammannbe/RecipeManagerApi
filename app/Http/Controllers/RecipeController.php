@@ -2,35 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use File;
 use App\Author;
 use App\Recipe;
 use App\Category;
-use App\IngredientDetail;
-use App\Helpers\CodeHelper;
-use App\Helpers\FormHelper;
+use Illuminate\Http\Request;
 use App\Helpers\FormatHelper;
-use App\Helpers\RecipeHelper;
 use App\Http\Requests\EditRecipe;
 use App\Http\Requests\CreateRecipe;
 
 class RecipeController extends Controller
 {
-    public function show(Recipe $recipe) {
-        $gropus = $alternatives = [];
-        $recipe->ingredientDetails->load('group', 'ingredientDetail');
-        foreach ($recipe->ingredientDetails as $ingredientDetail) {
-            if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
-                $groups[$ingredientDetail->group->name][] = $ingredientDetail;
-            } elseif ($ingredientDetail->ingredientDetail) {
-                $alternatives[] = $ingredientDetail->ingredientDetail;
-            }
-        }
-        return view('recipes.index', compact('recipe', 'groups', 'alternatives'));
-    }
-
-    public function createForm() {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         $authors    = [NULL => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = [NULL => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
         $default['authors'] = array_search(auth()->user()->name, $authors);
@@ -38,7 +26,14 @@ class RecipeController extends Controller
         return view('recipes.create', compact('authors', 'categories', 'default'));
     }
 
-    public function create(CreateRecipe $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateRecipe  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateRecipe $request)
+    {
         $recipe = array_merge(
                 $request->all(),
                 [
@@ -61,10 +56,37 @@ class RecipeController extends Controller
         session(['edit-mode' => TRUE]);
         \Toast::success(__('toast.recipe.created'));
 
-        return redirect("recipes/{$recipe->slug}");
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 
-    public function editForm(Recipe $recipe) {
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Recipe  $recipe
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Recipe $recipe)
+    {
+        $gropus = $alternatives = [];
+        $recipe->ingredientDetails->load('group', 'ingredientDetail');
+        foreach ($recipe->ingredientDetails as $ingredientDetail) {
+            if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
+                $groups[$ingredientDetail->group->name][] = $ingredientDetail;
+            } elseif ($ingredientDetail->ingredientDetail) {
+                $alternatives[] = $ingredientDetail->ingredientDetail;
+            }
+        }
+        return view('recipes.index', compact('recipe', 'groups', 'alternatives'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Recipe  $recipe
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Recipe $recipe)
+    {
         $this->authorize('update', [Recipe::class, $recipe]);
 
         $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
@@ -73,7 +95,15 @@ class RecipeController extends Controller
         return view('recipes.edit', compact('recipe', 'authors', 'categories'));
     }
 
-    public function edit(EditRecipe $request, Recipe $recipe) {
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\EditRecipe  $request
+     * @param  \App\Recipe  $recipe
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EditRecipe $request, Recipe $recipe)
+    {
         $recipe->fill(array_merge(
                 $request->all(),
                 [
@@ -104,15 +134,22 @@ class RecipeController extends Controller
         $recipe->update();
         \Toast::success(__('toast.recipe.updated'));
 
-        return redirect("recipes/{$recipe->slug}");
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 
-    public function delete(Recipe $recipe) {
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Recipe  $recipe
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Recipe $recipe)
+    {
         $this->authorize('delete', [Recipe::class, $recipe]);
         File::delete(public_path().'/images/recipes/'.$recipe->photo);
         $recipe->delete();
 
         \Toast::success(__('toast.recipe.deleted'));
-        return redirect('/');
+        return redirect()->route('home');
     }
 }

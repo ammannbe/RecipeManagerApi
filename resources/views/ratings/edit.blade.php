@@ -7,7 +7,8 @@
 @section('content-class', 'rating-form')
 @section('content')
 
-    {{ Form::open(['url' => "ratings/edit/{$rating->id}", 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => "recipes/{$recipe->slug}/ratings/{$rating->id}", 'class' => 'w3-container w3-card-4 w3-padding']) }}
+        @method('PUT')
 
         <p>
             {{ Form::label('rating', __('forms.rating.rating')) }}

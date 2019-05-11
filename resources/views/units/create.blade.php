@@ -7,7 +7,7 @@
 @section('content-class', 'unit form')
 @section('content')
 
-    {{ Form::open(['url' => 'units/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('units.create'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('name', __('form.unit.name'), ['class' => 'required']) }}
