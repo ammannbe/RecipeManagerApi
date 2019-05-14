@@ -1,14 +1,28 @@
-var EditMode = {};
-EditMode._enabled = false;
+EditMode = {
+    $_switch: $('.switch.edit-mode'),
+    $_item:   $('.edit-mode.item'),
+    $_input:  $('.switch.edit-mode input[type=checkbox]'),
+
+    _enabled: false
+};
 
 EditMode.init = function() {
-    $.get(EditMode._uri, function(enabled) {
-        if (enabled == true) {
-            EditMode.enable();
-        } else {
-            EditMode.disable();
-        }
+    // Show switch only if JS is enabled
+    EditMode.showSwitch();
+
+    if (Cookies.get('edit-mode') === 'enabled') {
+        EditMode.enable();
+    } else {
+        EditMode.disable();
+    }
+
+    EditMode.$_input.change(function() {
+        EditMode.toggle();
     });
+}
+
+EditMode.showSwitch = function() {
+    EditMode.$_switch.parent().removeClass('hidden forced');
 }
 
 EditMode.toggle = function() {
@@ -23,7 +37,7 @@ EditMode.enable = function() {
     EditMode._enabled = true;
     EditMode.$_input.prop('checked', true);
     EditMode.$_item.removeClass('hidden forced');
-    $.get(`${EditMode._uri}/enable`);
+    Cookies.set('edit-mode', 'enabled');
 
 }
 
@@ -31,25 +45,5 @@ EditMode.disable = function() {
     EditMode._enabled = false;
     EditMode.$_input.prop('checked', false);
     EditMode.$_item.addClass('hidden forced');
-    $.get(`${EditMode._uri}/disable`);
+    Cookies.set('edit-mode', 'disabled')
 }
-
-
-$(document).ready(function () {
-    EditMode.$_switch = $('.switch.edit-mode');
-
-    EditMode.$_switch.parent().removeClass('hidden forced'); // Show switch only if JS is enabled
-
-    if (EditMode.$_switch.length) {
-        EditMode.$_item   = $('.edit-mode.item');
-        EditMode.$_input  = $('.switch.edit-mode input[type=checkbox]');
-        EditMode._enabled = false;
-        EditMode._uri     = '/edit-mode';
-
-        EditMode.init();
-
-        EditMode.$_input.change(function() {
-            EditMode.toggle();
-        });
-    }
-});

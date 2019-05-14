@@ -34,10 +34,6 @@ Route::middleware('checklogin')->group(function() {
         Route::get('profile/edit',   'UserController@edit')->name('edit');
         Route::put('profile/update', 'UserController@update')->name('update');
     });
-
-    Route::get('/edit-mode', 'EditModeController@get');
-    Route::get('/edit-mode/enable', 'EditModeController@enable');
-    Route::get('/edit-mode/disable', 'EditModeController@disable');
 });
 
 Route::middleware('checklogin', 'checkadmin')->group(function() {

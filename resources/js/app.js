@@ -6,6 +6,7 @@
  */
 
 window.$ = window.jQuery = require('jquery');
+window.Cookies = require('js-cookie');
 require('./3rd-party/select2-4.0.1.min.js');
 require('./Toast.js');
 require('./Dropdown.js');
@@ -20,6 +21,8 @@ disableDefault = function(event) {
 }
 
 $(document).ready(function () {
+    EditMode.init();
+
     $('article.recipes button.show-more').click(function(e) {
         disableDefault(e);
 
