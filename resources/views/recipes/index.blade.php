@@ -10,6 +10,7 @@
     'name'     => $recipe->name,
     'author'   => $author,
     'category' => $recipe->category->name]))
+@section('meta-image', url("/images/recipes/{$recipe->photo}"))
 
 
 @section('content-class', 'recipe')

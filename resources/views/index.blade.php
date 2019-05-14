@@ -2,9 +2,7 @@
 
 
 @section('title', __('home.title'))
-@section('meta-description', __('home.meta_description', ['count' => \App\Recipe::count()])
-    )
-
+@section('meta-description', __('home.meta_description', ['count' => \App\Recipe::count()]))
 
 @section('content-class', 'overview')
 @section('content')
