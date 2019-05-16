@@ -7,7 +7,7 @@
 @section('content-class', 'ingredient-form')
 @section('content')
 
-    {{ Form::open(['url' => "recipes/{$recipe->slug}/ingredient-details/create", 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('recipes.ingredient-details.store', $recipe->slug), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
             {{ Form::label('amount', __('forms.ingredient.ingredient')) }}
