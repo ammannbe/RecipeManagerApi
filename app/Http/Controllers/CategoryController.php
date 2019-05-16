@@ -40,6 +40,7 @@ class CategoryController extends Controller
     public function store(CreateCategory $request)
     {
         $request->merge(['slug' => FormatHelper::slugify($request->name)]);
+        Category::create($request->all());
         \Toast::success(__('toast.category.created'));
 
         return redirect()->route('admin.index');
