@@ -65,7 +65,6 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, Category $category)
     {
-        $this->authorize('delete', [Category::class, $category]);
         if (! Recipe::where('category_id', $category->id)->first()) {
             $category->delete();
             \Toast::success(__('toast.category.deleted'));
