@@ -72,6 +72,14 @@
                     @if ($recipe->preparation_time)
                         <li><strong>{{ __('recipes.preparation_time') }}</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
                     @endif
+                    @if ($recipe->tags->count())
+                        <li>
+                            <strong>{{ __('recipes.tags') }}</strong>
+                            @foreach ($recipe->tags as $tag)
+                                <span class="w3-padding-small w3-round w3-green">{{ $tag->name }}</span>
+                            @endforeach
+                        </li>
+                    @endif
                     <li><br></li>
                     @if (count($recipe->ratings) > 0)
                         <li>

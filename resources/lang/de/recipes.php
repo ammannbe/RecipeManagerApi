@@ -29,5 +29,5 @@ return [
     'preparation' => 'Zubereitung',
     'rating' => 'Bewertung',
     'rating_star' => 'Bewertungsstern',
-
+    'tags' => 'Tags:',
 ];

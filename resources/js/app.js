@@ -22,6 +22,7 @@ disableDefault = function(event) {
 
 $(document).ready(function () {
     EditMode.init();
+    Dropdown.init();
 
     $('article.recipes button.show-more').click(function(e) {
         disableDefault(e);

@@ -34,6 +34,23 @@
                 ['class' => 'js-dropdown w3-input']) }}
         </p>
 
+        <div>
+            {{ Form::label('tags[]', __('forms.recipe.tag')) }}
+            <span class="w3-button w3-medium w3-red w3-card w3-margin-left copy-select2">+</span>
+            <div>
+                {{ Form::select('tags[]', $tags, NULL,
+                    ['class' => 'js-dropdown w3-input removeable']) }}
+                <span class="w3-button w3-red w3-circle remove-select2">-</span>
+            </div>
+
+            <div class="hidden forced">
+                {{ Form::select('tags[]',
+                    $tags, NULL,
+                    ['class' => 'js-dropdown w3-input removeable', 'disabled']) }}
+                <span class="w3-button w3-red w3-circle remove-select2">-</span>
+            </div>
+        </div>
+
         <p>
             {{ Form::label('yield_amount', __('forms.recipe.yield_amount')) }}
             {{ Form::number('yield_amount', 4, [

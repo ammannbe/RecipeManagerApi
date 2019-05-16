@@ -85,6 +85,7 @@ return [
         ],
         'author'   => 'Author',
         'category' => 'Category',
+        'tag'      => 'Tags',
         'yield_amount' => 'Yield amount',
         'preparation_time' => 'Preparation time',
         'instructions' => 'Instructions',

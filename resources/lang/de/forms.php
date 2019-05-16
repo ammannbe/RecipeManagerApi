@@ -85,6 +85,7 @@ return [
         ],
         'author'   => 'Verfasser',
         'category' => 'Kategorie',
+        'tag'      => 'Tags',
         'yield_amount' => 'Portionen',
         'preparation_time' => 'Zubereitungszeit',
         'instructions' => 'Zubereitung',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Author;
 use App\Recipe;
 use App\Category;
@@ -22,9 +23,10 @@ class RecipeController extends Controller
     {
         $authors    = [NULL => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = [NULL => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $tags       = [NULL => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
         $default['authors'] = array_search(auth()->user()->name, $authors);
 
-        return view('recipes.create', compact('authors', 'categories', 'default'));
+        return view('recipes.create', compact('authors', 'categories', 'tags', 'default'));
     }
 
     /**
@@ -50,6 +52,7 @@ class RecipeController extends Controller
         }
 
         $recipe = Recipe::create($recipe);
+        $recipe->tags()->sync($request->tags);
         \Toast::success(__('toast.recipe.created'));
 
         return redirect()->route('recipes.show', $recipe->slug);
@@ -87,8 +90,9 @@ class RecipeController extends Controller
 
         $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $tags       = [NULL => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('recipes.edit', compact('recipe', 'authors', 'categories'));
+        return view('recipes.edit', compact('recipe', 'authors', 'categories', 'tags'));
     }
 
     /**
@@ -114,6 +118,8 @@ class RecipeController extends Controller
         if ($request->preparation_time === '00:00') {
             $recipe->preparation_time = NULL;
         }
+
+        $recipe->tags()->sync($request->tags);
 
         if ($request->delete_photo && !$request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
