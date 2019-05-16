@@ -1,10 +1,10 @@
 @php($w3BarAlwaysItemClasses = 'w3-bar-item w3-button w3-padding-large')
-@php($w3BarMediumItemClasses  = 'w3-bar-item w3-button w3-hide-medium w3-padding-large')
+@php($w3BarMediumItemClasses = 'w3-bar-item w3-button w3-hide-medium w3-hide-small w3-padding-large')
 @php($w3BarSmallItemClasses  = 'w3-bar-item w3-button w3-padding-large')
 
 <div class="nav top">
     <div class="w3-bar w3-black">
-        <div class="w3-bar-item w3-padding-large w3-hide-medium">
+        <div class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-small">
             <a class="w3-black" href="{{ route('lang', 'de') }}">DE</a> |
             <a class="w3-black" href="{{ route('lang', 'en') }}">EN</a>
         </div>
@@ -22,7 +22,7 @@
         @else
             <a href="{{ route('user.index') }}" class="{{ $w3BarMediumItemClasses }} w3-right">{{ __('navigation.profile') }}</a>
 
-            <form id="logout-form" action="{{ route('logout') }}" class="w3-hide-medium w3-right" method="POST">
+            <form id="logout-form" action="{{ route('logout') }}" class="w3-hide-medium w3-hide-small w3-right" method="POST">
                 @csrf
                 <input type="submit" value="{{ __('navigation.logout') }}" class="w3-button">
             </form>
