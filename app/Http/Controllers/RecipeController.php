@@ -50,7 +50,6 @@ class RecipeController extends Controller
         }
 
         $recipe = Recipe::create($recipe);
-        session(['edit-mode' => TRUE]);
         \Toast::success(__('toast.recipe.created'));
 
         return redirect()->route('recipes.show', $recipe->slug);
