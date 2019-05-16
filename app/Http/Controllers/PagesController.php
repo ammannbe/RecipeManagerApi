@@ -25,10 +25,11 @@ class PagesController extends Controller
 
     public function searchForm($default = 'recipe') {
         $tables = [
-            'author'     => 'Verfasser',
-            'category'   => 'Kategorien',
-            'recipe'     => 'Rezept / Zubereitung',
-            'ingredient' => 'Zutaten',
+            'author'     => __('forms.search.items.author'),
+            'category'   => __('forms.search.items.category'),
+            'tag'        => __('forms.search.items.tag'),
+            'recipe'     => __('forms.search.items.recipe_preparation'),
+            'ingredient' => __('forms.search.items.ingredient'),
         ];
         return view('search.index', compact('tables', 'default'));
     }

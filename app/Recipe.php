@@ -43,6 +43,10 @@ class Recipe extends Model
             ->latest();
     }
 
+    public function tags() {
+        return $this->belongsToMany('\App\Tag');
+    }
+
     public function searchRecipes($term) {
         return $this->where('instructions', 'LIKE', '%'.$term.'%')
             ->orWhere('name', 'LIKE', '%'.$term.'%')

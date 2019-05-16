@@ -52,4 +52,8 @@ return [
     'unit' => [
         'created' => 'Unit successfully created.',
     ],
+    'tag' => [
+        'created' => 'Tag successfully created.',
+        'deleted' => 'Tag successfully deleted.',
+    ],
 ];

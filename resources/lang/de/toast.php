@@ -52,4 +52,8 @@ return [
     'unit' => [
         'created' => 'Einheit erfolgreich erstellt.',
     ],
+    'tag' => [
+        'created' => 'Tag erfolgreich erstellt.',
+        'deleted' => 'Tag erfolgreich gelöscht.',
+    ],
 ];

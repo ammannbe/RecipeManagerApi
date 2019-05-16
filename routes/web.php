@@ -40,6 +40,10 @@ Route::middleware('checklogin', 'checkadmin')->group(function() {
 
     Route::get('/admin', 'PagesController@admin')->name('admin.index');
 
+    Route::resource('tags', 'TagController')->only([
+        'create', 'store', 'destroy'
+    ]);
+
     Route::resource('authors', 'AuthorController')->only([
         'create', 'store', 'destroy'
     ]);
@@ -74,6 +78,10 @@ Route::get('lang/{locale}', function ($locale) {
 
 
 Route::resource('categories', 'CategoryController')->only([
+    'index', 'show'
+]);
+
+Route::resource('tags', 'TagController')->only([
     'index', 'show'
 ]);
 

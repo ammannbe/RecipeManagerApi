@@ -73,7 +73,7 @@ class RecipeController extends Controller
                 $alternatives[] = $ingredientDetail->ingredientDetail;
             }
         }
-        return view('recipes.index', compact('recipe', 'groups', 'alternatives'));
+        return view('recipes.show', compact('recipe', 'groups', 'alternatives'));
     }
 
     /**

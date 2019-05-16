@@ -21,6 +21,7 @@ return [
         'create_prep' => 'Zutaten-Vorbereitung erstellen',
         'create_rating_criterion' => 'Bewertungskriterium erstellen',
         'create_import' => 'Rezept importieren',
+        'create_tag' => 'Tag erstellen',
     ],
 
     'index' => [

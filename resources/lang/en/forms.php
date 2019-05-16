@@ -15,7 +15,7 @@ return [
     'global' => [
         'dropdown_first' => 'Please choose',
         'cancel'     => 'Cancel',
-        'next'       => 'Next',
+        'next'       => 'More',
         'edit'       => 'Edit',
         'save_edits' => 'Save changes',
         'name'       => 'Name',
@@ -98,21 +98,39 @@ return [
         'file' => 'Recipe (*.kreml)',
     ],
 
+    'tag' => [
+        'create' => 'Create tag',
+        'examples' => [
+            'name' => 'e.g. vegetarian',
+        ],
+    ],
+
     'search' => [
         'create' => 'Search recipe',
         'examples' => [
-            'term' => 'e.g. Potatoes',
+            'term' => 'e.g. Potato',
         ],
         'meta_description' => 'Search easy and fast in over :count recipes.',
         'item' => 'Search in',
+        'items' => [
+            'author' => 'Author',
+            'category' => 'Category',
+            'tag' => 'Tags',
+            'recipe_preparation' => 'Recipe / Preparation',
+            'ingredient' => 'Ingredients',
+        ],
         'term' => 'Search term',
         'category' => [
             'title' => 'Categories',
             'text'  => 'Here you\'ll find all categories and the proper recipes.',
         ],
         'author' => [
-            'title' => 'Nach Verfasser',
+            'title' => 'Author',
             'text'  => 'Here you\'ll find all authors and whose recipes.',
+        ],
+        'tag' => [
+            'title' => 'Tags',
+            'text'  => 'Hier findest du alle Tags und deren Rezepte.',
         ],
     ],
 

@@ -15,7 +15,7 @@ return [
     'global' => [
         'dropdown_first' => 'Bitte wählen',
         'cancel'     => 'Abbrechen',
-        'next'       => 'Weiter',
+        'next'       => 'Mehr',
         'edit'       => 'Bearbeiten',
         'save_edits' => 'Änderungen speichern',
         'name'       => 'Name',
@@ -98,6 +98,13 @@ return [
         'file'   => 'Rezept (*.kreml)',
     ],
 
+    'tag' => [
+        'create' => 'Tag erstellen',
+        'examples' => [
+            'name' => 'z.B. Vegetarisch',
+        ],
+    ],
+
     'search' => [
         'create' => 'Rezept suchen',
         'examples' => [
@@ -105,6 +112,13 @@ return [
         ],
         'meta_description' => 'Einfach und schnell in über :count Rezepten suchen.',
         'item' => 'Suchen in',
+        'items' => [
+            'author' => 'Verfasser',
+            'category' => 'Kategorien',
+            'tag' => 'Tags',
+            'recipe_preparation' => 'Rezept / Zubereitung',
+            'ingredient' => 'Zutaten',
+        ],
         'term' => 'Suchbegriff',
         'category' => [
             'title' => 'Nach Kategorie',
@@ -113,6 +127,10 @@ return [
         'author' => [
             'title' => 'Nach Verfasser',
             'text'  => 'Hier findest du alle Verfasser und deren Rezepte.',
+        ],
+        'tag' => [
+            'title' => 'Nach Tags',
+            'text'  => 'Hier findest du alle Tags und deren Rezepte.',
         ],
     ],
 
