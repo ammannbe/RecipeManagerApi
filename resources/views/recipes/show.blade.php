@@ -244,7 +244,7 @@
 
                                 {{ Form::open(['url' => "/recipes/{$recipe->slug}/ratings/{$rating->id}", 'class' => 'delete']) }}
                                     @method('DELETE')
-                                    <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                    <button class="item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
                                         <i class="cross red big"></i>
                                     </button>
                                 {{ Form::close() }}
