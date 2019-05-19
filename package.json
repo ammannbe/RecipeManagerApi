@@ -15,11 +15,12 @@
         "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
         "resolve-url-loader": "^2.3.2",
-        "sass": "^1.19.0",
+        "sass": "^1.20.1",
         "sass-loader": "^7.1.0",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "jquery": "^3.4.1"
+        "jquery": "^3.4.1",
+        "js-cookie": "^2.2.0"
     }
 }

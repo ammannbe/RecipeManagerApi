@@ -40,5 +40,6 @@ php artisan migrate
 ```
 
 # Third-Party Tools
-- [laravel-toast](https://github.com/Grimthorr/laravel-toast.git)
-- [Parser](https://github.com/nathanmac/Parser.git)
+- [laravel-toast](https://github.com/Grimthorr/laravel-toast.git) - Simple toast messages for Laravel 5.
+- [Parser](https://github.com/nathanmac/Parser.git) - Simple PHP Parser Library for API Development
+- [js-cookie](https://github.com/js-cookie/js-cookie) - A simple, lightweight JavaScript API for handling browser cookies

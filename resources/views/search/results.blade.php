@@ -1,25 +1,28 @@
 @extends('layouts.master')
 
 
-@section('title', 'Suchresultate')
+@section('title', __('search.search_results'))
 
 
 @section('content-class', 'overview')
 @section('content')
 
-    <h2>Suchresultate</h2>
+    <h2>{{ __('search.search_results') }}</h2>
     <div class="w3-row">
         @php
             $i = 0;
             $class = '';
+            $count = count($recipes)
         @endphp
         @foreach ($recipes as $recipe)
             @php
                 $i++;
                 if ($i >= 3)  { $class = 'w3-hide-medium'; }
+                if ($count <= 2) { $class .= ' l4'; }
+                else { $class .= ' l3'; }
             @endphp
-            <article class="w3-col w3-container w3-hover-shadow w3-card s12 m6 l3 {{ $class }}">
-                <a href="{{ url("/recipes/{$recipe->slug}") }}">
+            <article class="w3-col w3-container w3-hover-shadow w3-card s12 m6 {{ $class }}">
+                <a href="{{ route('recipes.show', $recipe->slug) }}">
                     <header class="w3-container w3-white w3-center" title="{{ $recipe->name }}">
                         <h3>{{ FormatHelper::shorten($recipe->name) }}</h3>
                     </header>

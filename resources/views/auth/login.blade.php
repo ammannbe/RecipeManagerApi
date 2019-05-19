@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 
-@section('title', 'Login')
+@section('title', __('forms.auth.login'))
 
 
 @section('content-class', 'login form')
@@ -11,7 +11,7 @@
 
         <p>
             <i class="man"></i>
-            {{ Form::label('username', 'Benutzername') }}
+            {{ Form::label('username', __('forms.auth.username')) }}
             {{ Form::text('username', NULL, [
                 'maxlength' => 255,
                 'class'     => 'w3-input',
@@ -19,7 +19,7 @@
         </p>
         <p>
             <i class="key"></i>
-            {{ Form::label('password', 'Passwort') }}
+            {{ Form::label('password', __('forms.auth.password')) }}
             {{ Form::password('password', [
                 'minlength' => 6,
                 'maxlength' => 255,
@@ -27,7 +27,7 @@
                 'required']) }}
         </p>
 
-        {{ Form::button('Login', [
+        {{ Form::button(__('forms.auth.login'), [
             'class' => 'w3-btn w3-black w3-left w3-margin-left',
             'type' => 'submit']) }}
 

@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
 
-@section('title', 'Zutat hinzufügen')
+@section('title', __('forms.ingredient.create'))
 
 
 @section('content-class', 'ingredient form')
 @section('content')
 
-    {{ Form::open(['url' => 'ingredients/create/', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('ingredients.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('name', 'Name') }}
+            {{ Form::label('name', __('forms.global.name')) }}
             {{ Form::text('name', NULL, [
                 'maxlength'   => 50,
                 'class'       => 'w3-input',
@@ -19,9 +19,9 @@
         </p>
 
         <p>
-            {!! FormHelper::backButton('Abbrechen', [
+            {!! FormHelper::backButton(__('forms.global.cancel'), [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
-            {{ Form::button('Zutat hinzufügen', [
+            {{ Form::button(__('forms.ingredient.create'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>

@@ -12,6 +12,7 @@
 @import 'layouts/pagination';
 @import 'layouts/rating';
 @import 'layouts/modal';
+@import 'layouts/select2';
 
 @import 'recipes';
 @import 'overview';
@@ -110,5 +111,16 @@ input[type=submit] {
     }
     &:hover {
         background-color: map-get($colors, grey) !important;
+    }
+}
+
+form.delete {
+    display: inline;
+
+    button.delete {
+        background-color: unset;
+        border: none;
+        padding: 0;
+        cursor: pointer;
     }
 }

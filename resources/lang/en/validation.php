@@ -144,6 +144,35 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'Name',
+        'category_id' => 'category',
+        'amount' => 'amount',
+        'unit_id' => 'unit',
+        'ingredient_id' => 'ingredient',
+        'preps' => 'preps',
+        'position' => 'position',
+        'ingredient_detail_group_id' => 'ingredient group',
+        'ingredient_detail_id' => 'ingredient alternate',
+        'rating_criterion_id' => 'rating criterion',
+        'comment' => 'comment',
+        'stars' => 'stars',
+        'author_id' => 'author',
+        'yield_amount' => 'yield amount',
+        'instructions' => 'instructions',
+        'photo' => 'photo',
+        'name_shortcut' => 'shortcut (singular)',
+        'name_plural' => 'name (plural)',
+        'name_plural_shortcut' => 'shortcut (plural)',
+        'email' => 'E-Mail',
+        'current_password' => 'current password',
+        'new_password' => 'new password',
+        'file' => 'file',
+        'item' => 'search in',
+        'term' => 'search term',
+    ],
+
+
+    'noscript' => 'Activate JavaScript to profit from all functions.',
 
 ];

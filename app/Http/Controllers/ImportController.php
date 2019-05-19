@@ -19,24 +19,29 @@ use Auth;
 
 class ImportController extends Controller
 {
-    public function index(ImportFormRequest $request) {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create() {
+        return view('recipes.import');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\ImportFormRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ImportFormRequest $request) {
         $file = [
             'content'   => file_get_contents($request->file),
             'extension' => $request->file->getClientOriginalExtension(),
         ];
 
         $call = $file['extension'];
-        if (method_exists($this, $call)) {
-            return $this->$call($file['content']);
-        } else {
-            return redirect('/recipes/import')
-                ->withErrors(['Dieses Format wird nicht unterstützt.'])
-                ->withInput();
-        }
-    }
-
-    public function form() {
-        return view('recipes.import');
+        return $this->$call($file['content']);
     }
 
     private function kreml(String $kreml) {
@@ -73,8 +78,8 @@ class ImportController extends Controller
             }
         }
 
-        \Toast::info('Rezepte wurden importiert.');
-        return redirect('/admin');
+        \Toast::info(__('import.success'));
+        return redirect()->route('admin.index');
     }
 
     private function addIngredientDetail(Recipe $recipe, Array $ingredientDetail, IngredientDetail $alternateTo = NULL) {

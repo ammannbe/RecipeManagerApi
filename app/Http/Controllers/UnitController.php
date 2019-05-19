@@ -3,20 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Unit;
-use App\Helpers\FormHelper;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUnit;
 
 class UnitController extends Controller
 {
-    public function createForm() {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('units.create');
     }
 
-    public function create(CreateUnit $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateUnit  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateUnit $request)
+    {
         Unit::create($request->all());
-        \Toast::success('Einheit erfolgreich erstellt');
+        \Toast::success(__('toast.unit.created'));
 
-        return redirect('/admin');
+        return redirect()->route('admin.index');
     }
 }

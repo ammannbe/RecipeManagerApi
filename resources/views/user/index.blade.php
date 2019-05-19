@@ -1,31 +1,24 @@
 @extends('layouts.master')
 
 
-@section('title', 'Profil')
+@section('title', __('user.index.title'))
 
 
 @section('content-class', 'dashboard')
 @section('content')
 
-    @auth
-        <article class="manage">
-            <span class="hidden">
-                Bearbeiten {!! FormHelper::switch('edit-mode switch') !!}
-            </span>
-        </article>
-    @endauth
-
     <article class="profile">
-        <h2>Details</h2>
-        <div class="profile">
-            <span>Name: {{ Auth::User()->name }}</span><br>
-            <span>E-Mail: {{ Auth::User()->email }}</span><br>
-            <a class="edit edit-mode item" href="/profile/edit">Profil bearbeiten<i class="pencil"></i></a>
+        <h2>{{ __('user.index.details') }}</h2>
+        <div>
+            <span>{{ __('user.index.name') }} {{ Auth::User()->name }}</span><br>
+            <span>{{ __('user.index.email') }} {{ Auth::User()->email }}</span><br>
+            <br>
+            <a href="{{ route('user.edit') }}">{{ __('user.index.edit_profile') }}<i class="pencil"></i></a>
         </div>
     </article>
 
     <article class="recipes">
-        <h2>Deine Rezepte</h2>
+        <h2>{{ __('user.index.your_recipes') }}</h2>
         <ul>
             @php($i = 0)
             @foreach ($recipes as $recipe)
@@ -35,10 +28,10 @@
                 @else
                     <li>
                 @endif
-                    <a href="{{ url("recipes/{$recipe->slug}") }}">{{ $recipe->name }}</a>
+                    <a href="{{ route('recipes.show', $recipe->slug) }}">{{ $recipe->name }}</a>
                 </li>
             @endforeach
         </ul>
-        {{ Form::button('Mehr anzeigen...', ['class' => 'show-more']) }}
+        {{ Form::button( __('user.index.show_more') , ['class' => 'show-more']) }}
     </article>
 @endsection

@@ -11,6 +11,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="description" content="@yield('meta-description')">
+
+        <meta property="og:title" content="@yield('title', 'Narrenhaus')">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:description" content="@yield('meta-description')">
+        <meta property="og:image" content="@yield('meta-image', url('/logo.png'))">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="de_CH">
+        <meta property="og:locale:alternate" content="de_DE">
+        <meta property="og:locale:alternate" content="de_AT">
+        <meta property="og:locale:alternate" content="en_US">
+        <meta property="og:locale:alternate" content="en_GB">
     </head>
 
     <body>

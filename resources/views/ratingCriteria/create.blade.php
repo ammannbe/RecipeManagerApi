@@ -1,27 +1,27 @@
 @extends('layouts.master')
 
 
-@section('title', 'Bewertungs-Kriterium hinzufügen')
+@section('title', __('forms.rating_criterion.create'))
 
 
 @section('content-class', 'criterion form')
 @section('content')
 
-    {{ Form::open(['url' => 'rating-criteria/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('rating-criteria.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('name', 'Name') }}
+            {{ Form::label('name', __('forms.global.name')) }}
             {{ Form::text('name', NULL, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
-                'placeholder' => 'Bsp: Geschmack',
+                'placeholder' => __('forms.rating_criterion.examples.name'),
                 'required', 'autofocus']) }}
         </p>
 
         <p>
-            {!! FormHelper::backButton('Abbrechen', [
+            {!! FormHelper::backButton(__('forms.global.cancel'), [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
-            {{ Form::button('Kriterium hinzufügen', [
+            {{ Form::button(__('forms.rating_criterion.create'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>

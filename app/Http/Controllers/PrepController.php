@@ -2,22 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\CreatePrep as CreatePrepFormRequest;
-use App\Helpers\FormHelper;
 use App\Prep;
-use Auth;
+use Illuminate\Http\Request;
+use App\Http\Requests\CreatePrep;
 
 class PrepController extends Controller
 {
-    public function createForm() {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('preps.create');
     }
 
-    public function create(CreatePrepFormRequest $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreatePrep  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreatePrep $request)
+    {
         Prep::create($request->all());
-        \Toast::success('Vorbereitung erfolgreich erstellt');
+        \Toast::success(__('toast.prep.created'));
 
-        return redirect('/admin');
+        return redirect()->route('admin.index');
     }
 }

@@ -1,7 +1,8 @@
-var Delete = {};
+Delete = {};
+Delete.$_confirm;
 
 Delete.confirm = function(event) {
-    if (! confirm('Bist du sicher?')) {
+    if (! confirm(Delete.$_confirm.data('confirm'))) {
         disableDefault(event);
     }
 }

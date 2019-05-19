@@ -1,50 +1,58 @@
 @php($w3BarAlwaysItemClasses = 'w3-bar-item w3-button w3-padding-large')
-@php($w3BarLargeItemClasses  = 'w3-bar-item w3-button w3-hide-small w3-padding-large')
+@php($w3BarMediumItemClasses = 'w3-bar-item w3-button w3-hide-medium w3-hide-small w3-padding-large')
 @php($w3BarSmallItemClasses  = 'w3-bar-item w3-button w3-padding-large')
 
 <div class="nav top">
     <div class="w3-bar w3-black">
-        <a href="{{ url('/') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>Rezepte</a>
-        <a href="{{ url('/search') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>Suche</a>
+        <div class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-small">
+            <a class="w3-black" href="{{ route('lang', 'de') }}">DE</a> |
+            <a class="w3-black" href="{{ route('lang', 'en') }}">EN</a>
+        </div>
+        <a href="{{ route('home') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>{{ __('navigation.home') }}</a>
+        <a href="{{ route('search.index') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>{{ __('navigation.search') }}</a>
         @auth
-            <a href="{{ url('/recipes/create') }}" class="{{ $w3BarLargeItemClasses }}">Rezept eingeben</a>
+            <a href="{{ route('recipes.create') }}" class="{{ $w3BarMediumItemClasses }}">{{ __('navigation.create') }}</a>
         @endauth
         @if (auth()->check() && auth()->user()->isAdmin())
-            <a href="{{ url('/admin') }}" class="{{ $w3BarLargeItemClasses }}">Administration</a>
+            <a href="{{ route('admin.index') }}" class="{{ $w3BarMediumItemClasses }}">{{ __('navigation.admin') }}</a>
         @endif
 
         @guest
-            <a href="{{ route('login') }}" class="{{ $w3BarLargeItemClasses }} w3-right w3-grey"><i></i>Login</a>
+            <a href="{{ route('login') }}" class="{{ $w3BarMediumItemClasses }} w3-right w3-grey"><i></i>{{ __('navigation.login') }}</a>
         @else
-            <a href="{{ url('/profile') }}" class="{{ $w3BarLargeItemClasses }} w3-right">Profil</a>
+            <a href="{{ route('user.index') }}" class="{{ $w3BarMediumItemClasses }} w3-right">{{ __('navigation.profile') }}</a>
 
-            <form id="logout-form" action="{{ route('logout') }}" class="w3-hide-small w3-right" method="POST">
+            <form id="logout-form" action="{{ route('logout') }}" class="w3-hide-medium w3-hide-small w3-right" method="POST">
                 @csrf
-                <input type="submit" value="Abmelden" class="w3-button">
+                <input type="submit" value="{{ __('navigation.logout') }}" class="w3-button">
             </form>
         @endguest
 
-        <a href="javascript:void(0)" class="{{ $w3BarSmallItemClasses }} w3-right w3-hide-large w3-hide-medium" onclick="navigation()">&#9776;</a>
+        <a href="javascript:void(0)" class="{{ $w3BarSmallItemClasses }} w3-right w3-hide-large" onclick="navigation()">&#9776;</a>
     </div>
 
-    <div class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium mobile">
+    <div class="w3-bar-block w3-black w3-hide w3-hide-large mobile">
         @auth
-            <a href="{{ url('/recipes/create') }}" class="{{ $w3BarSmallItemClasses }}">Rezept eingeben</a>
+            <a href="{{ route('recipes.create') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.create') }}</a>
         @endauth
         @if (auth()->check() && auth()->user()->isAdmin())
-            <a href="{{ url('/admin') }}" class="{{ $w3BarSmallItemClasses }}">Administration</a>
+            <a href="{{ route('admin.index') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.admin') }}</a>
         @endif
 
         @guest
-            <a href="{{ route('login') }}" class="{{ $w3BarSmallItemClasses }} w3-grey"><i></i>Login</a>
+            <a href="{{ route('login') }}" class="{{ $w3BarSmallItemClasses }} w3-grey"><i></i>{{ __('navigation.login') }}</a>
         @else
-            <a href="{{ url('/profile') }}" class="{{ $w3BarSmallItemClasses }}">Profil</a>
+            <a href="{{ route('user.index') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.profile') }}</a>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
                 @csrf
                 <input type="submit" value="Abmelden" class="w3-button">
             </form>
         @endguest
+        <div class="w3-bar-item w3-padding-large">
+            <a class="w3-black" href="{{ route('lang', 'de') }}">DE</a> |
+            <a class="w3-black" href="{{ route('lang', 'en') }}">EN</a>
+        </div>
     </div>
 </div>
 

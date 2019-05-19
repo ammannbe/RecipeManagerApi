@@ -2,20 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\RatingCriterion;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateRatingCriterion;
-use App\Helpers\FormHelper;
-use App\RatingCriterion;
 
 class RatingCriterionController extends Controller
 {
-    public function createForm() {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('ratingCriteria.create');
     }
 
-    public function create(CreateRatingCriterion $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateRatingCriterion  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateRatingCriterion $request)
+    {
         RatingCriterion::create($request->all());
-        \Toast::success('Kriterium erfolgreich erstellt');
+        \Toast::success(__('toast.rating_criterion.created'));
 
         return view('ratingCriteria.create');
     }

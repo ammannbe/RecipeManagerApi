@@ -2,28 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Request;
 use App\Prep;
 use App\Unit;
 use App\Recipe;
 use App\Ingredient;
 use App\IngredientDetail;
-use App\IngredientDetailGroup;
-use App\Helpers\CodeHelper;
+use Illuminate\Http\Request;
 use App\Helpers\RecipeHelper;
-use App\Helpers\FormHelper;
+use App\IngredientDetailGroup;
 use App\Http\Requests\CreateIngredientDetail;
 
 class IngredientDetailController extends Controller
 {
-    public function createForm(Recipe $recipe) {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Recipe $recipe)
+    {
         $this->authorize('create', [IngredientDetail::class, $recipe]);
 
-        $units = [NULL => 'Bitte wählen'] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
+        $units = [NULL => __('forms.global.dropdown_first')] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
         $preps = Prep::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredients = [NULL => 'Bitte wählen'] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
-        $ingredientDetailGroups = [NULL => 'Bitte wählen'] + IngredientDetailGroup::orderBy('name')
+        $ingredients = [NULL => __('forms.global.dropdown_first')] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
+        $ingredientDetailGroups = [NULL => __('forms.global.dropdown_first')] + IngredientDetailGroup::orderBy('name')
             ->where('recipe_id', $recipe->id)
             ->pluck('name', 'id')
             ->toArray();
@@ -34,7 +37,7 @@ class IngredientDetailController extends Controller
             ->with('unit', 'ingredient', 'preps')
             ->get();
 
-        $ingredientDetailsAlternate = [NULL => 'Bitte wählen'];
+        $ingredientDetailsAlternate = [NULL => __('forms.global.dropdown_first')];
         foreach ($ingredientDetails as $i) {
             $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
         }
@@ -52,7 +55,14 @@ class IngredientDetailController extends Controller
         return view('ingredientDetails.create', $compact);
     }
 
-    public function create(CreateIngredientDetail $request, Recipe $recipe) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateIngredientDetail  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateIngredientDetail $request, Recipe $recipe)
+    {
         $ingredientDetail = new IngredientDetail($request->all());
         $ingredientDetail->recipe_id = $recipe->id;
         $ingredientDetail->save();
@@ -63,18 +73,25 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        \Toast::success('Zutat erfolgreich hinzugefügt');
-        return redirect("ingredient-details/create/{$recipe->slug}");
+        \Toast::success(__('toast.ingredient.created'));
+        return redirect()->route('recipes.ingredient-details.create', $recipe->slug);
     }
 
-    public function delete(IngredientDetail $ingredientDetail) {
-        $this->authorize('delete', [IngredientDetail::class, $ingredientDetail->recipe]);
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\IngredientDetail  $ingredientDetail
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Recipe $recipe, IngredientDetail $ingredientDetail)
+    {
+        $this->authorize('delete', [IngredientDetail::class, $recipe]);
         $ingredientDetail->delete();
         if (! IngredientDetail::where(['ingredient_detail_group_id' => $ingredientDetail->ingredient_detail_group_id])->exists()) {
             IngredientDetailGroup::find($ingredientDetail->ingredient_detail_group_id)->delete();
         }
-        \Toast::success('Zutat erfolgreich gelöscht.');
+        \Toast::success(__('toast.ingredient.deleted'));
 
-        return redirect("recipes/{$ingredientDetail->recipe->slug}");
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 }

@@ -2,28 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Hash;
 use App\User;
 use App\Recipe;
-use App\Helpers\FormHelper;
-use App\Http\Requests\EditUser as EditUserFormRequest;
+use Illuminate\Http\Request;
+use App\Http\Requests\EditUser;
 use Adldap\Laravel\Facades\Adldap;
 
 class UserController extends Controller
 {
-
-    public function dashboard() {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $recipes = Recipe::where('user_id', auth()->user()->id)->get();
         return view('user.index', compact('recipes'));
     }
 
-    public function editForm() {
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
         $user = auth()->user();
         return view('user.edit', compact('user'));
     }
 
-    public function edit(EditUserFormRequest $request) {
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\EditUser  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EditUser $request)
+    {
         $user     = auth()->user();
         $ldapUser = Adldap::search()
             ->where(env('LDAP_USER_ATTRIBUTE'), '=', $user->username)
@@ -33,8 +49,8 @@ class UserController extends Controller
             if (in_array($request->current_password, $ldapUser->userPassword)) {
                 $ldapUser->updateAttribute('userPassword', $request->new_password);
             } else {
-                return redirect('profile/edit')
-                    ->withErrors(['Falsches Passwort'])
+                return redirect()->route('user.edit')
+                    ->withErrors([__('toast.user.wrong_password')])
                     ->withInput();
             }
         }
@@ -43,8 +59,8 @@ class UserController extends Controller
         $user->email = $ldapUser->mail = $request->email;
 
         $ldapUser->save() && $user->update();
-        \Toast::success('Profil erfolgreich aktualisiert.');
+        \Toast::success(__('toast.user.updated'));
 
-        return redirect('/profile');
+        return redirect()->route('user.index');
     }
 }

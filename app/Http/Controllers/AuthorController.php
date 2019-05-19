@@ -2,22 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateAuthor;
-use App\Helpers\FormHelper;
 use App\Author;
-use Auth;
+use App\Recipe;
+use Illuminate\Http\Request;
+use App\Http\Requests\CreateAuthor;
 
 class AuthorController extends Controller
 {
-    public function createForm() {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $authors = Author::orderBy('name')->get();
+        return view('authors.index', compact('authors'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('authors.create');
     }
 
-    public function create(CreateAuthor $request) {
-        $request->merge(['user_id' => auth()->user()->id]);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\CreateAuthor  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateAuthor $request)
+    {
+        $request->merge([
+                'user_id' => auth()->user()->id,
+                'slug' => FormatHelper::slugify($request->name)
+            ]);
         Author::create($request->all());
-        \Toast::success('Verfasser erfolgreich erstellt');
+        \Toast::success(__('toast.author.created'));
 
-        return redirect('/admin');
+        return redirect()->route('admin.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Author  $author
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Author $author)
+    {
+        $recipes = Recipe::where('author_id', $author->id)->get();
+        return view('authors.show', compact('author', 'recipes'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Author  $author
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Author $author)
+    {
+        $this->authorize('delete', [Author::class, $author]);
+        if (! Recipe::where('author_id', $author->id)->first()) {
+            $author->delete();
+            \Toast::success(__('toast.author.deleted'));
+        } else {
+            \Toast::error(__('toast.author.not_deleted'));
+        }
+
+        return back();
     }
 }

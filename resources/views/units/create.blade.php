@@ -1,51 +1,51 @@
 @extends('layouts.master')
 
 
-@section('title', 'Einheit hinzufügen')
+@section('title', __('forms.unit.create'))
 
 
 @section('content-class', 'unit form')
 @section('content')
 
-    {{ Form::open(['url' => 'units/create', 'class' => 'w3-container w3-card-4 w3-padding']) }}
+    {{ Form::open(['url' => route('units.store'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>
-            {{ Form::label('name', 'Name (Singular)', ['class' => 'required']) }}
+            {{ Form::label('name', __('forms.unit.name'), ['class' => 'required']) }}
             {{ Form::text('name', NULL, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
-                'placeholder' => 'Bsp: Flasche',
+                'placeholder' => __('forms.unit.examples.name'),
                 'required', 'autofocus']) }}
         </p>
 
         <p>
-            {{ Form::label('name_shortcut', 'Abkürzung (Singular)') }}
+            {{ Form::label('name_shortcut', __('forms.unit.name_shortcut')) }}
             {{ Form::text('name_shortcut', NULL, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
-                'placeholder' => 'Bsp: Fl.']) }}
+                'placeholder' => __('forms.unit.examples.name_shortcut')]) }}
         </p>
 
         <p>
-            {{ Form::label('name_plural', 'Name (Plural)') }}
+            {{ Form::label('name_plural', __('forms.unit.name_plural')) }}
             {{ Form::text('name_plural', NULL, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
-                'placeholder' => 'Bsp: Flaschen']) }}
+                'placeholder' => __('forms.unit.examples.name_plural')]) }}
         </p>
 
         <p>
-            {{ Form::label('name_plural_shortcut', 'Abkürzung (Plural)') }}
+            {{ Form::label('name_plural_shortcut', __('forms.unit.name_plural_shortcut')) }}
             {{ Form::text('name_plural_shortcut', NULL, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
-                'placeholder' => 'Bsp: Fl.']) }}
+                'placeholder' => __('forms.unit.examples.name_plural_shortcut')]) }}
         </p>
 
         <p>
-            {!! FormHelper::backButton('Abbrechen', [
+            {!! FormHelper::backButton(__('forms.global.cancel'), [
                 'class' => 'w3-btn w3-black w3-left w3-margin-right'], '/admin') !!}
-            {{ Form::button('Einheit hinzufügen', [
+            {{ Form::button(__('forms.unit.create'), [
                 'class' => 'w3-btn w3-black w3-right w3-margin-left',
                 'type'  => 'submit']) }}
         </p>

@@ -43,6 +43,10 @@ class Recipe extends Model
             ->latest();
     }
 
+    public function tags() {
+        return $this->belongsToMany('\App\Tag');
+    }
+
     public function searchRecipes($term) {
         return $this->where('instructions', 'LIKE', '%'.$term.'%')
             ->orWhere('name', 'LIKE', '%'.$term.'%')
@@ -50,7 +54,7 @@ class Recipe extends Model
             ->get();
     }
 
-    public static function best($recipes, Int $paginate = NULL) {
+    public static function best($recipes, Int $paginate = NULL, Int $offset = 0) {
         foreach ($recipes as $key => $recipe) {
             $bestRecipes[$key] = $recipe;
             $bestRecipes[$key]['stars_avg']   = $recipe->ratings->avg('stars');
@@ -62,7 +66,7 @@ class Recipe extends Model
         });
 
         if ($paginate) {
-            return array_slice($bestRecipes, 0, $paginate);
+            return array_slice($bestRecipes, $offset, $paginate);
         } else {
             return $bestRecipes;
         }

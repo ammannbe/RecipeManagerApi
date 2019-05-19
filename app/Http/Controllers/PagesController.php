@@ -17,19 +17,19 @@ class PagesController extends Controller
         $recipes = Recipe::with('category', 'author', 'ratings')
             ->whereNotNull('photo');
 
+        $topRecipes = Recipe::best($recipes->get(), 4, 4);
         $newRecipes = $recipes->latest()->paginate(4);
-
-        $topRecipes = Recipe::best($recipes->get(), 4);
 
         return view('index', compact('newRecipes', 'ratings', 'topRecipes'));
     }
 
     public function searchForm($default = 'recipe') {
         $tables = [
-            'author'     => 'Verfasser',
-            'category'   => 'Kategorien',
-            'recipe'     => 'Rezept / Zubereitung',
-            'ingredient' => 'Zutaten',
+            'author'     => __('forms.search.items.author'),
+            'category'   => __('forms.search.items.category'),
+            'tag'        => __('forms.search.items.tag'),
+            'recipe'     => __('forms.search.items.recipe_preparation'),
+            'ingredient' => __('forms.search.items.ingredient'),
         ];
         return view('search.index', compact('tables', 'default'));
     }
@@ -55,11 +55,11 @@ class PagesController extends Controller
         }
 
         if (isset($recipes)) {
-            return view('search.results', compact('recipes'));
             \Toast::clear();
+            return view('search.results', compact('recipes'));
         } else {
-            \Toast::info('Keine Rezepte gefunden.');
-            return redirect('/search');
+            \Toast::info(__('toast.search.not_found'));
+            return back();
         }
     }
 

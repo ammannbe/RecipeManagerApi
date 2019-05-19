@@ -1,0 +1,6 @@
+.removeable {
+    ~ .select2 {
+        width: calc(100% - 60px) !important;
+        display: inline-block !important;
+    }
+}
