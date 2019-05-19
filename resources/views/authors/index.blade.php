@@ -7,6 +7,14 @@
 @section('content-class', 'author index')
 @section('content')
 
+    @auth
+        @if (auth()->user()->isAdmin())
+            <div class="manage">
+                <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
+            </div>
+        @endif
+    @endauth
+
     <ul>
         @foreach ($authors as $author)
             <li>
