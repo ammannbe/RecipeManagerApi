@@ -107,9 +107,9 @@
 
     @if ($recipe->ingredientDetails->count())
         <article class="ingredients">
-            <section class="list w3-card">
+            <section class="list w3-card w3-padding">
                 <div class="w3-row">
-                    <div class="w3-col s12 m6 l3 w3-padding">
+                    <div class="w3-col s12 m6 l3">
                         <h2>Zutaten</h2>
 
                         <ul>
@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="w3-row">
                             @endif
-                            <div class="w3-col s12 m6 l3 w3-padding">
+                            <div class="w3-col s12 m6 l3 w3-margin-right">
                                 <h3>{{ $name }}</h3>
                                 <ul>
                                     @foreach ($group as $ingredientDetail)
@@ -200,6 +200,15 @@
                 </div>
             </section>
         </article>
+    @else
+        @auth
+            @if ($isRecipeOwner)
+                <br>
+                <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug) }}">
+                    {{ __('recipes.add_ingredient') }}
+                </a>
+            @endif
+        @endauth
     @endif
 
     <article class="instructions w3-card w3-padding">
