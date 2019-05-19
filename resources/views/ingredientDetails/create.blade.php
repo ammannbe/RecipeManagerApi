@@ -7,6 +7,9 @@
 @section('content-class', 'ingredient-form')
 @section('content')
 
+    <a href="{{ \App\Helpers\CodeHelper::previousUrl("/recipes/{$recipe->slug}") }}"><i class="arrow-left"></i>{{ __('forms.global.back') }}</a>
+    <br><br>
+
     {{ Form::open(['url' => route('recipes.ingredient-details.store', $recipe->slug), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
         <p>

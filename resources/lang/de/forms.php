@@ -15,6 +15,7 @@ return [
     'global' => [
         'dropdown_first' => 'Bitte wählen',
         'cancel'     => 'Abbrechen',
+        'back'       => 'Zurück',
         'next'       => 'Mehr',
         'edit'       => 'Bearbeiten',
         'save_edits' => 'Änderungen speichern',
