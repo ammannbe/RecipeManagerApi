@@ -92,6 +92,6 @@ class IngredientDetailController extends Controller
         }
         \Toast::success(__('toast.ingredient.deleted'));
 
-        return redirect()->route('recipes.index', $ingreidentDetail->recipe->slug);
+        return redirect()->route('recipes.show', $recipe->slug);
     }
 }
