@@ -17,20 +17,17 @@ require('./Delete.js');
 require('./EditMode.js');
 require('./Modal.js');
 require('./Search.js');
-
-
-function disableDefault(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
+require('./YieldAmountCalculator');
 
 $(document).ready(function () {
     EditMode.init();
     Dropdown.init();
     Search.init();
+    YieldAmountCalculator.init();
 
-    $('article.recipes button.show-more').click(function(e) {
-        disableDefault(e);
+    $('article.recipes button.show-more').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
         $(this).siblings('ul').children('li').removeClass('forced hidden');
         $(this).remove();

@@ -67,7 +67,7 @@
                         <li><strong>{{ __('recipes.category') }}</strong> {{ $recipe->category->name }}</li>
                     @endif
                     @if ($recipe->yield_amount)
-                        <li><strong>{{ __('recipes.yield_amount') }}</strong> {{ $recipe->yield_amount }}</li>
+                        <li><strong>{{ __('recipes.yield_amount') }}</strong> {{ Form::number('yield_amount', $recipe->yield_amount, ['min' => 0, 'step' => 0.25]) }}</li>
                     @endif
                     @if ($recipe->preparation_time)
                         <li><strong>{{ __('recipes.preparation_time') }}</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
@@ -124,9 +124,14 @@
                                 @endphp
 
                                 <li>
-                                    {{ $ingredientDetail->beautify() }}
+                                    <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
+                                        {{ $ingredientDetail->beautify() }}
+                                    </span>
                                     @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
-                                        <br>Oder: {{ $ingredientDetailAlternate->beautify() }}
+                                        <br>{{ __('recipes.or') }}
+                                            <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
+                                                {{ $ingredientDetailAlternate->beautify() }}
+                                            </span>
                                     @endforeach
                                     @auth
                                         @if ($isRecipeOwner)
@@ -166,9 +171,14 @@
                                 <ul>
                                     @foreach ($group as $ingredientDetail)
                                         <li>
-                                            {{ $ingredientDetail->beautify() }}
+                                            <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
+                                                {{ $ingredientDetail->beautify() }}
+                                            </span>
                                             @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
-                                                <br>{{ __('recipes.or') }} {{ $ingredientDetailAlternate->beautify() }}
+                                                <br>{{ __('recipes.or') }}
+                                                    <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
+                                                        {{ $ingredientDetailAlternate->beautify() }}
+                                                    </span>
                                             @endforeach
                                             @auth
                                                 @if ($isRecipeOwner)
