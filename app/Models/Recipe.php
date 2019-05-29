@@ -47,8 +47,8 @@ class Recipe extends Model
         return $this->belongsToMany('\App\Models\Tag');
     }
 
-    public function searchRecipes($term) {
-        return $this->where('instructions', 'LIKE', '%'.$term.'%')
+    public static function searchRecipes($term) {
+        return self::where('instructions', 'LIKE', '%'.$term.'%')
             ->orWhere('name', 'LIKE', '%'.$term.'%')
             ->with(['author', 'category'])
             ->get();

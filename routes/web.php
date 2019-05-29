@@ -97,6 +97,6 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/', 'PagesController@index')->name('home');
 
 Route::get('/search', 'PagesController@searchForm')->name('search.index');
-Route::post('/search', 'PagesController@search')->name('search.results');
+Route::get('/search-results', 'PagesController@search')->name('search.results');
 
 Route::resource('recipes', 'RecipeController')->only(['show']);

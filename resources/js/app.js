@@ -6,6 +6,9 @@
  */
 
 window.$ = window.jQuery = require('jquery');
+import 'jquery-ui/ui/widgets/autocomplete.js';
+import 'jquery-ui/themes/base/all.css';
+
 window.Cookies = require('js-cookie');
 require('./3rd-party/select2-4.0.1.min.js');
 require('./Toast.js');
@@ -13,9 +16,10 @@ require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
 require('./Modal.js');
+require('./Search.js');
 
 
-disableDefault = function(event) {
+function disableDefault(event) {
     event.preventDefault();
     event.stopPropagation();
 }
@@ -23,6 +27,7 @@ disableDefault = function(event) {
 $(document).ready(function () {
     EditMode.init();
     Dropdown.init();
+    Search.init();
 
     $('article.recipes button.show-more').click(function(e) {
         disableDefault(e);

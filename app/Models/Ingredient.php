@@ -10,8 +10,8 @@ class Ingredient extends Model
 {
     protected $fillable = ['name'];
 
-    public function searchRecipes($name) {
-        return $this->where('name', 'LIKE', '%'.$name.'%')
+    public static function searchRecipes($name) {
+        return self::where('name', 'LIKE', '%'.$name.'%')
             ->with([
                 'ingredientDetail.recipe',
                 'ingredientDetail.recipe.author',

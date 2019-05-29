@@ -8,20 +8,17 @@
 @section('content-class', 'search form')
 @section('content')
 
-    {{ Form::open(['url' => 'search', 'class' => 'w3-container w3-card-4 w3-padding']) }}
-
-        <p>
-            {{ Form::label('item', __('forms.search.item')) }}
-            {{ Form::select('item', $tables, $default, [
-                'class' => 'w3-input']) }}
-        </p>
-
+    {{ Form::open(['method' => 'GET', 'url' => route('search.results'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
         <p>
             {{ Form::label('term', __('forms.search.term'), ['class' => 'required']) }}
             {{ Form::text('term', NULL, [
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.search.examples.term'),
                 'required', 'autofocus']) }}
+
+            <script>
+                var autocompleteData = {!! json_encode($complete) !!};
+            </script>
         </p>
 
         <p>
