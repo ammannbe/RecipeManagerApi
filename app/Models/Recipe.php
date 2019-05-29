@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\RatingCriterion;
+use App\Models\RatingCriterion;
 use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
@@ -24,27 +24,27 @@ class Recipe extends Model
     }
 
     public function author() {
-        return $this->belongsTo('\App\Author');
+        return $this->belongsTo('\App\Models\Author');
     }
 
     public function category() {
-        return $this->belongsTo('\App\Category');
+        return $this->belongsTo('\App\Models\Category');
     }
 
     public function ingredientDetails() {
-        return $this->hasMany('\App\IngredientDetail')
+        return $this->hasMany('\App\Models\IngredientDetail')
             ->with(['unit', 'ingredient', 'preps', 'group'])
             ->orderBy('position');
     }
 
     public function ratings() {
-        return $this->hasMany('\App\Rating')
+        return $this->hasMany('\App\Models\Rating')
             ->with(['ratingCriterion', 'user'])
             ->latest();
     }
 
     public function tags() {
-        return $this->belongsToMany('\App\Tag');
+        return $this->belongsToMany('\App\Models\Tag');
     }
 
     public function searchRecipes($term) {

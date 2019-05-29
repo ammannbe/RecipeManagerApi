@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use App\IngredientDetail;
-use App\Unit;
+use App\Models\IngredientDetail;
+use App\Models\Unit;
 
 class RecipeHelper
 {

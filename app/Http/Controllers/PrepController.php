@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Prep;
+use App\Models\Prep;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePrep;
 

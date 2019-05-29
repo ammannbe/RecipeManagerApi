@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Prep;
-use App\Unit;
-use App\Recipe;
-use App\Ingredient;
-use App\IngredientDetail;
+use App\Models\Prep;
+use App\Models\Unit;
+use App\Models\Recipe;
+use App\Models\Ingredient;
+use App\Models\IngredientDetail;
 use Illuminate\Http\Request;
 use App\Helpers\RecipeHelper;
-use App\IngredientDetailGroup;
+use App\Models\IngredientDetailGroup;
 use App\Http\Requests\CreateIngredientDetail;
 
 class IngredientDetailController extends Controller
@@ -80,7 +80,7 @@ class IngredientDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\IngredientDetail  $ingredientDetail
+     * @param  \App\Models\IngredientDetail  $ingredientDetail
      * @return \Illuminate\Http\Response
      */
     public function destroy(Recipe $recipe, IngredientDetail $ingredientDetail)

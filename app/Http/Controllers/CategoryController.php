@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Recipe;
-use App\Category;
+use App\Models\Recipe;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Helpers\FormatHelper;
 use App\Http\Requests\CreateCategory;
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
@@ -61,7 +61,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Category $category)

@@ -2,7 +2,7 @@
 
 
 @section('title', __('forms.search.create'))
-@section('meta-description', __('forms.search.meta_description', ['count' => \App\Recipe::count() - 5]))
+@section('meta-description', __('forms.search.meta_description', ['count' => \App\Models\Recipe::count() - 5]))
 
 
 @section('content-class', 'search form')

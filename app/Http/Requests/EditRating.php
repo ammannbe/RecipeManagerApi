@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rating;
+use App\Models\Rating;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRating extends FormRequest

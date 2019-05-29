@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Rating;
-use App\Recipe;
-use App\RatingCriterion;
+use App\Models\Rating;
+use App\Models\Recipe;
+use App\Models\RatingCriterion;
 use Illuminate\Http\Request;
 use App\Http\Requests\EditRating;
 use App\Http\Requests\CreateRating;
@@ -43,7 +43,7 @@ class RatingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Rating  $rating
+     * @param  \App\Models\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function edit(Recipe $recipe, Rating $rating)
@@ -59,7 +59,7 @@ class RatingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\EditRating  $request
-     * @param  \App\Rating  $rating
+     * @param  \App\Models\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function update(EditRating $request, Recipe $recipe, Rating $rating)
@@ -78,7 +78,7 @@ class RatingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Rating  $rating
+     * @param  \App\Models\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function destroy(Recipe $recipe, Rating $rating)

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Author;
+use App\Models\User;
+use App\Models\Author;
 use ReflectionClass;
 use Illuminate\Http\Request;
 use Adldap\Laravel\Facades\Adldap;

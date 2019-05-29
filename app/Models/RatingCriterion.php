@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Prep extends Model
+class RatingCriterion extends Model
 {
     protected $fillable = ['name'];
 }

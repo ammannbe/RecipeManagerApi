@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Rating;
-use App\Recipe;
+use App\Models\Rating;
+use App\Models\Recipe;
 use App\Helpers\FormHelper;
 use App\Http\Requests\Search as SearchFormRequest;
 

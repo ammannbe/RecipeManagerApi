@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Author;
-use App\Recipe;
+use App\Models\Author;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateAuthor;
 
@@ -51,7 +51,7 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
     public function show(Author $author)
@@ -63,7 +63,7 @@ class AuthorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Author $author)

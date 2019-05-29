@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Helpers\RecipeHelper;
 use Illuminate\Database\Eloquent\Model;
@@ -32,26 +32,26 @@ class IngredientDetail extends Model
     }
 
     public function ingredientDetail() {
-        return $this->hasMany('\App\IngredientDetail');
+        return $this->hasMany('\App\Models\IngredientDetail');
     }
 
     public function recipe() {
-        return $this->belongsTo('\App\Recipe');
+        return $this->belongsTo('\App\Models\Recipe');
     }
 
     public function unit() {
-        return $this->belongsTo('\App\Unit');
+        return $this->belongsTo('\App\Models\Unit');
     }
 
     public function ingredient() {
-        return $this->belongsTo('\App\Ingredient');
+        return $this->belongsTo('\App\Models\Ingredient');
     }
 
     public function preps() {
-        return $this->belongsToMany('\App\Prep');
+        return $this->belongsToMany('\App\Models\Prep');
     }
 
     public function group() {
-        return $this->belongsTo('\App\IngredientDetailGroup', 'ingredient_detail_group_id');
+        return $this->belongsTo('\App\Models\IngredientDetailGroup', 'ingredient_detail_group_id');
     }
 }

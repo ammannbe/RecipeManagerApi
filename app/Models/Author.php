@@ -1,23 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Author extends Model
 {
     protected $fillable = [
         'name',
         'slug',
     ];
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
+    public function getRouteKeyName() {
         return 'slug';
     }
 
@@ -28,6 +22,6 @@ class Tag extends Model
     }
 
     public function recipes() {
-        return $this->belongsToMany('\App\Recipe');
+        return $this->hasMany('\App\Models\Recipe');
     }
 }

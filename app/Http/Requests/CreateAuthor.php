@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Author;
+use App\Models\Author;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAuthor extends FormRequest

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\RatingCriterion;
+use App\Models\RatingCriterion;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateRatingCriterion;
 

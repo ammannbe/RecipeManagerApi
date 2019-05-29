@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
-use App\Author;
-use App\Recipe;
-use App\Category;
+use App\Models\Tag;
+use App\Models\Author;
+use App\Models\Recipe;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Helpers\FormatHelper;
 use App\Http\Requests\EditRecipe;
@@ -61,7 +61,7 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function show(Recipe $recipe)
@@ -81,7 +81,7 @@ class RecipeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function edit(Recipe $recipe)
@@ -99,7 +99,7 @@ class RecipeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\EditRecipe  $request
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function update(EditRecipe $request, Recipe $recipe)
@@ -142,7 +142,7 @@ class RecipeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function destroy(Recipe $recipe)

@@ -7,14 +7,14 @@ use App\Http\Requests\ImportFormRequest;
 use App\Helpers\KremlParser;
 use App\Helpers\FormatHelper;
 use App\Helpers\FormHelper;
-use App\Author;
-use App\Category;
-use App\Recipe;
-use App\Ingredient;
-use App\IngredientDetail;
-use App\IngredientDetailGroup;
-use App\Unit;
-use App\Prep;
+use App\Models\Author;
+use App\Models\Category;
+use App\Models\Recipe;
+use App\Models\Ingredient;
+use App\Models\IngredientDetail;
+use App\Models\IngredientDetailGroup;
+use App\Models\Unit;
+use App\Models\Prep;
 use Auth;
 
 class ImportController extends Controller

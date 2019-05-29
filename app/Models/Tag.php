@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Tag extends Model
 {
     protected $fillable = [
         'name',
@@ -28,6 +28,6 @@ class Category extends Model
     }
 
     public function recipes() {
-        return $this->hasMany('\App\Recipe');
+        return $this->belongsToMany('\App\Models\Recipe');
     }
 }

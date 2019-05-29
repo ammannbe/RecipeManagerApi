@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\IngredientDetail;
+use App\Models\IngredientDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateIngredientDetail extends FormRequest
