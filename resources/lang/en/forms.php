@@ -45,6 +45,7 @@ return [
 
     'ingredient' => [
         'create'   => 'Add ingredient',
+        'edit'     => 'Edit ingredient',
         'examples' => [
             'amount' => 'e.g. 50'
         ],

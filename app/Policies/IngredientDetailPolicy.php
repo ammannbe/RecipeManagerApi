@@ -18,4 +18,8 @@ class IngredientDetailPolicy
     public function delete(User $user, Recipe $recipe) {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
+
+    public function update(User $user, Recipe $recipe) {
+        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+    }
 }

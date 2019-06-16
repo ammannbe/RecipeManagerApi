@@ -45,6 +45,7 @@ return [
 
     'ingredient' => [
         'create'   => 'Zutat hinzufügen',
+        'edit'     => 'Zutat ändern',
         'examples' => [
             'amount' => 'z.B. 50'
         ],

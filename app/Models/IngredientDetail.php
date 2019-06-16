@@ -31,6 +31,34 @@ class IngredientDetail extends Model
         return $text;
     }
 
+    public static function reorder($recipe_id) {
+        $ingredientDetails = IngredientDetail::where('recipe_id', $recipe_id)
+            ->orderBy('ingredient_detail_group_id')
+            ->orderBy('position')
+            ->get();
+        $lastIngredientDetail = NULL;
+        $i = 1;
+        $j = 1;
+
+        foreach ($ingredientDetails as $ingredientDetail) {
+            if ($ingredientDetail->ingredient_detail_id) {
+                $ingredientDetail->position = 1;
+            } elseif ($ingredientDetail->ingredient_detail_group_id) {
+                if ($ingredientDetail != $lastIngredientDetail) {
+                    $j = 1;
+                }
+                $ingredientDetail->position = $j;
+                $j++;
+            } else {
+                $ingredientDetail->position = $i;
+                $i++;
+            }
+            $ingredientDetail->save();
+
+            $lastIngredientDetail = $ingredientDetail;
+        }
+    }
+
     public function ingredientDetail() {
         return $this->hasMany('\App\Models\IngredientDetail');
     }

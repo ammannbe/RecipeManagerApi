@@ -22,7 +22,7 @@ Route::middleware('checklogin')->group(function() {
     ]);
 
     Route::resource('recipes.ingredient-details', 'IngredientDetailController')->only([
-        'create', 'store', 'destroy'
+        'create', 'store', 'edit', 'update', 'destroy'
     ]);
 
     Route::resource('import', 'ImportController')->only([
