@@ -37,6 +37,14 @@ class RecipeController extends Controller
      */
     public function store(CreateRecipe $request)
     {
+        // Check for similar recipes
+        foreach (Recipe::get() as $recipe) {
+            if (metaphone($recipe->name) === metaphone($request->name)) {
+                \Toast::error(__('validation.similar.recipe', ['recipe' => $recipe->name]));
+                return back();
+            }
+        }
+
         $request->merge([
             'user_id' => auth()->user()->id,
             'slug'    => FormatHelper::slugify($request->name),
