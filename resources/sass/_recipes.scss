@@ -5,6 +5,24 @@ section.content.recipe {
         display: flex;
         place-items: center;
         flex-wrap: wrap;
+
+        div.share-widget {
+            position: relative;
+
+            * {
+                margin-right: 3px;
+            }
+
+            .hide {
+                background-color: unset;
+                border: none;
+                padding: 0px;
+                cursor: pointer;
+                position: absolute;
+                top: 0;
+                right: -30px;
+            }
+        }
     }
 
     .header {

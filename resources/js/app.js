@@ -18,12 +18,14 @@ require('./EditMode.js');
 require('./Modal.js');
 require('./Search.js');
 require('./YieldAmountCalculator');
+require('./ShareWidget.js');
 
 $(document).ready(function () {
     EditMode.init();
     Dropdown.init();
     Search.init();
     YieldAmountCalculator.init();
+    ShareWidget.init();
 
     $('article.recipes button.show-more').click(function(event) {
         event.preventDefault();

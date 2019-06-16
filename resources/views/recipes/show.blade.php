@@ -45,6 +45,28 @@
                     </span>
                 @endif
             @endauth
+            <div class="share-widget w3-right w3-margin-right w3-margin-bottom w3-border" style="display: none;">
+                {{-- Telegram --}}
+                <a href="//telegram.me/share/url?url={{ url()->current() }}&text={{ $recipe->name }}" target="_blank" title="{{ __('share.telegram') }}">
+                    <img src="{{ url('/images/icons/telegram.svg') }}" width="60" height="60" alt="Telegram">
+                </a>
+                {{-- E-Mail --}}
+                <a href="mailto:?Subject={{ $recipe->name }}&amp;Body=@yield('meta-description') {{ url()->current() }}" title="{{ __('share.email') }}">
+                    <img src="https://simplesharebuttons.com/images/somacro/email.png" width="48" height="48" alt="E-Mail">
+                </a>
+                {{-- Print --}}
+                <a href="javascript:;" onclick="window.print()" title="{{ __('share.print') }}">
+                    <img src="https://simplesharebuttons.com/images/somacro/print.png" width="48" height="48" alt="Print">
+                </a>
+                {{-- Facebook --}}
+                <a href="https://www.facebook.com/sharer.php?u={{ url()->current() }}" target="_blank" title="{{ __('share.facebook') }}">
+                    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" width="48" height="48" alt="Facebook">
+                </a>
+
+                <button class="hide">
+                    <i class="cross red middle"></i>
+                </button>
+            </div>
         </div>
     </article>
 
