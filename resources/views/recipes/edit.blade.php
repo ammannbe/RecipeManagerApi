@@ -39,13 +39,13 @@
 
         <div>
             {{ Form::label('tags[]', __('forms.recipe.tag')) }}
-            <span class="w3-button w3-medium w3-red w3-card w3-margin-left copy-select2">+</span>
+            <span class="w3-button w3-medium w3-black w3-card w3-margin-left copy-select2">+</span>
             @foreach ($recipe->tags as $tag)
                 <div>
                     {{ Form::select('tags[]',
                         $tags, $tag->id,
                         ['class' => 'js-dropdown w3-input removeable']) }}
-                    <span class="w3-button w3-red w3-circle remove-select2">-</span>
+                    <span class="w3-button w3-black w3-circle remove-select2">-</span>
                 </div>
             @endforeach
 
@@ -53,7 +53,7 @@
                 {{ Form::select('tags[]',
                     $tags, NULL,
                     ['class' => 'js-dropdown w3-input removeable', 'disabled']) }}
-                <span class="w3-button w3-red w3-circle remove-select2">-</span>
+                <span class="w3-button w3-black w3-circle remove-select2">-</span>
             </div>
         </div>
 
