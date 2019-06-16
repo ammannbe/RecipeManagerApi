@@ -32,17 +32,19 @@
         <div class="w3-margin">
             @auth
                 @if ($isRecipeOwner)
-                    <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
-                    <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit') }}</span>
-                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
-                    <span class="w3-margin-right w3-margin-bottom edit-mode item">
-                        {{ Form::open(['url' => route('recipes.show', $recipe->slug), 'class' => 'delete']) }}
-                            @method('DELETE')
-                            <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
-                                <i class="cross red middle"></i>{{ __('recipes.delete') }}
-                            </button>
-                        {{ Form::close() }}
-                    </span>
+                    <div class="edit">
+                        <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
+                        <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit-mode') }}</span>
+                        <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
+                        <span class="w3-margin-right w3-margin-bottom edit-mode item">
+                            {{ Form::open(['url' => route('recipes.show', $recipe->slug), 'class' => 'delete']) }}
+                                @method('DELETE')
+                                <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                    <i class="cross red middle"></i>{{ __('recipes.delete') }}
+                                </button>
+                            {{ Form::close() }}
+                        </span>
+                    </div>
                 @endif
             @endauth
             <div class="share-widget w3-right w3-margin-right w3-margin-bottom w3-border" style="display: none;">

@@ -1,26 +1,34 @@
 section.content.recipe {
     margin: 10px;
 
-    .manage div {
-        display: flex;
-        place-items: center;
-        flex-wrap: wrap;
+    .manage {
 
-        div.share-widget {
-            position: relative;
+        div.w3-margin {
+            flex-direction: column;
+            place-items: baseline;
+        }
 
-            * {
-                margin-right: 3px;
-            }
+        div {
+            display: flex;
+            place-items: center;
+            flex-wrap: wrap;
 
-            .hide {
-                background-color: unset;
-                border: none;
-                padding: 0px;
-                cursor: pointer;
-                position: absolute;
-                top: 0;
-                right: -30px;
+            div.share-widget {
+                position: relative;
+
+                * {
+                    margin-right: 3px;
+                }
+
+                .hide {
+                    background-color: unset;
+                    border: none;
+                    padding: 0px;
+                    cursor: pointer;
+                    position: absolute;
+                    top: 0;
+                    right: -30px;
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ return [
     'meta_author' => 'Verfasser: :author',
     'meta_description' => 'Rezept: :name, :author Kategorie: :category',
 
+    'edit-mode' => 'Bearbeitungs-Modus',
     'edit' => 'Bearbeiten',
     'delete' => 'Löschen',
 
