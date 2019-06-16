@@ -50,22 +50,28 @@ class PagesController extends Controller
             $cname = ucfirst($cname);
             $class = "\\App\\Models\\{$cname}";
 
-            foreach ($class::searchRecipes($request->term) as $result) {
-                if ($cname === 'Recipe') {
-                    $recipes[$result->id] = $result;
-                } elseif ($cname === 'Ingredient') {
-                    foreach ($result->ingredientDetail as $ingredientDetail) {
-                        $recipes[$ingredientDetail->recipe->id] = $ingredientDetail->recipe;
-                    }
-                } else {
-                    foreach ($result->recipes as $recipe) {
-                        $recipes[$recipe->id] = $recipe;
+            $terms = explode(' ', $request->term);
+
+            foreach ($terms as $term) {
+                foreach ($class::searchRecipes($term) as $result) {
+                    if ($cname === 'Recipe') {
+                        $recipes[$result->id] = $result;
+                    } elseif ($cname === 'Ingredient') {
+                        foreach ($result->ingredientDetail as $ingredientDetail) {
+                            $recipes[$ingredientDetail->recipe->id] = $ingredientDetail->recipe;
+                        }
+                    } else {
+                        foreach ($result->recipes as $recipe) {
+                            $recipes[$recipe->id] = $recipe;
+                        }
                     }
                 }
             }
         }
 
-        if (isset($recipes)) {
+        if (isset($recipes) && count($recipes) === 1) {
+            return redirect()->route('recipes.show', array_values($recipes)[0]->slug);
+        } elseif (isset($recipes)) {
             \Toast::clear();
             return view('search.results', compact('recipes'));
         } else {
