@@ -41,7 +41,7 @@ class RecipeController extends Controller
         foreach (Recipe::get() as $recipe) {
             if (metaphone($recipe->name) === metaphone($request->name)) {
                 \Toast::error(__('validation.similar.recipe', ['recipe' => $recipe->name]));
-                return back();
+                return redirect()->back()->withInput();
             }
         }
 
