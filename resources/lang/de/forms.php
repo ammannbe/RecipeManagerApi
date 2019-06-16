@@ -91,7 +91,7 @@ return [
         'preparation_time' => 'Zubereitungszeit',
         'instructions' => 'Zubereitung',
         'photo' => 'Foto (max. 2MB)',
-        'delete_old_photo' => 'Altes Foto löschen (falls vorhanden)?',
+        'delete_old_photo' => 'Altes Foto löschen?',
         'overwrite_old_photo' => 'Altes Foto überschreiben (max 2MB)',
     ],
 

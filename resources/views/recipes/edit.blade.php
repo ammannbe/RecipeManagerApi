@@ -77,11 +77,13 @@
                 ['required', 'class' => 'w3-input w3-border']) }}
         </p>
 
-        <p class="checkbox">
-            {{ Form::label('delete_photo', __('forms.recipe.delete_old_photo')) }}
-            {{ Form::checkbox('delete_photo', NULL, NULL,
-                ['class' => 'w3-check']) }}
-        </p>
+        @if ($recipe->photo)
+            <p class="checkbox">
+                {{ Form::label('delete_photo', __('forms.recipe.delete_old_photo')) }}
+                {{ Form::checkbox('delete_photo', NULL, NULL,
+                    ['class' => 'w3-check']) }}
+            </p>
+        @endif
 
         <p>
             {{ Form::label('photo', __('forms.recipe.overwrite_old_photo')) }}
