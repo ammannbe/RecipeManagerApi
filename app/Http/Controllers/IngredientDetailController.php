@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Prep;
-use App\Unit;
-use App\Recipe;
-use App\Ingredient;
-use App\IngredientDetail;
+use App\Models\Prep;
+use App\Models\Unit;
+use App\Models\Recipe;
+use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use App\Helpers\RecipeHelper;
-use App\IngredientDetailGroup;
+use App\Models\IngredientDetail;
+use App\Models\IngredientDetailGroup;
+use App\Http\Requests\EditIngredientDetail;
 use App\Http\Requests\CreateIngredientDetail;
 
 class IngredientDetailController extends Controller
@@ -73,14 +74,84 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
+        IngredientDetail::reorder($recipe->id);
+
         \Toast::success(__('toast.ingredient.created'));
         return redirect()->route('recipes.ingredient-details.create', $recipe->slug);
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Recipe  $recipe
+     * @param  \App\Models\IngredientDetail  $ingredientDetail
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Recipe $recipe, IngredientDetail $ingredientDetail)
+    {
+        $this->authorize('update', [IngredientDetail::class, $recipe]);
+
+        $units = [NULL => __('forms.global.dropdown_first')] + Unit::orderBy('name')->pluck('name', 'id')->toArray();
+        $preps = Prep::orderBy('name')->pluck('name', 'id')->toArray();
+        $ingredients = [NULL => __('forms.global.dropdown_first')] + Ingredient::orderBy('name')->pluck('name', 'id')->toArray();
+        $ingredientDetailGroups = [NULL => __('forms.global.dropdown_first')] + IngredientDetailGroup::orderBy('name')
+            ->where('recipe_id', $recipe->id)
+            ->pluck('name', 'id')
+            ->toArray();
+
+        $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
+            ->with('unit', 'ingredient', 'preps')
+            ->get();
+
+        $ingredientDetailsAlternate = [NULL => __('forms.global.dropdown_first')];
+        foreach ($ingredientDetails as $i) {
+            $ingredientDetailsAlternate[$i->id] = RecipeHelper::beautifyIngredientDetail($i);
+        }
+        unset($ingredientDetailsAlternate[$ingredientDetail->id]);
+
+        $compact = compact(
+                'recipe',
+                'units',
+                'preps',
+                'ingredients',
+                'ingredientDetail',
+                'ingredientDetailGroups',
+                'ingredientDetailsAlternate'
+            );
+
+        return view('ingredientDetails.edit', $compact);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\EditIngredientDetail  $request
+     * @param  \App\Models\Recipe  $recipe
+     * @param  \App\Models\IngredientDetail  $ingredientDetail
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EditIngredientDetail $request, Recipe $recipe, IngredientDetail $ingredientDetail)
+    {
+        $ingredientDetail->fill($request->all());
+        $ingredientDetail->update();
+
+        if ($request->preps) {
+            $ingredientDetail->preps()->sync($request->preps);
+        } else {
+            $ingredientDetail->preps()->detach();
+        }
+
+        IngredientDetail::reorder($recipe->id);
+
+        \Toast::success(__('toast.recipe.updated'));
+
+        return redirect()->route('recipes.show', $recipe->slug);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\IngredientDetail  $ingredientDetail
+     * @param  \App\Models\IngredientDetail  $ingredientDetail
      * @return \Illuminate\Http\Response
      */
     public function destroy(Recipe $recipe, IngredientDetail $ingredientDetail)

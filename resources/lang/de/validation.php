@@ -174,5 +174,8 @@ return [
 
 
     'noscript' => 'Aktiviere JavaScript um von allen Funktionen zu profitieren.',
+    'similar'  => [
+        'recipe' => 'Das ähnliche Rezept ":recipe" existiert bereits.',
+    ],
 
 ];

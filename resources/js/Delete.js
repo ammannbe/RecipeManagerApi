@@ -3,7 +3,8 @@ Delete.$_confirm;
 
 Delete.confirm = function(event) {
     if (! confirm(Delete.$_confirm.data('confirm'))) {
-        disableDefault(event);
+        event.preventDefault();
+        event.stopPropagation();
     }
 }
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
-use App\Author;
-use App\Recipe;
-use App\Category;
+use App\Models\Tag;
+use App\Models\Author;
+use App\Models\Recipe;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Helpers\FormatHelper;
 use App\Http\Requests\EditRecipe;
@@ -37,6 +37,14 @@ class RecipeController extends Controller
      */
     public function store(CreateRecipe $request)
     {
+        // Check for similar recipes
+        foreach (Recipe::get() as $recipe) {
+            if (metaphone($recipe->name) === metaphone($request->name)) {
+                \Toast::error(__('validation.similar.recipe', ['recipe' => $recipe->name]));
+                return redirect()->back()->withInput();
+            }
+        }
+
         $request->merge([
             'user_id' => auth()->user()->id,
             'slug'    => FormatHelper::slugify($request->name),
@@ -61,12 +69,12 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function show(Recipe $recipe)
     {
-        $gropus = $alternatives = [];
+        $groups = $alternatives = [];
         $recipe->ingredientDetails->load('group', 'ingredientDetail');
         foreach ($recipe->ingredientDetails as $ingredientDetail) {
             if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
@@ -81,7 +89,7 @@ class RecipeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function edit(Recipe $recipe)
@@ -99,7 +107,7 @@ class RecipeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\EditRecipe  $request
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function update(EditRecipe $request, Recipe $recipe)
@@ -142,7 +150,7 @@ class RecipeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function destroy(Recipe $recipe)

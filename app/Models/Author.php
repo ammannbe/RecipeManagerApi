@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,13 +15,13 @@ class Author extends Model
         return 'slug';
     }
 
-    public function searchRecipes($name) {
-        return $this->where('name', 'LIKE', '%'.$name.'%')
+    public static function searchRecipes($name) {
+        return self::where('name', 'LIKE', '%'.$name.'%')
             ->with(['recipes', 'recipes.author', 'recipes.category'])
             ->get();
     }
 
     public function recipes() {
-        return $this->hasMany('\App\Recipe');
+        return $this->hasMany('\App\Models\Recipe');
     }
 }

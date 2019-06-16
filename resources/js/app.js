@@ -6,6 +6,9 @@
  */
 
 window.$ = window.jQuery = require('jquery');
+import 'jquery-ui/ui/widgets/autocomplete.js';
+import 'jquery-ui/themes/base/all.css';
+
 window.Cookies = require('js-cookie');
 require('./3rd-party/select2-4.0.1.min.js');
 require('./Toast.js');
@@ -13,19 +16,20 @@ require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
 require('./Modal.js');
-
-
-disableDefault = function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
+require('./Search.js');
+require('./YieldAmountCalculator');
+require('./ShareWidget.js');
 
 $(document).ready(function () {
     EditMode.init();
     Dropdown.init();
+    Search.init();
+    YieldAmountCalculator.init();
+    ShareWidget.init();
 
-    $('article.recipes button.show-more').click(function(e) {
-        disableDefault(e);
+    $('article.recipes button.show-more').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
         $(this).siblings('ul').children('li').removeClass('forced hidden');
         $(this).remove();

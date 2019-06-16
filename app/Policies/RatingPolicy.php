@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Rating;
-use App\Recipe;
+use App\Models\User;
+use App\Models\Rating;
+use App\Models\Recipe;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RatingPolicy

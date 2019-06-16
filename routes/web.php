@@ -22,7 +22,7 @@ Route::middleware('checklogin')->group(function() {
     ]);
 
     Route::resource('recipes.ingredient-details', 'IngredientDetailController')->only([
-        'create', 'store', 'destroy'
+        'create', 'store', 'edit', 'update', 'destroy'
     ]);
 
     Route::resource('import', 'ImportController')->only([
@@ -97,6 +97,6 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/', 'PagesController@index')->name('home');
 
 Route::get('/search', 'PagesController@searchForm')->name('search.index');
-Route::post('/search', 'PagesController@search')->name('search.results');
+Route::get('/search-results', 'PagesController@search')->name('search.results');
 
 Route::resource('recipes', 'RecipeController')->only(['show']);

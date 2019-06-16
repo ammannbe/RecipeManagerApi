@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
-use App\Recipe;
+use App\Models\Tag;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 use App\Helpers\FormatHelper;
 use App\Http\Requests\CreateTag;
@@ -49,7 +49,7 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tag  $tag
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function show(Tag $tag)
@@ -61,7 +61,7 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tag  $tag
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tag $tag)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Recipe;
+use App\Models\Recipe;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRecipe extends FormRequest

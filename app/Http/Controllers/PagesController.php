@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Rating;
-use App\Recipe;
+use App\Models\Tag;
+use App\Models\Author;
+use App\Models\Rating;
+use App\Models\Recipe;
+use App\Models\Category;
+use App\Models\Ingredient;
 use App\Helpers\FormHelper;
 use App\Http\Requests\Search as SearchFormRequest;
 
@@ -24,6 +28,13 @@ class PagesController extends Controller
     }
 
     public function searchForm($default = 'recipe') {
+        $complete = [
+            'author'   => Author::get()->pluck('name', 'id'),
+            'category' => Category::get()->pluck('name', 'id'),
+            'tag'      => Tag::get()->pluck('name', 'id'),
+            'recipe'   => Recipe::get()->pluck('name', 'id'),
+        ];
+
         $tables = [
             'author'     => __('forms.search.items.author'),
             'category'   => __('forms.search.items.category'),
@@ -31,30 +42,36 @@ class PagesController extends Controller
             'recipe'     => __('forms.search.items.recipe_preparation'),
             'ingredient' => __('forms.search.items.ingredient'),
         ];
-        return view('search.index', compact('tables', 'default'));
+        return view('search.index', compact('tables', 'default', 'complete'));
     }
 
     public function search(SearchFormRequest $request) {
-        $cname   = ucfirst($request->item);
-        $class   = '\\App\\' . $cname;
-        $object  = new $class;
-        $results = $object->searchRecipes($request->term);
+        foreach (['Author', 'Category', 'Ingredient', 'Tag', 'Recipe'] as $cname) {
+            $cname = ucfirst($cname);
+            $class = "\\App\\Models\\{$cname}";
 
-        foreach ($results as $result) {
-            if ($cname === 'Recipe') {
-                $recipes[$result->id] = $result;
-            } elseif ($cname === 'Ingredient') {
-                foreach ($result->ingredientDetail as $ingredientDetail) {
-                    $recipes[] = $ingredientDetail->recipe;
-                }
-            } else {
-                foreach ($result->recipes as $recipe) {
-                    $recipes[] = $recipe;
+            $terms = explode(' ', $request->term);
+
+            foreach ($terms as $term) {
+                foreach ($class::searchRecipes($term) as $result) {
+                    if ($cname === 'Recipe') {
+                        $recipes[$result->id] = $result;
+                    } elseif ($cname === 'Ingredient') {
+                        foreach ($result->ingredientDetail as $ingredientDetail) {
+                            $recipes[$ingredientDetail->recipe->id] = $ingredientDetail->recipe;
+                        }
+                    } else {
+                        foreach ($result->recipes as $recipe) {
+                            $recipes[$recipe->id] = $recipe;
+                        }
+                    }
                 }
             }
         }
 
-        if (isset($recipes)) {
+        if (isset($recipes) && count($recipes) === 1) {
+            return redirect()->route('recipes.show', array_values($recipes)[0]->slug);
+        } elseif (isset($recipes)) {
             \Toast::clear();
             return view('search.results', compact('recipes'));
         } else {

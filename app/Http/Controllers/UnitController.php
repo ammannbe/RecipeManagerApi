@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Unit;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUnit;
 

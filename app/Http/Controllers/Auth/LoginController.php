@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Author;
+use App\Models\User;
+use App\Models\Author;
 use ReflectionClass;
 use Illuminate\Http\Request;
 use Adldap\Laravel\Facades\Adldap;
@@ -55,7 +55,7 @@ class LoginController extends Controller
     }
 
     protected function attemptLogin(Request $request) {
-        $username = $request->{$this->username()};
+        $username = $request->username;
         $password = $request->password;
 
         $user_format = env('LDAP_USER_FORMAT', 'cn=%s,'.env('LDAP_BASE_DN', ''));
@@ -67,6 +67,8 @@ class LoginController extends Controller
                 [$this->username() => $username],
                 ['password' => '']
             );
+            // username is not mass-assignable
+            $user->{$this->username()} = $username;
 
             $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
             $sync_attrs = $this->retrieveSyncAttributes($ldapUser);

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\IngredientDetail;
+use App\Models\IngredientDetail;
 use App\Helpers\CodeHelper;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,8 +10,8 @@ class Ingredient extends Model
 {
     protected $fillable = ['name'];
 
-    public function searchRecipes($name) {
-        return $this->where('name', 'LIKE', '%'.$name.'%')
+    public static function searchRecipes($name) {
+        return self::where('name', 'LIKE', '%'.$name.'%')
             ->with([
                 'ingredientDetail.recipe',
                 'ingredientDetail.recipe.author',
@@ -21,6 +21,6 @@ class Ingredient extends Model
     }
 
     public function ingredientDetail() {
-        return $this->hasMany('\App\IngredientDetail');
+        return $this->hasMany('\App\Models\IngredientDetail');
     }
 }

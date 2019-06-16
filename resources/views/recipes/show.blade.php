@@ -32,19 +32,43 @@
         <div class="w3-margin">
             @auth
                 @if ($isRecipeOwner)
-                    <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
-                    <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit') }}</span>
-                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
-                    <span class="w3-margin-right w3-margin-bottom edit-mode item">
-                        {{ Form::open(['url' => route('recipes.show', $recipe->slug), 'class' => 'delete']) }}
-                            @method('DELETE')
-                            <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
-                                <i class="cross red middle"></i>{{ __('recipes.delete') }}
-                            </button>
-                        {{ Form::close() }}
-                    </span>
+                    <div class="edit">
+                        <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
+                        <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit-mode') }}</span>
+                        <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
+                        <span class="w3-margin-right w3-margin-bottom edit-mode item">
+                            {{ Form::open(['url' => route('recipes.show', $recipe->slug), 'class' => 'delete']) }}
+                                @method('DELETE')
+                                <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                    <i class="cross red middle"></i>{{ __('recipes.delete') }}
+                                </button>
+                            {{ Form::close() }}
+                        </span>
+                    </div>
                 @endif
             @endauth
+            <div class="share-widget w3-right w3-margin-right w3-margin-bottom w3-border" style="display: none;">
+                {{-- Telegram --}}
+                <a href="//telegram.me/share/url?url={{ url()->current() }}&text={{ $recipe->name }}" target="_blank" title="{{ __('share.telegram') }}">
+                    <img src="{{ url('/images/icons/telegram.svg') }}" width="60" height="60" alt="Telegram">
+                </a>
+                {{-- E-Mail --}}
+                <a href="mailto:?Subject={{ $recipe->name }}&amp;Body=@yield('meta-description') {{ url()->current() }}" title="{{ __('share.email') }}">
+                    <img src="https://simplesharebuttons.com/images/somacro/email.png" width="48" height="48" alt="E-Mail">
+                </a>
+                {{-- Print --}}
+                <a href="javascript:;" onclick="window.print()" title="{{ __('share.print') }}">
+                    <img src="https://simplesharebuttons.com/images/somacro/print.png" width="48" height="48" alt="Print">
+                </a>
+                {{-- Facebook --}}
+                <a href="https://www.facebook.com/sharer.php?u={{ url()->current() }}" target="_blank" title="{{ __('share.facebook') }}">
+                    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" width="48" height="48" alt="Facebook">
+                </a>
+
+                <button class="hide">
+                    <i class="cross red middle"></i>
+                </button>
+            </div>
         </div>
     </article>
 
@@ -67,7 +91,7 @@
                         <li><strong>{{ __('recipes.category') }}</strong> {{ $recipe->category->name }}</li>
                     @endif
                     @if ($recipe->yield_amount)
-                        <li><strong>{{ __('recipes.yield_amount') }}</strong> {{ $recipe->yield_amount }}</li>
+                        <li><strong>{{ __('recipes.yield_amount') }}</strong> {{ Form::number('yield_amount', $recipe->yield_amount, ['min' => 0, 'step' => 0.25]) }}</li>
                     @endif
                     @if ($recipe->preparation_time)
                         <li><strong>{{ __('recipes.preparation_time') }}</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
@@ -124,12 +148,18 @@
                                 @endphp
 
                                 <li>
-                                    {{ $ingredientDetail->beautify() }}
+                                    <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
+                                        {{ $ingredientDetail->beautify() }}
+                                    </span>
                                     @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
-                                        <br>Oder: {{ $ingredientDetailAlternate->beautify() }}
+                                        <br>{{ __('recipes.or') }}
+                                            <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
+                                                {{ $ingredientDetailAlternate->beautify() }}
+                                            </span>
                                     @endforeach
                                     @auth
                                         @if ($isRecipeOwner)
+                                            <a href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
                                             {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details/{$ingredientDetail->id}", 'class' => 'delete']) }}
                                                 @method('DELETE')
                                                 <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
@@ -166,12 +196,18 @@
                                 <ul>
                                     @foreach ($group as $ingredientDetail)
                                         <li>
-                                            {{ $ingredientDetail->beautify() }}
+                                            <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
+                                                {{ $ingredientDetail->beautify() }}
+                                            </span>
                                             @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
-                                                <br>{{ __('recipes.or') }} {{ $ingredientDetailAlternate->beautify() }}
+                                                <br>{{ __('recipes.or') }}
+                                                    <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
+                                                        {{ $ingredientDetailAlternate->beautify() }}
+                                                    </span>
                                             @endforeach
                                             @auth
                                                 @if ($isRecipeOwner)
+                                                <a href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
                                                     {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details", 'class' => 'delete']) }}
                                                         @method('DELETE')
                                                         <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
