@@ -39,6 +39,11 @@ h4 {
     margin-bottom: 0.5rem;
 }
 
+p {
+    margin-top: 0.6em;
+    margin-bottom: 0.3em;
+}
+
 span div.noscript {
     top: 0;
     left: 0;
@@ -50,11 +55,6 @@ span div.noscript {
     background-color: map-get($colors, red-dark);
     padding: 5px 1px;
     animation: fadein 2s;
-}
-
-@keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
 }
 
 a {
