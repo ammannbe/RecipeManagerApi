@@ -31,6 +31,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    /**
+     * Check if the user is an admin
+     *
+     * @return Bool
+     */
     public function isAdmin() {
         return ($this->user_type == 'admin');
     }

@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Recipe;
 use App\Helpers\RecipeHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class IngredientDetail extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'recipe_id',
         'amount',
@@ -17,6 +24,13 @@ class IngredientDetail extends Model
         'ingredient_detail_id'
     ];
 
+    /**
+     * Beatufy the ingredient detail list
+     *
+     * e.g. 100 g Mandeln, gehackt
+     *
+     * @return String
+     */
     public function beautify() {
         $text = '';
         if ($this->amount)     $text = $text.$this->amount;
@@ -31,8 +45,13 @@ class IngredientDetail extends Model
         return $text;
     }
 
-    public static function reorder($recipe_id) {
-        $ingredientDetails = IngredientDetail::where('recipe_id', $recipe_id)
+    /**
+     * Reorder the ingredient-details' position from a recipe
+     *
+     * @param \App\Models\Recipe $recipe
+     */
+    public static function reorder(Recipe $recipe) {
+        $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
             ->orderBy('ingredient_detail_group_id')
             ->orderBy('position')
             ->get();
@@ -59,26 +78,56 @@ class IngredientDetail extends Model
         }
     }
 
+    /**
+     * Get the ingredient-detail's alternate
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function ingredientDetail() {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
 
+    /**
+     * Get the ingredient-detail's recipe
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function recipe() {
         return $this->belongsTo('\App\Models\Recipe');
     }
 
+    /**
+     * Get the ingredient-detail's unit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function unit() {
         return $this->belongsTo('\App\Models\Unit');
     }
 
+    /**
+     * Get the ingredient-detail's ingredient
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function ingredient() {
         return $this->belongsTo('\App\Models\Ingredient');
     }
 
+    /**
+     * Get the ingredient-detail's preps
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function preps() {
         return $this->belongsToMany('\App\Models\Prep');
     }
 
+    /**
+     * Get the ingredient-detail's group
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function group() {
         return $this->belongsTo('\App\Models\IngredientDetailGroup', 'ingredient_detail_group_id');
     }

@@ -9,12 +9,22 @@ class AuthorPolicy
 {
     use HandlesAuthorization;
 
-    // TODO: connect author and user, allow user to delete his author
+    /**
+     * Determine whether the user can update the author.
+     *
+     * @param  \App\Models\User  $user
+     * @return Bool
+     */
     public function update(User $user) {
         return ($user->isAdmin());
     }
 
-    // TODO: connect author and user, allow user to delete his author
+    /**
+     * Determine whether the user can delete the author.
+     *
+     * @param  \App\Models\User  $user
+     * @return Bool
+     */
     public function delete(User $user) {
         return ($user->isAdmin());
     }

@@ -43,10 +43,18 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * The username attributed name
+     */
     public function username() {
         return config('ldap_auth.usernames.eloquent');
     }
 
+    /**
+     * Validate login form
+     *
+     * @param \Illuminate\Http\Request $request
+     */
     protected function validateLogin(Request $request) {
         $this->validate($request, [
                 $this->username() => 'required|string|regex:/^\w+$/',
@@ -54,6 +62,12 @@ class LoginController extends Controller
             ]);
     }
 
+    /**
+     * Attempt the user login
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return Bool
+     */
     protected function attemptLogin(Request $request) {
         $username = $request->username;
         $password = $request->password;
@@ -88,7 +102,13 @@ class LoginController extends Controller
 
     }
 
-    protected function retrieveSyncAttributes($ldapUser) {
+    /**
+     * Sync the retrieved attributes from LDAP to DB
+     *
+     * @param Adldap $ldapUser
+     * @return Array
+     */
+    protected function retrieveSyncAttributes(Adldap $ldapUser) {
         $ldapuser_attrs = NULL;
         $attrs = [];
 
@@ -127,7 +147,14 @@ class LoginController extends Controller
         return $attrs;
     }
 
-    protected static function accessProtected ($obj, $prop) {
+    /**
+     * Access protected attributes
+     *
+     * @param $obj Object the attribute belongs
+     * @param $prop The attribute
+     * @return Accessed attribute
+     */
+    protected static function accessProtected($obj, $prop) {
         $reflection = new ReflectionClass($obj);
         $property   = $reflection->getProperty($prop);
         $property->setAccessible(TRUE);

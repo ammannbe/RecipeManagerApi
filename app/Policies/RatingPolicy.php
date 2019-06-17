@@ -11,6 +11,13 @@ class RatingPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * Determine whether the user can create ratings.
+     *
+     * @param  \App\Models\User    $user
+     * @param  \App\Models\Recipe  $recipe
+     * @return Bool
+     */
     public function create(User $user, Recipe $recipe) {
         return ! Rating::where([
                 'recipe_id' => $recipe->id,
@@ -19,10 +26,24 @@ class RatingPolicy
             ->exists() || ($user->isAdmin());
     }
 
+    /**
+     * Determine whether the user can update the rating.
+     *
+     * @param  \App\Models\User    $user
+     * @param  \App\Models\Rating  $rating
+     * @return Bool
+     */
     public function update(User $user, Rating $rating) {
         return ($user->id === $rating->user_id) || ($user->isAdmin());
     }
 
+    /**
+     * Determine whether the user can delete the rating.
+     *
+     * @param  \App\Models\User    $user
+     * @param  \App\Models\Rating  $rating
+     * @return Bool
+     */
     public function delete(User $user, Rating $rating) {
         return ($user->id === $rating->user_id) || ($user->isAdmin());
     }

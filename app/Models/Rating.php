@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'recipe_id',
         'user_id',
@@ -14,14 +20,29 @@ class Rating extends Model
         'stars',
     ];
 
+    /**
+     * Get the rating's user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user() {
         return $this->belongsTo('\App\Models\User');
     }
 
+    /**
+     * Get the rating's criterion
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function ratingCriterion() {
         return $this->belongsTo('\App\Models\RatingCriterion');
     }
 
+    /**
+     * Get the rating's recipe
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function recipe() {
         return $this->belongsTo('\App\Models\Recipe');
     }

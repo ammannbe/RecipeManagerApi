@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'slug',
@@ -21,12 +27,22 @@ class Category extends Model
         return 'slug';
     }
 
+    /**
+     * Search recipes by category name
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public static function searchRecipes($name) {
         return self::where('name', 'LIKE', '%'.$name.'%')
             ->with(['recipes', 'recipes.author', 'recipes.category'])
             ->get();
     }
 
+    /**
+     * Get the category's recipes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function recipes() {
         return $this->hasMany('\App\Models\Recipe');
     }

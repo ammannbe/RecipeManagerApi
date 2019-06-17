@@ -8,8 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ingredient extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['name'];
 
+
+    /**
+     * Search recipes by ingredient name
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public static function searchRecipes($name) {
         return self::where('name', 'LIKE', '%'.$name.'%')
             ->with([
@@ -20,6 +32,11 @@ class Ingredient extends Model
             ->get();
     }
 
+    /**
+     * Get the ingredient's recipes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function ingredientDetail() {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
