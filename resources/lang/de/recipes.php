@@ -17,7 +17,7 @@ return [
 
     'edit-mode' => 'Bearbeitungs-Modus',
     'edit' => 'Bearbeiten',
-    'delete' => 'Löschen',
+    'delete' => 'Rezept löschen',
 
     'recipe' => 'Rezept',
     'author' => 'Verfasser:',

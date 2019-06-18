@@ -35,7 +35,6 @@
                     <div class="edit">
                         <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
                         <span class="w3-margin-right w3-margin-bottom">{{ __('recipes.edit-mode') }}</span>
-                        <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
                         <span class="w3-margin-right w3-margin-bottom edit-mode item">
                             {{ Form::open(['url' => route('recipes.show', $recipe->slug), 'class' => 'delete']) }}
                                 @method('DELETE')
@@ -104,6 +103,7 @@
                             @endforeach
                         </li>
                     @endif
+                    <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
                     <li><br></li>
                     @if (count($recipe->ratings) > 0)
                         <li>
@@ -120,7 +120,7 @@
                     <li>
                         @if (auth()->check())
                             @if (! $recipe->ratings->where('user_id', auth()->user()->id)->first())
-                                <a href="{{ route('recipes.ratings.create', $recipe->slug) }}">{{ __('recipes.add_rating') }}</a>
+                                <a href="{{ route('recipes.ratings.create', $recipe->slug) }}"><i class="plus-sign middle"></i>{{ __('recipes.add_rating') }}</a>
                             @endif
                         @endif
                     </li>
@@ -252,6 +252,7 @@
         <p>
             {!! nl2br(e($recipe->instructions)) !!}
         </p>
+        <span class="w3-margin-right w3-margin-bottom edit-mode item"><a href="{{ route('recipes.edit', $recipe->slug) }}"><i class="pencil black"></i>{{ __('recipes.edit') }}</a></span>
     </article>
 
     @if ($recipe->ratings->count())

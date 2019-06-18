@@ -17,7 +17,7 @@ return [
 
     'edit-mode' => 'Edit mode',
     'edit' => 'Edit',
-    'delete' => 'Delete',
+    'delete' => 'Delete recipe',
 
     'recipe' => 'Recipe',
     'author' => 'Author:',
