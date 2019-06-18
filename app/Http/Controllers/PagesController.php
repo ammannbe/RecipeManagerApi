@@ -13,6 +13,11 @@ use App\Http\Requests\Search as SearchFormRequest;
 
 class PagesController extends Controller
 {
+    /**
+     * Display a listing of the search results.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index() {
         $ratings = Rating::with(['recipe', 'ratingCriterion'])
             ->latest()
@@ -27,7 +32,13 @@ class PagesController extends Controller
         return view('index', compact('newRecipes', 'ratings', 'topRecipes'));
     }
 
-    public function searchForm($default = 'recipe') {
+    /**
+     * Display the search form.
+     *
+     * @param String $default = 'recipe'
+     * @return \Illuminate\Http\Response
+     */
+    public function searchForm(String $default = 'recipe') {
         $complete = [
             'author'   => Author::get()->pluck('name', 'id'),
             'category' => Category::get()->pluck('name', 'id'),
@@ -45,6 +56,12 @@ class PagesController extends Controller
         return view('search.index', compact('tables', 'default', 'complete'));
     }
 
+    /**
+     * Search the given term.
+     *
+     * @param  \App\Http\Requests\SearchFormRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(SearchFormRequest $request) {
         foreach (['Author', 'Category', 'Ingredient', 'Tag', 'Recipe'] as $cname) {
             $cname = ucfirst($cname);
@@ -80,6 +97,12 @@ class PagesController extends Controller
         }
     }
 
+
+    /**
+     * Show the admin page.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function admin() {
         return view('user.admin');
     }

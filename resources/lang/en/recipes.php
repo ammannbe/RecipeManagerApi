@@ -15,8 +15,9 @@ return [
     'meta_author' => 'Author: :author',
     'meta_description' => 'Recipe: :name, :author Category: :category',
 
+    'edit-mode' => 'Edit mode',
     'edit' => 'Edit',
-    'delete' => 'Delete',
+    'delete' => 'Delete recipe',
 
     'recipe' => 'Recipe',
     'author' => 'Author:',

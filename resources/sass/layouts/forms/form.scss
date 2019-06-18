@@ -1,0 +1,15 @@
+form.delete {
+    display: inline;
+
+    button.delete {
+        background-color: unset;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        color: #1483df;
+
+        &:hover {
+            color: #404fd2;
+        }
+    }
+}

@@ -44,6 +44,12 @@ class ImportController extends Controller
         return $this->$call($file['content']);
     }
 
+    /**
+     * Import recipes in the kreml file format
+     *
+     * @param String $kreml
+     * @return \Illuminate\Http\Response
+     */
     private function kreml(String $kreml) {
         $parsedRecipes = KremlParser::parse($kreml);
 
@@ -82,6 +88,13 @@ class ImportController extends Controller
         return redirect()->route('admin.index');
     }
 
+    /**
+     * Add an ingredient detail to the given recipe
+     *
+     * @param \App\Modles\Recipe $recipe
+     * @param Array $ingredientDetail
+     * @param IngredientDetail $alternateTo
+     */
     private function addIngredientDetail(Recipe $recipe, Array $ingredientDetail, IngredientDetail $alternateTo = NULL) {
         if (!isset($ingredientDetail['ingredient']) || ! $ingredientDetail['ingredient']) {
             return;

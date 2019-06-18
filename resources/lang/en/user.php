@@ -21,7 +21,7 @@ return [
         'create_prep' => 'Create prep',
         'create_rating_criterion' => 'Create rating criterion',
         'create_import' => 'Import recipe',
-        'create_tag' => 'Tag erstellen',
+        'create_tag' => 'Create tag',
     ],
 
     'index' => [
