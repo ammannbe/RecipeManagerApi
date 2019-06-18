@@ -5,6 +5,7 @@
 @import 'layouts/footer';
 @import 'layouts/inheritance';
 @import 'layouts/icons';
+@import 'layouts/forms/form';
 @import 'layouts/forms/recipe';
 @import 'layouts/forms/switch';
 @import 'layouts/toast';
@@ -111,16 +112,5 @@ input[type=submit] {
     }
     &:hover {
         background-color: map-get($colors, grey) !important;
-    }
-}
-
-form.delete {
-    display: inline;
-
-    button.delete {
-        background-color: unset;
-        border: none;
-        padding: 0;
-        cursor: pointer;
     }
 }
