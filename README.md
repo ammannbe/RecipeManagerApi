@@ -2,6 +2,17 @@
 
 Application for recipes. Written with laravel.
 
+Manage your families and friends recipes like a chef.
+
+![Übersicht rezepte](https://klaud.narrenhaus.ch/index.php/s/8zNX4inf8xaRgD2/preview)
+
+## Why is this so awesome?
+
+- **Manager your recipes** You and your friends can save, edit and delete recipes.
+- **Share recipes** You can share recipes by one click via Telegram, E-Mail or Facebook.
+- **Calculate yield amounts** Calculate yield amounts directly in the recipe on the fly.
+- **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
+
 ## Getting Started
 
 Get the latest [release](https://git.narrenhaus.ch/Narrenhaus/Cookbook/releases) or clone the repo with
@@ -66,3 +77,10 @@ php artisan view:cache
 ## License
 
 This project is licensed under the AGPLv3 or later - see the [LICENSE](LICENSE) file for details
+
+
+## Gallery
+
+![Overview recipes](https://klaud.narrenhaus.ch/index.php/s/brXWi2Eg7ofK2e4/preview)
+![Search recipe](https://klaud.narrenhaus.ch/index.php/s/KnoxBjsWaGT7T5w/preview)
+![Zwiebel-Chutney](https://klaud.narrenhaus.ch/index.php/s/2cAXpKr2tobp7AN/preview)
