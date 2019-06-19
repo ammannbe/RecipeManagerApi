@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\IngredientDetail;
 use App\Helpers\CodeHelper;
+use App\Models\IngredientDetail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ingredient extends Model
 {
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

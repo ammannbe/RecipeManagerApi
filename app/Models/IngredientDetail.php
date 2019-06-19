@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Models\Recipe;
 use App\Helpers\RecipeHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class IngredientDetail extends Model
 {
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
