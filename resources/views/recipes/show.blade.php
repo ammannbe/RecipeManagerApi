@@ -199,7 +199,7 @@
                                 <h3>{{ $group['model']->name }}</h3>
                                 @if ($isRecipeOwner)
                                     <a class="edit-mode item" href="{{ route('recipes.ingredient-detail-groups.edit', [$recipe->slug, $group['model']->id]) }}"><i class="pencil middle"></i></a>
-                                    {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details", 'class' => 'delete']) }}
+                                    {{ Form::open(['url' => route('recipes.ingredient-detail-groups.destroy', [$recipe->slug, $group['model']->id]), 'class' => 'delete']) }}
                                         @method('DELETE')
                                         <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
                                             <i class="cross red middle"></i>
