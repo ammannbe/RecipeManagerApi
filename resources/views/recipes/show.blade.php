@@ -151,10 +151,10 @@
                                     <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
                                         {{ $ingredientDetail->beautify() }}
                                     </span>
-                                    @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
+                                    @foreach ($ingredientDetail->ingredientDetail as $alternate)
                                         <br>{{ __('recipes.or') }}
-                                            <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
-                                                {{ $ingredientDetailAlternate->beautify() }}
+                                            <span data-current-amount="{{ $alternate->amount }}" data-amount="{{ $alternate->amount }}">
+                                                {{ $alternate->beautify() }}
                                             </span>
                                     @endforeach
                                     @auth
@@ -177,12 +177,16 @@
                                 <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug) }}">
                                     {{ __('recipes.add_ingredient') }}
                                 </a>
+                                <br>
+                                <a class="edit-mode item" href="{{ route('recipes.ingredient-detail-groups.create', $recipe->slug) }}">
+                                    {{ __('recipes.add_ingredient_detail_group') }}
+                                </a>
                             @endif
                         @endauth
                     </div>
 
                     @if (isset($groups) && $groups)
-                        @foreach ($groups as $name => $group)
+                        @foreach ($groups as $group)
                             @php
                                 $i++;
                             @endphp
@@ -191,10 +195,19 @@
                                 </div>
                                 <div class="w3-row">
                             @endif
-                            <div class="w3-col s12 m6 l3 w3-margin-right">
-                                <h3>{{ $name }}</h3>
+                            <div class="w3-col s12 m6 l3 w3-margin-right ingredient-group">
+                                <h3>{{ $group['model']->name }}</h3>
+                                @if ($isRecipeOwner)
+                                    <a class="edit-mode item" href="{{ route('recipes.ingredient-detail-groups.edit', [$recipe->slug, $group['model']->id]) }}"><i class="pencil middle"></i></a>
+                                    {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details", 'class' => 'delete']) }}
+                                        @method('DELETE')
+                                        <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                            <i class="cross red middle"></i>
+                                        </button>
+                                    {{ Form::close() }}
+                                @endif
                                 <ul>
-                                    @foreach ($group as $ingredientDetail)
+                                    @foreach ($group['ingredients'] as $ingredientDetail)
                                         <li>
                                             <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
                                                 {{ $ingredientDetail->beautify() }}
@@ -222,7 +235,7 @@
 
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug, $name) }}">
+                                        <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug) }}?group={{ $group['model']->name }}">
                                             {{ __('recipes.add_ingredient') }}
                                         </a>
                                     @endif

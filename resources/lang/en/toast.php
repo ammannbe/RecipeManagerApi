@@ -33,6 +33,11 @@ return [
         'created' => 'Ingredient successfully created.',
         'deleted' => 'Ingredient successfully deleted.',
     ],
+    'ingredient-detail-group' => [
+        'created' => 'Group successfully created.',
+        'updated' => 'Group successfully updated.',
+        'deleted' => 'Group successfully deleted.',
+    ],
     'prep' => [
         'created' => 'Prep successfully created.',
     ],

@@ -18,6 +18,7 @@ class IngredientDetailController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function create(Recipe $recipe)
@@ -60,6 +61,7 @@ class IngredientDetailController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\CreateIngredientDetail  $request
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function store(CreateIngredientDetail $request, Recipe $recipe)

@@ -33,6 +33,11 @@ return [
         'created' => 'Zutat erfolgreich erstellt.',
         'deleted' => 'Zutat erfolgreich gelöscht.',
     ],
+    'ingredient-detail-group' => [
+        'created' => 'Gruppe erfolgreich erstellt.',
+        'updated' => 'Gruppe erfolgreich aktualisiert.',
+        'deleted' => 'Gruppe erfolgreich gelöscht.',
+    ],
     'prep' => [
         'created' => 'Vorbereitung erfolgreich erstellt.',
     ],

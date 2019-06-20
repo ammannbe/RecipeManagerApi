@@ -77,6 +77,18 @@ section.content.recipe {
             h2 { margin-top: 0;   }
             h3 { margin-top: 1em; }
         }
+
+        .ingredient-group {
+            h3 {
+                display: inline-block;
+                margin-top: 16px;
+                margin-bottom: 0;
+            }
+        }
+
+        ul {
+            margin-top: 5px;
+        }
     }
 
     .ingredients,

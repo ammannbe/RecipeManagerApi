@@ -25,6 +25,10 @@ Route::middleware('checklogin')->group(function() {
         'create', 'store', 'edit', 'update', 'destroy'
     ]);
 
+    Route::resource('recipes.ingredient-detail-groups', 'IngredientDetailGroupController')->only([
+        'create', 'store', 'edit', 'update', 'destroy'
+    ]);
+
     Route::resource('import', 'ImportController')->only([
         'create', 'store',
     ]);
