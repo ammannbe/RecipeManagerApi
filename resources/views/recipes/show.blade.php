@@ -160,7 +160,7 @@
                                     @auth
                                         @if ($isRecipeOwner)
                                             <a class="edit-mode item" href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
-                                            {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details/{$ingredientDetail->id}", 'class' => 'delete']) }}
+                                            {{ Form::open(['url' => route('recipes.ingredient-details.destroy', [$recipe->slug, $ingredientDetail->id]), 'class' => 'delete']) }}
                                                 @method('DELETE')
                                                 <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
                                                     <i class="cross red middle"></i>
@@ -221,7 +221,7 @@
                                             @auth
                                                 @if ($isRecipeOwner)
                                                     <a class="edit-mode item" href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
-                                                    {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details", 'class' => 'delete']) }}
+                                                    {{ Form::open(['url' => route('recipes.ingredient-details.destroy', [$recipe->slug, $ingredientDetail->id]), 'class' => 'delete']) }}
                                                         @method('DELETE')
                                                         <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
                                                             <i class="cross red middle"></i>
