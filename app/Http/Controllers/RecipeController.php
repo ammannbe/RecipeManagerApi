@@ -157,7 +157,6 @@ class RecipeController extends Controller
     public function destroy(Recipe $recipe)
     {
         $this->authorize('delete', [Recipe::class, $recipe]);
-        File::delete(public_path().'/images/recipes/'.$recipe->photo);
         $recipe->delete();
 
         \Toast::success(__('toast.recipe.deleted'));
