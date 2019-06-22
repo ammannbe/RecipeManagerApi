@@ -42,6 +42,6 @@ class IngredientDetail extends Command
         IngredientDetailModel::withTrashed()
             ->where('deleted_at', '<=', Carbon::now()->subHours(24))
             ->whereNotNull('deleted_at')
-            ->get();
+            ->forceDelete();
     }
 }
