@@ -251,13 +251,17 @@
 
                     @auth
                         @if ($isRecipeOwner)
-                            @if (($recipe->groupsWithTrashed || $recipe->ingredientDetailsWithTrashed))
+                            @if (($recipe->groupsWithTrashed || $recipe->ingredientDetailsWithTrashed) &&
+
+                                ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL)->count() ||
+                                $recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL)->count())
+                            )
                                 {{-- {{ dd($recipe->deletedGroups) }} --}}
                                 <div class="edit-mode item w3-row">
                                     <hr>
                                     <h3>{{ __('recipes.deleted_groups_and_ingredients') }}</h3>
                                     <ul>
-                                        @if ($recipe->groupsWithTrashed)
+                                        @if ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL)->count())
                                             @foreach ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL) as $deletedGroup)
                                                 <li>
                                                     <b>{{ $deletedGroup->name }}</b>
@@ -269,7 +273,7 @@
                                                 </li>
                                             @endforeach
                                         @endif
-                                        @if ($recipe->ingredientDetailsWithTrashed)
+                                        @if ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL)->count())
                                             @foreach ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL) as $deletedIngredientDetail)
                                                 <li>
                                                     {{ $deletedIngredientDetail->beautify() }}
