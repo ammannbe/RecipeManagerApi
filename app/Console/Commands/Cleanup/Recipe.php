@@ -3,8 +3,9 @@
 namespace App\Console\Commands\Cleanup;
 
 use Carbon\Carbon;
-use App\Models\Recipe as RecipeModel;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use App\Models\Recipe as RecipeModel;
 
 class Recipe extends Command
 {
@@ -39,9 +40,16 @@ class Recipe extends Command
      */
     public function handle()
     {
-        RecipeModel::withTrashed()
+        $recipes = RecipeModel::withTrashed()
             ->where('deleted_at', '<=', Carbon::now()->subDays(7))
-            ->whereNotNull('deleted_at')
-            ->get();
+            ->whereNotNull('deleted_at');
+
+        foreach ($recipes->get() as $recipe) {
+            if ($recipe->photo) {
+                File::delete(public_path().'/images/recipes/'.$recipe->photo);
+            }
+        }
+
+        $recipes->forceDelete();
     }
 }
