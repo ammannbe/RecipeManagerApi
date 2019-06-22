@@ -251,31 +251,36 @@
 
                     @auth
                         @if ($isRecipeOwner)
-                            @if ($recipe->deletedGroups->count() || $recipe->deletedIngredientDetails->count())
+                            @if (($recipe->groupsWithTrashed || $recipe->ingredientDetailsWithTrashed))
+                                {{-- {{ dd($recipe->deletedGroups) }} --}}
                                 <div class="edit-mode item w3-row">
                                     <hr>
                                     <h3>{{ __('recipes.deleted_groups_and_ingredients') }}</h3>
                                     <ul>
-                                        @foreach ($recipe->deletedGroups as $deletedGroup)
-                                            <li>
-                                                <b>{{ $deletedGroup->name }}</b>
-                                                {{ Form::open(['url' => route('recipes.ingredient-detail-groups.restore', [$recipe->slug, $deletedGroup->id]), 'class' => 'restore']) }}
-                                                    <button class="edit-mode item restore" title="{{ __('recipes.restore_ingredient_detail') }}">
-                                                        <i class="arrow-counterclockwise middle"></i>
-                                                    </button>
-                                                {{ Form::close() }}
-                                            </li>
-                                        @endforeach
-                                        @foreach ($recipe->deletedIngredientDetails as $deletedIngredientDetail)
-                                            <li>
-                                                {{ $deletedIngredientDetail->beautify() }}
-                                                {{ Form::open(['url' => route('recipes.ingredient-details.restore', [$recipe->slug, $deletedIngredientDetail->id]), 'class' => 'restore']) }}
-                                                    <button class="edit-mode item restore" title="{{ __('recipes.restore_ingredient_detail_group') }}">
-                                                        <i class="arrow-counterclockwise middle"></i>
-                                                    </button>
-                                                {{ Form::close() }}
-                                            </li>
-                                        @endforeach
+                                        @if ($recipe->groupsWithTrashed)
+                                            @foreach ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL) as $deletedGroup)
+                                                <li>
+                                                    <b>{{ $deletedGroup->name }}</b>
+                                                    {{ Form::open(['url' => route('recipes.ingredient-detail-groups.restore', [$recipe->slug, $deletedGroup->id]), 'class' => 'restore']) }}
+                                                        <button class="edit-mode item restore" title="{{ __('recipes.restore_ingredient_detail') }}">
+                                                            <i class="arrow-counterclockwise middle"></i>
+                                                        </button>
+                                                    {{ Form::close() }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                        @if ($recipe->ingredientDetailsWithTrashed)
+                                            @foreach ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL) as $deletedIngredientDetail)
+                                                <li>
+                                                    {{ $deletedIngredientDetail->beautify() }}
+                                                    {{ Form::open(['url' => route('recipes.ingredient-details.restore', [$recipe->slug, $deletedIngredientDetail->id]), 'class' => 'restore']) }}
+                                                        <button class="edit-mode item restore" title="{{ __('recipes.restore_ingredient_detail_group') }}">
+                                                            <i class="arrow-counterclockwise middle"></i>
+                                                        </button>
+                                                    {{ Form::close() }}
+                                                </li>
+                                            @endforeach
+                                        @endif
                                     </ul>
                                 </div>
                             @endif

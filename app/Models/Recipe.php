@@ -76,7 +76,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function deletedIngredientDetails() {
+    public function ingredientDetailsWithTrashed() {
         return $this->ingredientDetails()->withTrashed();
     }
 
@@ -118,7 +118,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function deletedGroups()
+    public function groupsWithTrashed()
     {
         return $this->groups()->withTrashed();
     }
