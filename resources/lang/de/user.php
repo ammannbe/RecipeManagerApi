@@ -31,7 +31,10 @@ return [
         'email' => 'E-Mail:',
         'edit_profile' => 'Profil bearbeiten',
         'your_recipes' => 'Deine Rezepte',
+        'deleted_recipes' => 'Gelöschte Rezepte',
         'show_more' => 'Mehr anzeigen...',
+        'no_recipes' => 'Keine Rezepte vorhanden.',
+        'no_deleted_recipes' => 'Keine gelöschten Rezepte vorhanden',
     ]
 
 ];

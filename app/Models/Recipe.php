@@ -69,6 +69,18 @@ class Recipe extends Model
     }
 
     /**
+     * Get the recipe's deleted ingredient-details
+     *
+     * With Unit, Ingredient, Preps, Group
+     * Order by position
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deletedIngredientDetails() {
+        return $this->ingredientDetails()->withTrashed();
+    }
+
+    /**
      * Get the recipe's ingredient-details
      *
      * With RatingCriterion, User
@@ -89,6 +101,26 @@ class Recipe extends Model
      */
     public function tags() {
         return $this->belongsToMany('\App\Models\Tag');
+    }
+
+    /**
+     * Get the recipe's groups
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany('\App\Models\IngredientDetailGroup');
+    }
+
+    /**
+     * Get the recipe's deleted groups
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deletedGroups()
+    {
+        return $this->groups()->withTrashed();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use App\Models\IngredientDetail;
 use App\Models\IngredientDetailGroup;
 use App\Http\Requests\EditIngredientDetailGroup;
 use App\Http\Requests\CreateIngredientDetailGroup;
@@ -82,5 +83,22 @@ class IngredientDetailGroupController extends Controller
         \Toast::success(__('toast.ingredient-detail-group.deleted'));
 
         return redirect()->route('recipes.show', $recipe->slug);
+    }
+
+    /**
+     * Restore the specified resource in storage.
+     *
+     * @param \App\Models\Recipe $recipe
+     * @param  Int $id IngredientDetailGroup-ID
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Recipe $recipe, Int $id)
+    {
+        $ingredientDetailGroup = IngredientDetailGroup::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', [IngredientDetailGroup::class, $recipe]);
+        $ingredientDetailGroup->restore();
+
+        \Toast::success(__('toast.recipe.restored'));
+        return back();
     }
 }

@@ -11,6 +11,7 @@ use App\Helpers\FormatHelper;
 use App\Http\Requests\EditRecipe;
 use App\Http\Requests\CreateRecipe;
 use Illuminate\Support\Facades\File;
+use App\Models\IngredientDetailGroup;
 
 class RecipeController extends Controller
 {
@@ -82,6 +83,12 @@ class RecipeController extends Controller
                 $groups[$ingredientDetail->group->id]['ingredients'][] = $ingredientDetail;
             } elseif ($ingredientDetail->ingredientDetail) {
                 $alternatives[] = $ingredientDetail->ingredientDetail;
+            }
+        }
+        foreach ($recipe->groups as $group) {
+            if (! isset($groups[$group->id])) {
+                $groups[$group->id]['model'] = $group;
+                $groups[$group->id]['ingredients'] = NULL;
             }
         }
         return view('recipes.show', compact('recipe', 'groups', 'alternatives'));
@@ -161,5 +168,21 @@ class RecipeController extends Controller
 
         \Toast::success(__('toast.recipe.deleted'));
         return redirect()->route('home');
+    }
+
+    /**
+     * Restore the specified resource in storage.
+     *
+     * @param  Int $id Recipe ID
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Int $id)
+    {
+        $recipe = Recipe::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', [Recipe::class, $recipe]);
+        $recipe->restore();
+
+        \Toast::success(__('toast.recipe.restored'));
+        return back();
     }
 }

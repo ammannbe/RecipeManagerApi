@@ -13,6 +13,7 @@
 
 Route::middleware('checklogin')->group(function() {
 
+    Route::post('recipes/{id}/restore', 'RecipeController@restore')->name('recipes.restore');
     Route::resource('recipes', 'RecipeController')->only([
         'create', 'store', 'edit', 'update', 'destroy'
     ]);
@@ -21,10 +22,12 @@ Route::middleware('checklogin')->group(function() {
         'create', 'store', 'edit', 'update', 'destroy'
     ]);
 
+    Route::post('recipes/{recipe}/ingredient-details/{id}/restore', 'IngredientDetailController@restore')->name('recipes.ingredient-details.restore');
     Route::resource('recipes.ingredient-details', 'IngredientDetailController')->only([
         'create', 'store', 'edit', 'update', 'destroy'
     ]);
 
+    Route::post('recipes/{recipe}/ingredient-detail-groups/{id}/restore', 'IngredientDetailGroupController@restore')->name('recipes.ingredient-detail-groups.restore');
     Route::resource('recipes.ingredient-detail-groups', 'IngredientDetailGroupController')->only([
         'create', 'store', 'edit', 'update', 'destroy'
     ]);

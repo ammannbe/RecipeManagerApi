@@ -76,7 +76,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        IngredientDetail::reorder($recipe->id);
+        IngredientDetail::reorder($recipe);
 
         \Toast::success(__('toast.ingredient.created'));
         return redirect()->route('recipes.ingredient-details.create', $recipe->slug);
@@ -166,5 +166,22 @@ class IngredientDetailController extends Controller
         \Toast::success(__('toast.ingredient.deleted'));
 
         return redirect()->route('recipes.show', $recipe->slug);
+    }
+
+    /**
+     * Restore the specified resource in storage.
+     *
+     * @param \App\Models\Recipe $recipe
+     * @param  Int $id IngredientDetail-ID
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Recipe $recipe, Int $id)
+    {
+        $ingredientDetail = IngredientDetail::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', [IngredientDetail::class, $recipe]);
+        $ingredientDetail->restore();
+
+        \Toast::success(__('toast.recipe.restored'));
+        return back();
     }
 }

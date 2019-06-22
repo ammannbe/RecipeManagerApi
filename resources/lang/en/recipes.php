@@ -18,6 +18,11 @@ return [
     'edit-mode' => 'Edit mode',
     'edit' => 'Edit',
     'delete' => 'Delete recipe',
+    'restore' => 'Restore recipe',
+    'restore_ingredient_detail' => 'Restore ingredient',
+    'restore_ingredient_detail_group' => 'Restore group',
+
+    'deleted_groups_and_ingredients' => 'Deleted groups and ingredients',
 
     'recipe' => 'Recipe',
     'author' => 'Author:',

@@ -18,6 +18,11 @@ return [
     'edit-mode' => 'Bearbeitungs-Modus',
     'edit' => 'Bearbeiten',
     'delete' => 'Rezept löschen',
+    'restore' => 'Rezept wiederherstellen',
+    'restore_ingredient_detail' => 'Zutat wiederherstellen',
+    'restore_ingredient_detail_group' => 'Gruppe wiederherstellen',
+
+    'deleted_groups_and_ingredients' => 'Gelöschte Gruppen und Zutaten',
 
     'recipe' => 'Rezept',
     'author' => 'Verfasser:',

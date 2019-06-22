@@ -31,4 +31,16 @@ class RecipePolicy
     public function delete(User $user, Recipe $recipe) {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
+
+    /**
+     * Determine whether the user can restore the recipe.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Recipe  $recipe
+     * @return mixed
+     */
+    public function restore(User $user, Recipe $recipe)
+    {
+        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+    }
 }
