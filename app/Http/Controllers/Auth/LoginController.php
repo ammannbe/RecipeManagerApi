@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Models\Author;
 use ReflectionClass;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Adldap\Laravel\Facades\Adldap;
+use Adldap\Models\User as LdapUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -105,10 +106,10 @@ class LoginController extends Controller
     /**
      * Sync the retrieved attributes from LDAP to DB
      *
-     * @param Adldap $ldapUser
+     * @param \Adldap\Models\User $ldapUser
      * @return Array
      */
-    protected function retrieveSyncAttributes(Adldap $ldapUser) {
+    protected function retrieveSyncAttributes(LdapUser $ldapUser) {
         $ldapuser_attrs = NULL;
         $attrs = [];
 
