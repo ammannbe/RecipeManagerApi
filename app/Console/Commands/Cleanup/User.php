@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands\Cleanup;
 
-use Illuminate\Console\Command;
 use App\Models\User as UserModel;
 use Adldap\Laravel\Facades\Adldap;
+use App\Console\Commands\Cleanup\All;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class User extends Command
+class User extends All
 {
     /**
      * The name and signature of the console command.
@@ -39,6 +40,8 @@ class User extends Command
      */
     public function handle()
     {
+        $consoleOutput = new ConsoleOutput();
+
         try {
             Adldap::connect();
 
@@ -47,9 +50,11 @@ class User extends Command
                     $user->forceDelete();
                 }
             }
+
+            $classname = class_basename(UserModel::class);
+            $consoleOutput->writeln("{$classname} successfully cleaned up!");
         } catch (\Exception $e) {
-            $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-            $out->writeln($e->getMessage());
+            $consoleOutput->writeln($classname . ': ' . $e->getMessage());
         }
     }
 }

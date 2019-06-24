@@ -3,10 +3,10 @@
 namespace App\Console\Commands\Cleanup;
 
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use App\Models\IngredientDetailGroup as IngredientDetailGroupModel;
+use App\Console\Commands\Cleanup\All;
 
-class IngredientDetailGroup extends Command
+class IngredientDetailGroup extends All
 {
     /**
      * The name and signature of the console command.
@@ -39,9 +39,6 @@ class IngredientDetailGroup extends Command
      */
     public function handle()
     {
-        IngredientDetailGroupModel::withTrashed()
-            ->where('deleted_at', '<=', Carbon::now()->subHours(24))
-            ->whereNotNull('deleted_at')
-            ->forceDelete();
+        parent::cleanup(IngredientDetailGroupModel::class);
     }
 }

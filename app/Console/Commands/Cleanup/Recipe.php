@@ -3,11 +3,12 @@
 namespace App\Console\Commands\Cleanup;
 
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use App\Console\Commands\Cleanup\All;
 use App\Models\Recipe as RecipeModel;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class Recipe extends Command
+class Recipe extends All
 {
     /**
      * The name and signature of the console command.
@@ -21,7 +22,7 @@ class Recipe extends Command
      *
      * @var string
      */
-    protected $description = 'Cleanup deleted ingredient detail groups after 7 days';
+    protected $description = 'Cleanup deleted recipes after 7 days';
 
     /**
      * Create a new command instance.
@@ -40,16 +41,24 @@ class Recipe extends Command
      */
     public function handle()
     {
-        $recipes = RecipeModel::withTrashed()
-            ->where('deleted_at', '<=', Carbon::now()->subDays(7))
-            ->whereNotNull('deleted_at');
+        $consoleOutput = new ConsoleOutput();
 
-        foreach ($recipes->get() as $recipe) {
-            if ($recipe->photo) {
-                File::delete(public_path().'/images/recipes/'.$recipe->photo);
+        try {
+            $recipes = RecipeModel::withTrashed()
+                ->where('deleted_at', '<=', Carbon::now()->subDays(7))
+                ->whereNotNull('deleted_at');
+
+            foreach ($recipes->get() as $recipe) {
+                if ($recipe->photo) {
+                    File::delete(public_path().'/images/recipes/'.$recipe->photo);
+                }
             }
-        }
+            $recipes->forceDelete();
 
-        $recipes->forceDelete();
+            $classname = class_basename(RecipeModel::class);
+            $consoleOutput->writeln("{$classname} successfully cleaned up!");
+        } catch (\Exception $e) {
+            $consoleOutput->writeln($classname . ': ' . $e->getMessage());
+        }
     }
 }

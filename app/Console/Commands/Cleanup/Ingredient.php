@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands\Cleanup;
 
-use App\Models\IngredientDetail as IngredientDetailModel;
+use App\Models\Ingredient as IngredientModel;
 use App\Console\Commands\Cleanup\All;
 
-class IngredientDetail extends All
+class Ingredient extends All
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cleanup:ingredient-detail';
+    protected $signature = 'cleanup:ingredient';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Cleanup deleted ingredient details after 24 hours';
+    protected $description = 'Cleanup deleted ingredients after 24 hours';
 
     /**
      * Create a new command instance.
@@ -38,6 +38,6 @@ class IngredientDetail extends All
      */
     public function handle()
     {
-        parent::cleanup(IngredientDetailModel::class);
+        parent::cleanup(IngredientModel::class);
     }
 }
