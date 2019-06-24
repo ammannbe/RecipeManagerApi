@@ -161,8 +161,8 @@ class IngredientDetailController extends Controller
         $this->authorize('delete', [IngredientDetail::class, $recipe]);
         $group_id = $ingredientDetail->ingredient_detail_group_id;
         $ingredientDetail->delete();
-        if (! IngredientDetail::where(['ingredient_detail_group_id' => $$group_id])->exists()) {
-            IngredientDetailGroup::find($$group_id)->delete();
+        if (! IngredientDetail::where(['ingredient_detail_group_id' => $group_id])->exists()) {
+            IngredientDetailGroup::find($group_id)->delete();
         }
         \Toast::success(__('toast.ingredient.deleted'));
 
