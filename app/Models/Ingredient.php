@@ -6,10 +6,12 @@ use App\Helpers\CodeHelper;
 use App\Models\IngredientDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Ingredient extends Model
 {
     use SoftDeletes;
+    use SoftCascadeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +20,14 @@ class Ingredient extends Model
      */
     protected $fillable = ['name'];
 
+    /**
+     * Relations that cascade or restrict on delete.
+     *
+     * @var array
+     */
+    protected $softCascade = [
+        'ingredientDetail@restrict'
+    ];
 
     /**
      * Search recipes by ingredient name

@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Models\RatingCriterion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Recipe extends Model
 {
     use SoftDeletes;
+    use SoftCascadeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +27,17 @@ class Recipe extends Model
         'preparation_time',
         'user_id',
         'slug',
+    ];
+
+    /**
+     * The relations that should cascade on delete
+     *
+     * @var array
+     */
+    protected $softCascade = [
+        'ingredientDetails',
+        'ratings',
+        'groups'
     ];
 
     /**

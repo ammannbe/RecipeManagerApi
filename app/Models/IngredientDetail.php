@@ -6,10 +6,12 @@ use App\Models\Recipe;
 use App\Helpers\RecipeHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class IngredientDetail extends Model
 {
     use SoftDeletes;
+    use SoftCascadeTrait;
 
     /**
      * The attributes that are mass assignable.

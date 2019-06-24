@@ -63,5 +63,6 @@ return [
     'tag' => [
         'created' => 'Tag erfolgreich erstellt.',
         'deleted' => 'Tag erfolgreich gelöscht.',
+        'not_deleted' => 'Tag konnte nicht gelöscht werden. Er besitzt noch Rezepte.',
     ],
 ];

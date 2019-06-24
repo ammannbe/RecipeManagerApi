@@ -72,6 +72,7 @@ php artisan view:cache
 * [Adldap2/Adldap2-Laravel](https://github.com/Adldap2/Adldap2-laravel) - LDAP Authentication & Management for Laravel
 * [doctrine/dbal](https://github.com/doctrine/dbal) - Doctrine Database Abstraction Layer
 * [barryvdh/laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Laravel Debugbar (Integrates PHP Debug Bar)
+* [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
 * [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 * [jquery/jquery](https://github.com/jquery/jquery) - jQuery JavaScript Library
 * [jquery/jquery-ui](https://github.com/jquery/jquery-ui) - The official jQuery user interface library.

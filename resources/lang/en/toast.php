@@ -63,5 +63,6 @@ return [
     'tag' => [
         'created' => 'Tag successfully created.',
         'deleted' => 'Tag successfully deleted.',
+        'not_deleted' => 'Tag couldn\'t be deleted. It still owns recipes.',
     ],
 ];
