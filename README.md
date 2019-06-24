@@ -9,7 +9,7 @@ Manage your families and friends recipes like a chef.
 ## Why is this so awesome?
 
 - **Manager your recipes** You and your friends can save, edit and delete recipes.
-- **Share recipes** You can share recipes by one click via Telegram, E-Mail or Facebook.
+- **Share recipes** You can share recipes by one click via Telegram or E-Mail.
 - **Calculate yield amounts** Calculate yield amounts directly in the recipe on the fly.
 - **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
 
