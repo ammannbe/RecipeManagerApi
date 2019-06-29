@@ -21,6 +21,6 @@ return [
     'no_recipes'   => 'No recipes available!',
     'be_first'     => 'Be the first to add one!',
     'new_comments' => 'Newest comments',
-    'others'       => 'Weitere',
+    'others'       => 'More',
 
 ];
