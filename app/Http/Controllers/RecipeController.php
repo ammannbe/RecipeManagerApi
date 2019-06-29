@@ -11,6 +11,7 @@ use App\Helpers\FormatHelper;
 use App\Http\Requests\EditRecipe;
 use App\Http\Requests\CreateRecipe;
 use Illuminate\Support\Facades\File;
+use App\Models\IngredientDetailGroup;
 
 class RecipeController extends Controller
 {
@@ -78,9 +79,16 @@ class RecipeController extends Controller
         $recipe->ingredientDetails->load('group', 'ingredientDetail');
         foreach ($recipe->ingredientDetails as $ingredientDetail) {
             if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
-                $groups[$ingredientDetail->group->name][] = $ingredientDetail;
+                $groups[$ingredientDetail->group->id]['model'] = $ingredientDetail->group;
+                $groups[$ingredientDetail->group->id]['ingredients'][] = $ingredientDetail;
             } elseif ($ingredientDetail->ingredientDetail) {
                 $alternatives[] = $ingredientDetail->ingredientDetail;
+            }
+        }
+        foreach ($recipe->groups as $group) {
+            if (! isset($groups[$group->id])) {
+                $groups[$group->id]['model'] = $group;
+                $groups[$group->id]['ingredients'] = NULL;
             }
         }
         return view('recipes.show', compact('recipe', 'groups', 'alternatives'));
@@ -156,10 +164,25 @@ class RecipeController extends Controller
     public function destroy(Recipe $recipe)
     {
         $this->authorize('delete', [Recipe::class, $recipe]);
-        File::delete(public_path().'/images/recipes/'.$recipe->photo);
         $recipe->delete();
 
         \Toast::success(__('toast.recipe.deleted'));
         return redirect()->route('home');
+    }
+
+    /**
+     * Restore the specified resource in storage.
+     *
+     * @param  Int $id Recipe ID
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Int $id)
+    {
+        $recipe = Recipe::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', [Recipe::class, $recipe]);
+        $recipe->restore();
+
+        \Toast::success(__('toast.recipe.restored'));
+        return back();
     }
 }

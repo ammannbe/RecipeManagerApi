@@ -18,6 +18,7 @@ class IngredientDetailController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function create(Recipe $recipe)
@@ -60,6 +61,7 @@ class IngredientDetailController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\CreateIngredientDetail  $request
+     * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function store(CreateIngredientDetail $request, Recipe $recipe)
@@ -74,7 +76,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        IngredientDetail::reorder($recipe->id);
+        IngredientDetail::reorder($recipe);
 
         \Toast::success(__('toast.ingredient.created'));
         return redirect()->route('recipes.ingredient-details.create', $recipe->slug);
@@ -157,12 +159,30 @@ class IngredientDetailController extends Controller
     public function destroy(Recipe $recipe, IngredientDetail $ingredientDetail)
     {
         $this->authorize('delete', [IngredientDetail::class, $recipe]);
+        $group_id = $ingredientDetail->ingredient_detail_group_id;
         $ingredientDetail->delete();
-        if (! IngredientDetail::where(['ingredient_detail_group_id' => $ingredientDetail->ingredient_detail_group_id])->exists()) {
-            IngredientDetailGroup::find($ingredientDetail->ingredient_detail_group_id)->delete();
+        if (! IngredientDetail::where(['ingredient_detail_group_id' => $group_id])->exists()) {
+            IngredientDetailGroup::find($group_id)->delete();
         }
         \Toast::success(__('toast.ingredient.deleted'));
 
         return redirect()->route('recipes.show', $recipe->slug);
+    }
+
+    /**
+     * Restore the specified resource in storage.
+     *
+     * @param \App\Models\Recipe $recipe
+     * @param  Int $id IngredientDetail-ID
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Recipe $recipe, Int $id)
+    {
+        $ingredientDetail = IngredientDetail::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', [IngredientDetail::class, $recipe]);
+        $ingredientDetail->restore();
+
+        \Toast::success(__('toast.recipe.restored'));
+        return back();
     }
 }

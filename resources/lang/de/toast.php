@@ -33,6 +33,13 @@ return [
         'created' => 'Zutat erfolgreich erstellt.',
         'deleted' => 'Zutat erfolgreich gelöscht.',
     ],
+    'ingredient-detail-group' => [
+        'created' => 'Gruppe erfolgreich erstellt.',
+        'updated' => 'Gruppe erfolgreich aktualisiert.',
+        'deleted' => 'Gruppe erfolgreich gelöscht.',
+        'delete_fail' => 'Gruppe konnte nicht gelöscht werden, da noch Zutaten darin existieren.',
+        'create_fail' => 'Gruppe existiert bereits.',
+    ],
     'prep' => [
         'created' => 'Vorbereitung erfolgreich erstellt.',
     ],
@@ -48,6 +55,7 @@ return [
         'created' => 'Rezept erfolgreich erstellt.',
         'updated' => 'Rezept erfolgreich aktualisiert.',
         'deleted' => 'Rezept erfolgreich gelöscht.',
+        'deleted' => 'Rezept erfolgreich wieder hergestellt.',
     ],
     'unit' => [
         'created' => 'Einheit erfolgreich erstellt.',
@@ -55,5 +63,6 @@ return [
     'tag' => [
         'created' => 'Tag erfolgreich erstellt.',
         'deleted' => 'Tag erfolgreich gelöscht.',
+        'not_deleted' => 'Tag konnte nicht gelöscht werden. Er besitzt noch Rezepte.',
     ],
 ];

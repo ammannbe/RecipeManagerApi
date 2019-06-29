@@ -9,7 +9,7 @@ Manage your families and friends recipes like a chef.
 ## Why is this so awesome?
 
 - **Manager your recipes** You and your friends can save, edit and delete recipes.
-- **Share recipes** You can share recipes by one click via Telegram, E-Mail or Facebook.
+- **Share recipes** You can share recipes by one click via Telegram or E-Mail.
 - **Calculate yield amounts** Calculate yield amounts directly in the recipe on the fly.
 - **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
 
@@ -35,6 +35,13 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 - Migrate the database `php artisan migrate`
 - Install composer packages `composer install`
 - Install NPM packages `npm install`
+- Add following to your crontab:
+```
+  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:ingredient-detail >> /dev/null 2>&1
+  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:ingredient-detail-group >> /dev/null 2>&1
+  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:recipe >> /dev/null 2>&1
+  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:user >> /dev/null 2>&1
+```
 - Run the server `php artisan serve`
 
 ## Deployment
@@ -65,6 +72,7 @@ php artisan view:cache
 * [Adldap2/Adldap2-Laravel](https://github.com/Adldap2/Adldap2-laravel) - LDAP Authentication & Management for Laravel
 * [doctrine/dbal](https://github.com/doctrine/dbal) - Doctrine Database Abstraction Layer
 * [barryvdh/laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Laravel Debugbar (Integrates PHP Debug Bar)
+* [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
 * [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 * [jquery/jquery](https://github.com/jquery/jquery) - jQuery JavaScript Library
 * [jquery/jquery-ui](https://github.com/jquery/jquery-ui) - The official jQuery user interface library.

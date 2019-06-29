@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Category extends Model
 {
+    use SoftDeletes;
+    use SoftCascadeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -15,6 +19,15 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
+    ];
+
+    /**
+     * Relations that cascade or restrict on delete.
+     *
+     * @var array
+     */
+    protected $softCascade = [
+        'recipes@restrict'
     ];
 
     /**

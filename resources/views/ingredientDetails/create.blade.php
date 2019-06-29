@@ -35,7 +35,7 @@
         <p>
             {{ Form::label('ingredient_detail_group', 'Gruppe') }}
             {{ Form::select(
-                'ingredient_detail_group',
+                'ingredient_detail_group_id',
                 $ingredientDetailGroups,
                 $default['ingredientDetailGroup'],
                 ['class' => 'js-dropdown w3-select']) }}

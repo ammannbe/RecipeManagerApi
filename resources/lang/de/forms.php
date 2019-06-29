@@ -55,6 +55,14 @@ return [
         'position'   => 'Position',
     ],
 
+    'ingredient-detail-group' => [
+        'create'   => 'Gruppe hinzufügen',
+        'edit'     => 'Gruppe ändern',
+        'examples' => [
+            'name' => 'z.B. Glasur'
+        ],
+    ],
+
     'prep' => [
         'create' => 'Vorbereitung hinzufügen',
         'examples' => [

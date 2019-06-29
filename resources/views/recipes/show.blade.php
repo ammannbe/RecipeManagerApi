@@ -59,10 +59,6 @@
                 <a href="javascript:;" onclick="window.print()" title="{{ __('share.print') }}">
                     <img src="https://simplesharebuttons.com/images/somacro/print.png" width="48" height="48" alt="Print">
                 </a>
-                {{-- Facebook --}}
-                <a href="https://www.facebook.com/sharer.php?u={{ url()->current() }}" target="_blank" title="{{ __('share.facebook') }}">
-                    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" width="48" height="48" alt="Facebook">
-                </a>
 
                 <button class="hide">
                     <i class="cross red middle"></i>
@@ -134,7 +130,7 @@
             <section class="list w3-card w3-padding">
                 <div class="w3-row">
                     <div class="w3-col s12 m6 l3">
-                        <h2>Zutaten</h2>
+                        <h2>{{ __('recipes.ingredients') }}</h2>
 
                         <ul>
                             @php
@@ -151,16 +147,16 @@
                                     <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
                                         {{ $ingredientDetail->beautify() }}
                                     </span>
-                                    @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
+                                    @foreach ($ingredientDetail->ingredientDetail as $alternate)
                                         <br>{{ __('recipes.or') }}
-                                            <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
-                                                {{ $ingredientDetailAlternate->beautify() }}
+                                            <span data-current-amount="{{ $alternate->amount }}" data-amount="{{ $alternate->amount }}">
+                                                {{ $alternate->beautify() }}
                                             </span>
                                     @endforeach
                                     @auth
                                         @if ($isRecipeOwner)
                                             <a class="edit-mode item" href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
-                                            {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details/{$ingredientDetail->id}", 'class' => 'delete']) }}
+                                            {{ Form::open(['url' => route('recipes.ingredient-details.destroy', [$recipe->slug, $ingredientDetail->id]), 'class' => 'delete']) }}
                                                 @method('DELETE')
                                                 <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
                                                     <i class="cross red middle"></i>
@@ -177,12 +173,16 @@
                                 <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug) }}">
                                     {{ __('recipes.add_ingredient') }}
                                 </a>
+                                <br>
+                                <a class="edit-mode item" href="{{ route('recipes.ingredient-detail-groups.create', $recipe->slug) }}">
+                                    {{ __('recipes.add_ingredient_detail_group') }}
+                                </a>
                             @endif
                         @endauth
                     </div>
 
                     @if (isset($groups) && $groups)
-                        @foreach ($groups as $name => $group)
+                        @foreach ($groups as $group)
                             @php
                                 $i++;
                             @endphp
@@ -191,38 +191,49 @@
                                 </div>
                                 <div class="w3-row">
                             @endif
-                            <div class="w3-col s12 m6 l3 w3-margin-right">
-                                <h3>{{ $name }}</h3>
+                            <div class="w3-col s12 m6 l3 w3-margin-right ingredient-group">
+                                <h3>{{ $group['model']->name }}</h3>
+                                @if ($isRecipeOwner)
+                                    <a class="edit-mode item" href="{{ route('recipes.ingredient-detail-groups.edit', [$recipe->slug, $group['model']->id]) }}"><i class="pencil middle"></i></a>
+                                    {{ Form::open(['url' => route('recipes.ingredient-detail-groups.destroy', [$recipe->slug, $group['model']->id]), 'class' => 'delete']) }}
+                                        @method('DELETE')
+                                        <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                            <i class="cross red middle"></i>
+                                        </button>
+                                    {{ Form::close() }}
+                                @endif
                                 <ul>
-                                    @foreach ($group as $ingredientDetail)
-                                        <li>
-                                            <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
-                                                {{ $ingredientDetail->beautify() }}
-                                            </span>
-                                            @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
-                                                <br>{{ __('recipes.or') }}
-                                                    <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
-                                                        {{ $ingredientDetailAlternate->beautify() }}
-                                                    </span>
-                                            @endforeach
-                                            @auth
-                                                @if ($isRecipeOwner)
-                                                    <a class="edit-mode item" href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
-                                                    {{ Form::open(['url' => "/recipes/{$recipe->slug}/ingredient-details", 'class' => 'delete']) }}
-                                                        @method('DELETE')
-                                                        <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
-                                                            <i class="cross red middle"></i>
-                                                        </button>
-                                                    {{ Form::close() }}
-                                                @endif
-                                            @endauth
-                                        </li>
-                                    @endforeach
+                                    @if ($group['ingredients'])
+                                        @foreach ($group['ingredients'] as $ingredientDetail)
+                                            <li>
+                                                <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
+                                                    {{ $ingredientDetail->beautify() }}
+                                                </span>
+                                                @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
+                                                    <br>{{ __('recipes.or') }}
+                                                        <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
+                                                            {{ $ingredientDetailAlternate->beautify() }}
+                                                        </span>
+                                                @endforeach
+                                                @auth
+                                                    @if ($isRecipeOwner)
+                                                        <a class="edit-mode item" href="{{ route('recipes.ingredient-details.edit', [$recipe->slug, $ingredientDetail->id]) }}"><i class="pencil middle"></i></a>
+                                                        {{ Form::open(['url' => route('recipes.ingredient-details.destroy', [$recipe->slug, $ingredientDetail->id]), 'class' => 'delete']) }}
+                                                            @method('DELETE')
+                                                            <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                                                <i class="cross red middle"></i>
+                                                            </button>
+                                                        {{ Form::close() }}
+                                                    @endif
+                                                @endauth
+                                            </li>
+                                        @endforeach
+                                    @endif
                                 </ul>
 
                                 @auth
                                     @if ($isRecipeOwner)
-                                        <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug, $name) }}">
+                                        <a class="edit-mode item" href="{{ route('recipes.ingredient-details.create', $recipe->slug) }}?group={{ $group['model']->name }}">
                                             {{ __('recipes.add_ingredient') }}
                                         </a>
                                     @endif
@@ -233,6 +244,48 @@
                             @endif
                         @endforeach
                     @endif
+
+                    @auth
+                        @if ($isRecipeOwner)
+                            @if (($recipe->groupsWithTrashed || $recipe->ingredientDetailsWithTrashed) &&
+
+                                ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL)->count() ||
+                                $recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL)->count())
+                            )
+                                {{-- {{ dd($recipe->deletedGroups) }} --}}
+                                <div class="edit-mode item w3-row">
+                                    <hr>
+                                    <h3>{{ __('recipes.deleted_groups_and_ingredients') }}</h3>
+                                    <ul>
+                                        @if ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL)->count())
+                                            @foreach ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL) as $deletedGroup)
+                                                <li>
+                                                    <b>{{ $deletedGroup->name }}</b>
+                                                    {{ Form::open(['url' => route('recipes.ingredient-detail-groups.restore', [$recipe->slug, $deletedGroup->id]), 'class' => 'restore']) }}
+                                                        <button class="edit-mode item restore" title="{{ __('recipes.restore_ingredient_detail') }}">
+                                                            <i class="arrow-counterclockwise middle"></i>
+                                                        </button>
+                                                    {{ Form::close() }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                        @if ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL)->count())
+                                            @foreach ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL) as $deletedIngredientDetail)
+                                                <li>
+                                                    {{ $deletedIngredientDetail->beautify() }}
+                                                    {{ Form::open(['url' => route('recipes.ingredient-details.restore', [$recipe->slug, $deletedIngredientDetail->id]), 'class' => 'restore']) }}
+                                                        <button class="edit-mode item restore" title="{{ __('recipes.restore_ingredient_detail_group') }}">
+                                                            <i class="arrow-counterclockwise middle"></i>
+                                                        </button>
+                                                    {{ Form::close() }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endif
+                        @endif
+                    @endauth
                 </div>
             </section>
         </article>

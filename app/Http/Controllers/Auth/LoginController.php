@@ -41,6 +41,9 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        if (request()->redirect) {
+            $this->redirectTo = request()->redirect;
+        }
         $this->middleware('guest')->except('logout');
     }
 
@@ -49,6 +52,14 @@ class LoginController extends Controller
      */
     public function username() {
         return config('ldap_auth.usernames.eloquent');
+    }
+
+    /**
+     * Attempt the user logout
+     */
+    public function logout(Request $request) {
+        auth()->logout();
+        return redirect(url()->previous());
     }
 
     /**

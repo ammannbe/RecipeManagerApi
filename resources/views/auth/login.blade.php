@@ -9,6 +9,8 @@
 
     {{ Form::open(['url' => route('login'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
 
+        {{ Form::hidden('redirect', url()->previous()) }}
+
         <p>
             <i class="man"></i>
             {{ Form::label('username', __('forms.auth.username')) }}

@@ -4,9 +4,13 @@ namespace App\Models;
 
 use App\Models\RatingCriterion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Recipe extends Model
 {
+    use SoftDeletes;
+    use SoftCascadeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +27,17 @@ class Recipe extends Model
         'preparation_time',
         'user_id',
         'slug',
+    ];
+
+    /**
+     * The relations that should cascade on delete
+     *
+     * @var array
+     */
+    protected $softCascade = [
+        'ingredientDetails',
+        'ratings',
+        'groups'
     ];
 
     /**
@@ -67,6 +82,18 @@ class Recipe extends Model
     }
 
     /**
+     * Get the recipe's deleted ingredient-details
+     *
+     * With Unit, Ingredient, Preps, Group
+     * Order by position
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ingredientDetailsWithTrashed() {
+        return $this->ingredientDetails()->withTrashed();
+    }
+
+    /**
      * Get the recipe's ingredient-details
      *
      * With RatingCriterion, User
@@ -87,6 +114,26 @@ class Recipe extends Model
      */
     public function tags() {
         return $this->belongsToMany('\App\Models\Tag');
+    }
+
+    /**
+     * Get the recipe's groups
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany('\App\Models\IngredientDetailGroup');
+    }
+
+    /**
+     * Get the recipe's deleted groups
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groupsWithTrashed()
+    {
+        return $this->groups()->withTrashed();
     }
 
     /**

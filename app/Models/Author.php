@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Author extends Model
 {
+    use SoftDeletes;
+    use SoftCascadeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -17,6 +21,14 @@ class Author extends Model
         'slug',
     ];
 
+    /**
+     * Relations that cascade or restrict on delete.
+     *
+     * @var array
+     */
+    protected $softCascade = [
+        'recipes'
+    ];
 
     /**
      * Get the route key for the model.

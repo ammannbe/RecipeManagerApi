@@ -12,23 +12,28 @@
     }
 }
 
-.arrow-left::before {
-    @extend %icons;
-    content: "\2190";
-}
-
 .arrow-right::before {
     @extend %icons;
     content: "\2192";
 }
 
-.black-down-pointing-triangle::before {
+.arrow-left::before {
     @extend %icons;
-    content: "\25BC";
+    content: "\2190";
 }
 
 .arrow-down::before {
     content: "\2193";
+}
+
+.arrow-counterclockwise::before {
+    @extend %icons;
+    content: "\21BA";
+}
+
+.black-down-pointing-triangle::before {
+    @extend %icons;
+    content: "\25BC";
 }
 
 .plus-sign::before {

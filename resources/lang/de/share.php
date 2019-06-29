@@ -14,7 +14,6 @@ return [
 
     'telegram'=> 'Dieses Rezept via Telegram teilen',
     'email'   => 'Dieses Rezept via E-Mail teilen',
-    'facebook'=> 'Dieses Rezept auf Facebook teilen',
     'print'   => 'Dieses Rezept ausdrucken',
 
 ];

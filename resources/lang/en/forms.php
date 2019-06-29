@@ -55,6 +55,14 @@ return [
         'position'   => 'Position',
     ],
 
+    'ingredient-detail-group' => [
+        'create'   => 'Add group',
+        'edit'     => 'Edit group',
+        'examples' => [
+            'name' => 'e.g. gloss'
+        ],
+    ],
+
     'prep' => [
         'create' => 'Add prep',
         'examples' => [

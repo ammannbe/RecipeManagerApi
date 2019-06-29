@@ -18,7 +18,8 @@ class UserController extends Controller
     public function index()
     {
         $recipes = Recipe::where('user_id', auth()->user()->id)->get();
-        return view('user.index', compact('recipes'));
+        $trashedRecipes = Recipe::onlyTrashed()->where('user_id', auth()->user()->id)->get();
+        return view('user.index', compact('recipes', 'trashedRecipes'));
     }
 
     /**

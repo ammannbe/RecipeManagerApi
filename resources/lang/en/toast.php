@@ -33,6 +33,13 @@ return [
         'created' => 'Ingredient successfully created.',
         'deleted' => 'Ingredient successfully deleted.',
     ],
+    'ingredient-detail-group' => [
+        'created' => 'Group successfully created.',
+        'updated' => 'Group successfully updated.',
+        'deleted' => 'Group successfully deleted.',
+        'delete_fail' => 'Group could not be deleted, because ingredients in there still exists.',
+        'create_fail' => 'Group already exists.',
+    ],
     'prep' => [
         'created' => 'Prep successfully created.',
     ],
@@ -48,6 +55,7 @@ return [
         'created' => 'Recipe successfully created.',
         'updated' => 'Recipe successfully updated.',
         'deleted' => 'Recipe successfully deleted.',
+        'restored' => 'Recipe successfully restored.',
     ],
     'unit' => [
         'created' => 'Unit successfully created.',
@@ -55,5 +63,6 @@ return [
     'tag' => [
         'created' => 'Tag successfully created.',
         'deleted' => 'Tag successfully deleted.',
+        'not_deleted' => 'Tag couldn\'t be deleted. It still owns recipes.',
     ],
 ];
