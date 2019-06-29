@@ -24,6 +24,7 @@ return [
 
     'deleted_groups_and_ingredients' => 'Gelöschte Gruppen und Zutaten',
 
+    'ingredients' => 'Zutaten',
     'recipe' => 'Rezept',
     'author' => 'Verfasser:',
     'category' => 'Kategorie:',

@@ -130,7 +130,7 @@
             <section class="list w3-card w3-padding">
                 <div class="w3-row">
                     <div class="w3-col s12 m6 l3">
-                        <h2>Zutaten</h2>
+                        <h2>{{ __('recipes.ingredients') }}</h2>
 
                         <ul>
                             @php
