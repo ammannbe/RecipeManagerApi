@@ -22,6 +22,15 @@ class IngredientDetailGroup extends Model
     ];
 
     /**
+     * Relations that cascade or restrict on delete.
+     *
+     * @var array
+     */
+    protected $softCascade = [
+        'ingredientDetails@restrict',
+    ];
+
+    /**
      * Get the ingredient-detail-group's recipe
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

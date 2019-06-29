@@ -79,8 +79,13 @@ class IngredientDetailGroupController extends Controller
     public function destroy(Recipe $recipe, IngredientDetailGroup $ingredientDetailGroup)
     {
         $this->authorize('delete', [IngredientDetailGroup::class, $recipe]);
-        $ingredientDetailGroup->delete();
-        \Toast::success(__('toast.ingredient-detail-group.deleted'));
+
+        if (! $ingredientDetailGroup->ingredientDetails->count()) {
+            $ingredientDetailGroup->delete();
+            \Toast::success(__('toast.ingredient-detail-group.deleted'));
+        } else {
+            \Toast::error(__('toast.ingredient-detail-group.delete_fail'));
+        }
 
         return redirect()->route('recipes.show', $recipe->slug);
     }
