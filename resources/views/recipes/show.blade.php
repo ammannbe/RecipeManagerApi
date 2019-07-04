@@ -113,7 +113,7 @@
                             <small class="count">({{ count($recipe->ratings) }})</small>
                         </li>
                     @endif
-                    <li>
+                    <li class="add-rating">
                         @if (auth()->check())
                             @if (! $recipe->ratings->where('user_id', auth()->user()->id)->first())
                                 <a href="{{ route('recipes.ratings.create', $recipe->slug) }}"><i class="plus-sign middle"></i>{{ __('recipes.add_rating') }}</a>
