@@ -37,10 +37,7 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 - Install NPM packages `npm install`
 - Add following to your crontab:
 ```
-  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:ingredient-detail >> /dev/null 2>&1
-  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:ingredient-detail-group >> /dev/null 2>&1
-  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:recipe >> /dev/null 2>&1
-  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:user >> /dev/null 2>&1
+  0  6  *  *  * www-data   cd /path-to-the-project && php artisan cleanup:all >> /dev/null 2>&1
 ```
 - Run the server `php artisan serve`
 
