@@ -25,9 +25,13 @@ class RecipeController extends Controller
         $authors    = [NULL => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = [NULL => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
         $tags       = [NULL => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
-        $default['authors'] = array_search(auth()->user()->name, $authors);
+        $complexityTypes = Recipe::getComplexityTypes();
+        $default = [
+            'authors' => array_search(auth()->user()->name, $authors),
+            'complexityTypes' => 'normal',
+        ];
 
-        return view('recipes.create', compact('authors', 'categories', 'tags', 'default'));
+        return view('recipes.create', compact('authors', 'categories', 'tags', 'complexityTypes', 'default'));
     }
 
     /**
@@ -107,8 +111,9 @@ class RecipeController extends Controller
         $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
         $tags       = [NULL => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
+        $complexityTypes = Recipe::getComplexityTypes();
 
-        return view('recipes.edit', compact('recipe', 'authors', 'categories', 'tags'));
+        return view('recipes.edit', compact('recipe', 'authors', 'categories', 'tags', 'complexityTypes'));
     }
 
     /**

@@ -22,6 +22,7 @@ class Recipe extends Model
         'author_id',
         'name',
         'yield_amount',
+        'complexity',
         'instructions',
         'photo',
         'preparation_time',
@@ -38,6 +39,17 @@ class Recipe extends Model
         'ingredientDetails',
         'ratings',
         'groups'
+    ];
+
+    /**
+     * The complexity types
+     *
+     * @var array
+     */
+    private static $complexityTypes = [
+        'simple',
+        'normal',
+        'difficult',
     ];
 
     /**
@@ -173,5 +185,18 @@ class Recipe extends Model
         } else {
             return $bestRecipes;
         }
+    }
+
+    /**
+     * Get translated complexity types
+     */
+    public static function getComplexityTypes()
+    {
+        $complexityTypes = self::$complexityTypes;
+        self::$complexityTypes = [];
+        foreach ($complexityTypes as $key => $type) {
+            self::$complexityTypes[$type] = __("forms.recipe.{$type}");
+        }
+        return self::$complexityTypes;
     }
 }

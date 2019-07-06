@@ -88,6 +88,9 @@
                     @if ($recipe->yield_amount)
                         <li><strong>{{ __('recipes.yield_amount') }}</strong> {{ Form::number('yield_amount', $recipe->yield_amount, ['autocomplete' => 'off', 'min' => 0, 'step' => 0.25]) }}</li>
                     @endif
+                    @if ($recipe->complexity)
+                        <li><strong>{{ __('recipes.complexity') }}</strong> {{ __("forms.recipe.{$recipe->complexity}") }}</li>
+                    @endif
                     @if ($recipe->preparation_time)
                         <li><strong>{{ __('recipes.preparation_time') }}</strong> {{ FormatHelper::time($recipe->preparation_time, ['hours', 'minutes']) }}</li>
                     @endif

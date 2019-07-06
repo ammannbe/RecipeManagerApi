@@ -55,6 +55,11 @@
         </p>
 
         <p>
+            {{ Form::label('complexity', __('forms.recipe.complexity')) }}
+            {{ Form::select('complexity', $complexityTypes, $default['complexityTypes']) }}
+        </p>
+
+        <p>
             {{ Form::label('preparation_time', __('forms.recipe.preparation_time')) }}
             {{ Form::time('preparation_time', NULL, ['class' => 'w3-input']) }}
         </p>

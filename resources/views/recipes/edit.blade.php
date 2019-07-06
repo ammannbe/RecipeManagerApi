@@ -64,6 +64,11 @@
         </p>
 
         <p>
+            {{ Form::label('complexity', __('forms.recipe.complexity')) }}
+            {{ Form::select('complexity', $complexityTypes, $recipe->complexity) }}
+        </p>
+
+        <p>
             {{ Form::label('preparation_time', __('forms.recipe.preparation_time')) }}
             {{ Form::time('preparation_time',
                 ($recipe->preparation_time ? date('H:i', strtotime($recipe->preparation_time)) : NULL),

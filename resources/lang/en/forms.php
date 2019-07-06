@@ -102,6 +102,10 @@ return [
         'photo' => 'Picture (max. 2MB)',
         'delete_old_photo' => 'Delete old photo?',
         'overwrite_old_photo' => 'Overwrite old photo (max 2MB)',
+        'complexity' => 'Complexity',
+        'simple' => 'Simple',
+        'normal' => 'Normal',
+        'difficult' => 'Difficult',
     ],
 
     'import' => [

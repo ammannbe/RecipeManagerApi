@@ -37,5 +37,6 @@ return [
     'preparation' => 'Preparation',
     'rating' => 'Rating',
     'rating_star' => 'Ratingstar',
-    'tags' => 'Tags:'
+    'tags' => 'Tags:',
+    'complexity' => 'Complexity:',
 ];
