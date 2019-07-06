@@ -67,7 +67,7 @@
 
         <p>
             {{ Form::label('instructions', __('forms.recipe.instructions'), ['class' => 'required']) }}
-            {{ Form::textarea('instructions', NULL, ['maxlength' => 16777215, 'required', 'class' => 'w3-input w3-border']) }}
+            {{ Form::textarea('instructions', NULL, ['maxlength' => 16777215, 'required', 'class' => 'w3-input w3-border markdown-editor']) }}
         </p>
 
 

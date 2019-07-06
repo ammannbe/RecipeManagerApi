@@ -79,7 +79,7 @@
             {{ Form::label('instructions', __('forms.recipe.instructions'),
                 ['class' => 'required']) }}
             {{ Form::textarea('instructions', $recipe->instructions,
-                ['required', 'class' => 'w3-input w3-border']) }}
+                ['required', 'class' => 'w3-input w3-border markdown-editor']) }}
         </p>
 
         @if ($recipe->photo)

@@ -77,6 +77,7 @@ php artisan view:cache
 * [jquery/jquery](https://github.com/jquery/jquery) - jQuery JavaScript Library
 * [jquery/jquery-ui](https://github.com/jquery/jquery-ui) - The official jQuery user interface library.
 * [js-cookie/js-cookie](https://github.com/js-cookie/js-cookie) - A simple, lightweight JavaScript API for handling browser cookies
+* [benweet/stackedit.js](https://github.com/benweet/stackedit.js) - In-browser Markdown editor
 
 ## Authors
 
