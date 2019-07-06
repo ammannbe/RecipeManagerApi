@@ -1,0 +1,57 @@
+@media print {
+
+    @page :first {
+        display: none;
+    }
+
+    html,
+    body {
+        overflow-y: scroll !important;
+        overflow: visible !important;
+    }
+
+    h1,
+    header {
+        overflow-y: auto !important;
+        overflow: auto !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    noscript, footer {
+        display: none !important;
+    }
+
+    .content.recipe {
+        padding: 0 !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+
+        .ingredients .list,
+        .instructions {
+            padding: 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            display: inline !important;
+            page-break-before: always !important;
+        }
+    }
+
+    .content.recipe .manage,
+    .content.recipe .add-rating,
+    .nav.top,
+    .ratings {
+        display: none !important;
+    }
+
+    input[type=number] {
+        border: none;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: unset !important;
+            -moz-appearance: unset !important;
+            margin: 0 !important;
+        }
+    }
+}

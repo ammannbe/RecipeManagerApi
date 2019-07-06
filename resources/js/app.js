@@ -10,11 +10,13 @@ import 'jquery-ui/ui/widgets/autocomplete.js';
 import 'jquery-ui/themes/base/all.css';
 
 window.Cookies = require('js-cookie');
+window.Stackedit = require('stackedit-js');
 require('./3rd-party/select2-4.0.1.min.js');
 require('./Toast.js');
 require('./Dropdown.js');
 require('./Delete.js');
 require('./EditMode.js');
+require('./Markdown');
 require('./Modal.js');
 require('./Search.js');
 require('./YieldAmountCalculator');
@@ -22,6 +24,7 @@ require('./ShareWidget.js');
 
 $(document).ready(function () {
     EditMode.init();
+    Markdown.init();
     Dropdown.init();
     Search.init();
     YieldAmountCalculator.init();

@@ -24,6 +24,7 @@ class EditRecipe extends FormRequest
      */
     public function rules()
     {
+        $complexityTypes = implode('|', array_keys(Recipe::getComplexityTypes()));
         return [
             'name'             => ['required', 'string', 'max:255', 'unique:recipes,name,'.$this->recipe->id],
             'category_id'      => ['required', 'numeric', 'exists:categories,id'],
@@ -31,6 +32,7 @@ class EditRecipe extends FormRequest
             'tags.*'           => ['required_with:tags', 'exists:tags,id'],
             'author_id'        => ['required', 'string', 'exists:authors,id'],
             'yield_amount'     => ['nullable', 'numeric', 'max:999'],
+            'complexity'       => ['required', 'string', 'regex:/^('.$complexityTypes.')$/i'],
             'instructions'     => ['required', 'string'],
             'preparation_time' => ['nullable', 'string'],
             'photo'            => ['nullable', 'image'],

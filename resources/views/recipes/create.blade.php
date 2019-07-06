@@ -55,6 +55,11 @@
         </p>
 
         <p>
+            {{ Form::label('complexity', __('forms.recipe.complexity')) }}
+            {{ Form::select('complexity', $complexityTypes, $default['complexityTypes']) }}
+        </p>
+
+        <p>
             {{ Form::label('preparation_time', __('forms.recipe.preparation_time')) }}
             {{ Form::time('preparation_time', NULL, ['class' => 'w3-input']) }}
         </p>
@@ -62,7 +67,7 @@
 
         <p>
             {{ Form::label('instructions', __('forms.recipe.instructions'), ['class' => 'required']) }}
-            {{ Form::textarea('instructions', NULL, ['maxlength' => 16777215, 'required', 'class' => 'w3-input w3-border']) }}
+            {{ Form::textarea('instructions', NULL, ['maxlength' => 16777215, 'required', 'class' => 'w3-input w3-border markdown-editor']) }}
         </p>
 
 

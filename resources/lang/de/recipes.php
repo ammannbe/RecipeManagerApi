@@ -38,4 +38,5 @@ return [
     'rating' => 'Bewertung',
     'rating_star' => 'Bewertungsstern',
     'tags' => 'Tags:',
+    'complexity' => 'Schwierigkeitsgrad:',
 ];

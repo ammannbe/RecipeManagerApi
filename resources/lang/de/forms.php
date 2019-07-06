@@ -102,6 +102,10 @@ return [
         'photo' => 'Foto (max. 2MB)',
         'delete_old_photo' => 'Altes Foto löschen?',
         'overwrite_old_photo' => 'Altes Foto überschreiben (max 2MB)',
+        'complexity' => 'Schwierigkeitsgrad',
+        'simple' => 'Einfach',
+        'normal' => 'Normal',
+        'difficult' => 'Schwierig',
     ],
 
     'import' => [

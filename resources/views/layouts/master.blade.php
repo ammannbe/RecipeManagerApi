@@ -27,7 +27,6 @@
     <body>
         {{-- @extends are in a reversed order, so the files are rendered in a correct order --}}
         @extends('layouts.javascript')          {{--   JavaScripts    --}}
-        @extends('layouts.style')               {{--      Style       --}}
         @extends('layouts.footer')              {{--      Footer      --}}
         @extends('layouts.content')             {{--   Main content   --}}
         @extends('layouts.header')              {{--    Main header   --}}
@@ -35,6 +34,7 @@
         @extends('layouts.navigation')          {{--  Main navigation --}}
         @extends('layouts.toast')               {{--  Toast messagess --}}
         @extends('layouts.modal')               {{--     Modal Box    --}}
+        @extends('layouts.style')               {{--      Style       --}}
     </body>
 
 </html>
