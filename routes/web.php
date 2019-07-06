@@ -76,12 +76,7 @@ Route::middleware('checklogin', 'checkadmin')->group(function() {
     ]);
 });
 
-Route::get('lang/{locale}', function ($locale) {
-    if (in_array($locale, \Config::get('app.locales'))) {
-        session(['locale' => $locale]);
-    }
-    return redirect()->back();
-})->name('lang');
+Route::get('lang/{locale}', 'LangController@change')->name('lang');
 
 
 Route::resource('categories', 'CategoryController')->only([
