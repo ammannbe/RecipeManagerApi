@@ -143,7 +143,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        IngredientDetail::reorder($recipe->id);
+        IngredientDetail::reorder($recipe);
 
         \Toast::success(__('toast.recipe.updated'));
 
