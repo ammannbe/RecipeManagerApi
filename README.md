@@ -46,11 +46,14 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 - Install the software as above described (except running the server)
 - Optimize autoloader `composer install --optimize-autoloader --no-dev`
 - Enable caching
+
 ```
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
+
+**If you have problems on login, try to remove the config cache:** `php artisan config:clear`
 
 ## Update
 
