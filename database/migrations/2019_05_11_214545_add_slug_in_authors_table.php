@@ -18,8 +18,9 @@ class AddSlugInAuthorsTable extends Migration
             $table->string('slug')->after('name');
         });
         foreach (Author::get() as $author) {
-            $author->slug = FormatHelper::slugify($author->name);
-            $author->save();
+            $author->update([
+                'slug' => FormatHelper::slugify($author->name)
+            ]);
         }
         Schema::table('authors', function (Blueprint $table) {
             $table->string('slug')->unique()->change();
