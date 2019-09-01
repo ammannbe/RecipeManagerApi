@@ -18,8 +18,9 @@ class AddSlugInCategoriesTable extends Migration
             $table->string('slug')->after('name');
         });
         foreach (Category::get() as $category) {
-            $category->slug = FormatHelper::slugify($category->name);
-            $category->save();
+            $category->update([
+                'slug' => FormatHelper::slugify($category->name)
+            ]);
         }
         Schema::table('categories', function (Blueprint $table) {
             $table->string('slug')->unique()->change();

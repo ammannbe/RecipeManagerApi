@@ -170,6 +170,7 @@ class Recipe extends Model
      * @return Array
      */
     public static function best($recipes, Int $paginate = NULL, Int $offset = 0) {
+        $bestRecipes = [];
         foreach ($recipes as $key => $recipe) {
             $bestRecipes[$key] = $recipe;
             $bestRecipes[$key]['stars_avg']   = $recipe->ratings->avg('stars');
