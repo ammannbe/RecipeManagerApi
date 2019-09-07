@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\CodeHelper;
 use App\Models\IngredientDetail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
@@ -32,17 +33,18 @@ class Ingredient extends Model
     /**
      * Search recipes by ingredient name
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $name
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function searchRecipes($name)
+    public function scopeSearch(Builder $query, string $name): Builder
     {
-        return self::where('name', 'LIKE', '%' . $name . '%')
+        return $query->where('name', 'LIKE', '%' . $name . '%')
             ->with([
                 'ingredientDetail.recipe',
                 'ingredientDetail.recipe.author',
                 'ingredientDetail.recipe.category',
-            ])
-            ->get();
+            ]);
     }
 
     /**

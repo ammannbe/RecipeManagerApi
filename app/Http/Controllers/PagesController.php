@@ -70,7 +70,7 @@ class PagesController extends Controller
             $terms = explode(' ', $request->term);
 
             foreach ($terms as $term) {
-                foreach ($class::searchRecipes($term) as $result) {
+                foreach ($class::search($term)->get() as $result) {
                     if ($cname === 'Recipe') {
                         $recipes[$result->id] = $result;
                     } elseif ($cname === 'Ingredient') {

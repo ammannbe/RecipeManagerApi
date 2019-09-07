@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\RatingCriterion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
@@ -158,14 +159,15 @@ class Recipe extends Model
     /**
      * Search recipes by instruction or recipe name
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $term
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function searchRecipes($term)
+    public function scopeSearch(Builder $query, string $term): Builder
     {
-        return self::where('instructions', 'LIKE', '%' . $term . '%')
+        return $query->where('instructions', 'LIKE', '%' . $term . '%')
             ->orWhere('name', 'LIKE', '%' . $term . '%')
-            ->with(['author', 'category'])
-            ->get();
+            ->with(['author', 'category']);
     }
 
     /**
