@@ -11,7 +11,7 @@
     {{ Form::open(['method' => 'GET', 'url' => route('search.results'), 'class' => 'w3-container w3-card-4 w3-padding']) }}
         <p>
             {{ Form::label('term', __('forms.search.term'), ['class' => 'required']) }}
-            {{ Form::text('term', NULL, [
+            {{ Form::text('term', null, [
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.search.examples.term'),
                 'required', 'autofocus']) }}

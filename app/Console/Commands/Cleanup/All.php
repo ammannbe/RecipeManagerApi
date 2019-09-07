@@ -70,7 +70,7 @@ class All extends Command
 
         $consoleOutput = new ConsoleOutput();
         foreach ($output as $out) {
-            if (! empty($out)) {
+            if (!empty($out)) {
                 $consoleOutput->writeln($out);
             }
         }
@@ -81,9 +81,9 @@ class All extends Command
      *  which can be inherited
      *
      * @param mixed $class Model class to cleanup
-     * @param Int $hours = 24 After how much hours the resource should be deleted
+     * @param int $hours = 24 After how much hours the resource should be deleted
      */
-    protected static function cleanup($class, Int $hours = 24)
+    protected static function cleanup($class, int $hours = 24)
     {
         $consoleOutput = new ConsoleOutput();
 

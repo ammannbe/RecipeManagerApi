@@ -26,7 +26,7 @@ class EditRecipe extends FormRequest
     public function rules()
     {
         return [
-            'name'             => ['required', 'string', 'max:255', 'unique:recipes,name,'.$this->recipe->id],
+            'name'             => ['required', 'string', 'max:255', 'unique:recipes,name,' . $this->recipe->id],
             'category_id'      => ['required', 'numeric', 'exists:categories,id'],
             'tags'             => ['nullable', 'array'],
             'tags.*'           => ['required_with:tags', 'exists:tags,id'],

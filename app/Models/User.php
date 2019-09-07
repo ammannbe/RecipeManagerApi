@@ -47,7 +47,8 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return Bool
      */
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return ($this->user_type == 'admin');
     }
 
@@ -56,7 +57,8 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function recipes() {
+    public function recipes()
+    {
         return $this->hasMany('\App\Models\Recipe');
     }
 }

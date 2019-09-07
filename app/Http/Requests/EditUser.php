@@ -27,7 +27,7 @@ class EditUser extends FormRequest
     {
         return [
             'name'             => ['required', 'string', 'max:255'],
-            'email'            => ['required', 'string', 'max:255', 'email', 'unique:users,email,'.auth()->user()->id],
+            'email'            => ['required', 'string', 'max:255', 'email', 'unique:users,email,' . auth()->user()->id],
             'current_password' => ['nullable', 'string', 'max:255'],
             'new_password'     => ['nullable', 'string', 'max:255', 'min:6', 'required_with:current_password', 'confirmed'],
         ];

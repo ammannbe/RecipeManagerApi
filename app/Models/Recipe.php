@@ -57,7 +57,8 @@ class Recipe extends Model
      *
      * @return string
      */
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
 
@@ -66,7 +67,8 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function author() {
+    public function author()
+    {
         return $this->belongsTo('\App\Models\Author');
     }
 
@@ -75,7 +77,8 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo('\App\Models\Category');
     }
 
@@ -87,7 +90,8 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetails() {
+    public function ingredientDetails()
+    {
         return $this->hasMany('\App\Models\IngredientDetail')
             ->with(['unit', 'ingredient', 'preps', 'group'])
             ->orderBy('position');
@@ -101,7 +105,8 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetailsWithTrashed() {
+    public function ingredientDetailsWithTrashed()
+    {
         return $this->ingredientDetails()->withTrashed();
     }
 
@@ -113,7 +118,8 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ratings() {
+    public function ratings()
+    {
         return $this->hasMany('\App\Models\Rating')
             ->with(['ratingCriterion', 'user'])
             ->latest();
@@ -124,7 +130,8 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function tags() {
+    public function tags()
+    {
         return $this->belongsToMany('\App\Models\Tag');
     }
 
@@ -153,9 +160,10 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function searchRecipes($term) {
-        return self::where('instructions', 'LIKE', '%'.$term.'%')
-            ->orWhere('name', 'LIKE', '%'.$term.'%')
+    public static function searchRecipes($term)
+    {
+        return self::where('instructions', 'LIKE', '%' . $term . '%')
+            ->orWhere('name', 'LIKE', '%' . $term . '%')
             ->with(['author', 'category'])
             ->get();
     }
@@ -163,13 +171,14 @@ class Recipe extends Model
     /**
      * Get the "best" recipes
      *
-     * @param Array $recipes
-     * @param Int $paginate = NULL
-     * @param Int $offset = 0
+     * @param array $recipes
+     * @param int $paginate = null
+     * @param int $offset = 0
      *
-     * @return Array
+     * @return array
      */
-    public static function best($recipes, Int $paginate = NULL, Int $offset = 0) {
+    public static function best($recipes, int $paginate = null, int $offset = 0)
+    {
         $bestRecipes = [];
         foreach ($recipes as $key => $recipe) {
             $bestRecipes[$key] = $recipe;
@@ -177,7 +186,7 @@ class Recipe extends Model
             $bestRecipes[$key]['stars_count'] = $recipe->ratings->count();
         }
 
-        usort($bestRecipes, function($a, $b) {
+        usort($bestRecipes, function ($a, $b) {
             return -($a->stars_avg <=> $b->stars_avg);
         });
 
@@ -195,7 +204,7 @@ class Recipe extends Model
     {
         $complexityTypes = self::$complexityTypes;
         self::$complexityTypes = [];
-        foreach ($complexityTypes as $key => $type) {
+        foreach ($complexityTypes as $type) {
             self::$complexityTypes[$type] = __("forms.recipe.{$type}");
         }
         return self::$complexityTypes;

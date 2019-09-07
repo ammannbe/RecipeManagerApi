@@ -24,7 +24,8 @@ class ImportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         return view('recipes.import');
     }
 
@@ -34,7 +35,8 @@ class ImportController extends Controller
      * @param  \App\Http\Requests\ImportFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ImportFormRequest $request) {
+    public function store(ImportFormRequest $request)
+    {
         $file = [
             'content'   => file_get_contents($request->file),
             'extension' => $request->file->getClientOriginalExtension(),
@@ -47,14 +49,15 @@ class ImportController extends Controller
     /**
      * Import recipes in the kreml file format
      *
-     * @param String $kreml
+     * @param string $kreml
      * @return \Illuminate\Http\Response
      */
-    private function kreml(String $kreml) {
+    private function kreml(string $kreml)
+    {
         $parsedRecipes = KremlParser::parse($kreml);
 
         foreach ($parsedRecipes as $pRecipe) {
-            $author = $category = NULL;
+            $author = $category = null;
 
             if ($pRecipe['author']['name']) {
                 $author = Author::firstOrCreate(['name' => $pRecipe['author']['name']]);
@@ -64,18 +67,21 @@ class ImportController extends Controller
 
             if ($pRecipe['photo']['extension']) {
                 $pRecipe['recipe']['photo'] = FormatHelper::generatePhotoName($pRecipe['recipe']['name'], $pRecipe['photo']['extension']);
-                $pRecipe['photo']['path'] = public_path().'/images/recipes/'.$pRecipe['recipe']['photo'];
+                $pRecipe['photo']['path'] = public_path() . '/images/recipes/' . $pRecipe['recipe']['photo'];
                 file_put_contents($pRecipe['photo']['path'], base64_decode($pRecipe['photo']['base64']));
             }
 
             $recipe = Recipe::create(
-                    array_merge($pRecipe['recipe'], [
-                        'author_id'         => ($author ? $author->id : NULL),
+                array_merge(
+                    $pRecipe['recipe'],
+                    [
+                        'author_id'         => ($author ? $author->id : null),
                         'category_id'       => $category->id,
                         'user_id'           => auth()->user()->id,
                         'slug'              => FormatHelper::slugify($pRecipe['recipe']['name']),
                     ]
-                ));
+                )
+            );
 
             if ($pRecipe['ingredient_details']) {
                 foreach ($pRecipe['ingredient_details'] as $ingredientDetail) {
@@ -92,14 +98,15 @@ class ImportController extends Controller
      * Add an ingredient detail to the given recipe
      *
      * @param \App\Modles\Recipe $recipe
-     * @param Array $ingredientDetail
+     * @param array $ingredientDetail
      * @param IngredientDetail $alternateTo
      */
-    private function addIngredientDetail(Recipe $recipe, Array $ingredientDetail, IngredientDetail $alternateTo = NULL) {
-        if (!isset($ingredientDetail['ingredient']) || ! $ingredientDetail['ingredient']) {
+    private function addIngredientDetail(Recipe $recipe, array $ingredientDetail, IngredientDetail $alternateTo = null)
+    {
+        if (!isset($ingredientDetail['ingredient']) || !$ingredientDetail['ingredient']) {
             return;
         }
-        $ingredient = $unit = $preps = $group = NULL;
+        $ingredient = $unit = $preps = $group = null;
 
         $ingredientDetail['recipe_id'] = $recipe->id;
         if ($alternateTo) {
@@ -118,9 +125,9 @@ class ImportController extends Controller
         }
         if ($ingredientDetail['group']) {
             $ingredientDetail['ingredient_detail_group_id'] = IngredientDetailGroup::firstOrCreate([
-                    'name'      => $ingredientDetail['group'],
-                    'recipe_id' => $recipe->id,
-                ])->id;
+                'name'      => $ingredientDetail['group'],
+                'recipe_id' => $recipe->id,
+            ])->id;
         }
 
         $ingredientDetail = IngredientDetail::create($ingredientDetail);
@@ -131,7 +138,7 @@ class ImportController extends Controller
 
         if ($ingredientDetail['alternate']) {
             foreach ($ingredientDetail['alternate'] as $alternate) {
-                $this->addIngredientDetail($recipe, $ingredientDetail['alternate'], $ingredientDetail);
+                $this->addIngredientDetail($recipe, $alternate, $ingredientDetail);
             }
         }
     }

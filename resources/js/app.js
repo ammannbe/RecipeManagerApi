@@ -30,7 +30,7 @@ $(document).ready(function () {
     YieldAmountCalculator.init();
     ShareWidget.init();
 
-    $('article.recipes button.show-more').click(function(event) {
+    $('article.recipes button.show-more').click(function (event) {
         event.preventDefault();
         event.stopPropagation();
 

@@ -18,11 +18,12 @@ class RatingPolicy
      * @param  \App\Models\Recipe  $recipe
      * @return Bool
      */
-    public function create(User $user, Recipe $recipe) {
-        return ! Rating::where([
-                'recipe_id' => $recipe->id,
-                'user_id' => $user->id
-            ])
+    public function create(User $user, Recipe $recipe)
+    {
+        return !Rating::where([
+            'recipe_id' => $recipe->id,
+            'user_id' => $user->id
+        ])
             ->exists() || ($user->isAdmin());
     }
 
@@ -33,7 +34,8 @@ class RatingPolicy
      * @param  \App\Models\Rating  $rating
      * @return Bool
      */
-    public function update(User $user, Rating $rating) {
+    public function update(User $user, Rating $rating)
+    {
         return ($user->id === $rating->user_id) || ($user->isAdmin());
     }
 
@@ -44,7 +46,8 @@ class RatingPolicy
      * @param  \App\Models\Rating  $rating
      * @return Bool
      */
-    public function delete(User $user, Rating $rating) {
+    public function delete(User $user, Rating $rating)
+    {
         return ($user->id === $rating->user_id) || ($user->isAdmin());
     }
 }
