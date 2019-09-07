@@ -74,7 +74,7 @@ class PagesController extends Controller
                     if ($cname === 'Recipe') {
                         $recipes[$result->id] = $result;
                     } elseif ($cname === 'Ingredient') {
-                        foreach ($result->ingredientDetail as $ingredientDetail) {
+                        foreach ($result->ingredientDetails as $ingredientDetail) {
                             $recipes[$ingredientDetail->recipe->id] = $ingredientDetail->recipe;
                         }
                     } else {

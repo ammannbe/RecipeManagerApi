@@ -85,8 +85,8 @@ class RecipeController extends Controller
             if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
                 $groups[$ingredientDetail->group->id]['model'] = $ingredientDetail->group;
                 $groups[$ingredientDetail->group->id]['ingredients'][] = $ingredientDetail;
-            } elseif ($ingredientDetail->ingredientDetail) {
-                $alternatives[] = $ingredientDetail->ingredientDetail;
+            } elseif ($ingredientDetail->ingredientDetails) {
+                $alternatives[] = $ingredientDetail->ingredientDetails;
             }
         }
         foreach ($recipe->groups as $group) {

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Helpers\CodeHelper;
-use App\Models\IngredientDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ingredient extends Model
 {
@@ -52,7 +51,7 @@ class Ingredient extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetail()
+    public function ingredientDetails() : HasMany
     {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
