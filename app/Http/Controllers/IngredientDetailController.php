@@ -45,14 +45,14 @@ class IngredientDetailController extends Controller
         }
 
         $compact = compact(
-                'recipe',
-                'units',
-                'preps',
-                'ingredients',
-                'ingredientDetailGroups',
-                'ingredientDetailsAlternate',
-                'default'
-            );
+            'recipe',
+            'units',
+            'preps',
+            'ingredients',
+            'ingredientDetailGroups',
+            'ingredientDetailsAlternate',
+            'default'
+        );
 
         return view('ingredientDetails.create', $compact);
     }
@@ -112,14 +112,14 @@ class IngredientDetailController extends Controller
         unset($ingredientDetailsAlternate[$ingredientDetail->id]);
 
         $compact = compact(
-                'recipe',
-                'units',
-                'preps',
-                'ingredients',
-                'ingredientDetail',
-                'ingredientDetailGroups',
-                'ingredientDetailsAlternate'
-            );
+            'recipe',
+            'units',
+            'preps',
+            'ingredients',
+            'ingredientDetail',
+            'ingredientDetailGroups',
+            'ingredientDetailsAlternate'
+        );
 
         return view('ingredientDetails.edit', $compact);
     }
@@ -161,7 +161,7 @@ class IngredientDetailController extends Controller
         $this->authorize('delete', [IngredientDetail::class, $recipe]);
         $group_id = $ingredientDetail->ingredient_detail_group_id;
         $ingredientDetail->delete();
-        if (! IngredientDetail::where(['ingredient_detail_group_id' => $group_id])->exists()) {
+        if (!IngredientDetail::where(['ingredient_detail_group_id' => $group_id])->exists()) {
             IngredientDetailGroup::find($group_id)->delete();
         }
         \Toast::success(__('toast.ingredient.deleted'));

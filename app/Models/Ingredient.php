@@ -36,7 +36,7 @@ class Ingredient extends Model
      */
     public static function searchRecipes($name)
     {
-        return self::where('name', 'LIKE', '%'.$name.'%')
+        return self::where('name', 'LIKE', '%' . $name . '%')
             ->with([
                 'ingredientDetail.recipe',
                 'ingredientDetail.recipe.author',

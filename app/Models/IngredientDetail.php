@@ -38,14 +38,16 @@ class IngredientDetail extends Model
     public function beautify()
     {
         $text = '';
-        if ($this->amount)     $text = $text.$this->amount;
-        if ($this->amount &&
-            $this->amount_max) $text = $text.'-';
-        if ($this->amount_max) $text = $text.$this->amount_max;
-        if ($this->unit)       $text = $text.' '.RecipeHelper::getSuitableUnit($this->unit, $this->amount);;
-        if ($this->ingredient) $text = $text.' '.$this->ingredient->name;
+        if ($this->amount)     $text = $text . $this->amount;
+        if (
+            $this->amount &&
+            $this->amount_max
+        ) $text = $text . '-';
+        if ($this->amount_max) $text = $text . $this->amount_max;
+        if ($this->unit)       $text = $text . ' ' . RecipeHelper::getSuitableUnit($this->unit, $this->amount);;
+        if ($this->ingredient) $text = $text . ' ' . $this->ingredient->name;
         foreach ($this->preps as $prep) {
-            $text = $text.', '.$prep->name;
+            $text = $text . ', ' . $prep->name;
         }
         return $text;
     }

@@ -50,7 +50,7 @@ class Recipe extends All
 
             foreach ($recipes->get() as $recipe) {
                 if ($recipe->photo) {
-                    File::delete(public_path().'/images/recipes/'.$recipe->photo);
+                    File::delete(public_path() . '/images/recipes/' . $recipe->photo);
                 }
             }
             $recipes->forceDelete();

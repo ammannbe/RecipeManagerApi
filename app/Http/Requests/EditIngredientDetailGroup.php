@@ -25,7 +25,7 @@ class EditIngredientDetailGroup extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:10', 'unique:ingredient_detail_groups,name,null,recipe_id,recipe_id,'.$this->recipe->id],
+            'name' => ['required', 'string', 'max:10', 'unique:ingredient_detail_groups,name,null,recipe_id,recipe_id,' . $this->recipe->id],
         ];
     }
 }

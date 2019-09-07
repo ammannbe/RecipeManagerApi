@@ -162,8 +162,8 @@ class Recipe extends Model
      */
     public static function searchRecipes($term)
     {
-        return self::where('instructions', 'LIKE', '%'.$term.'%')
-            ->orWhere('name', 'LIKE', '%'.$term.'%')
+        return self::where('instructions', 'LIKE', '%' . $term . '%')
+            ->orWhere('name', 'LIKE', '%' . $term . '%')
             ->with(['author', 'category'])
             ->get();
     }
@@ -186,7 +186,7 @@ class Recipe extends Model
             $bestRecipes[$key]['stars_count'] = $recipe->ratings->count();
         }
 
-        usort($bestRecipes, function($a, $b) {
+        usort($bestRecipes, function ($a, $b) {
             return -($a->stars_avg <=> $b->stars_avg);
         });
 

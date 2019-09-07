@@ -20,10 +20,10 @@ class RatingPolicy
      */
     public function create(User $user, Recipe $recipe)
     {
-        return ! Rating::where([
-                'recipe_id' => $recipe->id,
-                'user_id' => $user->id
-            ])
+        return !Rating::where([
+            'recipe_id' => $recipe->id,
+            'user_id' => $user->id
+        ])
             ->exists() || ($user->isAdmin());
     }
 

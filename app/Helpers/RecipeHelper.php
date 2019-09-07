@@ -8,24 +8,26 @@ use App\Models\Unit;
 class RecipeHelper
 {
 
-    public static function beautifyIngredientDetail(IngredientDetail $ingredientDetail) : string
+    public static function beautifyIngredientDetail(IngredientDetail $ingredientDetail): string
     {
         $text = '';
-        if ($ingredientDetail->amount)     $text = $text.$ingredientDetail->amount;
-        if ($ingredientDetail->amount &&
-            $ingredientDetail->amount_max) $text = $text.'-';
-        if ($ingredientDetail->amount_max) $text = $text.$ingredientDetail->amount_max;
-        if ($ingredientDetail->unit)       $text = $text.' '.self::getSuitableUnit($ingredientDetail->unit, $ingredientDetail->amount);;
-        if ($ingredientDetail->ingredient) $text = $text.' '.$ingredientDetail->ingredient->name;
+        if ($ingredientDetail->amount)     $text = $text . $ingredientDetail->amount;
+        if (
+            $ingredientDetail->amount &&
+            $ingredientDetail->amount_max
+        ) $text = $text . '-';
+        if ($ingredientDetail->amount_max) $text = $text . $ingredientDetail->amount_max;
+        if ($ingredientDetail->unit)       $text = $text . ' ' . self::getSuitableUnit($ingredientDetail->unit, $ingredientDetail->amount);;
+        if ($ingredientDetail->ingredient) $text = $text . ' ' . $ingredientDetail->ingredient->name;
         foreach ($ingredientDetail->preps as $prep) {
-            $text = $text.', '.$prep->name;
+            $text = $text . ', ' . $prep->name;
         }
         return $text;
     }
 
-    public static function getSuitableUnit(Unit $unit = null, int $amount = null) : ?string
+    public static function getSuitableUnit(Unit $unit = null, int $amount = null): ?string
     {
-        if (! $unit) {
+        if (!$unit) {
             return null;
         }
 

@@ -66,7 +66,7 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        if (! $tag->recipes->count()) {
+        if (!$tag->recipes->count()) {
             $tag->delete();
             \Toast::success(__('toast.tag.deleted'));
         } else {

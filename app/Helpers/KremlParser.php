@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Helpers;
+
 use Parser;
 
 class KremlParser
 {
 
-    public static function parse(string $kreml) : array
+    public static function parse(string $kreml): array
     {
         $kremlArray = Parser::xml($kreml);
         if (isset($kremlArray['krecipes-recipe']['@id'])) {
@@ -17,7 +18,7 @@ class KremlParser
         return self::recipes($kremlRecipes);
     }
 
-    private static function recipes(array $kremlRecipes) : array
+    private static function recipes(array $kremlRecipes): array
     {
         $recipes = [];
         foreach ($kremlRecipes as [
@@ -35,8 +36,8 @@ class KremlParser
                     'photo'            => null,
                     'preparation_time' => null,
                 ],
-                'author'   => [ 'name' => null ],
-                'category' => [ 'name' => null ],
+                'author'   => ['name' => null],
+                'category' => ['name' => null],
                 'photo'    => [
                     'base64'    => null,
                     'extension' => null,
@@ -108,7 +109,7 @@ class KremlParser
                     'ingredient' => $kremlIngredients['ingredient-group']['ingredient'],
                 ];
 
-            // If MULTIPLE groups
+                // If MULTIPLE groups
             } else {
                 if (isset($kremlIngredients['ingredient-group'])) {
                     if (!isset($kremlIngredients['ingredient-group']['@name'])) {
@@ -184,7 +185,7 @@ class KremlParser
         return $recipes;
     }
 
-    private static function getPreps(string $prep = null) : ?array
+    private static function getPreps(string $prep = null): ?array
     {
         if ($prep) {
             return explode(',', $prep);

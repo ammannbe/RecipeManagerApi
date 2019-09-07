@@ -1,12 +1,12 @@
 EditMode = {
     $_switch: $('.switch.edit-mode'),
-    $_item:   $('.edit-mode.item'),
-    $_input:  $('.switch.edit-mode input[type=checkbox]'),
+    $_item: $('.edit-mode.item'),
+    $_input: $('.switch.edit-mode input[type=checkbox]'),
 
     _enabled: false
 };
 
-EditMode.init = function() {
+EditMode.init = function () {
     // Show switch only if JS is enabled
     EditMode.showSwitch();
 
@@ -16,24 +16,24 @@ EditMode.init = function() {
         EditMode.disable();
     }
 
-    EditMode.$_input.change(function() {
+    EditMode.$_input.change(function () {
         EditMode.toggle();
     });
 }
 
-EditMode.showSwitch = function() {
+EditMode.showSwitch = function () {
     EditMode.$_switch.parent().removeClass('hidden forced');
 }
 
-EditMode.toggle = function() {
-    if(EditMode._enabled) {
+EditMode.toggle = function () {
+    if (EditMode._enabled) {
         EditMode.disable();
     } else {
         EditMode.enable();
     }
 }
 
-EditMode.enable = function() {
+EditMode.enable = function () {
     EditMode._enabled = true;
     EditMode.$_input.prop('checked', true);
     EditMode.$_item.removeClass('hidden forced');
@@ -42,7 +42,7 @@ EditMode.enable = function() {
 
 }
 
-EditMode.disable = function() {
+EditMode.disable = function () {
     EditMode._enabled = false;
     EditMode.$_input.prop('checked', false);
     EditMode.$_item.addClass('hidden forced');

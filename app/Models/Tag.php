@@ -47,7 +47,7 @@ class Tag extends Model
      */
     public static function searchRecipes($name)
     {
-        return self::where('name', 'LIKE', '%'.$name.'%')
+        return self::where('name', 'LIKE', '%' . $name . '%')
             ->with(['recipes', 'recipes.author', 'recipes.category'])
             ->get();
     }

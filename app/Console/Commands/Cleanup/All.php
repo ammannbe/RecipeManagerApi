@@ -70,7 +70,7 @@ class All extends Command
 
         $consoleOutput = new ConsoleOutput();
         foreach ($output as $out) {
-            if (! empty($out)) {
+            if (!empty($out)) {
                 $consoleOutput->writeln($out);
             }
         }

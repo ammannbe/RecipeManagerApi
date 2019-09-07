@@ -50,14 +50,16 @@ class LoginController extends Controller
     /**
      * The username attributed name
      */
-    public function username() {
+    public function username()
+    {
         return config('ldap_auth.usernames.eloquent');
     }
 
     /**
      * Attempt the user logout
      */
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         auth()->logout();
         return redirect(url()->previous());
     }
@@ -67,11 +69,12 @@ class LoginController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      */
-    protected function validateLogin(Request $request) {
+    protected function validateLogin(Request $request)
+    {
         $this->validate($request, [
-                $this->username() => 'required|string|regex:/^\w+$/',
-                'password'        => 'required|string',
-            ]);
+            $this->username() => 'required|string|regex:/^\w+$/',
+            'password'        => 'required|string',
+        ]);
     }
 
     /**
@@ -80,14 +83,15 @@ class LoginController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return Bool
      */
-    protected function attemptLogin(Request $request) {
+    protected function attemptLogin(Request $request)
+    {
         $username = $request->username;
         $password = $request->password;
 
-        $user_format = env('LDAP_USER_FORMAT', 'cn=%s,'.env('LDAP_BASE_DN', ''));
+        $user_format = env('LDAP_USER_FORMAT', 'cn=%s,' . env('LDAP_BASE_DN', ''));
         $userdn      = sprintf($user_format, $username);
 
-        if(Adldap::auth()->attempt($userdn, $password, $bindAsUser = true)) {
+        if (Adldap::auth()->attempt($userdn, $password, $bindAsUser = true)) {
             // the user doesn't exist in the local database, so we have to create one
             $user = User::firstOrNew(
                 [$this->username() => $username],
@@ -99,7 +103,9 @@ class LoginController extends Controller
             $ldapUser = Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $username)->first();
             $sync_attrs = $this->retrieveSyncAttributes($ldapUser);
             foreach ($sync_attrs as $field => $value) {
-                if (empty($value)) { $value = null; }
+                if (empty($value)) {
+                    $value = null;
+                }
                 $user->{$field} = $value;
             }
             $user->save();
@@ -111,7 +117,6 @@ class LoginController extends Controller
         } else {
             return false;
         }
-
     }
 
     /**
@@ -120,7 +125,8 @@ class LoginController extends Controller
      * @param \Adldap\Models\User $ldapUser
      * @return array
      */
-    protected function retrieveSyncAttributes(LdapUser $ldapUser) {
+    protected function retrieveSyncAttributes(LdapUser $ldapUser)
+    {
         $ldapuser_attrs = null;
         $attrs = [];
 
@@ -166,7 +172,8 @@ class LoginController extends Controller
      * @param $prop The attribute
      * @return Accessed attribute
      */
-    protected static function accessProtected($obj, $prop) {
+    protected static function accessProtected($obj, $prop)
+    {
         $reflection = new ReflectionClass($obj);
         $property   = $reflection->getProperty($prop);
         $property->setAccessible(true);

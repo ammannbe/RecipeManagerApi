@@ -1,6 +1,6 @@
 Search = {};
 
-Search.init = function() {
+Search.init = function () {
     if ($("#term").length && autocompleteData) {
         var array = [];
         $.each(autocompleteData, function (index, value) {

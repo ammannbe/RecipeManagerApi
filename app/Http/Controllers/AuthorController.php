@@ -39,9 +39,9 @@ class AuthorController extends Controller
     public function store(CreateAuthor $request)
     {
         $request->merge([
-                'user_id' => auth()->user()->id,
-                'slug' => FormatHelper::slugify($request->name)
-            ]);
+            'user_id' => auth()->user()->id,
+            'slug' => FormatHelper::slugify($request->name)
+        ]);
         Author::create($request->all());
         \Toast::success(__('toast.author.created'));
 
@@ -69,7 +69,7 @@ class AuthorController extends Controller
     public function destroy(Request $request, Author $author)
     {
         $this->authorize('delete', [Author::class, $author]);
-        if (! Recipe::where('author_id', $author->id)->first()) {
+        if (!Recipe::where('author_id', $author->id)->first()) {
             $author->delete();
             \Toast::success(__('toast.author.deleted'));
         } else {

@@ -58,9 +58,9 @@ class RecipeController extends Controller
 
         if ($request->photo) {
             $recipe['photo'] = FormatHelper::generatePhotoName(
-                    $request->name,
-                    $request->photo->getClientOriginalExtension()
-                );
+                $request->name,
+                $request->photo->getClientOriginalExtension()
+            );
             $request->photo->move(public_path('images/recipes'), $recipe['photo']);
         }
 
@@ -90,7 +90,7 @@ class RecipeController extends Controller
             }
         }
         foreach ($recipe->groups as $group) {
-            if (! isset($groups[$group->id])) {
+            if (!isset($groups[$group->id])) {
                 $groups[$group->id]['model'] = $group;
                 $groups[$group->id]['ingredients'] = null;
             }
@@ -126,13 +126,13 @@ class RecipeController extends Controller
     public function update(EditRecipe $request, Recipe $recipe)
     {
         $recipe->fill(array_merge(
-                $request->all(),
-                [
-                    'author_id'   => $request->author_id,
-                    'category_id' => $request->category_id,
-                    'slug'        => FormatHelper::slugify($request->name),
-                ]
-            ));
+            $request->all(),
+            [
+                'author_id'   => $request->author_id,
+                'category_id' => $request->category_id,
+                'slug'        => FormatHelper::slugify($request->name),
+            ]
+        ));
 
         $recipe->user_id = auth()->user()->id; // Overwrite user_id for securiy
 
@@ -143,14 +143,14 @@ class RecipeController extends Controller
         $recipe->tags()->sync($request->tags);
 
         if ($request->delete_photo && !$request->photo) {
-            File::delete(public_path().'/images/recipes/'.$recipe->photo);
+            File::delete(public_path() . '/images/recipes/' . $recipe->photo);
             $recipe->photo = null;
-        } elseif($request->photo) {
-            File::delete(public_path().'/images/recipes/'.$recipe->photo);
+        } elseif ($request->photo) {
+            File::delete(public_path() . '/images/recipes/' . $recipe->photo);
             $recipe->photo = FormatHelper::generatePhotoName(
-                    $request->name,
-                    request()->photo->getClientOriginalExtension()
-                );
+                $request->name,
+                request()->photo->getClientOriginalExtension()
+            );
             $request->photo->move(public_path('images/recipes'), $recipe->photo);
         }
 

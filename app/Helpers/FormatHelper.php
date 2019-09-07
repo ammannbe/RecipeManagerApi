@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class FormatHelper
 {
-    public static function date(?string $date) : ?string
+    public static function date(?string $date): ?string
     {
         if ($date) {
             $dateTime = new \DateTime($date);
@@ -13,7 +13,7 @@ class FormatHelper
         return $date;
     }
 
-    public static function time(?string $time, $format = ['hours', 'minutes', 'seconds']) : string
+    public static function time(?string $time, $format = ['hours', 'minutes', 'seconds']): string
     {
         if ($time && $format) {
             $formatString = '';
@@ -32,12 +32,13 @@ class FormatHelper
         }
     }
 
-    public static function shorten(string $text, int $length = 30, string $marker = '...') : string
+    public static function shorten(string $text, int $length = 30, string $marker = '...'): string
     {
         return mb_strimwidth($text, 0, $length, $marker);
     }
 
-    public static function slugify(string $text) {
+    public static function slugify(string $text)
+    {
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);    // replace non letter or digits by -
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // transliterate
         $text = preg_replace('~[^-\w]+~', '', $text);        // remove unwanted characters
@@ -52,7 +53,7 @@ class FormatHelper
         }
     }
 
-    public static function generatePhotoName(string $name, string $extension) : string
+    public static function generatePhotoName(string $name, string $extension): string
     {
         $time = time();
         $slug = self::slugify($name);

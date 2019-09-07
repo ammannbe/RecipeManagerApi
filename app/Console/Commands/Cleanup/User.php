@@ -46,7 +46,7 @@ class User extends All
             Adldap::connect();
 
             foreach (UserModel::get() as $user) {
-                if (! Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $user->username)->first()) {
+                if (!Adldap::search()->where(env('LDAP_USER_ATTRIBUTE'), '=', $user->username)->first()) {
                     $user->forceDelete();
                 }
             }
