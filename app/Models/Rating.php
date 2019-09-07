@@ -29,7 +29,8 @@ class Rating extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('\App\Models\User');
     }
 
@@ -38,7 +39,8 @@ class Rating extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ratingCriterion() {
+    public function ratingCriterion()
+    {
         return $this->belongsTo('\App\Models\RatingCriterion');
     }
 
@@ -47,7 +49,8 @@ class Rating extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recipe() {
+    public function recipe()
+    {
         return $this->belongsTo('\App\Models\Recipe');
     }
 }

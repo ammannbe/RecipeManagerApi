@@ -47,14 +47,14 @@ class ImportController extends Controller
     /**
      * Import recipes in the kreml file format
      *
-     * @param String $kreml
+     * @param string $kreml
      * @return \Illuminate\Http\Response
      */
-    private function kreml(String $kreml) {
+    private function kreml(string $kreml) {
         $parsedRecipes = KremlParser::parse($kreml);
 
         foreach ($parsedRecipes as $pRecipe) {
-            $author = $category = NULL;
+            $author = $category = null;
 
             if ($pRecipe['author']['name']) {
                 $author = Author::firstOrCreate(['name' => $pRecipe['author']['name']]);
@@ -70,7 +70,7 @@ class ImportController extends Controller
 
             $recipe = Recipe::create(
                     array_merge($pRecipe['recipe'], [
-                        'author_id'         => ($author ? $author->id : NULL),
+                        'author_id'         => ($author ? $author->id : null),
                         'category_id'       => $category->id,
                         'user_id'           => auth()->user()->id,
                         'slug'              => FormatHelper::slugify($pRecipe['recipe']['name']),
@@ -92,14 +92,14 @@ class ImportController extends Controller
      * Add an ingredient detail to the given recipe
      *
      * @param \App\Modles\Recipe $recipe
-     * @param Array $ingredientDetail
+     * @param array $ingredientDetail
      * @param IngredientDetail $alternateTo
      */
-    private function addIngredientDetail(Recipe $recipe, Array $ingredientDetail, IngredientDetail $alternateTo = NULL) {
+    private function addIngredientDetail(Recipe $recipe, array $ingredientDetail, IngredientDetail $alternateTo = null) {
         if (!isset($ingredientDetail['ingredient']) || ! $ingredientDetail['ingredient']) {
             return;
         }
-        $ingredient = $unit = $preps = $group = NULL;
+        $ingredient = $unit = $preps = $group = null;
 
         $ingredientDetail['recipe_id'] = $recipe->id;
         if ($alternateTo) {
@@ -131,7 +131,7 @@ class ImportController extends Controller
 
         if ($ingredientDetail['alternate']) {
             foreach ($ingredientDetail['alternate'] as $alternate) {
-                $this->addIngredientDetail($recipe, $ingredientDetail['alternate'], $ingredientDetail);
+                $this->addIngredientDetail($recipe, $alternate, $ingredientDetail);
             }
         }
     }

@@ -35,10 +35,10 @@ class PagesController extends Controller
     /**
      * Display the search form.
      *
-     * @param String $default = 'recipe'
+     * @param string $default = 'recipe'
      * @return \Illuminate\Http\Response
      */
-    public function searchForm(String $default = 'recipe') {
+    public function searchForm(string $default = 'recipe') {
         $complete = [
             'author'   => Author::get()->pluck('name', 'id'),
             'category' => Category::get()->pluck('name', 'id'),

@@ -18,12 +18,12 @@ class CreateRecipesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('cookbook_id');
             $table->unsignedInteger('category_id');
-            $table->unsignedInteger('author_id')->nullable()->default(NULL);
+            $table->unsignedInteger('author_id')->nullable()->default(null);
             $table->string('name', 191);
             $table->decimal('yield_amount', 3, 0)->nullable()->default(4);
             $table->mediumtext('instructions');
-            $table->string('photo', 191)->nullable()->default(NULL);
-            $table->time('preparation_time')->nullable()->default(NULL);
+            $table->string('photo', 191)->nullable()->default(null);
+            $table->time('preparation_time')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

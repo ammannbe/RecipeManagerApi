@@ -22,9 +22,9 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        $authors    = [NULL => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
-        $categories = [NULL => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
-        $tags       = [NULL => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
+        $authors    = [null => __('forms.global.dropdown_first')] + Author::orderBy('name')->pluck('name', 'id')->toArray();
+        $categories = [null => __('forms.global.dropdown_first')] + Category::orderBy('name')->pluck('name', 'id')->toArray();
+        $tags       = [null => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
         $complexityTypes = Recipe::getComplexityTypes();
         $default = [
             'authors' => array_search(auth()->user()->name, $authors),
@@ -92,7 +92,7 @@ class RecipeController extends Controller
         foreach ($recipe->groups as $group) {
             if (! isset($groups[$group->id])) {
                 $groups[$group->id]['model'] = $group;
-                $groups[$group->id]['ingredients'] = NULL;
+                $groups[$group->id]['ingredients'] = null;
             }
         }
         return view('recipes.show', compact('recipe', 'groups', 'alternatives'));
@@ -110,7 +110,7 @@ class RecipeController extends Controller
 
         $authors    =   Author::orderBy('name')->pluck('name', 'id')->toArray();
         $categories = Category::orderBy('name')->pluck('name', 'id')->toArray();
-        $tags       = [NULL => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
+        $tags       = [null => __('forms.global.dropdown_first')] + Tag::orderBy('name')->pluck('name', 'id')->toArray();
         $complexityTypes = Recipe::getComplexityTypes();
 
         return view('recipes.edit', compact('recipe', 'authors', 'categories', 'tags', 'complexityTypes'));
@@ -137,14 +137,14 @@ class RecipeController extends Controller
         $recipe->user_id = auth()->user()->id; // Overwrite user_id for securiy
 
         if ($request->preparation_time === '00:00') {
-            $recipe->preparation_time = NULL;
+            $recipe->preparation_time = null;
         }
 
         $recipe->tags()->sync($request->tags);
 
         if ($request->delete_photo && !$request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
-            $recipe->photo = NULL;
+            $recipe->photo = null;
         } elseif($request->photo) {
             File::delete(public_path().'/images/recipes/'.$recipe->photo);
             $recipe->photo = FormatHelper::generatePhotoName(
@@ -178,10 +178,10 @@ class RecipeController extends Controller
     /**
      * Restore the specified resource in storage.
      *
-     * @param  Int $id Recipe ID
+     * @param  int $id Recipe ID
      * @return \Illuminate\Http\Response
      */
-    public function restore(Int $id)
+    public function restore(int $id)
     {
         $recipe = Recipe::onlyTrashed()->findOrFail($id);
         $this->authorize('restore', [Recipe::class, $recipe]);

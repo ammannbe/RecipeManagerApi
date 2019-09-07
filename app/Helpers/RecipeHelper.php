@@ -8,7 +8,8 @@ use App\Models\Unit;
 class RecipeHelper
 {
 
-    public static function beautifyIngredientDetail(IngredientDetail $ingredientDetail) {
+    public static function beautifyIngredientDetail(IngredientDetail $ingredientDetail) : string
+    {
         $text = '';
         if ($ingredientDetail->amount)     $text = $text.$ingredientDetail->amount;
         if ($ingredientDetail->amount &&
@@ -22,9 +23,10 @@ class RecipeHelper
         return $text;
     }
 
-    public static function getSuitableUnit(Unit $unit = NULL, Int $amount = NULL) {
+    public static function getSuitableUnit(Unit $unit = null, int $amount = null) : ?string
+    {
         if (! $unit) {
-            return NULL;
+            return null;
         }
 
         if ($amount > 1 && ($unit->name_plural || $unit->name_plural)) {

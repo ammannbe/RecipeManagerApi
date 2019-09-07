@@ -4,16 +4,17 @@ namespace App\Helpers;
 
 class FormatHelper
 {
-    public static function date(String $date = NULL) {
+    public static function date(?string $date) : ?string
+    {
         if ($date) {
             $dateTime = new \DateTime($date);
-            return $dateTime->format('d.m.Y');
-        } else {
-            return NULL;
+            $date = $dateTime->format('d.m.Y');
         }
+        return $date;
     }
 
-    public static function time(String $time = NULL, $format = ['hours', 'minutes', 'seconds']) {
+    public static function time(?string $time, $format = ['hours', 'minutes', 'seconds']) : string
+    {
         if ($time && $format) {
             $formatString = '';
             (in_array('hours', $format))   ? $formatString .=  'H\h' : '';
@@ -31,11 +32,12 @@ class FormatHelper
         }
     }
 
-    public static function shorten(String $text, Int $length = 30, String $marker = '...') {
+    public static function shorten(string $text, int $length = 30, string $marker = '...') : string
+    {
         return mb_strimwidth($text, 0, $length, $marker);
     }
 
-    public static function slugify(String $text = '') {
+    public static function slugify(string $text) {
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);    // replace non letter or digits by -
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // transliterate
         $text = preg_replace('~[^-\w]+~', '', $text);        // remove unwanted characters
@@ -44,13 +46,14 @@ class FormatHelper
         $text = strtolower($text);                           // lowercase
 
         if (empty($text)) {
-            return NULL;
+            return null;
         } else {
             return $text;
         }
     }
 
-    public static function generatePhotoName(String $name, String $extension) {
+    public static function generatePhotoName(string $name, string $extension) : string
+    {
         $time = time();
         $slug = self::slugify($name);
 

@@ -17,13 +17,13 @@
 @section('content')
 
     @php
-        $isRecipeOwner = FALSE;
+        $isRecipeOwner = false;
 
         if (auth()->check()) {
             if (auth()->user()->id == $recipe->user_id) {
-                $isRecipeOwner = TRUE;
+                $isRecipeOwner = true;
             } elseif (auth()->user()->isAdmin()) {
-                $isRecipeOwner = TRUE;
+                $isRecipeOwner = true;
             }
         }
     @endphp
@@ -252,16 +252,16 @@
                         @if ($isRecipeOwner)
                             @if (($recipe->groupsWithTrashed || $recipe->ingredientDetailsWithTrashed) &&
 
-                                ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL)->count() ||
-                                $recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL)->count())
+                                ($recipe->groupsWithTrashed->where('deleted_at', '!=', null)->count() ||
+                                $recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', null)->count())
                             )
                                 {{-- {{ dd($recipe->deletedGroups) }} --}}
                                 <div class="edit-mode item w3-row">
                                     <hr>
                                     <h3>{{ __('recipes.deleted_groups_and_ingredients') }}</h3>
                                     <ul>
-                                        @if ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL)->count())
-                                            @foreach ($recipe->groupsWithTrashed->where('deleted_at', '!=', NULL) as $deletedGroup)
+                                        @if ($recipe->groupsWithTrashed->where('deleted_at', '!=', null)->count())
+                                            @foreach ($recipe->groupsWithTrashed->where('deleted_at', '!=', null) as $deletedGroup)
                                                 <li>
                                                     <b>{{ $deletedGroup->name }}</b>
                                                     {{ Form::open(['url' => route('recipes.ingredient-detail-groups.restore', [$recipe->slug, $deletedGroup->id]), 'class' => 'restore']) }}
@@ -272,8 +272,8 @@
                                                 </li>
                                             @endforeach
                                         @endif
-                                        @if ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL)->count())
-                                            @foreach ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', NULL) as $deletedIngredientDetail)
+                                        @if ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', null)->count())
+                                            @foreach ($recipe->ingredientDetailsWithTrashed->where('deleted_at', '!=', null) as $deletedIngredientDetail)
                                                 <li>
                                                     {{ $deletedIngredientDetail->beautify() }}
                                                     {{ Form::open(['url' => route('recipes.ingredient-details.restore', [$recipe->slug, $deletedIngredientDetail->id]), 'class' => 'restore']) }}
@@ -325,15 +325,15 @@
                 @php
                     $j++;
                     if ($j > 5) { continue; }
-                    $ratingOwner = FALSE;
+                    $ratingOwner = false;
                 @endphp
 
                 @auth
                     @php
                         if (auth()->user()->id === $rating->user_id) {
-                            $ratingOwner = TRUE;
+                            $ratingOwner = true;
                         } elseif (auth()->user()->isAdmin()) {
-                            $ratingOwner = TRUE;
+                            $ratingOwner = true;
                         }
                     @endphp
                 @endauth

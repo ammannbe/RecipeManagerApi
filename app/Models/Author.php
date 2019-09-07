@@ -35,7 +35,8 @@ class Author extends Model
      *
      * @return string
      */
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
 
@@ -44,7 +45,8 @@ class Author extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function searchRecipes($name) {
+    public static function searchRecipes($name)
+    {
         return self::where('name', 'LIKE', '%'.$name.'%')
             ->with(['recipes', 'recipes.author', 'recipes.category'])
             ->get();
@@ -55,7 +57,8 @@ class Author extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function recipes() {
+    public function recipes()
+    {
         return $this->hasMany('\App\Models\Recipe');
     }
 }

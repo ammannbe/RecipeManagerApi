@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CodeHelper
 {
-    public static function any($arguments) {
+    public static function any($arguments)
+    {
         $arguments = func_get_args();
 
         foreach ($arguments as $argument) {
                 if ($argument) return $argument;
         }
 
-        return end($args);
+        return end($arguments);
     }
 
-    public static function previousUrl(String $fallback = '/') {
+    public static function previousUrl(string $fallback = '/') : string
+    {
         $url = url()->previous();
         if ($url === url()->current()) {
             $url = url($fallback);

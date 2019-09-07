@@ -12,7 +12,7 @@
         <p>
             {{ Form::label('name', __('forms.global.name'),
                 ['class' => 'required']) }}
-            {{ Form::text('name', NULL, [
+            {{ Form::text('name', null, [
                 'placeholder' => __('forms.recipe.examples.name'),
                 'maxlength'   => 200,
                 'class'       => 'w3-input',
@@ -30,7 +30,7 @@
         <p>
             {{ Form::label('category_id', __('forms.recipe.category'),
                 ['class' => 'required']) }}
-            {{ Form::select('category_id', $categories, NULL,
+            {{ Form::select('category_id', $categories, null,
                 ['class' => 'js-dropdown w3-input']) }}
         </p>
 
@@ -40,7 +40,7 @@
 
             <div class="hidden forced">
                 {{ Form::select('tags[]',
-                    $tags, NULL,
+                    $tags, null,
                     ['class' => 'js-dropdown w3-input removeable', 'disabled']) }}
                 <span class="w3-button w3-black w3-circle remove-select2">-</span>
             </div>
@@ -61,13 +61,13 @@
 
         <p>
             {{ Form::label('preparation_time', __('forms.recipe.preparation_time')) }}
-            {{ Form::time('preparation_time', NULL, ['class' => 'w3-input']) }}
+            {{ Form::time('preparation_time', null, ['class' => 'w3-input']) }}
         </p>
 
 
         <p>
             {{ Form::label('instructions', __('forms.recipe.instructions'), ['class' => 'required']) }}
-            {{ Form::textarea('instructions', NULL, ['maxlength' => 16777215, 'required', 'class' => 'w3-input w3-border markdown-editor']) }}
+            {{ Form::textarea('instructions', null, ['maxlength' => 16777215, 'required', 'class' => 'w3-input w3-border markdown-editor']) }}
         </p>
 
 

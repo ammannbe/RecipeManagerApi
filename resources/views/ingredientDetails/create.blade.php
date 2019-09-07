@@ -15,7 +15,7 @@
         <p>
             {{ Form::label('amount', __('forms.ingredient.ingredient')) }}
             <p>
-                {{ Form::number('amount', NULL, [
+                {{ Form::number('amount', null, [
                     'max'   => 999999.99,
                     'min'   => 0,
                     'size'  => 8,
@@ -23,13 +23,13 @@
                     'class' => 'w3-inpupt',
                     'placeholder' => __('forms.ingredient.examples.amount'),
                     'autofocus']) }}
-                {{ Form::select('unit_id', $units, NULL, ['class' => 'js-dropdown w3-select w3-third']) }}
-                {{ Form::select('ingredient_id', $ingredients, NULL, ['class' => 'js-dropdown w3-select w3-third']) }}
+                {{ Form::select('unit_id', $units, null, ['class' => 'js-dropdown w3-select w3-third']) }}
+                {{ Form::select('ingredient_id', $ingredients, null, ['class' => 'js-dropdown w3-select w3-third']) }}
             </p>
         </p>
         <p>
             {{ Form::label('preps', __('forms.ingredient.prep')) }}
-            {{ Form::select('preps[]', $preps, NULL, ['size' => 7, 'multiple', 'class' => 'w3-select w3-border']) }}
+            {{ Form::select('preps[]', $preps, null, ['size' => 7, 'multiple', 'class' => 'w3-select w3-border']) }}
         </p>
 
         <p>
@@ -43,7 +43,7 @@
 
         <p>
             {{ Form::label('ingredient_detail_id', __('forms.ingredient.alternate')) }}
-            {{ Form::select('ingredient_detail_id', $ingredientDetailsAlternate, [NULL], ['class' => 'js-dropdown w3-input']) }}
+            {{ Form::select('ingredient_detail_id', $ingredientDetailsAlternate, [null], ['class' => 'js-dropdown w3-input']) }}
         </p>
 
         <p>

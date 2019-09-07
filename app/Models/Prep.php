@@ -32,7 +32,8 @@ class Prep extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function ingredientDetail() {
+    public function ingredientDetail()
+    {
         return $this->belongsToMany('\App\Models\IngredientDetail');
     }
 }

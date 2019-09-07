@@ -19,7 +19,7 @@ public function up()
         $table->string('username')->unique();
         $table->string('email');
         $table->string('password');
-        $table->enum('user_type', ['admin'])->nullable()->default(NULL);
+        $table->enum('user_type', ['admin'])->nullable()->default(null);
         $table->rememberToken();
         $table->timestamps();
     });

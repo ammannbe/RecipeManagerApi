@@ -6,7 +6,8 @@ use Parser;
 class KremlParser
 {
 
-    public static function parse(String $kreml) {
+    public static function parse(string $kreml) : array
+    {
         $kremlArray = Parser::xml($kreml);
         if (isset($kremlArray['krecipes-recipe']['@id'])) {
             $kremlRecipes = [$kremlArray['krecipes-recipe']];
@@ -16,33 +17,33 @@ class KremlParser
         return self::recipes($kremlRecipes);
     }
 
-    private static function recipes(Array $kremlRecipes) {
+    private static function recipes(array $kremlRecipes) : array
+    {
         $recipes = [];
-        foreach ($kremlRecipes as $kremlRecipe) {
-            unset($kremlIngredients);
-            unset($kremlDescriptions);
-            $kremlIngredients  = $kremlRecipe['krecipes-ingredients'];
-            $kremlDescriptions = $kremlRecipe['krecipes-description'];
+        foreach ($kremlRecipes as [
+            'krecipes-ingredients' => $kremlIngredients,
+            'krecipes-description' => $kremlDescriptions
+        ]) {
             $recipeArray = [
                 'recipe'   => [
-                    'user_id'          => NULL,
-                    'category_id'      => NULL,
-                    'author_id'        => NULL,
-                    'name'             => NULL,
-                    'yield_amount'     => NULL,
-                    'instructions'     => NULL,
-                    'photo'            => NULL,
-                    'preparation_time' => NULL,
+                    'user_id'          => null,
+                    'category_id'      => null,
+                    'author_id'        => null,
+                    'name'             => null,
+                    'yield_amount'     => null,
+                    'instructions'     => null,
+                    'photo'            => null,
+                    'preparation_time' => null,
                 ],
-                'author'   => [ 'name' => NULL ],
-                'category' => [ 'name' => NULL ],
+                'author'   => [ 'name' => null ],
+                'category' => [ 'name' => null ],
                 'photo'    => [
-                    'base64'    => NULL,
-                    'extension' => NULL,
-                    'name'      => NULL,
-                    'path'      => NULL,
+                    'base64'    => null,
+                    'extension' => null,
+                    'name'      => null,
+                    'path'      => null,
                 ],
-                'ingredient_details' => NULL,
+                'ingredient_details' => null,
             ];
 
             if (isset($kremlDescriptions['yield']['amount'])) {
@@ -95,7 +96,7 @@ class KremlParser
             // If NO group
             if (isset($kremlIngredients['ingredient'])) {
                 $groups[] = [
-                    '@name'      => NULL,
+                    '@name'      => null,
                     'ingredient' => $kremlIngredients['ingredient'],
                 ];
             }
@@ -123,14 +124,14 @@ class KremlParser
                     foreach ($group['ingredient'] as $ingredient) {
                         // Default structure
                         $detail = [
-                            'group'      => NULL,
-                            'name'       => NULL,
-                            'amount'     => NULL,
-                            'amount_max' => NULL,
-                            'unit'       => NULL,
-                            'preps'      => NULL,
-                            'position'   => NULL,
-                            'alternate'  => NULL,
+                            'group'      => null,
+                            'name'       => null,
+                            'amount'     => null,
+                            'amount_max' => null,
+                            'unit'       => null,
+                            'preps'      => null,
+                            'position'   => null,
+                            'alternate'  => null,
                         ];
 
                         $detailSubstitute = $detail;
@@ -160,7 +161,7 @@ class KremlParser
 
                         // Set alternatives
                         if (isset($ingredient['substitutes'])) {
-                            $substitutes = NULL;
+                            $substitutes = null;
                             if (isset($ingredient['substitutes']['ingredient'][0])) {
                                 foreach ($ingredient['substitutes']['ingredient'] as $ingredient) {
                                     $detail['alternate'][] = array_merge($detailSubstitute, $ingredient);
@@ -176,18 +177,19 @@ class KremlParser
                         $recipeArray['ingredient_details'][] = $detail;
                     }
                 }
-                $group = NULL;
+                $group = null;
             }
             $recipes[] = $recipeArray;
         }
         return $recipes;
     }
 
-    private static function getPreps(String $prep = NULL) {
+    private static function getPreps(string $prep = null) : ?array
+    {
         if ($prep) {
             return explode(',', $prep);
         } else {
-            return NULL;
+            return null;
         }
     }
 }

@@ -34,7 +34,8 @@ class Ingredient extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function searchRecipes($name) {
+    public static function searchRecipes($name)
+    {
         return self::where('name', 'LIKE', '%'.$name.'%')
             ->with([
                 'ingredientDetail.recipe',
@@ -49,7 +50,8 @@ class Ingredient extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetail() {
+    public function ingredientDetail()
+    {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
 }

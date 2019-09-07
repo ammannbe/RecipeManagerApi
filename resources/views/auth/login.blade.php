@@ -14,7 +14,7 @@
         <p>
             <i class="man"></i>
             {{ Form::label('username', __('forms.auth.username')) }}
-            {{ Form::text('username', NULL, [
+            {{ Form::text('username', null, [
                 'maxlength' => 255,
                 'class'     => 'w3-input',
                 'required', 'autofocus']) }}

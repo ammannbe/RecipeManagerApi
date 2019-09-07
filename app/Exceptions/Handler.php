@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
     private function sendEmail(Exception $exception)
     {
         try {
-            if (env('APP_DEBUG') === FALSE) {
+            if (env('APP_DEBUG') === false) {
                 $flatten = FlattenException::create($exception);
                 $handler = new SymfonyExceptionHandler();
                 $html = $handler->getHtml($flatten);
