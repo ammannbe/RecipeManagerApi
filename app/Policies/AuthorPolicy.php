@@ -17,7 +17,7 @@ class AuthorPolicy
      */
     public function update(User $user)
     {
-        return ($user->isAdmin());
+        return ($user->is_admin);
     }
 
     /**
@@ -28,6 +28,6 @@ class AuthorPolicy
      */
     public function delete(User $user)
     {
-        return ($user->isAdmin());
+        return ($user->is_admin);
     }
 }

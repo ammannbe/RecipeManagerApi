@@ -8,7 +8,7 @@
 @section('content')
 
     @auth
-        @if (auth()->user()->isAdmin())
+        @if (auth()->user()->is_admin)
             <div class="manage">
                 <span class="w3-margin-right w3-margin-bottom hidden">{!! FormHelper::switch('edit-mode') !!}</span>
             </div>
@@ -20,14 +20,16 @@
             <li>
                 <a href="{{ route('authors.show', $author->slug) }}">{{ $author->name }}</a>
 
-                @if (auth()->user() && auth()->user()->isAdmin())
-                    {{ Form::open(['url' => route('authors.destroy', $author->slug), 'class' => 'delete']) }}
-                        @method('DELETE')
-                        <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
-                            <i class="cross red middle"></i>
-                        </button>
-                    {{ Form::close() }}
-                @endif
+                @auth
+                    @if (auth()->user()->is_admin)
+                        {{ Form::open(['url' => route('authors.destroy', $author->slug), 'class' => 'delete']) }}
+                            @method('DELETE')
+                            <button class="edit-mode item delete confirm" data-confirm="{{ __('forms.global.confirm') }}">
+                                <i class="cross red middle"></i>
+                            </button>
+                        {{ Form::close() }}
+                    @endif
+                @endauth
             </li>
         @endforeach
     </ul>

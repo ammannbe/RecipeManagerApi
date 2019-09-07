@@ -12,10 +12,10 @@
         <a href="{{ route('search.index') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>{{ __('navigation.search') }}</a>
         @auth
             <a href="{{ route('recipes.create') }}" class="{{ $w3BarMediumItemClasses }}">{{ __('navigation.create') }}</a>
+            @if (auth()->user()->is_admin)
+                <a href="{{ route('admin.index') }}" class="{{ $w3BarMediumItemClasses }}">{{ __('navigation.admin') }}</a>
+            @endif
         @endauth
-        @if (auth()->check() && auth()->user()->isAdmin())
-            <a href="{{ route('admin.index') }}" class="{{ $w3BarMediumItemClasses }}">{{ __('navigation.admin') }}</a>
-        @endif
 
         @guest
             <a href="{{ route('login') }}" class="{{ $w3BarMediumItemClasses }} w3-right w3-grey"><i></i>{{ __('navigation.login') }}</a>
@@ -34,10 +34,10 @@
     <div class="w3-bar-block w3-black w3-hide w3-hide-large mobile">
         @auth
             <a href="{{ route('recipes.create') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.create') }}</a>
+            @if (auth()->user()->is_admin)
+                <a href="{{ route('admin.index') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.admin') }}</a>
+            @endif
         @endauth
-        @if (auth()->check() && auth()->user()->isAdmin())
-            <a href="{{ route('admin.index') }}" class="{{ $w3BarSmallItemClasses }}">{{ __('navigation.admin') }}</a>
-        @endif
 
         @guest
             <a href="{{ route('login') }}" class="{{ $w3BarSmallItemClasses }} w3-grey"><i></i>{{ __('navigation.login') }}</a>

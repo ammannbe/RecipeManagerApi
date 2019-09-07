@@ -19,7 +19,7 @@ class RecipePolicy
      */
     public function update(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 
     /**
@@ -31,7 +31,7 @@ class RecipePolicy
      */
     public function delete(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 
     /**
@@ -43,6 +43,6 @@ class RecipePolicy
      */
     public function restore(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 }

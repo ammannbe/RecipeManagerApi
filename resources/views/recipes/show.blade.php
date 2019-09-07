@@ -22,7 +22,7 @@
         if (auth()->check()) {
             if (auth()->user()->id == $recipe->user_id) {
                 $isRecipeOwner = true;
-            } elseif (auth()->user()->isAdmin()) {
+            } elseif (auth()->user()->is_admin) {
                 $isRecipeOwner = true;
             }
         }
@@ -332,7 +332,7 @@
                     @php
                         if (auth()->user()->id === $rating->user_id) {
                             $ratingOwner = true;
-                        } elseif (auth()->user()->isAdmin()) {
+                        } elseif (auth()->user()->is_admin) {
                             $ratingOwner = true;
                         }
                     @endphp

@@ -45,11 +45,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Check if the user is an admin
      *
-     * @return Bool
+     * @return bool
      */
-    public function isAdmin()
+    public function getIsAdminAttribute()
     {
-        return ($this->user_type == 'admin');
+        return ($this->user_type === 'admin');
     }
 
     /**
