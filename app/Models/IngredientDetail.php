@@ -91,7 +91,7 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetail()
+    public function ingredientDetails()
     {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
