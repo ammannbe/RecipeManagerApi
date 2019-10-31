@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Recipe;
 use App\Helpers\RecipeHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class IngredientDetail extends Model
 {
@@ -44,7 +46,7 @@ class IngredientDetail extends Model
             $this->amount_max
         ) $text = $text . '-';
         if ($this->amount_max) $text = $text . $this->amount_max;
-        if ($this->unit)       $text = $text . ' ' . RecipeHelper::getSuitableUnit($this->unit, $this->amount);;
+        if ($this->unit)       $text = $text . ' ' . RecipeHelper::getSuitableUnit($this->unit, $this->amount);
         if ($this->ingredient) $text = $text . ' ' . $this->ingredient->name;
         foreach ($this->preps as $prep) {
             $text = $text . ', ' . $prep->name;
@@ -53,45 +55,11 @@ class IngredientDetail extends Model
     }
 
     /**
-     * Reorder the ingredient-details' position from a recipe
-     *
-     * @param \App\Models\Recipe $recipe
-     */
-    public static function reorder(Recipe $recipe)
-    {
-        $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
-            ->orderBy('ingredient_detail_group_id')
-            ->orderBy('position')
-            ->get();
-        $lastIngredientDetail = null;
-        $i = 1;
-        $j = 1;
-
-        foreach ($ingredientDetails as $ingredientDetail) {
-            if ($ingredientDetail->ingredient_detail_id) {
-                $ingredientDetail->position = 1;
-            } elseif ($ingredientDetail->ingredient_detail_group_id) {
-                if ($ingredientDetail != $lastIngredientDetail) {
-                    $j = 1;
-                }
-                $ingredientDetail->position = $j;
-                $j++;
-            } else {
-                $ingredientDetail->position = $i;
-                $i++;
-            }
-            $ingredientDetail->save();
-
-            $lastIngredientDetail = $ingredientDetail;
-        }
-    }
-
-    /**
      * Get the ingredient-detail's alternate
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetail()
+    public function ingredientDetails(): HasMany
     {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
@@ -101,7 +69,7 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recipe()
+    public function recipe(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Recipe');
     }
@@ -111,7 +79,7 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function unit()
+    public function unit(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Unit');
     }
@@ -121,7 +89,7 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ingredient()
+    public function ingredient(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Ingredient');
     }
@@ -131,7 +99,7 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function preps()
+    public function preps(): BelongsToMany
     {
         return $this->belongsToMany('\App\Models\Prep');
     }
@@ -141,7 +109,7 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function group()
+    public function group(): BelongsTo
     {
         return $this->belongsTo('\App\Models\IngredientDetailGroup', 'ingredient_detail_group_id');
     }

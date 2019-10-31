@@ -20,7 +20,7 @@ class IngredientDetailPolicy
      */
     public function create(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 
     /**
@@ -32,7 +32,7 @@ class IngredientDetailPolicy
      */
     public function update(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 
     /**
@@ -44,7 +44,7 @@ class IngredientDetailPolicy
      */
     public function delete(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 
     /**
@@ -56,6 +56,6 @@ class IngredientDetailPolicy
      */
     public function restore(User $user, Recipe $recipe)
     {
-        return ($user->id === $recipe->user_id) || ($user->isAdmin());
+        return ($user->id === $recipe->user_id) || ($user->is_admin);
     }
 }

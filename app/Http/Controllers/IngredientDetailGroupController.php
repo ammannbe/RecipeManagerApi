@@ -80,7 +80,7 @@ class IngredientDetailGroupController extends Controller
     {
         $this->authorize('delete', [IngredientDetailGroup::class, $recipe]);
 
-        if (!$ingredientDetailGroup->ingredientDetails->count()) {
+        if (!$ingredientDetailGroup->ingredientDetails()->count()) {
             $ingredientDetailGroup->delete();
             \Toast::success(__('toast.ingredient-detail-group.deleted'));
         } else {

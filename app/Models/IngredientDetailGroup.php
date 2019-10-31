@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class IngredientDetailGroup extends Model
 {
@@ -35,7 +37,7 @@ class IngredientDetailGroup extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recipe()
+    public function recipe(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Recipe');
     }
@@ -45,7 +47,7 @@ class IngredientDetailGroup extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function ingredientDetails()
+    public function ingredientDetails(): HasMany
     {
         return $this->hasMany('\App\Models\IngredientDetail');
     }

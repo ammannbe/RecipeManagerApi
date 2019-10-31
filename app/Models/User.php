@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -45,11 +46,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Check if the user is an admin
      *
-     * @return Bool
+     * @return bool
      */
-    public function isAdmin()
+    public function getIsAdminAttribute()
     {
-        return ($this->user_type == 'admin');
+        return $this->attributes['user_type'] === 'admin';
     }
 
     /**
@@ -57,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function recipes()
+    public function recipes(): HasMany
     {
         return $this->hasMany('\App\Models\Recipe');
     }

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
@@ -43,13 +45,14 @@ class Tag extends Model
     /**
      * Search recipes by tag name
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $name
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function searchRecipes($name)
+    public function scopeSearch(Builder $query, string $name): Builder
     {
-        return self::where('name', 'LIKE', '%' . $name . '%')
-            ->with(['recipes', 'recipes.author', 'recipes.category'])
-            ->get();
+        return $query->where('name', 'LIKE', '%' . $name . '%')
+            ->with(['recipes', 'recipes.author', 'recipes.category']);
     }
 
     /**
@@ -57,7 +60,7 @@ class Tag extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      */
-    public function recipes()
+    public function recipes(): BelongsToMany
     {
         return $this->belongsToMany('\App\Models\Recipe');
     }

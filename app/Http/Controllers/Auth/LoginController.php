@@ -6,10 +6,10 @@ use App\Models\User;
 use ReflectionClass;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Helpers\FormatHelper;
 use Adldap\Laravel\Facades\Adldap;
 use Adldap\Models\User as LdapUser;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -110,7 +110,7 @@ class LoginController extends Controller
             }
             $user->save();
 
-            Author::firstOrCreate(['name' => $user->name]);
+            Author::firstOrCreate(['name' => $user->name, 'slug' => FormatHelper::slugify($user->name)]);
 
             $this->guard()->login($user, true);
             return true;

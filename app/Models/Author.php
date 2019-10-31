@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Author extends Model
 {
@@ -43,13 +45,14 @@ class Author extends Model
     /**
      * Search recipes by author name
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $name
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function searchRecipes($name)
+    public function scopeSearch(Builder $query, string $name): Builder
     {
-        return self::where('name', 'LIKE', '%' . $name . '%')
-            ->with(['recipes', 'recipes.author', 'recipes.category'])
-            ->get();
+        return $query->where('name', 'LIKE', '%' . $name . '%')
+            ->with(['recipes', 'recipes.author', 'recipes.category']);
     }
 
     /**
@@ -57,7 +60,7 @@ class Author extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function recipes()
+    public function recipes(): HasMany
     {
         return $this->hasMany('\App\Models\Recipe');
     }

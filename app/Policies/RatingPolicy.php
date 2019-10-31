@@ -23,8 +23,7 @@ class RatingPolicy
         return !Rating::where([
             'recipe_id' => $recipe->id,
             'user_id' => $user->id
-        ])
-            ->exists() || ($user->isAdmin());
+        ])->exists() || ($user->is_admin);
     }
 
     /**
@@ -36,7 +35,7 @@ class RatingPolicy
      */
     public function update(User $user, Rating $rating)
     {
-        return ($user->id === $rating->user_id) || ($user->isAdmin());
+        return ($user->id === $rating->user_id) || ($user->is_admin);
     }
 
     /**
@@ -48,6 +47,6 @@ class RatingPolicy
      */
     public function delete(User $user, Rating $rating)
     {
-        return ($user->id === $rating->user_id) || ($user->isAdmin());
+        return ($user->id === $rating->user_id) || ($user->is_admin);
     }
 }

@@ -80,13 +80,13 @@ class RecipeController extends Controller
     public function show(Recipe $recipe)
     {
         $groups = $alternatives = [];
-        $recipe->ingredientDetails->load('group', 'ingredientDetail');
+        $recipe->ingredientDetails->load('group', 'ingredientDetails');
         foreach ($recipe->ingredientDetails as $ingredientDetail) {
             if ($ingredientDetail->group && !$ingredientDetail->ingredient_detail_id) {
                 $groups[$ingredientDetail->group->id]['model'] = $ingredientDetail->group;
                 $groups[$ingredientDetail->group->id]['ingredients'][] = $ingredientDetail;
-            } elseif ($ingredientDetail->ingredientDetail) {
-                $alternatives[] = $ingredientDetail->ingredientDetail;
+            } elseif ($ingredientDetail->ingredientDetails) {
+                $alternatives[] = $ingredientDetail->ingredientDetails;
             }
         }
         foreach ($recipe->groups as $group) {

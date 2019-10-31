@@ -22,7 +22,7 @@
         if (auth()->check()) {
             if (auth()->user()->id == $recipe->user_id) {
                 $isRecipeOwner = true;
-            } elseif (auth()->user()->isAdmin()) {
+            } elseif (auth()->user()->is_admin) {
                 $isRecipeOwner = true;
             }
         }
@@ -150,7 +150,7 @@
                                     <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
                                         {{ $ingredientDetail->beautify() }}
                                     </span>
-                                    @foreach ($ingredientDetail->ingredientDetail as $alternate)
+                                    @foreach ($ingredientDetail->ingredientDetails as $alternate)
                                         <br>{{ __('recipes.or') }}
                                             <span data-current-amount="{{ $alternate->amount }}" data-amount="{{ $alternate->amount }}">
                                                 {{ $alternate->beautify() }}
@@ -212,7 +212,7 @@
                                                 <span data-current-amount="{{ $ingredientDetail->amount }}" data-amount="{{ $ingredientDetail->amount }}">
                                                     {{ $ingredientDetail->beautify() }}
                                                 </span>
-                                                @foreach ($ingredientDetail->ingredientDetail as $ingredientDetailAlternate)
+                                                @foreach ($ingredientDetail->ingredientDetails as $ingredientDetailAlternate)
                                                     <br>{{ __('recipes.or') }}
                                                         <span data-current-amount="{{ $ingredientDetailAlternate->amount }}" data-amount="{{ $ingredientDetailAlternate->amount }}">
                                                             {{ $ingredientDetailAlternate->beautify() }}
@@ -332,7 +332,7 @@
                     @php
                         if (auth()->user()->id === $rating->user_id) {
                             $ratingOwner = true;
-                        } elseif (auth()->user()->isAdmin()) {
+                        } elseif (auth()->user()->is_admin) {
                             $ratingOwner = true;
                         }
                     @endphp
