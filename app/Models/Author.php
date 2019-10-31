@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Author extends Model
 {
@@ -59,7 +60,7 @@ class Author extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function recipes()
+    public function recipes(): HasMany
     {
         return $this->hasMany('\App\Models\Recipe');
     }

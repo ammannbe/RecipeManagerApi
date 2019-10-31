@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Unit extends Model
 {
@@ -37,7 +38,7 @@ class Unit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
-    public function ingredientDetail()
+    public function ingredientDetail(): BelongsTo
     {
         return $this->belongsTo('\App\Models\IngredientDetail');
     }

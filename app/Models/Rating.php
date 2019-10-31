@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rating extends Model
 {
@@ -29,7 +30,7 @@ class Rating extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo('\App\Models\User');
     }
@@ -39,7 +40,7 @@ class Rating extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ratingCriterion()
+    public function ratingCriterion(): BelongsTo
     {
         return $this->belongsTo('\App\Models\RatingCriterion');
     }
@@ -49,7 +50,7 @@ class Rating extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recipe()
+    public function recipe(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Recipe');
     }

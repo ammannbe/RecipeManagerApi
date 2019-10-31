@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
@@ -59,7 +60,7 @@ class Tag extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      */
-    public function recipes()
+    public function recipes(): BelongsToMany
     {
         return $this->belongsToMany('\App\Models\Recipe');
     }

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\RatingCriterion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Recipe extends Model
 {
@@ -68,7 +70,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function author()
+    public function author(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Author');
     }
@@ -78,7 +80,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo('\App\Models\Category');
     }
@@ -91,7 +93,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetails()
+    public function ingredientDetails(): HasMany
     {
         return $this->hasMany('\App\Models\IngredientDetail')
             ->with(['unit', 'ingredient', 'preps', 'group'])
@@ -106,7 +108,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetailsWithTrashed()
+    public function ingredientDetailsWithTrashed(): HasMany
     {
         return $this->ingredientDetails()->withTrashed();
     }
@@ -119,7 +121,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ratings()
+    public function ratings(): HasMany
     {
         return $this->hasMany('\App\Models\Rating')
             ->with(['ratingCriterion', 'user'])
@@ -131,7 +133,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany('\App\Models\Tag');
     }
@@ -141,7 +143,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function groups()
+    public function groups(): HasMany
     {
         return $this->hasMany('\App\Models\IngredientDetailGroup');
     }
@@ -151,7 +153,7 @@ class Recipe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function groupsWithTrashed()
+    public function groupsWithTrashed(): HasMany
     {
         return $this->groups()->withTrashed();
     }
