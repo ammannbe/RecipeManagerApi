@@ -45,17 +45,6 @@ class Recipe extends Model
     ];
 
     /**
-     * The complexity types
-     *
-     * @var array
-     */
-    private static $complexityTypes = [
-        'simple',
-        'normal',
-        'difficult',
-    ];
-
-    /**
      * Get the route key for the model.
      *
      * @return string
@@ -228,14 +217,15 @@ class Recipe extends Model
 
     /**
      * Get translated complexity types
+     *
+     * @return array
      */
     public static function getComplexityTypes()
     {
-        $complexityTypes = self::$complexityTypes;
-        self::$complexityTypes = [];
-        foreach ($complexityTypes as $type) {
-            self::$complexityTypes[$type] = __("forms.recipe.{$type}");
+        $complexityTypes = [];
+        foreach (config('recipes.complexity_types') as $type) {
+            $complexityTypes[$type] = __("forms.recipe.{$type}");
         }
-        return self::$complexityTypes;
+        return $complexityTypes;
     }
 }
