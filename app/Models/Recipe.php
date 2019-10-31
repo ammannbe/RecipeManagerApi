@@ -171,6 +171,31 @@ class Recipe extends Model
     }
 
     /**
+     * Reorder the ingredient-details' position of this recipe
+     *
+     * @return void
+     */
+    public function reorder(): void
+    {
+        $grouped = $this->ingredientDetails()
+            ->orderBy('ingredient_detail_group_id')
+            ->orderBy('position')
+            ->get()
+            ->groupBy('ingredient_detail_group_id');
+
+        foreach ($grouped as $ingredientDetails) {
+            $i = 1;
+            foreach ($ingredientDetails as $ingredientDetail) {
+                $position = 1;
+                if (!$ingredientDetail->ingredient_detail_id) {
+                    $position = $i++;
+                }
+                $ingredientDetail->position = $position;
+            }
+        }
+    }
+
+    /**
      * Get the "best" recipes
      *
      * @param array $recipes

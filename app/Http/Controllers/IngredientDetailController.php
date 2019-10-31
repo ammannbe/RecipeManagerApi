@@ -76,7 +76,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        IngredientDetail::reorder($recipe);
+        $recipe->reorder();
 
         \Toast::success(__('toast.ingredient.created'));
         return redirect()->route('recipes.ingredient-details.create', $recipe->slug);
@@ -143,7 +143,7 @@ class IngredientDetailController extends Controller
             $ingredientDetail->preps()->detach();
         }
 
-        IngredientDetail::reorder($recipe);
+        $recipe->reorder();
 
         \Toast::success(__('toast.recipe.updated'));
 

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Recipe;
 use App\Helpers\RecipeHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,40 +49,6 @@ class IngredientDetail extends Model
             $text = $text . ', ' . $prep->name;
         }
         return $text;
-    }
-
-    /**
-     * Reorder the ingredient-details' position from a recipe
-     *
-     * @param \App\Models\Recipe $recipe
-     */
-    public static function reorder(Recipe $recipe)
-    {
-        $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
-            ->orderBy('ingredient_detail_group_id')
-            ->orderBy('position')
-            ->get();
-        $lastIngredientDetail = null;
-        $i = 1;
-        $j = 1;
-
-        foreach ($ingredientDetails as $ingredientDetail) {
-            if ($ingredientDetail->ingredient_detail_id) {
-                $ingredientDetail->position = 1;
-            } elseif ($ingredientDetail->ingredient_detail_group_id) {
-                if ($ingredientDetail != $lastIngredientDetail) {
-                    $j = 1;
-                }
-                $ingredientDetail->position = $j;
-                $j++;
-            } else {
-                $ingredientDetail->position = $i;
-                $i++;
-            }
-            $ingredientDetail->save();
-
-            $lastIngredientDetail = $ingredientDetail;
-        }
     }
 
     /**
