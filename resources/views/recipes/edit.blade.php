@@ -51,7 +51,7 @@
 
             <div class="hidden forced">
                 {{ Form::select('tags[]',
-                    $tags, NULL,
+                    $tags, null,
                     ['class' => 'js-dropdown w3-input removeable', 'disabled']) }}
                 <span class="w3-button w3-black w3-circle remove-select2">-</span>
             </div>
@@ -71,7 +71,7 @@
         <p>
             {{ Form::label('preparation_time', __('forms.recipe.preparation_time')) }}
             {{ Form::time('preparation_time',
-                ($recipe->preparation_time ? date('H:i', strtotime($recipe->preparation_time)) : NULL),
+                ($recipe->preparation_time ? date('H:i', strtotime($recipe->preparation_time)) : null),
                 ['class' => 'w3-input']) }}
         </p>
 
@@ -85,7 +85,7 @@
         @if ($recipe->photo)
             <p class="checkbox">
                 {{ Form::label('delete_photo', __('forms.recipe.delete_old_photo')) }}
-                {{ Form::checkbox('delete_photo', NULL, NULL,
+                {{ Form::checkbox('delete_photo', null, null,
                     ['class' => 'w3-check']) }}
             </p>
         @endif

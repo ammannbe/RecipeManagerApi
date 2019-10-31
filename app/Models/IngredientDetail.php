@@ -33,18 +33,21 @@ class IngredientDetail extends Model
      *
      * e.g. 100 g Mandeln, gehackt
      *
-     * @return String
+     * @return string
      */
-    public function beautify() {
+    public function beautify()
+    {
         $text = '';
-        if ($this->amount)     $text = $text.$this->amount;
-        if ($this->amount &&
-            $this->amount_max) $text = $text.'-';
-        if ($this->amount_max) $text = $text.$this->amount_max;
-        if ($this->unit)       $text = $text.' '.RecipeHelper::getSuitableUnit($this->unit, $this->amount);;
-        if ($this->ingredient) $text = $text.' '.$this->ingredient->name;
+        if ($this->amount)     $text = $text . $this->amount;
+        if (
+            $this->amount &&
+            $this->amount_max
+        ) $text = $text . '-';
+        if ($this->amount_max) $text = $text . $this->amount_max;
+        if ($this->unit)       $text = $text . ' ' . RecipeHelper::getSuitableUnit($this->unit, $this->amount);;
+        if ($this->ingredient) $text = $text . ' ' . $this->ingredient->name;
         foreach ($this->preps as $prep) {
-            $text = $text.', '.$prep->name;
+            $text = $text . ', ' . $prep->name;
         }
         return $text;
     }
@@ -54,12 +57,13 @@ class IngredientDetail extends Model
      *
      * @param \App\Models\Recipe $recipe
      */
-    public static function reorder(Recipe $recipe) {
+    public static function reorder(Recipe $recipe)
+    {
         $ingredientDetails = IngredientDetail::where('recipe_id', $recipe->id)
             ->orderBy('ingredient_detail_group_id')
             ->orderBy('position')
             ->get();
-        $lastIngredientDetail = NULL;
+        $lastIngredientDetail = null;
         $i = 1;
         $j = 1;
 
@@ -87,7 +91,8 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetail() {
+    public function ingredientDetail()
+    {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
 
@@ -96,7 +101,8 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recipe() {
+    public function recipe()
+    {
         return $this->belongsTo('\App\Models\Recipe');
     }
 
@@ -105,7 +111,8 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function unit() {
+    public function unit()
+    {
         return $this->belongsTo('\App\Models\Unit');
     }
 
@@ -114,7 +121,8 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ingredient() {
+    public function ingredient()
+    {
         return $this->belongsTo('\App\Models\Ingredient');
     }
 
@@ -123,7 +131,8 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function preps() {
+    public function preps()
+    {
         return $this->belongsToMany('\App\Models\Prep');
     }
 
@@ -132,7 +141,8 @@ class IngredientDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function group() {
+    public function group()
+    {
         return $this->belongsTo('\App\Models\IngredientDetailGroup', 'ingredient_detail_group_id');
     }
 }

@@ -37,7 +37,8 @@ class Unit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
-    public function ingredientDetail() {
+    public function ingredientDetail()
+    {
         return $this->belongsTo('\App\Models\IngredientDetail');
     }
 }

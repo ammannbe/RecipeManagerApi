@@ -80,7 +80,7 @@ class IngredientDetailGroupController extends Controller
     {
         $this->authorize('delete', [IngredientDetailGroup::class, $recipe]);
 
-        if (! $ingredientDetailGroup->ingredientDetails->count()) {
+        if (!$ingredientDetailGroup->ingredientDetails->count()) {
             $ingredientDetailGroup->delete();
             \Toast::success(__('toast.ingredient-detail-group.deleted'));
         } else {
@@ -94,10 +94,10 @@ class IngredientDetailGroupController extends Controller
      * Restore the specified resource in storage.
      *
      * @param \App\Models\Recipe $recipe
-     * @param  Int $id IngredientDetailGroup-ID
+     * @param  int $id IngredientDetailGroup-ID
      * @return \Illuminate\Http\Response
      */
-    public function restore(Recipe $recipe, Int $id)
+    public function restore(Recipe $recipe, int $id)
     {
         $ingredientDetailGroup = IngredientDetailGroup::onlyTrashed()->findOrFail($id);
         $this->authorize('restore', [IngredientDetailGroup::class, $recipe]);

@@ -11,7 +11,7 @@
 
         <p>
             {{ Form::label('name', __('forms.unit.name'), ['class' => 'required']) }}
-            {{ Form::text('name', NULL, [
+            {{ Form::text('name', null, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.unit.examples.name'),
@@ -20,7 +20,7 @@
 
         <p>
             {{ Form::label('name_shortcut', __('forms.unit.name_shortcut')) }}
-            {{ Form::text('name_shortcut', NULL, [
+            {{ Form::text('name_shortcut', null, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.unit.examples.name_shortcut')]) }}
@@ -28,7 +28,7 @@
 
         <p>
             {{ Form::label('name_plural', __('forms.unit.name_plural')) }}
-            {{ Form::text('name_plural', NULL, [
+            {{ Form::text('name_plural', null, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.unit.examples.name_plural')]) }}
@@ -36,7 +36,7 @@
 
         <p>
             {{ Form::label('name_plural_shortcut', __('forms.unit.name_plural_shortcut')) }}
-            {{ Form::text('name_plural_shortcut', NULL, [
+            {{ Form::text('name_plural_shortcut', null, [
                 'maxlength'   => 20,
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.unit.examples.name_plural_shortcut')]) }}

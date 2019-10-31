@@ -18,7 +18,8 @@ class IngredientDetailGroupPolicy
      * @param  \App\Models\Recipe  $recipe
      * @return Bool
      */
-    public function create(User $user, Recipe $recipe) {
+    public function create(User $user, Recipe $recipe)
+    {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
 
@@ -29,7 +30,8 @@ class IngredientDetailGroupPolicy
      * @param  \App\Models\Recipe  $recipe
      * @return Bool
      */
-    public function update(User $user, Recipe $recipe) {
+    public function update(User $user, Recipe $recipe)
+    {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
 
@@ -40,7 +42,8 @@ class IngredientDetailGroupPolicy
      * @param  \App\Models\Recipe  $recipe
      * @return Bool
      */
-    public function delete(User $user, Recipe $recipe) {
+    public function delete(User $user, Recipe $recipe)
+    {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
 

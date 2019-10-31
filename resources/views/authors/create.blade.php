@@ -11,7 +11,7 @@
 
         <p>
             {{ Form::label('name', __('forms.global.name')) }}
-            {{ Form::text('name', NULL, [
+            {{ Form::text('name', null, [
                 'maxlength'   => 50,
                 'class'       => 'w3-input',
                 'placeholder' => __('forms.author.examples.name'),

@@ -17,13 +17,13 @@
         <p>
             {{ Form::label('rating_criterion_id', __('forms.rating.criterion'), [
                 'class' => 'required']) }}
-            {{ Form::select('rating_criterion_id', $ratingCriteria, NULL, [
+            {{ Form::select('rating_criterion_id', $ratingCriteria, null, [
                 'class' => 'js-dropdown w3-select']) }}
         </p>
 
         <p>
             {{ Form::label('comment', __('forms.rating.comment'), ['class' => 'required']) }}
-            {{ Form::textarea('comment', NULL, [
+            {{ Form::textarea('comment', null, [
                 'maxlength' => 16777215,
                 'class'     => 'w3-input w3-border',
                 'required']) }}

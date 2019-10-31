@@ -11,7 +11,7 @@
 |
 */
 
-Route::middleware('checklogin')->group(function() {
+Route::middleware('checklogin')->group(function () {
 
     Route::post('recipes/{id}/restore', 'RecipeController@restore')->name('recipes.restore');
     Route::resource('recipes', 'RecipeController')->only([
@@ -43,7 +43,7 @@ Route::middleware('checklogin')->group(function() {
     });
 });
 
-Route::middleware('checklogin', 'checkadmin')->group(function() {
+Route::middleware('checklogin', 'checkadmin')->group(function () {
 
     Route::get('/admin', 'PagesController@admin')->name('admin.index');
 

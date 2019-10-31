@@ -32,7 +32,8 @@ class RatingCriterion extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ratings() {
+    public function ratings()
+    {
         return $this->hasMany('App\Models\Rating');
     }
 }

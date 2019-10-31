@@ -35,7 +35,8 @@ class IngredientDetailGroup extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recipe() {
+    public function recipe()
+    {
         return $this->belongsTo('\App\Models\Recipe');
     }
 
@@ -44,7 +45,8 @@ class IngredientDetailGroup extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function ingredientDetails() {
+    public function ingredientDetails()
+    {
         return $this->hasMany('\App\Models\IngredientDetail');
     }
 }

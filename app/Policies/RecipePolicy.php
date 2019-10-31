@@ -17,7 +17,8 @@ class RecipePolicy
      * @param  \App\Models\Recipe  $recipe
      * @return Bool
      */
-    public function update(User $user, Recipe $recipe) {
+    public function update(User $user, Recipe $recipe)
+    {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
 
@@ -28,7 +29,8 @@ class RecipePolicy
      * @param  \App\Models\Recipe  $recipe
      * @return Bool
      */
-    public function delete(User $user, Recipe $recipe) {
+    public function delete(User $user, Recipe $recipe)
+    {
         return ($user->id === $recipe->user_id) || ($user->isAdmin());
     }
 

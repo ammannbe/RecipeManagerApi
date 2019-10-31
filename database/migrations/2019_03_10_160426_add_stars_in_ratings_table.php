@@ -14,7 +14,7 @@ class AddStarsInRatingsTable extends Migration
     public function up()
     {
         Schema::table('ratings', function (Blueprint $table) {
-            $table->unsignedTinyInteger('stars')->nullable()->default(NULL)->after('comment');
+            $table->unsignedTinyInteger('stars')->nullable()->default(null)->after('comment');
         });
     }
 

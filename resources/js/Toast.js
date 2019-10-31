@@ -1,6 +1,6 @@
 var Toast = {};
 
-Toast.remove = function() {
+Toast.remove = function () {
     Toast.$_button.parent().fadeOut('slow');
 }
 
