@@ -194,6 +194,7 @@ return [
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
+        'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
@@ -223,18 +224,18 @@ return [
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Session' => Illuminate\Support\Facades\Session::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
+        'Str' => Illuminate\Support\Str::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+        'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
 
+        'CodeHelper'   => App\Helpers\CodeHelper::class,
         'FormatHelper' => App\Helpers\FormatHelper::class,
         'FormHelper'   => App\Helpers\FormHelper::class,
-        'CodeHelper'   => App\Helpers\CodeHelper::class,
         'RecipeHelper' => App\Helpers\RecipeHelper::class,
-        'CodeHelper'   => App\Helpers\FormHelper::class,
 
     ],
 
