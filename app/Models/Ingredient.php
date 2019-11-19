@@ -40,9 +40,9 @@ class Ingredient extends Model
     {
         return $query->where('name', 'LIKE', '%' . $name . '%')
             ->with([
-                'ingredientDetail.recipe',
-                'ingredientDetail.recipe.author',
-                'ingredientDetail.recipe.category',
+                'ingredientDetails.recipe',
+                'ingredientDetails.recipe.author',
+                'ingredientDetails.recipe.category',
             ]);
     }
 
