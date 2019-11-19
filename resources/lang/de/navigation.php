@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'home'    => 'Rezepte',
+    'home'    => 'Startseite',
     'search'  => 'Suche',
     'create'  => 'Rezept eingeben',
     'admin'   => 'Administration',
