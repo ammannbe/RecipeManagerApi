@@ -4,10 +4,6 @@
 
 <div class="nav top">
     <div class="w3-bar w3-black">
-        <div class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-small">
-            <a class="w3-black" href="{{ route('lang', 'de') }}">DE</a> |
-            <a class="w3-black" href="{{ route('lang', 'en') }}">EN</a>
-        </div>
         <a href="{{ route('home') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="home"></i>{{ __('navigation.home') }}</a>
         <a href="{{ route('search.index') }}" class="{{ $w3BarAlwaysItemClasses }}"><i class="magnifier"></i>{{ __('navigation.search') }}</a>
         @auth
@@ -27,6 +23,11 @@
                 <input type="submit" value="{{ __('navigation.logout') }}" class="w3-button">
             </form>
         @endguest
+
+        <div class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-small w3-right">
+            <a class="w3-black" href="{{ route('lang', 'de') }}">DE</a> |
+            <a class="w3-black" href="{{ route('lang', 'en') }}">EN</a>
+        </div>
 
         <a href="javascript:void(0)" class="{{ $w3BarSmallItemClasses }} w3-right w3-hide-large" onclick="navigation()">&#9776;</a>
     </div>
