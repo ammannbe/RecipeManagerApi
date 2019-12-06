@@ -36,7 +36,7 @@ EditMode.toggle = function () {
 EditMode.enable = function () {
     EditMode._enabled = true;
     EditMode.$_input.prop('checked', true);
-    EditMode.$_item.removeClass('hidden forced');
+    EditMode.$_item.removeClass('hidden');
     Cookies.set('edit-mode', 'enabled');
     EditMode.$_switch.parent().parent().children().eq(1).hide(); // hide switch text
 
@@ -45,7 +45,7 @@ EditMode.enable = function () {
 EditMode.disable = function () {
     EditMode._enabled = false;
     EditMode.$_input.prop('checked', false);
-    EditMode.$_item.addClass('hidden forced');
+    EditMode.$_item.addClass('hidden');
     Cookies.set('edit-mode', 'disabled')
     EditMode.$_switch.parent().parent().children().eq(1).show(); // show switch text
 }

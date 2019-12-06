@@ -76,6 +76,12 @@ section.content.recipe {
         > .list {
             h2 { margin-top: 0;   }
             h3 { margin-top: 1em; }
+
+            ul {
+                .edit-mode.item {
+                    font-size: 0.8em;
+                }
+            }
         }
 
         .ingredient-group {
