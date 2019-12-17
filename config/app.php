@@ -112,6 +112,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Log DB Queries
+    |--------------------------------------------------------------------------
+    |
+    | This flag will be used to determine if DB Queries should be logged in
+    | the log file or not. This should not be enabled in production, cause it
+    | will slowing your query time.
+    |
+    */
+
+    'log_queries' => env('LOG_QUERIES', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
@@ -163,7 +176,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Nathanmac\Utilities\Parser\ParserServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -176,6 +188,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\ObserverServiceProvider::class,
+        App\Providers\QueryLogServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
@@ -228,14 +242,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        'Adldap' => Adldap\Laravel\Facades\Adldap::class,
-        'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
-
-        'CodeHelper'   => App\Helpers\CodeHelper::class,
-        'FormatHelper' => App\Helpers\FormatHelper::class,
-        'FormHelper'   => App\Helpers\FormHelper::class,
-        'RecipeHelper' => App\Helpers\RecipeHelper::class,
 
     ],
 

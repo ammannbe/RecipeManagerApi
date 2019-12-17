@@ -2,12 +2,11 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use App\Mail\ExceptionOccured;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Debug\Exception\FlattenException;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -36,7 +35,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(\Exception $exception)
     {
         if ($this->shouldReport($exception)) {
             $this->sendEmail($exception);
@@ -52,7 +51,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, \Exception $exception)
     {
         return parent::render($request, $exception);
     }
@@ -63,17 +62,19 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    private function sendEmail(Exception $exception)
+    private function sendEmail(\Exception $exception)
     {
-        try {
-            if (env('APP_DEBUG') === false) {
+            try {
+                if (!app()->isLocal()) {
+                    return;
+                }
+
                 $flatten = FlattenException::create($exception);
                 $handler = new SymfonyExceptionHandler();
                 $html = $handler->getHtml($flatten);
-                Mail::to(env('MAIL_RECIPIENT'))->send(new ExceptionOccured($html));
+                Mail::to(config('email.exception_recipient'))->send(new ExceptionOccured($html));
+            } catch (\Exception $e) {
+                dd("An error occured while sending the exception email: {$e}", "Previous error: {$exception}");
             }
-        } catch (Exception $e) {
-            dd($e);
-        }
     }
 }
