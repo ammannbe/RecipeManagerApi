@@ -18,14 +18,8 @@ class IngredientDetailController extends Controller
      */
     public function index(Recipe $recipe)
     {
-        $this->authorize([IngredientDetail::class, $recipe]);
-        $recipe->ingredientDetails->load(
-            'ingredientDetailGroup',
-            'ingredientAttributes',
-            'ingredientDetail',
-            'ingredientDetails'
-        );
-        return $recipe->ingredientDetails;
+        $this->authorize([IngredientDetail::class, $recipe]);;
+        return $recipe->ingredientDetails()->exceptAlternates()->get();
     }
 
     /**
@@ -37,10 +31,10 @@ class IngredientDetailController extends Controller
     public function store(Store $request, Recipe $recipe)
     {
         $this->authorize([IngredientDetail::class, $recipe]);
-        $ingredientDetail = $recipe->ingredientDetails()->create($request->validated());
-        $attributes = $request->validated()['ingredient_detail_attributes'] ?? null;
-        if ($attributes) {
-            $ingredientDetail->ingredientAttributes()->sync($attributes);
+        $validated = $request->validated();
+        $ingredientDetail = $recipe->ingredientDetails()->create($validated);
+        if (isset($validated['ingredient_attributes'])) {
+            $ingredientDetail->ingredientAttributes()->sync($validated['ingredient_attributes']);
         }
         return $this->responseCreated('ingredient-details.show', $ingredientDetail->id);
     }
@@ -54,12 +48,6 @@ class IngredientDetailController extends Controller
     public function show(IngredientDetail $ingredientDetail)
     {
         $this->authorize($ingredientDetail);
-        $ingredientDetail->load(
-            'ingredientDetailGroup',
-            'ingredientAttributes',
-            'ingredientDetail',
-            'ingredientDetails'
-        );
         return $ingredientDetail;
     }
 
@@ -73,9 +61,9 @@ class IngredientDetailController extends Controller
     public function update(Update $request, IngredientDetail $ingredientDetail)
     {
         $this->authorize($ingredientDetail);
-        $attributes = $request->validated()['ingredient_detail_attributes'] ?? null;
-        if ($attributes) {
-            $ingredientDetail->ingredientAttributes()->sync($attributes);
+        $validated = $request->validated();
+        if (isset($validated['ingredient_attributes'])) {
+            $ingredientDetail->ingredientAttributes()->sync($validated['ingredient_attributes']);
         }
         $ingredientDetail->update($request->validated());
     }

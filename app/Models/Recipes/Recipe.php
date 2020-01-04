@@ -4,11 +4,14 @@ namespace App\Models\Recipes;
 
 use App\Models\FilterScope;
 use App\Models\SlugifyTrait;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Http\Controllers\Recipes\TagController;
 
 class Recipe extends Model
 {
@@ -43,6 +46,15 @@ class Recipe extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'photo_url',
+    ];
+
+    /**
      * The relations that should cascade on delete
      *
      * @var array
@@ -65,6 +77,50 @@ class Recipe extends Model
     ];
 
     /**
+     * Get the full URL to the photo
+     *
+     * @return string|null
+     */
+    public function getPhotoUrlAttribute()
+    {
+        if (!$this->photo) {
+            return null;
+        }
+
+        return \Storage::disk('images')->url("recipes/{$this->photo}");
+    }
+
+    /**
+     * Get the recipe's author
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo('\App\Models\Users\Author');
+    }
+
+    /**
+     * Get the recipe's category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo('\App\Models\Recipes\Category');
+    }
+
+    /**
+     * Get the recipe's cookbook
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cookbook(): BelongsTo
+    {
+        return $this->belongsTo('\App\Models\Recipes\Cookbook');
+    }
+
+    /**
      * Get the recipe's tags
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -81,8 +137,7 @@ class Recipe extends Model
      */
     public function ingredientDetails(): HasMany
     {
-        return $this->hasMany('\App\Models\Ingredients\IngredientDetail')
-            ->with(['unit', 'ingredient', 'ingredientAttributes', 'ingredientDetailGroup']);
+        return $this->hasMany('\App\Models\Ingredients\IngredientDetail');
     }
 
     /**
@@ -102,7 +157,6 @@ class Recipe extends Model
      */
     public function ratings(): HasMany
     {
-        return $this->hasMany('\App\Models\Recipes\Ratings')
-            ->with(['ratingCriterion']);
+        return $this->hasMany('\App\Models\Ratings\Rating');
     }
 }

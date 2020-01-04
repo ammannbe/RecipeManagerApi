@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Recipes\Recipe\Index;
 use App\Http\Requests\Recipes\Recipe\Store;
 use App\Http\Requests\Recipes\Recipe\Update;
+use App\Http\Controllers\Recipes\TagController;
+use App\Http\Controllers\Recipes\CookbookController;
 
 class RecipeController extends Controller
 {
@@ -20,7 +22,11 @@ class RecipeController extends Controller
     {
         $this->authorize(Recipe::class);
 
-        return Recipe::with('tags')
+        $model = new Recipe();
+        if (TagController::isEnabled()) {
+            $model = $model->with('tags');
+        }
+        return $model
             ->filter($request->filter, $request->method)
             ->paginate($request->limit);
     }
@@ -47,7 +53,13 @@ class RecipeController extends Controller
     public function show(Recipe $recipe)
     {
         $this->authorize($recipe);
-        $recipe->load('tags');
+        if (TagController::isEnabled()) {
+            $recipe->load('tags');
+        }
+        if (CookbookController::isEnabled()) {
+            $recipe->load('cookbooks');
+        }
+        $recipe->load('author', 'category');
         return $recipe;
     }
 

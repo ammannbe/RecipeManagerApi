@@ -13,6 +13,15 @@ class Rating extends Model
     use SoftCascadeTrait;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'rating_criterion'
+    ];
+
+    /**
      * Get the rating's rating-criterion
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

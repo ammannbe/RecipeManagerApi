@@ -23,4 +23,15 @@ class Controller extends BaseController
     {
         return response('', 201)->header('Location', route($routeName, [$resourceId]));
     }
+
+    /**
+     * Check if the current controller is enabled
+     *
+     * @param  \App\Http\Controllers\Controller  $controller
+     * @return bool
+     */
+    public static function isEnabled()
+    {
+        return !(config('app.disabled_controllers')[static::class] ?? false);
+    }
 }

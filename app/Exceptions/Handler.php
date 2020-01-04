@@ -30,6 +30,21 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Determine if the exception should be reported.
+     *
+     * @param  \Exception  $e
+     * @return bool
+     */
+    public function shouldReport(\Exception $e)
+    {
+        if (config('app.debug')) {
+            return false;
+        }
+
+        return parent::shouldReport($e);
+    }
+
+    /**
      * Report or log an exception.
      *
      * @param  \Exception  $exception
@@ -64,17 +79,13 @@ class Handler extends ExceptionHandler
      */
     private function sendEmail(\Exception $exception)
     {
-            try {
-                if (!app()->isLocal()) {
-                    return;
-                }
-
-                $flatten = FlattenException::create($exception);
-                $handler = new SymfonyExceptionHandler();
-                $html = $handler->getHtml($flatten);
-                Mail::to(config('email.exception_recipient'))->send(new ExceptionOccured($html));
-            } catch (\Exception $e) {
-                dd("An error occured while sending the exception email: {$e}", "Previous error: {$exception}");
-            }
+        try {
+            $flatten = FlattenException::create($exception);
+            $handler = new SymfonyExceptionHandler();
+            $html = $handler->getHtml($flatten);
+            Mail::to(config('mail.exception_recipient'))->send(new ExceptionOccured($html));
+        } catch (\Exception $e) {
+            dd("An error occured while sending the exception email: {$e}", "Previous error: {$exception}");
+        }
     }
 }

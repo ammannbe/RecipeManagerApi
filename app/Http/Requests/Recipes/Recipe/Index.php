@@ -5,6 +5,8 @@ namespace App\Http\Requests\Recipes\Recipe;
 use App\Models\Recipes\Recipe;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Controllers\Recipes\TagController;
+use App\Http\Controllers\Recipes\CookbookController;
 
 class Index extends FormRequest
 {
@@ -25,19 +27,32 @@ class Index extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'filter' => ['array'],
-            'filter.cookbook_id'      => ['exists:cookbooks,id'],
             'filter.category_id'      => ['exists:categories,id'],
-            'filter.name'             => ['string', 'min:5', 'max:255', ],
+            'filter.name'             => ['string', 'min:5', 'max:100'],
             'filter.yield_amount'     => ['numeric', 'max:999'],
             'filter.complexity'       => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'filter.instructions'     => ['string', 'max:16000000'],
             'filter.preparation_time' => ['string', 'date_format:H:i'],
-            'filter.tags'             => ['array'],
-            'filter.tags.*'           => ['exists:tags,id'],
             'limit'  => ['integer', 'max:1000'],
             'page'   => ['integer'],
         ];
+
+        if (CookbookController::isEnabled()) {
+            array_merge($rules, ['cookbook_id' => ['nullable', 'exists:cookbooks,id']]);
+        }
+
+        if (TagController::isEnabled()) {
+            array_merge(
+                $rules,
+                [
+                    'filter.tags'   => ['array'],
+                    'filter.tags.*' => ['exists:tags,id']
+                ]
+            );
+        }
+
+        return $rules;
     }
 }

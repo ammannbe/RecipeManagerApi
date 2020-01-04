@@ -16,7 +16,7 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-        return view('auth.login');
+        return view('app');
     }
 
     /**
@@ -30,7 +30,11 @@ class LoginController extends Controller
         $token = auth()->attempt($request->validated());
 
         if (!$token) {
-            abort(401);
+            return response([
+                'errors' => [
+                    'password' => ['Invalid email or password.']
+                ]
+            ], 422);
         }
 
         return $this->responseWithToken($token);

@@ -58,6 +58,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Disabled Controllers
+    |--------------------------------------------------------------------------
+    |
+    | These properties are used to enable or disable whole controllers. Each
+    | disabled controller and all related functionalities will throw a
+    | HTTP Status 404 (Not Found) or 422 (Validation Error).
+    |
+    | NOTE: only the listed controllers can be disabled!
+    |
+    */
+
+    'disabled_controllers' => [
+        \App\Http\Controllers\Recipes\CookbookController::class => env('DISABLE_COOKBOOKS', false),
+        \App\Http\Controllers\Recipes\TagController::class => env('DISABLE_TAGS', false),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

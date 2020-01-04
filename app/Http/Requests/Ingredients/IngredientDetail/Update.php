@@ -28,10 +28,10 @@ class Update extends FormRequest
             'amount_max'                     => ['nullable', 'numeric', 'gt:amount'],
             'unit_id'                        => ['nullable', 'exists:units,id'],
             'ingredient_id'                  => ['exists:ingredients,id'],
-            'ingredient_detail_attributes'   => ['nullable', 'array'],
-            'ingredient_detail_attributes.*' => ['required_with:ingredient_attributes', 'exists:ingredient_attributes,id'],
+            'ingredient_attributes'          => ['nullable', 'array'],
+            'ingredient_attributes.*'        => ['required_with:ingredient_attributes', 'exists:ingredient_attributes,id'],
             'ingredient_detail_group_id'     => ['nullable', 'exists:ingredient_detail_groups,id'],
-            'ingredient_detail_alternate_id' => ['nullable', 'exists:ingredient_details,id'],
+            'ingredient_detail_id'           => ['nullable', 'exists:ingredient_details,id'],
             'position'                       => ['nullable', 'integer'],
         ];
     }

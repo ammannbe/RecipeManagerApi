@@ -26,5 +26,17 @@ class RecipeObserver
     public function saving(Recipe $recipe)
     {
         $recipe->slugifyName();
+
+        if ($recipe->isDirty('photo')) {
+            $photo = $recipe->photo;
+
+            $time = time();
+            $slug = \Str::slug($recipe->name) ?? \rand(5, 5);
+            $extension = $photo->getClientOriginalExtension();
+            $name = "{$time}-{$slug}.{$extension}";
+
+            $photo->storeAs('recipes', $name, 'images');
+            $recipe->photo = $name;
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models\Ingredients;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,7 +26,7 @@ class IngredientDetail extends Model
         'unit_id',
         'ingredient_id',
         'ingredient_detail_group_id',
-        'ingredient_detail_alternate_id',
+        'ingredient_detail_id',
         'position',
     ];
 
@@ -36,6 +37,19 @@ class IngredientDetail extends Model
      */
     protected $hidden = [
         'deleted_at',
+    ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'unit',
+        'ingredient',
+        'ingredientAttributes',
+        'ingredientDetailGroup',
+        'ingredientDetails'
     ];
 
     /**
@@ -106,5 +120,16 @@ class IngredientDetail extends Model
     public function ingredientAttributes(): BelongsToMany
     {
         return $this->belongsToMany('\App\Models\Ingredients\IngredientAttribute');
+    }
+
+    /**
+     * Exclude the ones which belongs to another ingredient-detail
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeExceptAlternates(Builder $builder): Builder
+    {
+        return $builder->whereNull('ingredient_detail_id');
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Requests\Recipes\Recipe;
 use App\Models\Recipes\Recipe;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Controllers\Recipes\TagController;
+use App\Http\Controllers\Recipes\CookbookController;
 
 class Update extends FormRequest
 {
@@ -25,17 +27,30 @@ class Update extends FormRequest
      */
     public function rules()
     {
-        return [
-            'cookbook_id'      => ['nullable', 'exists:cookbooks,id'],
+        $rules = [
             'category_id'      => ['exists:categories,id'],
-            'name'             => ['string', 'max:255', "unique:recipes,name,{$this->recipe->id}"],
+            'name'             => ['string', 'max:100', "unique:recipes,name,{$this->recipe->id}"],
             'yield_amount'     => ['nullable', 'numeric', 'max:999'],
             'complexity'       => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'instructions'     => ['string', 'max:16000000'],
             'photo'            => ['nullable', 'image'],
             'preparation_time' => ['nullable', 'string', 'date_format:H:i'],
-            'tags'             => ['nullable', 'array'],
-            'tags.*'           => ['required_with:tags', 'exists:tags,id'],
         ];
+
+        if (CookbookController::isEnabled()) {
+            array_merge($rules, ['cookbook_id' => ['nullable', 'exists:cookbooks,id']]);
+        }
+
+        if (TagController::isEnabled()) {
+            array_merge(
+                $rules,
+                [
+                    'tags'   => ['nullable', 'array'],
+                    'tags.*' => ['required_with:tags', 'exists:tags,id']
+                ]
+            );
+        }
+
+        return $rules;
     }
 }
