@@ -6,12 +6,12 @@ use App\Models\FilterScope;
 use App\Models\SlugifyTrait;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
+use League\Flysystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Http\Controllers\Recipes\TagController;
 
 class Recipe extends Model
 {
@@ -32,7 +32,7 @@ class Recipe extends Model
         'yield_amount',
         'complexity',
         'instructions',
-        'photo',
+        'photos',
         'preparation_time',
     ];
 
@@ -46,12 +46,21 @@ class Recipe extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'photos' => 'array'
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
     protected $appends = [
-        'photo_url',
+        'photo_urls',
     ];
 
     /**
@@ -60,8 +69,8 @@ class Recipe extends Model
      * @var array
      */
     protected $softCascade = [
-        'ingredientDetails',
-        'ingredientDetailGroups',
+        'ingredients',
+        'ingredientGroups',
         'ratings',
     ];
 
@@ -77,17 +86,59 @@ class Recipe extends Model
     ];
 
     /**
-     * Get the full URL to the photo
+     * Get the full URLs of the photos
      *
      * @return string|null
      */
-    public function getPhotoUrlAttribute()
+    public function getPhotoUrlsAttribute()
     {
-        if (!$this->photo) {
+        if (!$this->photos) {
             return null;
         }
 
-        return \Storage::disk('images')->url("recipes/{$this->photo}");
+        $urls = [];
+        foreach ($this->photos as $name) {
+            $urls[] = \Storage::disk('images')->url("recipes/{$name}");
+        }
+
+        return $urls;
+    }
+
+    /**
+     * Save photos to disk
+     *
+     * If null given, nothing is done
+     *
+     * @param  array  $photos  Instances of \Illuminate\Http\UploadedFile
+     * @return void
+     */
+    public function savePhotos(?array $photos): void
+    {
+        if (!$photos) {
+            return;
+        }
+
+        $original = $this->photos ?? [];
+        foreach ($photos as $key => $photo) {
+            if ($photo === null) {
+                unset($original[$key]);
+                continue;
+            }
+
+            if ($photo instanceof UploadedFile) {
+                $time = time();
+                $extension = $photo->getClientOriginalExtension();
+                $name = "{$time}-{$this->slug}.{$extension}";
+
+                $photo->storeAs('recipes', $name, 'images');
+                $original[$key] = $name;
+                continue;
+            }
+
+            throw new FileNotFoundException('Photos has to be uploaded files.');
+        }
+
+        $this->update(['photos' => $original ?? null]);
     }
 
     /**
@@ -131,23 +182,23 @@ class Recipe extends Model
     }
 
     /**
-     * Get the recipe's ingredientDetails
+     * Get the recipe's ingredients
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetails(): HasMany
+    public function ingredients(): HasMany
     {
-        return $this->hasMany('\App\Models\Ingredients\IngredientDetail');
+        return $this->hasMany('\App\Models\Ingredients\Ingredient');
     }
 
     /**
-     * Get the recipe's ingredientDetailGroups
+     * Get the recipe's ingredientGroups
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetailGroups(): HasMany
+    public function ingredientGroups(): HasMany
     {
-        return $this->hasMany('\App\Models\Ingredients\IngredientDetailGroup');
+        return $this->hasMany('\App\Models\Ingredients\IngredientGroup');
     }
 
     /**

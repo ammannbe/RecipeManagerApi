@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Models\Recipes;
+namespace App\Models\Ingredients;
 
 use App\Models\SlugifyTrait;
-use App\Models\Users\AdminOrOwnerScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Cookbook extends Model
+class Food extends Model
 {
     use SoftDeletes;
     use SoftCascadeTrait;
@@ -39,28 +37,6 @@ class Cookbook extends Model
      * @var array
      */
     protected $softCascade = [
-        'recipes@restrict'
+        'ingredients@restrict'
     ];
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new AdminOrOwnerScope);
-    }
-
-    /**
-     * Get the category's recipes
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function recipes(): HasMany
-    {
-        return $this->hasMany('\App\Models\Recipes\Recipe');
-    }
 }

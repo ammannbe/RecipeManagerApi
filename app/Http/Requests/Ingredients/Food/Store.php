@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Ingredients\IngredientDetailGroup;
+namespace App\Http\Requests\Ingredients\Food;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Update extends FormRequest
+class Store extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string', 'max:20'],
+            'name' => ['required', 'string', 'max:50', 'unique:foods'],
         ];
     }
 }

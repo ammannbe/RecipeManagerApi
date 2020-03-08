@@ -24,7 +24,15 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string', 'max:50', "unique:ingredients,name,{$this->ingredient->id}"],
+            'amount'                         => ['nullable', 'numeric'],
+            'amount_max'                     => ['nullable', 'numeric', 'gt:amount'],
+            'unit_id'                        => ['nullable', 'exists:units,id'],
+            'ingredient_id'                  => ['exists:ingredients,id'],
+            'ingredient_attributes'          => ['nullable', 'array'],
+            'ingredient_attributes.*'        => ['required_with:ingredient_attributes', 'exists:ingredient_attributes,id'],
+            'ingredient_group_id'            => ['nullable', 'exists:ingredient_groups,id'],
+            'ingredient_id'                  => ['nullable', 'exists:ingredients,id'],
+            'position'                       => ['nullable', 'integer'],
         ];
     }
 }

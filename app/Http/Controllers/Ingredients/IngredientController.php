@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Ingredients;
 
+use App\Models\Recipes\Recipe;
 use App\Http\Controllers\Controller;
 use App\Models\Ingredients\Ingredient;
 use App\Http\Requests\Ingredients\Ingredient\Store;
@@ -12,24 +13,29 @@ class IngredientController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Models\Recipes\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Recipe $recipe)
     {
-        $this->authorize(Ingredient::class);
-        return Ingredient::get();
+        $this->authorize([Ingredient::class, $recipe]);
+        return $recipe->ingredients()->originalOnly()->get();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Ingredients\Ingredient\Store  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Store $request)
+    public function store(Store $request, Recipe $recipe)
     {
-        $this->authorize(Ingredient::class);
-        $ingredient = Ingredient::create($request->validated());
+        $this->authorize([Ingredient::class, $recipe]);
+        $validated = $request->validated();
+        $ingredient = $recipe->ingredients()->create($validated);
+        if (isset($validated['ingredient_attributes'])) {
+            $ingredient->ingredientAttributes()->sync($validated['ingredient_attributes']);
+        }
         return $this->responseCreated('ingredients.show', $ingredient->id);
     }
 
@@ -48,13 +54,17 @@ class IngredientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Ingredients\Ingredient\Update  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
      * @return \Illuminate\Http\Response
      */
     public function update(Update $request, Ingredient $ingredient)
     {
         $this->authorize($ingredient);
+        $validated = $request->validated();
+        if (isset($validated['ingredient_attributes'])) {
+            $ingredient->ingredientAttributes()->sync($validated['ingredient_attributes']);
+        }
         $ingredient->update($request->validated());
     }
 

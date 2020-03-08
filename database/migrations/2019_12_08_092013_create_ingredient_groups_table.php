@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCookbooksTable extends Migration
+class CreateIngredientGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,18 @@ class CreateCookbooksTable extends Migration
      */
     public function up()
     {
-        Schema::create('cookbooks', function (Blueprint $table) {
+        Schema::create('ingredient_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('recipe_id');
             $table->string('name', 20);
             $table->string('slug', 40);
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('author_id');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['name', 'user_id']);
-            $table->unique(['slug', 'user_id']);
+            $table->unique(['name', 'recipe_id']);
+            $table->unique(['slug', 'recipe_id']);
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
     }
 
@@ -37,6 +35,6 @@ class CreateCookbooksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cookbooks');
+        Schema::dropIfExists('ingredient_groups');
     }
 }

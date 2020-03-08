@@ -41,6 +41,7 @@ class RecipeController extends Controller
     {
         $this->authorize(Recipe::class);
         $recipe = auth()->user()->recipes()->create($request->validated());
+        $recipe->savePhotos($request->validated()['photos'] ?? null);
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 

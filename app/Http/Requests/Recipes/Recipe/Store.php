@@ -33,7 +33,8 @@ class Store extends FormRequest
             'yield_amount'     => ['required', 'nullable', 'numeric', 'max:999'],
             'complexity'       => ['required', 'string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'instructions'     => ['nullable', 'string', 'max:16000000'],
-            'photo'            => ['nullable', 'image'],
+            'photos'           => ['nullable', 'array', 'max:20'],
+            'photos.*'         => ['nullable', 'image'],
             'preparation_time' => ['nullable', 'string', 'date_format:H:i'],
         ];
 

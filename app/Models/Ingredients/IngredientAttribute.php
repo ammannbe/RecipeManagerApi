@@ -36,16 +36,16 @@ class IngredientAttribute extends Model
      * @var array
      */
     protected $softCascade = [
-        'ingredientDetails@restrict'
+        'ingredients@restrict'
     ];
 
     /**
-     * Get the ingredient-attribute's ingredient-details
+     * Get the ingredient-attribute's ingredients
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function ingredientDetails(): BelongsToMany
+    public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany('\App\Models\Ingredients\IngredientDetail');
+        return $this->belongsToMany('\App\Models\Ingredients\Ingredient');
     }
 }

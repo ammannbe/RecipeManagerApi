@@ -31,7 +31,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 Route::apiResources([
-    'ingredients' => 'Ingredients\IngredientController',
+    'foods' => 'Ingredients\FoodController',
     'ingredient-attributes' => 'Ingredients\IngredientAttributeController',
 
     'ratings' => 'Ratings\RatingController',
@@ -43,18 +43,18 @@ Route::apiResources([
     'units' => 'Ingredients\UnitController',
 ], ['only' => ['index', 'show']]);
 
-Route::apiResource('ingredient-details', 'Ingredients\IngredientDetailController')->only(['show']);
-Route::get('recipes/{recipe}/ingredient-details', 'Ingredients\IngredientDetailController@index')->name('ingredient-details.index');
-Route::post('recipes/{recipe}/ingredient-details', 'Ingredients\IngredientDetailController@store')->name('ingredient-details.store');
+Route::apiResource('ingredients', 'Ingredients\IngredientController')->only(['show']);
+Route::get('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@index')->name('ingredients.index');
+Route::post('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@store')->name('ingredients.store');
 
-Route::apiResource('ingredient-detail-groups', 'Ingredients\IngredientDetailGroupController')->only(['show']);
-Route::get('recipes/{recipe}/ingredient-detail-groups', 'Ingredients\IngredientDetailGroupController@index')->name('ingredient-detail-groups.index');
-Route::post('recipes/{recipe}/ingredient-detail-groups', 'Ingredients\IngredientDetailGroupController@store')->name('ingredient-detail-groups.store');
+Route::apiResource('ingredient-groups', 'Ingredients\IngredientGroupController')->only(['show']);
+Route::get('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@index')->name('ingredient-groups.index');
+Route::post('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@store')->name('ingredient-groups.store');
 
 
 Route::middleware(['auth'])->group(function () {
     Route::apiResources([
-        'ingredients' => 'Ingredients\IngredientController',
+        'foods' => 'Ingredients\FoodController',
         'ingredient-attributes' => 'Ingredients\IngredientAttributeController',
 
         'ratings' => 'Ratings\RatingController',
@@ -67,17 +67,17 @@ Route::middleware(['auth'])->group(function () {
     ], ['only' => ['store', 'update', 'destroy']]);
 
     Route::apiResources([
-        'ingredient-details' => 'Ingredients\IngredientDetailController',
-        'ingredient-detail-groups' => 'Ingredients\IngredientDetailGroupController',
+        'ingredients' => 'Ingredients\IngredientController',
+        'ingredient-groups' => 'Ingredients\IngredientGroupController',
     ], ['only' => ['update', 'destroy']]);
 
     Route::apiResource('cookbooks', 'Recipes\CookbookController');
 
 
-    Route::post('ingredients/{id}/restore', 'Ingredients\IngredientController@restore')->name('ingredients.restore');
+    Route::post('foods/{id}/restore', 'Ingredients\FoodController@restore')->name('foods.restore');
     Route::post('ingredient-attributes/{id}/restore', 'Ingredients\IngredientAttributeController@restore')->name('ingredient-attributes.restore');
-    Route::post('ingredient-details/{id}/restore', 'Ingredients\IngredientDetailController@restore')->name('ingredient-details.restore');
-    Route::post('ingredient-detail-groups/{id}/restore', 'Ingredients\IngredientDetailGroupController@restore')->name('ingredient-detail-groups.restore');
+    Route::post('ingredients/{id}/restore', 'Ingredients\IngredientController@restore')->name('ingredients.restore');
+    Route::post('ingredient-groups/{id}/restore', 'Ingredients\IngredientGroupController@restore')->name('ingredient-groups.restore');
     Route::post('categories/{id}/restore', 'Recipes\CategoryController@restore')->name('categories.restore');
     Route::post('cookbooks/{id}/restore', 'Recipes\CookbookController@restore')->name('cookbooks.restore');
     Route::post('recipes/{id}/restore', 'Recipes\RecipeController@restore')->name('recipes.restore');

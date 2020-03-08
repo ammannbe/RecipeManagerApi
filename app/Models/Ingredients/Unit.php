@@ -2,6 +2,7 @@
 
 namespace App\Models\Ingredients;
 
+use App\Models\SlugifyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
@@ -11,6 +12,7 @@ class Unit extends Model
 {
     use SoftDeletes;
     use SoftCascadeTrait;
+    use SlugifyTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -39,16 +41,16 @@ class Unit extends Model
      * @var array
      */
     protected $softCascade = [
-        'ingredientDetails@restrict'
+        'ingredients@restrict'
     ];
 
     /**
-     * Get the unit's ingredient details
+     * Get the unit's ingredients
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredientDetails(): HasMany
+    public function ingredients(): HasMany
     {
-        return $this->hasMany('\App\Models\Ingredients\IngredientDetail');
+        return $this->hasMany('\App\Models\Ingredients\Ingredient');
     }
 }

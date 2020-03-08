@@ -16,6 +16,7 @@ class CreateIngredientAttributesTable extends Migration
         Schema::create('ingredient_attributes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 40)->unique();
+            $table->string('slug', 80)->unique();
             $table->timestamps();
             $table->softDeletes();
         });

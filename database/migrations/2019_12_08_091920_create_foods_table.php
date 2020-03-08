@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIngredientDetailGroupsTable extends Migration
+class CreateFoodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateIngredientDetailGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ingredient_detail_groups', function (Blueprint $table) {
+        Schema::create('foods', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('recipe_id');
-            $table->string('name', 20);
+            $table->string('name', 50)->unique();
+            $table->string('slug', 100)->unique();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
     }
 
@@ -31,6 +29,6 @@ class CreateIngredientDetailGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingredient_detail_groups');
+        Schema::dropIfExists('foods');
     }
 }

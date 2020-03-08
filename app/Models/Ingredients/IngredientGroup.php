@@ -8,7 +8,7 @@ use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class IngredientDetailGroup extends Model
+class IngredientGroup extends Model
 {
     use SoftDeletes;
     use SoftCascadeTrait;
@@ -37,11 +37,11 @@ class IngredientDetailGroup extends Model
      * @var array
      */
     protected $softCascade = [
-        'ingredientDetails@restrict',
+        'ingredients@restrict',
     ];
 
     /**
-     * Get the ingredient-detail's recipe
+     * Get the ingredient-group's recipe
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -51,12 +51,12 @@ class IngredientDetailGroup extends Model
     }
 
     /**
-     * Get the ingredient-detail-group's ingredient-details
+     * Get the ingredient-group's ingredients
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function ingredientDetails(): HasMany
+    public function ingredients(): HasMany
     {
-        return $this->hasMany('\App\Models\Ingredients\IngredientDetail');
+        return $this->hasMany('\App\Models\Ingredients\Ingredient');
     }
 }

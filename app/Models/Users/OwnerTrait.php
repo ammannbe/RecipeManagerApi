@@ -4,8 +4,8 @@ namespace App\Models\Users;
 
 use App\Models\Recipes\Recipe;
 use App\Models\Recipes\Cookbook;
-use App\Models\Ingredients\IngredientDetail;
-use App\Models\Ingredients\IngredientDetailGroup;
+use App\Models\Ingredients\Ingredient;
+use App\Models\Ingredients\IngredientGroup;
 
 trait OwnerTrait
 {
@@ -56,24 +56,24 @@ trait OwnerTrait
     }
 
     /**
-     * Determine if the user is owner of a specific ingredient-detail
+     * Determine if the user is owner of a specific ingredient
      *
-     * @param  \App\Models\Ingredients\IngredientDetail  $ingredientDetail
+     * @param  \App\Models\Ingredients\Ingredient  $ingredient
      * @return bool
      */
-    public function isOwnerOfIngredientDetail(IngredientDetail $ingredientDetail): bool
+    public function isOwnerOfIngredient(Ingredient $ingredient): bool
     {
-        return $this->id === $ingredientDetail->recipe->id;
+        return $this->id === $ingredient->recipe->id;
     }
 
     /**
-     * Determine if the user is owner of a specific ingredient-detail-group
+     * Determine if the user is owner of a specific ingredient-group
      *
-     * @param  \App\Models\Ingredients\IngredientDetailGroup  $ingredientDetailGroup
+     * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
      * @return bool
      */
-    public function isOwnerOfIngredientDetailGroup(IngredientDetailGroup $ingredientDetailGroup): bool
+    public function isOwnerOfIngredientGroup(IngredientGroup $ingredientGroup): bool
     {
-        return $this->id === $ingredientDetailGroup->recipe->id;
+        return $this->id === $ingredientGroup->recipe->id;
     }
 }

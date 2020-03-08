@@ -13,7 +13,7 @@ class CleanupDatabaseCommand extends Command
      */
     protected $signature = 'cleanup:database
         {--all : Run command on all possible tables}
-        {--table=* : Run command on specific table, possible values are: ingredient_details, ingredient_detail_groups, recipes, categories, rating_criteria, users, tags, ingredient_attributes, ratings, units, ingredients, authors, cookbooks}
+        {--table=* : Run command on specific table, possible values are: ingredients, ingredient_groups, recipes, categories, rating_criteria, users, tags, ingredient_attributes, ratings, units, foods, authors, cookbooks}
         {--days=30 : Amount of days to preserve the soft deletes}
     ';
 
@@ -30,8 +30,8 @@ class CleanupDatabaseCommand extends Command
      * @var array
      */
     protected $tables = [
-        'ingredient_details',
-        'ingredient_detail_groups',
+        'ingredients',
+        'ingredient_groups',
         'recipes',
         'categories',
         'rating_criteria',
@@ -40,14 +40,14 @@ class CleanupDatabaseCommand extends Command
         'ingredient_attributes',
         'ratings',
         'units',
-        'ingredients',
+        'foods',
         'authors',
         'cookbooks',
     ];
 
     protected $models = [
-        'ingredient_details' => 'App\Models\Ingredients\IngredientDetail',
-        'ingredient_detail_groups' => 'App\Models\Ingredients\IngredientDetailGroup',
+        'ingredients' => 'App\Models\Ingredients\Ingredient',
+        'ingredient_groups' => 'App\Models\Ingredients\IngredientGroup',
         'recipes' => 'App\Models\Recipes\Recipe',
         'categories' => 'App\Models\Recipes\Recipe',
         'rating_criteria' => 'App\Models\Ratings\RatingCriterion',
@@ -56,7 +56,7 @@ class CleanupDatabaseCommand extends Command
         'ingredient_attributes' => 'App\Models\Ingredients\IngredientAttribute',
         'ratings' => 'App\Models\Ratings\Rating',
         'units' => 'App\Models\Ingredients\Unit',
-        'ingredients' => 'App\Models\Ingredients\Ingredient',
+        'foods' => 'App\Models\Ingredients\Food',
         'authors' => 'App\Models\Users\Author',
         'cookbooks' => 'App\Models\Recipes\Cookbook',
     ];

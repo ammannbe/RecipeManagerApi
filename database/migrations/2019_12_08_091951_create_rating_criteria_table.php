@@ -16,6 +16,7 @@ class CreateRatingCriteriaTable extends Migration
         Schema::create('rating_criteria', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 20)->unique();
+            $table->string('slug', 40)->unique();
             $table->timestamps();
             $table->softDeletes();
         });

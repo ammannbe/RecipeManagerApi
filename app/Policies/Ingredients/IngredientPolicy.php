@@ -3,6 +3,7 @@
 namespace App\Policies\Ingredients;
 
 use App\Models\Users\User;
+use App\Models\Recipes\Recipe;
 use App\Models\Ingredients\Ingredient;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -37,11 +38,12 @@ class IngredientPolicy
      * Determine whether the user can create ingredients.
      *
      * @param  \App\Models\Users\User  $user
+     * @param  \App\Models\Recipes\Recipe  $recipe
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Recipe $recipe)
     {
-        return $user->admin;
+        return $user->isAdminOrOwnerOf($recipe);
     }
 
     /**
@@ -53,7 +55,7 @@ class IngredientPolicy
      */
     public function update(User $user, Ingredient $ingredient)
     {
-        return $user->admin;
+        return $user->isAdminOrOwnerOf($ingredient);
     }
 
     /**
@@ -65,7 +67,7 @@ class IngredientPolicy
      */
     public function delete(User $user, Ingredient $ingredient)
     {
-        return $user->admin;
+        return $user->isAdminOrOwnerOf($ingredient);
     }
 
     /**
@@ -77,7 +79,7 @@ class IngredientPolicy
      */
     public function restore(User $user, Ingredient $ingredient)
     {
-        return $user->admin;
+        return $user->isAdminOrOwnerOf($ingredient);
     }
 
     /**
