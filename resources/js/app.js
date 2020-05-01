@@ -14,7 +14,6 @@ window.Stackedit = require('stackedit-js');
 require('./3rd-party/select2-4.0.1.min.js');
 require('./Toast.js');
 require('./Dropdown.js');
-require('./Delete.js');
 require('./EditMode.js');
 require('./Markdown');
 require('./Modal.js');
@@ -22,7 +21,13 @@ require('./Search.js');
 require('./YieldAmountCalculator');
 require('./ShareWidget.js');
 
+import Delete from './Delete'
+window.Delete = Delete;
+
 $(document).ready(function () {
+    const confirm = new Delete();
+    confirm.register();
+
     EditMode.init();
     Markdown.init();
     Dropdown.init();
