@@ -1,8 +1,26 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import "~bulma/bulma";
 
-// Variables
-@import 'variables';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~vue-multiselect/dist/vue-multiselect.min";
+@import "~mavon-editor/dist/css/index.css";
+
+#app {
+    padding: 30px;
+}
+
+/* Markdown */
+.hljs-right {
+    text-align: end;
+}
+
+.hljs-center {
+    text-align: center;
+}
+
+.hljs-left {
+    text-align: start;
+}

@@ -1,0 +1,55 @@
+import ApiClient from "./ApiClient";
+import { Author } from "./Authors";
+import { Cookbook } from "./Cookbooks";
+import { Category } from "./Categories";
+import { Complexity } from "./Complexities";
+
+export interface Recipe {
+    id: number;
+    cookbook_id: number;
+    cookbook: Cookbook;
+    category_id: number;
+    category: Category;
+    author_id: number;
+    author: Author;
+    name: string;
+    yield_amount: number;
+    complexity: Complexity;
+    instructions: string;
+    preparation_time: string;
+    photos: File[];
+    photo_urls: string[];
+}
+
+export default class Recipes extends ApiClient {
+    protected url = "/recipes";
+
+    public async index(filter?: object): Promise<Recipe[]> {
+        return super.index(filter) as Promise<Recipe[]>;
+    }
+
+    public async show(id: number): Promise<any> {
+        return super.show(id) as Promise<any>;
+    }
+
+    public async store(data: Recipe): Promise<any> {
+        let formData: any;
+        if (data.photos) {
+            formData = new FormData();
+            Object.keys(data).forEach(key => {
+                const value: string | null | [] = (<any>data)[key];
+
+                if (value instanceof Array) {
+                    value.forEach((v, i) => {
+                        formData.append(`photos[${i}]`, v);
+                    });
+                    return;
+                }
+
+                formData.append(key, value);
+                return;
+            });
+        }
+        return super.store(formData || data, !!data.photos.length);
+    }
+}

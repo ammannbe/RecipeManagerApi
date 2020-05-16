@@ -11,4 +11,6 @@
 |
 */
 
-Auth::routes(['verify' => true]);
+Route::fallback(function() {
+    return view('app');
+});
