@@ -4,8 +4,10 @@ class Delete {
     }
 
     register() {
-        const message = this.element.getAttribute('data-confirm');
-        this.element.addEventListener('click', (e) => Delete.confirm(e, message));
+        if (this.element) {
+            const message = this.element.getAttribute('data-confirm');
+            this.element.addEventListener('click', (e) => Delete.confirm(e, message));
+        }
     }
 
     static confirm(e, message) {
