@@ -1,17 +1,19 @@
-Delete = {};
-Delete.$_confirm;
+class Delete {
+    constructor() {
+        this.element = document.querySelector('.delete.confirm');
+    }
 
-Delete.confirm = function (event) {
-    if (!confirm(Delete.$_confirm.data('confirm'))) {
-        event.preventDefault();
-        event.stopPropagation();
+    register() {
+        const message = this.element.getAttribute('data-confirm');
+        this.element.addEventListener('click', (e) => Delete.confirm(e, message));
+    }
+
+    static confirm(e, message) {
+        if (!confirm(message)) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
     }
 }
 
-$(document).ready(function () {
-    Delete.$_confirm = $('.delete.confirm');
-
-    Delete.$_confirm.on('click', function (event) {
-        Delete.confirm(event);
-    });
-});
+export default Delete
