@@ -32,10 +32,10 @@ class Handler extends ExceptionHandler
     /**
      * Determine if the exception should be reported.
      *
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @return bool
      */
-    public function shouldReport(\Exception $e)
+    public function shouldReport(\Throwable $e)
     {
         if (config('app.debug')) {
             return false;
@@ -47,10 +47,10 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return void
      */
-    public function report(\Exception $exception)
+    public function report(\Throwable $exception)
     {
         if ($this->shouldReport($exception)) {
             $this->sendEmail($exception);
@@ -63,10 +63,10 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, \Exception $exception)
+    public function render($request, \Throwable $exception)
     {
         return parent::render($request, $exception);
     }
@@ -74,10 +74,10 @@ class Handler extends ExceptionHandler
     /**
      * Sends an email to the developer about the exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return void
      */
-    private function sendEmail(\Exception $exception)
+    private function sendEmail(\Throwable $exception)
     {
         try {
             $flatten = FlattenException::create($exception);

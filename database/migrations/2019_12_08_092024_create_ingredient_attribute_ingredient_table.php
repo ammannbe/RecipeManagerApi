@@ -13,7 +13,7 @@ class CreateIngredientAttributeIngredientTable extends Migration
      */
     public function up()
     {
-        Schema::create('ingredient_attribute_ingredient', function (Blueprint $table) {
+        Schema::create('ingredient_ingredient_attribute', function (Blueprint $table) {
             $table->unsignedBigInteger('ingredient_id');
             $table->unsignedBigInteger('ingredient_attribute_id');
 
@@ -29,6 +29,6 @@ class CreateIngredientAttributeIngredientTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingredient_attribute_ingredient');
+        Schema::dropIfExists('ingredient_ingredient_attribute');
     }
 }

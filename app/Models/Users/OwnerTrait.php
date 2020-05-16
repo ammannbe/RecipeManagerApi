@@ -63,7 +63,7 @@ trait OwnerTrait
      */
     public function isOwnerOfIngredient(Ingredient $ingredient): bool
     {
-        return $this->id === $ingredient->recipe->id;
+        return $this->id === $ingredient->recipe->user_id;
     }
 
     /**
@@ -74,6 +74,6 @@ trait OwnerTrait
      */
     public function isOwnerOfIngredientGroup(IngredientGroup $ingredientGroup): bool
     {
-        return $this->id === $ingredientGroup->recipe->id;
+        return $this->id === $ingredientGroup->recipe->user_id;
     }
 }

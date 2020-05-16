@@ -7,7 +7,7 @@ use App\Models\Ingredients\Food;
 use App\Http\Requests\Ingredients\Food\Store;
 use App\Http\Requests\Ingredients\Food\Update;
 
-class FoodIngredientController extends Controller
+class FoodController extends Controller
 {
     /**
      * Display a listing of the resource.

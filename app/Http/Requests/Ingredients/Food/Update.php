@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Ingredients\Ingredient;
+namespace App\Http\Requests\Ingredients\Food;
 
 use Illuminate\Foundation\Http\FormRequest;
 

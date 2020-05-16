@@ -22,10 +22,11 @@ class CreateIngredientsTable extends Migration
             $table->unsignedBigInteger('food_id');
             $table->unsignedBigInteger('ingredient_group_id')->nullable()->default(null);
             $table->unsignedBigInteger('ingredient_id')->comment('alternate to')->nullable()->default(null);
-            $table->integer('position')->nullable()->default(null);
+            $table->unsignedInteger('position')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['recipe_id', 'ingredient_group_id', 'ingredient_id', 'position']);
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->nullable()->default(null);
             $table->foreign('food_id')->references('id')->on('foods');

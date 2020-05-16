@@ -123,7 +123,7 @@ class Ingredient extends Model
     }
 
     /**
-     * Get only the "original" ingredient's
+     * Get only the "original" ingredients
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return \Illuminate\Database\Eloquent\Builder

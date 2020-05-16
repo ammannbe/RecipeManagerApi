@@ -19,7 +19,7 @@ class IngredientController extends Controller
     public function index(Recipe $recipe)
     {
         $this->authorize([Ingredient::class, $recipe]);
-        return $recipe->ingredients()->originalOnly()->get();
+        return $recipe->ingredients()->orderBy('position')->originalOnly()->get();
     }
 
     /**

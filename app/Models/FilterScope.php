@@ -10,11 +10,11 @@ trait FilterScope
      * Model filtern
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query  Eloquent Builder
-     * @param  array  $filter
-     * @param  string  $method
+     * @param  array  $filter  e.g. ['position' => 5, 'ingredient_group_id' => 3]
+     * @param  string  $method  or|and
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeFilter(Builder $query, ?array $filter, ?string $method): Builder
+    public function scopeFilter(Builder $query, ?array $filter, ?string $method = 'and'): Builder
     {
         if (!$filter) {
             return $query;
@@ -26,6 +26,16 @@ trait FilterScope
             foreach ($filter as $key => $value) {
                 if (is_numeric($value) || $this->filterValueIsTime($value)) {
                     $q->{$method}($key, $value);
+                    continue;
+                }
+
+                if ($value === NULL) {
+                    $q->{$method}($key, NULL);
+                    continue;
+                }
+
+                if ($value === 'NOT NULL') {
+                    $q->{"{$method}NotNull"}($key);
                     continue;
                 }
 
