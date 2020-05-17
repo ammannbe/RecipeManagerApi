@@ -57,16 +57,38 @@
       </li>
 
       <li v-if="recipe.yield_amount">
-        Portionen:
+        <span
+          :class="{'can-edit': canEdit}"
+          :title="title"
+          @click="toggleEdit('yield_amount');"
+        >Portionen:</span>
+        <div @click.stop v-if="canEdit && currentEdit == 'yield_amount'">
+          <input-field name="yield_amount" :errors="form.errors.get('yield_amount')">
+            <template v-slot:input>
+              <input
+                v-model="form._data.yield_amount"
+                name="yield_amount"
+                type="number"
+                min="1"
+                step="0.5"
+                autofocus
+                placeholder="Portionen eingeben..."
+                @keyup="updateYieldAmount(recipe.yield_amount)"
+              />
+            </template>
+          </input-field>
+        </div>
         <input
+          v-else-if="recipe.yield_amount"
           v-model="yieldAmount"
           name="yield_amount"
           type="number"
           min="1"
           step="0.5"
           autofocus
-          @keyup="updateYieldAmount()"
+          @keyup="updateYieldAmount(yieldAmount)"
         />
+        <span v-else>-</span>
       </li>
 
       <li v-if="recipe.complexity">
@@ -153,28 +175,47 @@ export default {
         cookbook_id: null,
         category_id: null,
         complexity: null,
-        preparation_time: null
+        preparation_time: null,
+        yield_amount: null
       }),
-      yieldAmount: 0,
+      yieldAmount: null,
       currentEdit: null,
       title: ""
     };
   },
   watch: {
     recipe() {
-      this.yieldAmount = this.recipe.yield_amount;
+      if (!this.yieldAmount) {
+        this.yieldAmount = this.recipe.yield_amount;
+      }
+      this.form._data.category_id = this.recipe.category.id;
+      this.form._data.yield_amount = this.recipe.yield_amount;
+      if (this.recipe.cookbook) {
+        this.form._data.cookbook_id = this.recipe.cookbook.id;
+      }
+      if (this.recipe.preparation_time) {
+        this.form._data.preparation_time = this.recipe.preparation_time.slice(
+          0,
+          -3
+        );
+      }
+      this.form._data.complexity = this.recipe.complexity.id;
+    },
+    canEdit() {
+      this.title = "";
+      if (this.canEdit) {
+        this.title = "Klicken zum Bearbeiten";
+      }
     }
   },
   mounted() {
     if (this.$route.query.yield_amount) {
+      this.yieldAmount = this.$route.query.yield_amount;
       setTimeout(() => {
-        this.yieldAmount = this.$route.query.yield_amount;
+        this.updateYieldAmount(this.$route.query.yield_amount);
       }, 500);
     }
 
-    if (this.canEdit) {
-      this.title = "Klicken zum bearbeiten";
-    }
     if (!this.$env.DISABLE_COOKBOOKS) {
       this.fetchCookbooks();
     }
@@ -183,35 +224,26 @@ export default {
       this.fetchTags();
     }
     this.fetchComplexities();
-
-    if (this.recipe.cookbook) {
-      this.form._data.cookbook_id = this.recipe.cookbook.id;
-    }
-    if (this.recipe.preparation_time) {
-      this.form._data.preparation_time = this.recipe.preparation_time.slice(
-        0,
-        -3
-      );
-    }
-    this.form._data.category_id = this.recipe.category.id;
-    this.form._data.complexity = this.recipe.complexity.id;
   },
   methods: {
-    updateYieldAmount() {
-      if (this.yieldAmount != this.recipe.yield_amount) {
+    updateYieldAmount(yieldAmount) {
+      if (yieldAmount != this.recipe.yield_amount) {
         let query = RouteQueryHelper.pushOrReplace(
           this.$route.query,
           "yield_amount",
-          this.yieldAmount
+          yieldAmount
         );
         this.$router.push({ query });
       } else {
         let query = RouteQueryHelper.remove(this.$route.query, "yield_amount");
         this.$router.push({ query });
       }
-      this.$emit("multiply", (1 / this.recipe.yield_amount) * this.yieldAmount);
+      this.$emit("multiply", (1 / this.recipe.yield_amount) * yieldAmount);
     },
     toggleEdit(field) {
+      if (field == "yield_amount") {
+        this.updateYieldAmount(this.yieldAmount);
+      }
       if (!this.canEdit) {
         return;
       }
@@ -225,7 +257,6 @@ export default {
     },
     async fetchCategories() {
       this.categories = await new Categories().index();
-      this.form._data.category_id = this.categories[0].id;
     },
     async fetchTags() {
       this.tags = new Tags().index();
