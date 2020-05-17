@@ -98,14 +98,16 @@ export default {
   watch: {
     instructions() {
       this.form._data.instructions = this.instructions;
+    },
+    canEdit() {
+      this.title = "";
+      if (this.canEdit) {
+        this.title = "Klicken zum Bearbeiten";
+      }
     }
   },
   mounted() {
     this.editInstructions(this.$route.query.edit_instructions == "true");
-
-    if (this.canEdit) {
-      this.title = "Klicken zum bearbeiten";
-    }
   },
   methods: {
     editInstructions(isEditing) {

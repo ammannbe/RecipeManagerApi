@@ -29,15 +29,6 @@ export default {
       title: ""
     };
   },
-  mounted() {
-    if (this.$route.query.edit_ingredient) {
-      this.isEditing = this.$route.query.edit_ingredient;
-    }
-
-    if (this.canEdit) {
-      this.title = "Klicken zum bearbeiten";
-    }
-  },
   watch: {
     multiplier() {
       if (
@@ -47,6 +38,14 @@ export default {
       ) {
         this.multiplyWith = this.multiplier;
       }
+    }
+  },
+  mounted() {
+    if (this.canEdit) {
+      this.title = "Klicken zum Bearbeiten";
+    }
+    if (this.$route.query.edit_ingredient) {
+      this.isEditing = this.$route.query.edit_ingredient;
     }
   },
   methods: {

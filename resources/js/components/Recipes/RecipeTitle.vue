@@ -30,6 +30,7 @@
       v-else
       @click="editTitle(!isEditing)"
       :class="{'title has-text-centered': true, 'can-edit': canEdit}"
+      :title="title"
     >{{ recipe.name }}</h1>
   </div>
 </template>
@@ -45,12 +46,19 @@ export default {
       form: new Form({
         name
       }),
-      isEditing: false
+      isEditing: false,
+      title: ""
     };
   },
   watch: {
     recipe() {
       this.form._data.name = this.recipe.name;
+    },
+    canEdit() {
+      this.title = "";
+      if (this.canEdit) {
+        this.title = "Klicken zum Bearbeiten";
+      }
     }
   },
   mounted() {

@@ -7,7 +7,7 @@
       v-if="showTitle"
       class="title is-4"
       :class="{'add-ingredient-form': editMode, 'show': !showAddForm, 'cancel': showAddForm}"
-      title="Klicken zum hinzufügen"
+      :title="title"
       @click="showAddForm = !showAddForm"
     >Zutaten</h2>
 
@@ -56,8 +56,17 @@ export default {
   props: ["recipeId", "ingredients", "editMode", "multiplier", "showTitle"],
   data() {
     return {
-      showAddForm: false
+      showAddForm: false,
+      title: ""
     };
+  },
+  watch: {
+    editMode() {
+      this.title = "";
+      if (this.editMode) {
+        this.title = "Klicken zum Hinzufügen";
+      }
+    }
   },
   mounted() {
     if (this.$route.query.new_ingredient == "true") {
