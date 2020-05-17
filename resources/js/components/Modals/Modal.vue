@@ -39,17 +39,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal-content {
+  max-height: calc(100vh - 30px);
+}
+
 .control {
   display: flex;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 60px;
   margin: 0;
 
   > .button {
-    font-size: 70px;
+    font-size: 50px;
     width: 100%;
     height: 100%;
     border-radius: unset;
