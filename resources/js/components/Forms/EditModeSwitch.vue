@@ -45,7 +45,7 @@ export default {
       this.fire(!this.enabled);
     },
     fire(enable) {
-      if (!this.isLoggedIn) {
+      if (!Auth.isValid()) {
         enable = false;
       }
       this.enabled = enable;
