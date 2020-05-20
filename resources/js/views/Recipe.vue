@@ -29,9 +29,9 @@
           :edit-mode="canEdit"
           :multiplier="multiplier"
           :first-level-list="true"
-          @created="this.fetchIngredients()"
-          @updated="this.fetchIngredients()"
-          @removed="this.fetchIngredients()"
+          @created="fetchIngredients()"
+          @updated="fetchIngredients()"
+          @removed="fetchIngredients()"
           @position="position($event.id, $event.position)"
         ></ingredient-list>
       </div>
