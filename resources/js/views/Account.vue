@@ -54,12 +54,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchUser();
-  },
-  methods: {
-    async fetchUser() {
-      this.user = await new Users().show();
-    }
+    new Users().show().then(user => (this.user = user));
   }
 };
 </script>

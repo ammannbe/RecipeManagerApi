@@ -203,10 +203,7 @@ export default {
     this.$router.push({ query: query });
   },
   mounted() {
-    this.fetchFoods();
-    this.fetchIngredientAttributes();
-    this.fetchIngredientGroups();
-    this.fetchIngredients();
+    this.fetch();
 
     setTimeout(() => {
       this.foods.selected = this.foods.data.find(
@@ -226,22 +223,13 @@ export default {
     }, 1000);
   },
   methods: {
-    async fetchUnits() {
+    async fetch() {
       this.units.data = await new Units().index();
-    },
-    async fetchFoods() {
       this.foods.data = await new Foods().index();
-    },
-    async fetchIngredientAttributes() {
       this.ingredientAttributes.data = await new IngredientAttributes().index();
-    },
-    async fetchIngredientGroups() {
-      const recipeId = this.recipeId;
       this.ingredientGroups.data = await new IngredientGroups().index({
-        recipeId
+        recipeId: this.recipeId
       });
-    },
-    async fetchIngredients() {
       this.ingredients.data = await new Ingredients(
         true,
         this.recipeId

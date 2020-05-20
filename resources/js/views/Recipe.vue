@@ -29,9 +29,9 @@
           :edit-mode="canEdit"
           :multiplier="multiplier"
           :first-level-list="true"
-          @created="ingredientCreatedOrUpdated()"
-          @updated="ingredientCreatedOrUpdated()"
-          @removed="ingredientCreatedOrUpdated()"
+          @created="this.fetchIngredients()"
+          @updated="this.fetchIngredients()"
+          @removed="this.fetchIngredients()"
           @position="position($event.id, $event.position)"
         ></ingredient-list>
       </div>
@@ -98,9 +98,6 @@ export default {
     },
     sortIngredients() {
       this.ingredients.sort((a, b) => a.position - b.position);
-    },
-    ingredientCreatedOrUpdated() {
-      this.fetchIngredients(this.id);
     },
     position(ingredientId, position) {
       let index = this.ingredients.findIndex(i => i.id === ingredientId);

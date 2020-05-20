@@ -255,31 +255,21 @@ export default {
     if (!Auth.isValid()) {
       this.$router.push({ name: "home" });
     }
-
-    if (!this.$env.DISABLE_COOKBOOKS) {
-      this.fetchCookbooks();
-    }
-    this.fetchCategories();
-    if (!this.$env.DISABLE_TAGS) {
-      this.fetchTags();
-    }
-    this.fetchComplexities();
   },
   mounted() {
     this.$autofocus();
+    this.fetch();
   },
   methods: {
-    async fetchCookbooks() {
-      this.cookbooks = await new Cookbooks().index();
-    },
-    async fetchCategories() {
+    async fetch() {
+      if (!this.$env.DISABLE_COOKBOOKS) {
+        this.cookbooks = await new Cookbooks().index();
+      }
       this.categories = await new Categories().index();
       this.form._data.category_id = this.categories[0].id;
-    },
-    async fetchTags() {
-      this.tags = await new Tags().index();
-    },
-    async fetchComplexities() {
+      if (!this.$env.DISABLE_TAGS) {
+        this.tags = await new Tags().index();
+      }
       this.complexities = await new Complexities().index();
       this.form._data.complexity = this.complexities[0].id;
     },
