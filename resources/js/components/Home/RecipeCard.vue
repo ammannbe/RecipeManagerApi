@@ -8,8 +8,8 @@
 
     <div class="card-content">
       <div class="media is-centered">
-        <figure v-if="recipe.photo">
-          <img :src="recipe.photo_url" :alt="recipe.name" />
+        <figure v-if="recipe.photos">
+          <img :src="recipe.photo_urls[0]" :alt="recipe.name" />
         </figure>
       </div>
       <div class="content" v-html="instructions"></div>
