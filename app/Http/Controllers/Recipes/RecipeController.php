@@ -58,7 +58,7 @@ class RecipeController extends Controller
             $recipe->load('tags');
         }
         if (CookbookController::isEnabled()) {
-            $recipe->load('cookbooks');
+            $recipe->load('cookbook');
         }
         $recipe->load('author', 'category');
         return $recipe;

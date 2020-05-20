@@ -39,11 +39,11 @@ class Update extends FormRequest
         ];
 
         if (CookbookController::isEnabled()) {
-            array_merge($rules, ['cookbook_id' => ['nullable', 'exists:cookbooks,id']]);
+            $rules = array_merge($rules, ['cookbook_id' => ['nullable', 'exists:cookbooks,id']]);
         }
 
         if (TagController::isEnabled()) {
-            array_merge(
+            $rules = array_merge(
                 $rules,
                 [
                     'tags'   => ['nullable', 'array'],

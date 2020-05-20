@@ -30,7 +30,7 @@ class RecipePolicy
      */
     public function view(?User $user, Recipe $recipe)
     {
-        return true;
+        return !$recipe->cookbook_id || $user->isAdminOrOwnerOf($recipe->cookbook);
     }
 
     /**

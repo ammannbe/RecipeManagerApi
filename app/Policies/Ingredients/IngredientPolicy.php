@@ -31,7 +31,8 @@ class IngredientPolicy
      */
     public function view(?User $user, Ingredient $ingredient)
     {
-        return true;
+        $recipe = $ingredient->recipe;
+        return !$recipe->cookbook_id || $user->isAdminOrOwnerOf($recipe->cookbook);
     }
 
     /**
