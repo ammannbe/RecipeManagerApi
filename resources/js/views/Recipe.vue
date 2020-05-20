@@ -31,6 +31,7 @@
           :first-level-list="true"
           @created="ingredientCreatedOrUpdated()"
           @updated="ingredientCreatedOrUpdated()"
+          @removed="ingredientCreatedOrUpdated()"
           @position="position($event.id, $event.position)"
         ></ingredient-list>
       </div>

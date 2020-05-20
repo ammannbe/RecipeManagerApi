@@ -7,6 +7,7 @@
       :can-edit="canEdit"
       @cancel="isEditing = false"
       @updated="$emit('updated'); isEditing = false;"
+      @removed="$emit('removed');"
       @position="$emit('position', { id: ingredient.id, position: $event })"
     ></ingredient-edit-form>
 

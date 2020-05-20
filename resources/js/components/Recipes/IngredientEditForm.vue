@@ -69,7 +69,7 @@
             placeholder="Einheit"
             label="name"
             select-label
-            @select="select('unit_id', $event.id)"
+            @select="multiselectAdd('unit_id', $event.id)"
             @input="form.errors.clear('unit_id')"
           ></multiselect>
         </template>
@@ -86,7 +86,7 @@
             placeholder="Zutat"
             label="name"
             select-label
-            @select="select('food_id', $event.id)"
+            @select="multiselectAdd('food_id', $event.id)"
             @input="form.errors.clear('food_id')"
           ></multiselect>
         </template>
@@ -103,8 +103,8 @@
             placeholder="Eigenschaften"
             label="name"
             select-label
-            @select="select('ingredient_attributes', $event.id)"
-            @remove="remove('ingredient_attributes', $event.id)"
+            @select="multiselectAdd('ingredient_attributes', $event.id)"
+            @multiselectRemove="multiselectRemove('ingredient_attributes', $event.id)"
           ></multiselect>
         </template>
       </input-field>
@@ -120,7 +120,7 @@
             placeholder="Gruppe"
             label="name"
             select-label
-            @select="select('ingredient_group_id', $event.id)"
+            @select="multiselectAdd('ingredient_group_id', $event.id)"
           ></multiselect>
         </template>
       </input-field>
@@ -130,6 +130,15 @@
         :disabled="form.errors.any()"
         @cancel="$emit('cancel')"
       >Speichern</submit-button>
+      <div class="field is-grouped">
+        <div class="control">
+          <button @click.prevent="remove()" class="button is-black">
+            <slot name="delete">
+              <i class="fas fa-trash"></i>
+            </slot>
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -238,14 +247,14 @@ export default {
         this.recipeId
       ).index();
     },
-    select(key, value) {
+    multiselectAdd(key, value) {
       if (key === "ingredient_attributes") {
         this.form._data.ingredient_attributes.push(value);
         return;
       }
       this.form._data[key] = value;
     },
-    remove(key, value) {
+    multiselectRemove(key, value) {
       const index = this.form._data[key].indexOf(value);
       this.form._data[key].splice(index, 1);
     },
@@ -260,6 +269,14 @@ export default {
         this.form._data.position++;
       }
       this.$emit("position", this.form._data.position + 0.0001);
+    },
+    remove() {
+      if (!confirm("Diese Zutat wirklich löschen?")) {
+        return;
+      }
+      new Ingredients(true, this.recipeId)
+        .remove(this.ingredient.id)
+        .then(() => this.$emit("removed"));
     },
     submit() {
       this.form

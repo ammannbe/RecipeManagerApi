@@ -35,4 +35,8 @@ export default class Ingredients extends ApiClient {
     public async store(data: Ingredient): Promise<any> {
         return super.post(`/recipes/${this.recipeId}${this.url}`, data);
     }
+
+    public async remove(id: number): Promise<any> {
+        return super.remove(id);
+    }
 }

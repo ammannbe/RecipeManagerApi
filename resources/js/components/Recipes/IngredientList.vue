@@ -24,6 +24,7 @@
         :recipe-id="recipeId"
         :can-edit="editMode"
         @updated="$emit('updated');"
+        @removed="$emit('removed');"
         @position="$emit('position', $event)"
       ></ingredient>
 

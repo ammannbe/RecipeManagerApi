@@ -118,4 +118,12 @@ export default class ApiClient {
     ): Promise<any> {
         return this.patch(`${this.url}/${id}`, key, value, hasFile);
     }
+
+    public delete(url: string, data?: object): Promise<any> {
+        return this.request("delete", url, data);
+    }
+
+    public remove(id?: number): Promise<any> {
+        return this.delete(`${this.url}/${id}`);
+    }
 }
