@@ -114,19 +114,14 @@ export default {
       this.isEditing = isEditing;
 
       if (!this.isEditing) {
-        const newRouteQuery = {};
-        Object.keys(this.$route.query).forEach(key => {
-          if (key != "edit_instructions")
-            newRouteQuery[key] = this.$route.query[key];
-        });
-        this.$router.push({ query: newRouteQuery });
+        let query = Object.assign({}, this.$route.query);
+        delete query.edit_instructions;
+        this.$router.push({ query });
       } else {
-        const newRouteQuery = {};
-        Object.keys(this.$route.query).forEach(key => {
-          newRouteQuery[key] = this.$route.query[key];
+        let edit_instructions = true;
+        this.$router.push({
+          query: { ...this.$route.query, edit_instructions }
         });
-        newRouteQuery.edit_instructions = true;
-        this.$router.push({ query: newRouteQuery });
       }
     },
     submit() {

@@ -192,21 +192,6 @@ export default {
     this.fetchIngredientGroups();
     this.fetchIngredients();
   },
-  beforeCreate() {
-    const newRouteQuery = {};
-    Object.keys(this.$route.query).forEach(key => {
-      newRouteQuery[key] = this.$route.query[key];
-    });
-    newRouteQuery.new_ingredient = true;
-    this.$router.push({ query: newRouteQuery });
-  },
-  beforeDestroy() {
-    const newRouteQuery = {};
-    Object.keys(this.$route.query).forEach(key => {
-      if (key != "new_ingredient") newRouteQuery[key] = this.$route.query[key];
-    });
-    this.$router.push({ query: newRouteQuery });
-  },
   methods: {
     async fetchUnits() {
       this.units.data = await new Units().index();
@@ -248,7 +233,6 @@ export default {
     },
     goDown() {
       this.$emit("goDown");
-      console.log(this.ingredients.data.length);
       if (this.form._data.position <= this.ingredients.data.length) {
         this.form._data.position++;
       }

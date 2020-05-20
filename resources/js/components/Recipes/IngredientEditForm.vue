@@ -187,22 +187,14 @@ export default {
   watch: {
     ingredient() {}
   },
-  beforeCreate() {
-    setTimeout(() => {
-      const newRouteQuery = {};
-      Object.keys(this.$route.query).forEach(key => {
-        newRouteQuery[key] = this.$route.query[key];
-      });
-      newRouteQuery.edit_ingredient = this.ingredient.id;
-      this.$router.push({ query: newRouteQuery });
-    }, 1000);
+  created() {
+    let edit_ingredient = this.ingredient.id;
+    this.$router.push({ query: { ...this.$route.query, edit_ingredient } });
   },
-  beforeDestroy() {
-    const newRouteQuery = {};
-    Object.keys(this.$route.query).forEach(key => {
-      if (key != "edit_ingredient") newRouteQuery[key] = this.$route.query[key];
-    });
-    this.$router.push({ query: newRouteQuery });
+  destroyed() {
+    let query = Object.assign({}, this.$route.query);
+    delete query.edit_ingredient;
+    this.$router.push({ query: query });
   },
   mounted() {
     this.fetchFoods();

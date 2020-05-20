@@ -165,7 +165,6 @@ import Cookbooks from "../../modules/ApiClient/Cookbooks";
 import Categories from "../../modules/ApiClient/Categories";
 import Tags from "../../modules/ApiClient/Tags";
 import Complexities from "../../modules/ApiClient/Complexities";
-import RouteQueryHelper from "../../modules/RouteQueryHelper";
 
 export default {
   props: ["recipe", "canEdit"],
@@ -228,14 +227,11 @@ export default {
   methods: {
     updateYieldAmount(yieldAmount) {
       if (yieldAmount != this.recipe.yield_amount) {
-        let query = RouteQueryHelper.pushOrReplace(
-          this.$route.query,
-          "yield_amount",
-          yieldAmount
-        );
-        this.$router.push({ query });
+        let yield_amount = yieldAmount;
+        this.$router.push({ query: { ...this.$route.query, yield_amount } });
       } else {
-        let query = RouteQueryHelper.remove(this.$route.query, "yield_amount");
+        let query = Object.assign({}, this.$route.query);
+        delete query.yield_amount;
         this.$router.push({ query });
       }
       this.$emit("multiply", (1 / this.recipe.yield_amount) * yieldAmount);

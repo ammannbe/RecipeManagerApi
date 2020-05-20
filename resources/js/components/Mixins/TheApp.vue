@@ -9,19 +9,16 @@
 </template>
 
 <script>
-import RouteQueryHelper from "../../modules/RouteQueryHelper";
-
 export default {
   methods: {
     searchRecipes(search) {
       const name = "home";
-      let query = this.$route.query;
+      let query = Object.assign({}, this.$route.query);
       if (search) {
-        query = RouteQueryHelper.pushOrReplace(query, "search", search);
-        this.$router.push({ query, name });
+        this.$router.push({ name, query: { ...this.$route.query, search } });
       } else {
-        query = RouteQueryHelper.remove(query, "search");
-        this.$router.push({ query, name });
+        delete query.search;
+        this.$router.push({ name, query });
       }
 
       this.$router.go();

@@ -1,21 +1,18 @@
 <template>
-  <!-- <div> -->
-
-  <!-- <div> -->
   <ul class="ingredients" v-if="(ingredients && ingredients.length) || showAddForm">
     <h2
       v-if="showTitle"
       class="title is-4"
       :class="{'add-ingredient-form': editMode, 'show': !showAddForm, 'cancel': showAddForm}"
       :title="title"
-      @click="showAddForm = !showAddForm"
+      @click="showIngredientAddForm(!showAddForm)"
     >Zutaten</h2>
 
     <li class="add-ingredient" v-if="editMode && showAddForm">
       <ingredient-add-form
         v-if="showAddForm"
         :recipe-id="recipeId"
-        @cancel="showAddForm = false"
+        @cancel="showIngredientAddForm(false)"
         @created="$emit('created')"
         @goUp="goUp()"
         @goDown="goDown()"
@@ -47,8 +44,6 @@
     </li>
   </ul>
   <span v-else>Keine Zutaten vorhanden!</span>
-  <!-- </div> -->
-  <!-- </div> -->
 </template>
 
 <script>
@@ -69,9 +64,9 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.query.new_ingredient == "true") {
-      this.showAddForm = true;
-    }
+    this.showIngredientAddForm(
+      this.$route.query.new_ingredient == "true" || false
+    );
   },
   methods: {
     goUp() {
@@ -81,6 +76,18 @@ export default {
     goDown() {
       const $el = $(`li.add-ingredient`);
       $el.next().after($el);
+    },
+    showIngredientAddForm(show = true) {
+      this.showAddForm = show;
+
+      if (show) {
+        let new_ingredient = true;
+        this.$router.push({ query: { ...this.$route.query, new_ingredient } });
+      } else {
+        let query = Object.assign({}, this.$route.query);
+        delete query.new_ingredient;
+        this.$router.push({ query });
+      }
     }
   }
 };

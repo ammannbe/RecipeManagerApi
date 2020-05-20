@@ -20,13 +20,13 @@
 <script>
 export default {
   props: ["currentPage", "lastPage"],
+  watch: {
+    currentPage() {
+      this.pushCurrentPageToRoute();
+    }
+  },
   mounted() {
-    const newRouteQuery = {};
-    Object.keys(this.$route.query).forEach(key => {
-      newRouteQuery[key] = this.$route.query[key];
-    });
-    newRouteQuery.page = this.currentPage;
-    this.$router.push({ query: newRouteQuery });
+    this.pushCurrentPageToRoute();
   },
   computed: {
     nextPage() {
@@ -40,6 +40,10 @@ export default {
         return false;
       }
       return this.currentPage - 1;
+    },
+    pushCurrentPageToRoute() {
+      let page = this.currentPage;
+      this.$router.push({ query: { ...this.$route.query, page } });
     }
   }
 };

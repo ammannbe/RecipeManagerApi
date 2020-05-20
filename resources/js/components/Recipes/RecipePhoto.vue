@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import RouteQueryHelper from "../../modules/RouteQueryHelper";
-
 export default {
   props: ["recipe"],
   data() {
@@ -75,17 +73,14 @@ export default {
       }
       this.showPhoto = index;
 
-      let query = RouteQueryHelper.pushOrReplace(
-        this.$route.query,
-        "show_photo",
-        index
-      );
-      this.$router.push({ query });
+      let show_photo = this.showPhoto;
+      this.$router.push({ query: { ...this.$route.query, show_photo } });
     },
     closeModal() {
       this.showPhoto = false;
 
-      let query = RouteQueryHelper.remove(this.$route.query, "show_photo");
+      let query = Object.assign({}, this.$route.query);
+      delete query.show_photo;
       this.$router.push({ query });
     },
     photoExists(index) {
