@@ -62,7 +62,7 @@ export default {
     }
   },
   mounted() {
-    this.editTitle(this.$route.query.edit_title == "true");
+    this.editTitle(this.$route.query["edit[title]"] == "true");
   },
   methods: {
     editTitle(isEditing) {
@@ -70,11 +70,11 @@ export default {
 
       if (!this.isEditing) {
         let query = Object.assign({}, this.$route.query);
-        delete query.edit_title;
+        delete query["edit[title]"];
         this.$router.push({ query });
       } else {
-        let edit_title = true;
-        this.$router.push({ query: { ...this.$route.query, edit_title } });
+        let edit = { "edit[title]": true };
+        this.$router.push({ query: { ...this.$route.query, ...edit } });
       }
     },
     submit() {

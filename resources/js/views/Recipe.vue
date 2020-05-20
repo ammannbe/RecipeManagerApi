@@ -28,6 +28,7 @@
           :ingredients="ingredients"
           :edit-mode="canEdit"
           :multiplier="multiplier"
+          :first-level-list="true"
           @created="ingredientCreatedOrUpdated()"
           @updated="ingredientCreatedOrUpdated()"
           @position="position($event.id, $event.position)"

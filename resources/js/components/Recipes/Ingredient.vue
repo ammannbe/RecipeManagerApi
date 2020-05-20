@@ -1,7 +1,7 @@
 <template>
   <div>
     <ingredient-edit-form
-      v-if="canEdit && isEditing == ingredient.id"
+      v-if="canEdit && isEditing"
       :ingredient="ingredient"
       :recipe-id="recipeId"
       :can-edit="canEdit"
@@ -13,8 +13,8 @@
     <span
       v-else
       :title="title"
-      @click="edit(ingredient)"
-      :class="{'can-edit': canEdit}"
+      @click="edit()"
+      :class="{'can-edit': canEdit && !isAnyEditing}"
     >{{ text(ingredient) }}</span>
   </div>
 </template>
@@ -28,6 +28,11 @@ export default {
       multiplyWith: 1,
       title: ""
     };
+  },
+  computed: {
+    isAnyEditing() {
+      return this.$route.query["edit[ingredient]"];
+    }
   },
   watch: {
     multiplier() {
@@ -44,9 +49,8 @@ export default {
     if (this.canEdit) {
       this.title = "Klicken zum Bearbeiten";
     }
-    if (this.$route.query.edit_ingredient) {
-      this.isEditing = this.$route.query.edit_ingredient;
-    }
+    this.isEditing =
+      this.$route.query["edit[ingredient]"] == this.ingredient.id;
   },
   methods: {
     text(ingredient) {
@@ -83,12 +87,10 @@ export default {
       }
       return text;
     },
-    edit(ingredient) {
-      if (this.isEditing == ingredient.id) {
-        this.isEditing = false;
-        return;
+    edit() {
+      if (!this.isAnyEditing) {
+        this.isEditing = true;
       }
-      this.isEditing = ingredient.id;
     }
   }
 };

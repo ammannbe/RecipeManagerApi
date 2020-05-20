@@ -107,7 +107,7 @@ export default {
     }
   },
   mounted() {
-    this.editInstructions(this.$route.query.edit_instructions == "true");
+    this.editInstructions(this.$route.query["edit[instructions]"] == "true");
   },
   methods: {
     editInstructions(isEditing) {
@@ -115,13 +115,11 @@ export default {
 
       if (!this.isEditing) {
         let query = Object.assign({}, this.$route.query);
-        delete query.edit_instructions;
+        delete query["edit[instructions]"];
         this.$router.push({ query });
       } else {
-        let edit_instructions = true;
-        this.$router.push({
-          query: { ...this.$route.query, edit_instructions }
-        });
+        let edit = { "edit[instructions]": true };
+        this.$router.push({ query: { ...this.$route.query, ...edit } });
       }
     },
     submit() {

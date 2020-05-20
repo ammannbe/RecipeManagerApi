@@ -184,16 +184,13 @@ export default {
       }
     };
   },
-  watch: {
-    ingredient() {}
-  },
   created() {
-    let edit_ingredient = this.ingredient.id;
-    this.$router.push({ query: { ...this.$route.query, edit_ingredient } });
+    let edit = { "edit[ingredient]": this.ingredient.id };
+    this.$router.push({ query: { ...this.$route.query, ...edit } });
   },
   destroyed() {
     let query = Object.assign({}, this.$route.query);
-    delete query.edit_ingredient;
+    delete query["edit[ingredient]"];
     this.$router.push({ query: query });
   },
   mounted() {

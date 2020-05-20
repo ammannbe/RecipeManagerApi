@@ -8,9 +8,8 @@
       @click="showIngredientAddForm(!showAddForm)"
     >Zutaten</h2>
 
-    <li class="add-ingredient" v-if="editMode && showAddForm">
+    <li class="add-ingredient" v-if="firstLevelList && editMode && showAddForm">
       <ingredient-add-form
-        v-if="showAddForm"
         :recipe-id="recipeId"
         @cancel="showIngredientAddForm(false)"
         @created="$emit('created')"
@@ -37,6 +36,7 @@
         :ingredients="ingredient.ingredients"
         :edit-mode="editMode"
         :multiplier="multiplier"
+        :first-level-list="false"
         @position="$emit('position', { id: $event.id, position: $event.id + ($event.position / 1000) })"
         @created="$emit('created')"
         @updated="$emit('updated')"
@@ -48,7 +48,14 @@
 
 <script>
 export default {
-  props: ["recipeId", "ingredients", "editMode", "multiplier", "showTitle"],
+  props: [
+    "recipeId",
+    "ingredients",
+    "editMode",
+    "multiplier",
+    "showTitle",
+    "firstLevelList"
+  ],
   data() {
     return {
       showAddForm: false,
@@ -65,7 +72,7 @@ export default {
   },
   mounted() {
     this.showIngredientAddForm(
-      this.$route.query.new_ingredient == "true" || false
+      this.$route.query["add[ingredient]"] == "true" || false
     );
   },
   methods: {
@@ -81,11 +88,11 @@ export default {
       this.showAddForm = show;
 
       if (show) {
-        let new_ingredient = true;
-        this.$router.push({ query: { ...this.$route.query, new_ingredient } });
+        let add = { "add[ingredient]": true };
+        this.$router.push({ query: { ...this.$route.query, ...add } });
       } else {
         let query = Object.assign({}, this.$route.query);
-        delete query.new_ingredient;
+        delete query["add[ingredient]"];
         this.$router.push({ query });
       }
     }
