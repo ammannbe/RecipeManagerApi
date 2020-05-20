@@ -4,17 +4,17 @@
       <img
         @click="openModal(photoUrls.indexOf(mainPhotoPreviewUrl))"
         :src="mainPhotoPreviewUrl"
-        :alt="recipe.name"
+        :alt="alt"
       />
     </figure>
     <div v-if="photoUrls.length > 1" class="small-previews">
       <figure :key="photoUrls.indexOf(photoUrl)" v-for="photoUrl in photoUrls">
-        <img @click="mainPhotoPreviewUrl = photoUrl" :src="photoUrl" :alt="recipe.name" />
+        <img @click="mainPhotoPreviewUrl = photoUrl" :src="photoUrl" :alt="alt" />
       </figure>
     </div>
 
     <modal
-      v-if="recipe.photo_urls && showPhoto !== false"
+      v-if="showPhoto !== false"
       :controls="true"
       :disable-next="!photoExists(showPhoto + 1)"
       :disable-prev="showPhoto <= 0"
@@ -24,7 +24,7 @@
     >
       <template>
         <figure>
-          <img :src="photoUrls[showPhoto]" :alt="recipe.name" />
+          <img :src="photoUrls[showPhoto]" :alt="alt" />
         </figure>
       </template>
     </modal>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  props: ["recipe"],
+  props: ["urls", "alt"],
   data() {
     return {
       showPhoto: false,
@@ -42,15 +42,17 @@ export default {
     };
   },
   watch: {
-    recipe() {
-      if (this.recipe.photo_urls) {
-        this.photoUrls = this.recipe.photo_urls;
+    urls() {
+      if (this.urls.length) {
+        this.photoUrls = this.urls;
         this.mainPhotoPreviewUrl = this.photoUrls[0];
       }
     }
   },
   mounted() {
-    this.initModal();
+    setTimeout(() => {
+      this.initModal();
+    }, 300);
   },
   methods: {
     initModal() {
@@ -68,7 +70,7 @@ export default {
       this.openModal(showPhoto);
     },
     openModal(index = 0) {
-      if (!this.recipe.photo_urls) {
+      if (!this.urls.length) {
         return;
       }
       this.showPhoto = index;

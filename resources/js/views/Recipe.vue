@@ -10,7 +10,7 @@
     <div class="container">
       <link-path-list v-if="recipe.id" :recipe="recipe"></link-path-list>
       <div class="meta">
-        <recipe-photo :recipe="recipe" :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
+        <recipe-photo :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
         <property-list
           @update="fetchRecipe()"
           :recipe="recipe"
