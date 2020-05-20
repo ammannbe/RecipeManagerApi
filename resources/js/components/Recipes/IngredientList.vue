@@ -44,7 +44,16 @@
       ></ingredient-list>
     </li>
   </ul>
-  <span v-else>Keine Zutaten vorhanden!</span>
+  <div v-else>
+    <h2
+      v-if="showTitle"
+      class="title is-4"
+      :class="{'add-ingredient-form': editMode, 'show': !showAddForm, 'cancel': showAddForm}"
+      :title="title"
+      @click="showIngredientAddForm(!showAddForm)"
+    >Zutaten</h2>
+    <span>Keine Zutaten vorhanden!</span>
+  </div>
 </template>
 
 <script>
