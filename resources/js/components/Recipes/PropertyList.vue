@@ -2,12 +2,17 @@
   <form @submit.prevent="submit" @change="form.errors.clear($event.target.name)">
     <ul>
       <li v-if="!$env.DISABLE_COOKBOOKS">
-        <span :class="{'can-edit': canEdit}" @click="toggleEdit('cookbook_id')">Cookbook:</span>
+        <span
+          :class="{'can-edit': canEdit}"
+          :title="title"
+          @click="toggleEdit('cookbook_id')"
+        >Cookbook:</span>
         <div @click.stop v-if="canEdit && currentEdit == 'cookbook_id' && cookbooks.length">
-          <input-field name="cookbook_id" required :errors="form.errors.get('cookbook_id')">
+          <input-field name="cookbook_id" :errors="form.errors.get('cookbook_id')">
             <template v-slot:input>
               <div class="select">
-                <select v-model="form._data.cookbook_id" name="cookbook_id" required>
+                <select v-model="form._data.cookbook_id" name="cookbook_id">
+                  <option :value="null">Öffentlich</option>
                   <option
                     :key="cookbook.id"
                     v-for="cookbook in cookbooks"
@@ -21,7 +26,7 @@
             </template>
           </input-field>
         </div>
-        <span v-else>{{ recipe.cookbook.name || 'Öffentlich' }}</span>
+        <span v-else>{{ cookbookName }}</span>
       </li>
 
       <li v-if="recipe.author">
@@ -177,10 +182,22 @@ export default {
         preparation_time: null,
         yield_amount: null
       }),
+      cookbooks: null,
+      categories: null,
+      complexities: null,
       yieldAmount: null,
       currentEdit: null,
       title: ""
     };
+  },
+  computed: {
+    cookbookName() {
+      if (this.recipe.cookbook) {
+        return this.recipe.cookbook.name;
+      } else {
+        return "Öffentlich";
+      }
+    }
   },
   watch: {
     recipe() {
@@ -189,8 +206,8 @@ export default {
       }
       this.form._data.category_id = this.recipe.category.id;
       this.form._data.yield_amount = this.recipe.yield_amount;
-      if (this.recipe.cookbook) {
-        this.form._data.cookbook_id = this.recipe.cookbook.id;
+      if (this.recipe.cookbook_id) {
+        this.form._data.cookbook_id = this.recipe.cookbook_id;
       }
       if (this.recipe.preparation_time) {
         this.form._data.preparation_time = this.recipe.preparation_time.slice(
