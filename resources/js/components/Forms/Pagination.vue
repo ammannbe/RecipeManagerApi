@@ -40,7 +40,9 @@ export default {
         return false;
       }
       return this.currentPage - 1;
-    },
+    }
+  },
+  methods: {
     pushCurrentPageToRoute() {
       let page = this.currentPage;
       this.$router.push({ query: { ...this.$route.query, page } });
