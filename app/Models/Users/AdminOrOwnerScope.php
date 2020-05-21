@@ -17,6 +17,10 @@ class AdminOrOwnerScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
+        if (!auth()->check()) {
+            $builder->whereUserId(null);
+            return;
+        }
         $user = auth()->user();
         if (!$user->admin) {
             $builder->whereUserId($user->id);

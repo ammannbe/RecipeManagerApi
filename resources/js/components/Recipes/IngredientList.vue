@@ -95,6 +95,9 @@ export default {
       $el.next().after($el);
     },
     showIngredientAddForm(show = true) {
+      if (!this.editMode) {
+        return;
+      }
       this.showAddForm = show;
 
       if (show) {

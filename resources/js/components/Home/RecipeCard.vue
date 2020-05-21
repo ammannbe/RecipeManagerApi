@@ -7,8 +7,8 @@
     <header class="card-header-title is-centered">{{ recipe.name }}</header>
 
     <div class="card-content">
-      <div class="media is-centered">
-        <figure v-if="recipe.photos">
+      <div v-if="recipe.photos" class="media is-centered">
+        <figure>
           <img :src="recipe.photo_urls[0]" :alt="recipe.name" />
         </figure>
       </div>
@@ -48,5 +48,16 @@ export default {
       max-height: 170px;
     }
   }
+
+  .content {
+    font-size: 90%;
+  }
+}
+</style>
+
+<style>
+.content > * {
+  margin-top: 0 !important;
+  margin-bottom: 0.4em !important;
 }
 </style>

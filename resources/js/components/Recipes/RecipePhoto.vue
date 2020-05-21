@@ -43,7 +43,7 @@ export default {
   },
   watch: {
     urls() {
-      if (this.urls.length) {
+      if (this.urls) {
         this.photoUrls = this.urls;
         this.mainPhotoPreviewUrl = this.photoUrls[0];
       }
@@ -70,7 +70,7 @@ export default {
       this.openModal(showPhoto);
     },
     openModal(index = 0) {
-      if (!this.urls.length) {
+      if (!this.urls) {
         return;
       }
       this.showPhoto = index;

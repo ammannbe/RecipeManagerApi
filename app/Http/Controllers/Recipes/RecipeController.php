@@ -24,7 +24,7 @@ class RecipeController extends Controller
 
         $model = new Recipe();
         if (TagController::isEnabled()) {
-            $model = $model->with('tags');
+            $model->with('tags');
         }
         return $model
             ->filter($request->filter, $request->method)
@@ -60,7 +60,7 @@ class RecipeController extends Controller
         if (CookbookController::isEnabled()) {
             $recipe->load('cookbook');
         }
-        $recipe->load('author', 'category');
+        $recipe->load(['author', 'category']);
         return $recipe;
     }
 

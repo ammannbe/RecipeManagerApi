@@ -6,6 +6,7 @@ use App\Models\FilterScope;
 use App\Models\SlugifyTrait;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use League\Flysystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
@@ -84,6 +85,28 @@ class Recipe extends Model
         'normal',
         'difficult',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('ownOrPublic', function (Builder $query) {
+            if (auth()->check() && !auth()->user()->admin) {
+                $query->with('cookbook');
+            }
+
+            if (!auth()->check()) {
+                $query->whereNull('cookbook_id');
+            }
+
+            return $query;
+        });
+    }
 
     /**
      * Get the full URLs of the photos
