@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import MavonEditor from 'mavon-editor';
+
 import './nav';
 import env from './env';
 import jQuery from 'jquery';
-import MavonEditor from 'mavon-editor';
 import Auth from './modules/ApiClient/Auth'
 
 window.$ = jQuery;
