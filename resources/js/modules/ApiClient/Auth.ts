@@ -20,14 +20,15 @@ export default class Auth extends ApiClient {
     }
 
     public async logout(): Promise<void> {
+        try {
+            await this.post(`${this.url}/logout`);
+        } catch (error) {}
+
         LocalStorage.remove([
             "auth.access_token",
             "auth.access_token",
             "auth.issued_at"
         ]);
-        try {
-            await this.post(`${this.url}/logout`);
-        } catch (error) {}
     }
 
     public static isValid(): boolean {
