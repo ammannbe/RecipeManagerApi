@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div class="pagination" :class="position">
     <div>
       <a v-if="prevPage" @click="$emit('load', prevPage)">&#60;&#60;</a>
       <span v-else>&#60;&#60;</span>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ["currentPage", "lastPage"],
+  props: ["currentPage", "lastPage", "position"],
   mounted() {
     this.pushCurrentPageToRoute();
   },
@@ -49,5 +49,9 @@ export default {
 <style lang="scss" scoped>
 .pagination {
   justify-content: end;
+
+  &.start {
+    justify-content: start;
+  }
 }
 </style>

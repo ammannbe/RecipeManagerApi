@@ -134,4 +134,8 @@ export default class ApiClient {
     public remove(id?: number): Promise<any> {
         return this.delete(`${this.url}/${id}`);
     }
+
+    public restore(id?: number): Promise<any> {
+        return this.post(`${this.url}/${id}/restore`);
+    }
 }

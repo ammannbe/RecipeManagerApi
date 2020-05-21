@@ -23,12 +23,17 @@ class RecipeController extends Controller
         $this->authorize(Recipe::class);
 
         $model = new Recipe();
+        if ($request->trashed && auth()->check()) {
+            $model = $model->withTrashed();
+        }
         if (TagController::isEnabled()) {
             $model->with('tags');
         }
-        return $model
+        $paginator = $model
             ->filter($request->filter, $request->method)
             ->paginate($request->limit);
+        $paginator->setCollection($paginator->getCollection()->makeVisible('deleted_at'));
+        return $paginator;
     }
 
     /**

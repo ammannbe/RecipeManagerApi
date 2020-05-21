@@ -25,21 +25,38 @@
     </div>
     <div class="column is-one-third">
       <h3 class="title">Deine Rezepte</h3>
+      <pagination
+        v-if="recipes.last_page > 1"
+        position="start"
+        :current-page="recipes.current_page"
+        :last-page="recipes.last_page"
+        @laod="fetchRecipes($event)"
+      ></pagination>
       <ul>
-        <li>Rezept 1</li>
-        <li>Rezept 2</li>
-      </ul>
-    </div>
-    <div class="column is-one-third">
-      <h3 class="title">Gelöschte Rezepte</h3>
-      <ul>
-        <li>Rezept 3</li>
+        <li :key="recipe.id" v-for="recipe in recipes.data">
+          <span v-if="!recipe.deleted_at">
+            <button @click.prevent="removeRecipe(recipe.id)" class="button is-white is-small">
+              <i class="fas fa-trash"></i>
+            </button>
+            <router-link
+              tag="a"
+              :to="{ name:'recipes', params: {id: recipe.id, slug: recipe.slug} }"
+            >{{ recipe.name }}</router-link>
+          </span>
+          <span v-else>
+            <button @click.prevent="restoreRecipe(recipe.id)" class="button is-white is-small">
+              <i class="fas fa-redo"></i>
+            </button>
+            {{ recipe.name }}
+          </span>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 <script>
 import Users from "../modules/ApiClient/Users";
+import Recipes from "../modules/ApiClient/Recipes";
 
 export default {
   data() {
@@ -50,11 +67,32 @@ export default {
         admin: false,
         created_at: "-",
         updated_at: "-"
-      }
+      },
+      recipes: {}
     };
   },
   mounted() {
-    new Users().show().then(user => (this.user = user));
+    this.fetchUser();
+    this.fetchRecipes();
+  },
+  methods: {
+    async fetchUser() {
+      this.user = await new Users().show();
+    },
+    async fetchRecipes(page = 1) {
+      this.recipes = await new Recipes().index({
+        trashed: true,
+        page
+      });
+    },
+    async removeRecipe(recipeId) {
+      await new Recipes().remove(recipeId);
+      this.fetchRecipes();
+    },
+    async restoreRecipe(recipeId) {
+      await new Recipes().restore(recipeId);
+      this.fetchRecipes();
+    }
   }
 };
 </script>
