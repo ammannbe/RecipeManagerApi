@@ -20,11 +20,6 @@
 <script>
 export default {
   props: ["currentPage", "lastPage"],
-  watch: {
-    currentPage() {
-      this.pushCurrentPageToRoute();
-    }
-  },
   mounted() {
     this.pushCurrentPageToRoute();
   },

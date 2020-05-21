@@ -150,8 +150,38 @@
       </li>
     </ul>
 
-    <div v-if="!$env.DISABLE_TAGS && recipe.tags && recipe.tags.length">
-      <span :key="tag.id" v-for="tag in recipe.tags">{{ tag.name }}</span>
+    <div v-if="!$env.DISABLE_TAGS">
+      <span :class="{'can-edit': canEdit}" :title="title" @click="toggleEdit('tags')">Tags:</span>
+      <div @click.stop v-if="canEdit && currentEdit == 'tags'">
+        <input-field name="tags" :errors="form.errors.get('tags')">
+          <template v-slot:input>
+            <multiselect
+              v-model="tags.selected"
+              :options="tags.data"
+              :multiple="true"
+              :close-on-select="false"
+              track-by="id"
+              placeholder="Tags eingeben..."
+              label="name"
+              select-label
+              @select="multiselectAdd('tags', $event.id)"
+              @remove="multiselectRemove('tags', $event.id)"
+              @input="form.errors.clear('tags')"
+            ></multiselect>
+          </template>
+        </input-field>
+      </div>
+      <router-link
+        v-else-if="recipe.tags && recipe.tags.length"
+        :key="tag.id"
+        v-for="tag in recipe.tags"
+        class="tag is-success"
+        tag="a"
+        :to="{ name: 'home', query: { 'search[tag]': tag.slug } }"
+      >{{ tag.name }}</router-link>
+      <span v-else>
+        <span>-</span>
+      </span>
     </div>
 
     <submit-button
@@ -180,13 +210,18 @@ export default {
         category_id: null,
         complexity: null,
         preparation_time: null,
-        yield_amount: null
+        yield_amount: null,
+        tags: null
       }),
       cookbooks: null,
       categories: null,
       complexities: null,
       yieldAmount: null,
       currentEdit: null,
+      tags: {
+        data: [],
+        selected: null
+      },
       title: ""
     };
   },
@@ -216,6 +251,10 @@ export default {
         );
       }
       this.form._data.complexity = this.recipe.complexity.id;
+      this.form._data.tags = this.recipe.tags.map(function(tag) {
+        return tag["id"];
+      });
+      this.tags.selected = this.recipe.tags;
     },
     canEdit() {
       this.title = "";
@@ -264,10 +303,21 @@ export default {
       }
       this.categories = await new Categories().index();
       if (!this.$env.DISABLE_TAGS) {
-        this.tags = new Tags().index();
+        this.tags.data = await new Tags().index();
       }
       this.complexities = await new Complexities().index();
       this.form._data.complexity = this.complexities[0].id;
+    },
+    multiselectAdd(key, value) {
+      if (key === "tags") {
+        this.form._data.tags.push(value);
+        return;
+      }
+      this.form._data[key] = value;
+    },
+    multiselectRemove(key, value) {
+      const index = this.form._data[key].indexOf(value);
+      this.form._data[key].splice(index, 1);
     },
     submit() {
       let property = this.currentEdit;
@@ -299,5 +349,8 @@ li {
     display: inline-block;
     margin: 3px;
   }
+}
+.tag {
+  margin-right: 3px;
 }
 </style>

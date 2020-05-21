@@ -40,8 +40,12 @@ class RecipeController extends Controller
     public function store(Store $request)
     {
         $this->authorize(Recipe::class);
-        $recipe = auth()->user()->recipes()->create($request->validated());
-        $recipe->savePhotos($request->validated()['photos'] ?? null);
+        $validated = $request->validated();
+        $recipe = auth()->user()->recipes()->create($validated);
+        if (isset($validated['tags'])) {
+            $recipe->tags()->sync($validated['tags']);
+        }
+        $recipe->savePhotos($validated['photos'] ?? null);
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 
@@ -74,7 +78,11 @@ class RecipeController extends Controller
     public function update(Update $request, Recipe $recipe)
     {
         $this->authorize($recipe);
-        $recipe->update($request->validated());
+        $validated = $request->validated();
+        if (TagController::isEnabled() && isset($validated['tags'])) {
+            $recipe->tags()->sync($validated['tags']);
+        }
+        $recipe->update($validated);
     }
 
     /**

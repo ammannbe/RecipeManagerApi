@@ -104,6 +104,7 @@
             select-label
             @select="select('ingredient_attributes', $event.id)"
             @remove="remove('ingredient_attributes', $event.id)"
+            @input="form.errors.clear('ingredient_attributes')"
           ></multiselect>
         </template>
       </input-field>
