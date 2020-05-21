@@ -200,6 +200,7 @@ import Cookbooks from "../../modules/ApiClient/Cookbooks";
 import Categories from "../../modules/ApiClient/Categories";
 import Tags from "../../modules/ApiClient/Tags";
 import Complexities from "../../modules/ApiClient/Complexities";
+import Auth from "../../modules/ApiClient/Auth";
 
 export default {
   props: ["recipe", "canEdit"],
@@ -298,7 +299,7 @@ export default {
       this.currentEdit = field;
     },
     async fetch() {
-      if (!this.$env.DISABLE_COOKBOOKS) {
+      if (!this.$env.DISABLE_COOKBOOKS && Auth.isValid()) {
         this.cookbooks = await new Cookbooks().index();
       }
       this.categories = await new Categories().index();
