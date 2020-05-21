@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="headline">
-      <edit-mode-switch @toggle="canEdit = $event"></edit-mode-switch>
+      <edit-mode-switch v-if="recipe.can_edit" @toggle="canEdit = $event"></edit-mode-switch>
       <social-sharing :recipe="recipe"></social-sharing>
     </div>
 

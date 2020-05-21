@@ -62,6 +62,7 @@ class Recipe extends Model
      */
     protected $appends = [
         'photo_urls',
+        'can_edit',
     ];
 
     /**
@@ -132,6 +133,15 @@ class Recipe extends Model
         }
 
         return $urls;
+    }
+
+    public function getCanEditAttribute()
+    {
+        if (!auth()->check()) {
+            return false;
+        }
+
+        return auth()->user()->isAdminOrOwnerOf($this);
     }
 
     /**
