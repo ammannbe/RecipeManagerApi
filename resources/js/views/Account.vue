@@ -2,7 +2,7 @@
   <div class="columns">
     <div class="column is-one-third">
       <h3 class="title">Details</h3>
-      <span class="tag is-info">Du bist Admin</span>
+      <span v-if="user.admin" class="tag is-info">Du bist Admin</span>
       <br />
       <table>
         <tr>
