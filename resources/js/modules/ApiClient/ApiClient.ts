@@ -46,7 +46,15 @@ export default class ApiClient {
         return this.axios
             .request(request)
             .then(response => Promise.resolve(response.data))
-            .catch(error => Promise.reject(error.response));
+            .catch(error => {
+                if (
+                    error.response.status == 403 ||
+                    error.response.status == 401
+                ) {
+                    alert("Oopsii.. Diese Aktion ist leider nicht erlaubt :-(");
+                }
+                return Promise.reject(error.response);
+            });
     }
 
     public get(url: string, data?: object): Promise<any> {
