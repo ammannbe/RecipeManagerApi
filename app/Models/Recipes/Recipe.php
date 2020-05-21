@@ -97,7 +97,14 @@ class Recipe extends Model
 
         static::addGlobalScope('ownOrPublic', function (Builder $query) {
             if (auth()->check() && !auth()->user()->admin) {
-                $query->with('cookbook');
+                $cookbookIds = Cookbook::pluck('id');
+                if ($cookbookIds->count()) {
+                    $query
+                        ->whereIn('cookbook_id', $cookbookIds)
+                        ->orWhere('cookbook_id', null);
+                } else {
+                    $query->where('cookbook_id', null);
+                }
             }
 
             if (!auth()->check()) {
