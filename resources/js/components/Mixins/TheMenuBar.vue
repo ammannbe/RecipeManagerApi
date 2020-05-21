@@ -83,6 +83,7 @@
     </nav>
   </div>
 </template>
+
 <script>
 import Auth from "../../modules/ApiClient/Auth";
 export default {
@@ -109,11 +110,15 @@ export default {
       this.isMobileMenuExpanded = !this.isMobileMenuExpanded;
     },
     logout() {
-      new Auth().logout().then(() => this.$router.go({ name: "home" }));
+      new Auth().logout().then(() => {
+        this.$router.push({ name: "home" });
+        this.validateLogin();
+      });
     }
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .search > button {
   margin-left: 10px;
