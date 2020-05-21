@@ -83,16 +83,23 @@
             </template>
           </input-field>
         </div>
-        <input
-          v-else-if="recipe.yield_amount"
-          v-model="yieldAmount"
-          name="yield_amount"
-          type="number"
-          min="1"
-          step="0.5"
-          autofocus
-          @keyup="updateYieldAmount(yieldAmount)"
-        />
+        <div v-else-if="recipe.yield_amount">
+          <input
+            v-model="yieldAmount"
+            name="yield_amount"
+            type="number"
+            min="1"
+            step="0.5"
+            autofocus
+            @keyup="updateYieldAmount(yieldAmount)"
+          />
+          <button
+            @click.prevent="updateYieldAmount(recipe.yield_amount)"
+            class="button is-black is-small"
+          >
+            <i class="fas fa-redo"></i>
+          </button>
+        </div>
         <span v-else>-</span>
       </li>
 
@@ -276,6 +283,7 @@ export default {
   },
   methods: {
     updateYieldAmount(yieldAmount) {
+      this.yieldAmount = yieldAmount;
       if (yieldAmount != this.recipe.yield_amount) {
         let yield_amount = yieldAmount;
         this.$router.push({ query: { ...this.$route.query, yield_amount } });
@@ -321,6 +329,9 @@ export default {
       this.form._data[key].splice(index, 1);
     },
     submit() {
+      if (!this.canEdit) {
+        return;
+      }
       let property = this.currentEdit;
       let value = this.form._data[property];
 
