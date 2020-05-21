@@ -3,12 +3,12 @@
     <h2
       v-if="showTitle"
       class="title is-4"
-      :class="{'add-ingredient-form': editMode, 'show': !showAddForm, 'cancel': showAddForm}"
+      :class="{'add-ingredient-form': canEdit, 'show': !showAddForm, 'cancel': showAddForm}"
       :title="title"
       @click="showIngredientAddForm(!showAddForm)"
     >Zutaten</h2>
 
-    <li class="add-ingredient" v-if="firstLevelList && editMode && showAddForm">
+    <li class="add-ingredient" v-if="firstLevelList && canEdit && showAddForm">
       <ingredient-add-form
         :recipe-id="recipeId"
         @cancel="showIngredientAddForm(false)"
@@ -22,7 +22,7 @@
         :ingredient="ingredient"
         :multiplier="multiplier"
         :recipe-id="recipeId"
-        :can-edit="editMode"
+        :can-edit="canEdit"
         @updated="$emit('updated');"
         @removed="$emit('removed');"
         @position="$emit('position', $event)"
@@ -35,7 +35,7 @@
         v-if="ingredient.ingredients && ingredient.ingredients.length"
         :recipeId="recipeId"
         :ingredients="ingredient.ingredients"
-        :edit-mode="editMode"
+        :can-edit="canEdit"
         :multiplier="multiplier"
         :first-level-list="false"
         @position="$emit('position', { id: $event.id, position: $event.id + ($event.position / 1000) })"
@@ -48,7 +48,7 @@
     <h2
       v-if="showTitle"
       class="title is-4"
-      :class="{'add-ingredient-form': editMode, 'show': !showAddForm, 'cancel': showAddForm}"
+      :class="{'add-ingredient-form': canEdit, 'show': !showAddForm, 'cancel': showAddForm}"
       :title="title"
       @click="showIngredientAddForm(!showAddForm)"
     >Zutaten</h2>
@@ -61,7 +61,7 @@ export default {
   props: [
     "recipeId",
     "ingredients",
-    "editMode",
+    "canEdit",
     "multiplier",
     "showTitle",
     "firstLevelList"
@@ -73,9 +73,9 @@ export default {
     };
   },
   watch: {
-    editMode() {
+    canEdit() {
       this.title = "";
-      if (this.editMode) {
+      if (this.canEdit) {
         this.title = "Klicken zum Hinzufügen";
       }
     }
@@ -95,7 +95,7 @@ export default {
       $el.next().after($el);
     },
     showIngredientAddForm(show = true) {
-      if (!this.editMode) {
+      if (!this.canEdit) {
         return;
       }
       this.showAddForm = show;
