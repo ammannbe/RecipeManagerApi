@@ -2,7 +2,7 @@
 
 namespace App\Models\Users;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,12 +11,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject, MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
-    use SoftDeletes;
-    use SoftCascadeTrait;
-    use OwnerTrait;
+    use HasApiTokens, Notifiable, SoftDeletes, SoftCascadeTrait, OwnerTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -2,90 +2,39 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\Auth\Login;
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    /**
-     * Show the login Form
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showLoginForm(Request $request)
-    {
-        return view('app');
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
 
     /**
-     * Get a JWT via given credentials.
+     * Where to redirect users after login.
      *
-     * @param  \App\Http\Requests\Auth\Login  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @var string
      */
-    public function login(Login $request)
-    {
-        $token = auth()->attempt($request->validated());
-
-        if (!$token) {
-            return response([
-                'errors' => [
-                    'password' => ['Invalid email or password.']
-                ]
-            ], 422);
-        }
-
-        return $this->responseWithToken($token);
-    }
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Log the user out (Invalidate the token).
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return void
      */
-    public function logout()
+    public function __construct()
     {
-        auth()->logout();
-    }
-
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->responseWithToken(auth()->refresh());
-    }
-
-    /**
-     * Check if user is authenticated
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function status()
-    {
-        if (!auth()->check()) {
-            abort(401);
-        }
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function responseWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'issued_at' => now(),
-            'expires_at' => now()->addMinutes(auth()->factory()->getTTL()),
-        ]);
+        $this->middleware('guest')->except('logout');
     }
 }

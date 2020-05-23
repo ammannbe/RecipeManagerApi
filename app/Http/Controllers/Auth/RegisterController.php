@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Users\User;
-use App\Models\Users\Author;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -30,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -70,21 +69,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
         $user->author()->create([
             'name' => $data['name'],
         ]);
-        return $user;
-    }
 
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    public function registered(Request $request, $user)
-    {
-        return response('');
+        return $user;
     }
 }

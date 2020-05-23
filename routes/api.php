@@ -52,7 +52,7 @@ Route::get('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupCon
 Route::post('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@store')->name('ingredient-groups.store');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::apiResources([
         'foods' => 'Ingredients\FoodController',
         'ingredient-attributes' => 'Ingredients\IngredientAttributeController',

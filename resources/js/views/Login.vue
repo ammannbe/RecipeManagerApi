@@ -54,7 +54,7 @@ export default {
     };
   },
   beforeMount() {
-    if (Auth.isValid()) {
+    if (this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
     }
   },
@@ -65,7 +65,10 @@ export default {
     submit() {
       this.form
         .submit(data => new Auth().login(data))
-        .then(() => this.$router.go({ name: "home" }));
+        .then(() => {
+          this.$router.push({ name: "home" });
+          location.reload();
+        });
     }
   }
 };

@@ -11,6 +11,8 @@
 |
 */
 
-Route::fallback(function() {
-    return view('app');
-});
+Route::fallback('VueController');
+
+Auth::routes(['verify' => true]);
+Route::get('login', 'VueController')->name('login');
+Route::get('register', 'VueController')->name('register');

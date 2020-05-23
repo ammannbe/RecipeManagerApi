@@ -39,7 +39,7 @@
           </form>
         </div>
 
-        <div class="navbar-end" v-if="!isLoggedIn">
+        <div v-if="!$Laravel.isLoggedIn" class="navbar-end">
           <div class="navbar-item">
             <router-link :to="{ name: 'register' }" class="button">
               <span class="icon is-small">
@@ -48,7 +48,7 @@
               <span>Registrieren</span>
             </router-link>
           </div>
-          <div v-if="!isLoggedIn" class="navbar-item">
+          <div v-if="!$Laravel.isLoggedIn" class="navbar-item">
             <router-link :to="{ name: 'login' }" class="button is-primary">
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>
@@ -90,29 +90,20 @@ export default {
   data() {
     return {
       isMobileMenuExpanded: false,
-      search: null,
-      isLoggedIn: false
+      search: null
     };
   },
   mounted() {
     this.search = this.$route.query.search;
-
-    this.validateLogin();
-    setInterval(() => {
-      this.validateLogin();
-    }, 60000);
   },
   methods: {
-    validateLogin() {
-      this.isLoggedIn = Auth.isValid();
-    },
     expandMobileMenu() {
       this.isMobileMenuExpanded = !this.isMobileMenuExpanded;
     },
     logout() {
       new Auth().logout().then(() => {
         this.$router.push({ name: "home" });
-        this.validateLogin();
+        location.reload();
       });
     }
   }

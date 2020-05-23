@@ -5,7 +5,6 @@ import MavonEditor from 'mavon-editor';
 import './nav';
 import env from './env';
 import jQuery from 'jquery';
-import Auth from './modules/ApiClient/Auth'
 
 window.$ = jQuery;
 
@@ -15,6 +14,7 @@ Vue.use(MavonEditor);
 
 Vue.prototype.$env = env;
 Vue.prototype.$markdownIt = MavonEditor.markdownIt;
+Vue.prototype.$Laravel = Laravel;
 
 Vue.prototype.$autofocus = function (selector = '[autofocus]') {
     const input = document.querySelector(selector);
@@ -22,8 +22,3 @@ Vue.prototype.$autofocus = function (selector = '[autofocus]') {
         input.focus();
     }
 }
-
-Vue.prototype.$isLoggedIn = false;
-setInterval(() => {
-    Vue.prototype.$isLoggedIn = Auth.isValid();
-}, 60000);

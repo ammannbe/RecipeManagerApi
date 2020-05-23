@@ -252,7 +252,7 @@ export default {
     };
   },
   beforeMount() {
-    if (!Auth.isValid()) {
+    if (!this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
     }
   },

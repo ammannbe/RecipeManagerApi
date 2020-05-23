@@ -1,6 +1,6 @@
 <template>
   <div class="edit-mode-switch">
-    <label v-if="isLoggedIn" for="edit-mode">
+    <label v-if="$Laravel.isLoggedIn" for="edit-mode">
       <div v-if="!enabled">
         <slot>Rezept bearbeiten</slot>
       </div>
@@ -20,32 +20,19 @@ import Auth from "../../modules/ApiClient/Auth";
 export default {
   data() {
     return {
-      enabled: false,
-      isLoggedIn: false
+      enabled: false
     };
   },
   beforeMount() {
     const enable = JSON.parse(LocalStorage.get("edit-mode"));
     this.fire(enable);
   },
-  mounted() {
-    this.validateLogin();
-    setInterval(() => {
-      this.validateLogin();
-    }, 60000);
-  },
   methods: {
-    validateLogin() {
-      this.isLoggedIn = Auth.isValid();
-      if (!this.isLoggedIn) {
-        this.fire(false);
-      }
-    },
     toggle() {
       this.fire(!this.enabled);
     },
     fire(enable) {
-      if (!Auth.isValid()) {
+      if (!this.$Laravel.isLoggedIn) {
         enable = false;
       }
       this.enabled = enable;

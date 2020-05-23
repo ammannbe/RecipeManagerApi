@@ -71,6 +71,13 @@ export default {
       recipes: {}
     };
   },
+  beforeMount() {
+    if (!this.$Laravel.isLoggedIn) {
+      this.$router.push({ name: "home" });
+    } else if (!this.$Laravel.hasVerifiedEmail) {
+      this.$router.push({ name: "verify.email" });
+    }
+  },
   mounted() {
     this.fetchUser();
     this.fetchRecipes();

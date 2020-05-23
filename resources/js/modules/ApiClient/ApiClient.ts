@@ -9,25 +9,13 @@ export default class ApiClient {
     constructor(authorize = true) {
         this.axios = axios.create({
             baseURL: env.APP_URL + "/api",
+            withCredentials: true,
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": "application/json",
                 Accept: "application/json"
             }
         });
-
-        this.axios.interceptors.request.use(
-            config => {
-                if (authorize && LocalStorage.exists("auth.access_token")) {
-                    config.headers["Authorization"] =
-                        "Bearer " + LocalStorage.get("auth.access_token");
-                }
-                return config;
-            },
-            error => {
-                return Promise.reject(error);
-            }
-        );
     }
 
     public async request(

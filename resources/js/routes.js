@@ -17,6 +17,11 @@ let routes = [
         component: require('./views/Register').default
     },
     {
+        path: '/email/verifizieren',
+        name: 'email.verify',
+        component: require('./views/VerifyEmail').default
+    },
+    {
         path: '/account',
         name: 'account',
         component: require('./views/Account').default

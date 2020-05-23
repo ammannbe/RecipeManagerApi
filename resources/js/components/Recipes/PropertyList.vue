@@ -307,7 +307,7 @@ export default {
       this.currentEdit = field;
     },
     async fetch() {
-      if (!this.$env.DISABLE_COOKBOOKS && Auth.isValid()) {
+      if (!this.$env.DISABLE_COOKBOOKS && this.$Laravel.isLoggedIn) {
         this.cookbooks = await new Cookbooks().index();
       }
       this.categories = await new Categories().index();

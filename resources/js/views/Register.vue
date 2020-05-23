@@ -95,14 +95,28 @@ export default {
       })
     };
   },
+  beforeMount() {
+    if (this.$Laravel.isLoggedIn) {
+      this.$router.push({ name: "home" });
+    }
+  },
   mounted() {
     this.$autofocus();
   },
   methods: {
     submit() {
       this.form
-        .submit(data => new Auth().register(data))
-        .then(() => this.$router.go({ name: "login" }));
+        .submit(async data => {
+          await new Auth().register(data);
+          await new Auth().login({
+            email: data.email,
+            password: data.password
+          });
+        })
+        .then(() => {
+          this.$router.push({ name: "email.verify" });
+          location.reload();
+        });
     }
   }
 };
