@@ -26,7 +26,7 @@ class CreateIngredientsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['recipe_id', 'ingredient_group_id', 'ingredient_id', 'position']);
+            $table->unique(['recipe_id', 'ingredient_group_id', 'ingredient_id', 'position'], 'ingridient_position_unique');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->nullable()->default(null);
             $table->foreign('food_id')->references('id')->on('foods');
