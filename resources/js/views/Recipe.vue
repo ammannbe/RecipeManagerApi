@@ -26,7 +26,7 @@
           :show-title="true"
           :recipeId="id"
           :ingredients="ingredients"
-          :edit-mode="canEdit"
+          :can-edit="canEdit"
           :multiplier="multiplier"
           :first-level-list="true"
           @created="fetchIngredients()"
