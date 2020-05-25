@@ -1,70 +1,58 @@
 <template>
-  <div class="field file has-name is-fullwidth">
-    <label class="file-label">
-      <slot name="input">
+  <form-field :field="field" :form="form">
+    <template v-slot:field>
+      <label class="file-label">
         <input
-          :name="name"
           type="file"
-          :required="required"
-          class="file-input"
-          @change="select($event)"
+          :name="field.id"
+          :required="field.required"
+          :class="field.class || 'file-input'"
+          @change="select($event.target.files[0])"
         />
-      </slot>
-      <span class="file-cta">
-        <span class="file-icon">
-          <i class="fas fa-upload"></i>
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">Datei wählen</span>
+          <span class="help is-danger" v-if="required !== undefined">*</span>
         </span>
-        <span class="file-label">{{ label }}</span>
-        <span class="help is-danger" v-if="required !== undefined">*</span>
-      </span>
-      <span class="file-name">{{ filename || 'Keine Datei ausgewählt.' }}</span>
-      <i @click.prevent="remove($event)" class="fas fa-times remove" title="Auswahl entfernen"></i>
-    </label>
-    <ul v-if="errors.length" class="help is-danger">
-      <li :key="error" v-for="error in errors" v-text="error"></li>
-    </ul>
-  </div>
+        <span class="file-name">{{ filename || 'Keine Datei ausgewählt.' }}</span>
+        <i @click.prevent="remove()" class="fas fa-times remove" title="Auswahl entfernen"></i>
+      </label>
+    </template>
+  </form-field>
 </template>
 
 <script>
 export default {
-  props: ["label", "name", "required", "errors", "value", "file"],
+  props: ["field", "required", "form"],
   data() {
     return {
-      filename: null
+      file: null
     };
   },
-  watch: {
-    file() {
+  computed: {
+    filename() {
       if (this.file) {
-        this.filename = this.file.name;
+        return this.file.name;
       }
-
-      if (!this.file) {
-        this.filename = null;
-      }
+      return null;
     }
   },
   methods: {
-    select($event) {
-      this.$emit("update:file", $event.target.files[0]);
+    select(file) {
+      this.file = file;
+      this.$emit("select", file);
     },
-    remove($event) {
-      this.$emit("update:file", null);
+    remove() {
+      this.file = null;
+      this.$emit("remove");
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-textarea {
-  height: unset;
-}
-
-.help.is-danger {
-  display: inline;
-}
-
 .remove {
   position: absolute;
   right: 13px;

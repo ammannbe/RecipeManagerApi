@@ -3,77 +3,57 @@
     <div class="column is-one-third is-offset-3">
       <h1 class="title has-text-centered">Registrieren</h1>
 
-      <input-field label="Name" name="name" required :errors="form.errors.get('name')">
-        <template v-slot:input>
-          <input
-            v-model="form._data.name"
-            class="input"
-            name="name"
-            type="text"
-            placeholder="Name eingeben..."
-            required
-            autofocus
-          />
-        </template>
-        <template v-slot:icon>
-          <i class="fas fa-user"></i>
-        </template>
-      </input-field>
-
-      <input-field label="E-Mail" name="email" required :errors="form.errors.get('email')">
-        <template v-slot:input>
-          <input
-            v-model="form._data.email"
-            name="email"
-            class="input"
-            type="email"
-            placeholder="E-Mail-Adresse eingeben..."
-            required
-          />
-        </template>
-        <template v-slot:icon>
-          <i class="fas fa-envelope"></i>
-        </template>
-      </input-field>
-
-      <input-field label="Passwort" name="password" required :errors="form.errors.get('password')">
-        <template v-slot:input>
-          <input
-            v-model="form._data.password"
-            name="password"
-            class="input"
-            type="password"
-            placeholder="Passwort eingeben..."
-            required
-            minlength="8"
-          />
-        </template>
-        <template v-slot:icon>
-          <i class="fas fa-key"></i>
-        </template>
-      </input-field>
+      <input-field
+        :field="{
+            id: 'name',
+            label: 'Name',
+            placeholder: 'Name eingeben...',
+            required: true,
+            autofocus: true,
+            icon: 'fas fa-user',
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
 
       <input-field
-        label="Passwort-Bestätigung"
-        name="password_confirmation"
-        required
-        :errors="form.errors.get('password_confirmation')"
-      >
-        <template v-slot:input>
-          <input
-            v-model="form._data.password_confirmation"
-            name="password_confirmation"
-            class="input"
-            type="password"
-            placeholder="Passwort eingeben..."
-            required
-            minlength="8"
-          />
-        </template>
-        <template v-slot:icon>
-          <i class="fas fa-key"></i>
-        </template>
-      </input-field>
+        :field="{
+            id: 'email',
+            label: 'E-Mail',
+            placeholder: 'E-Mail-Adresse eingeben...',
+            required: true,
+            icon: 'fas fa-envelope',
+            type: 'email'
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
+
+      <input-field
+        :field="{
+            id: 'password',
+            label: 'Passwort',
+            placeholder: 'Passwort eingeben...',
+            required: true,
+            icon: 'fas fa-key',
+            type: 'password'
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
+
+      <input-field
+        :field="{
+            id: 'password_confirmation',
+            label: 'Passwort',
+            placeholder: 'Passwort bestätigen...',
+            required: true,
+            icon: 'fas fa-key',
+            type: 'password'
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
 
       <submit-button :disabled="form.errors.any()">Registrieren</submit-button>
     </div>
@@ -81,7 +61,6 @@
 </template>
 <script>
 import Auth from "../modules/ApiClient/Auth";
-import Errors from "../modules/Errors";
 import Form from "../modules/Form";
 
 export default {

@@ -1,18 +1,16 @@
 <template>
   <form-field :field="field" :form="form">
     <template v-slot:field>
-      <input
+      <textarea
         v-model="value"
         :name="field.id"
-        :type="field.type || 'text'"
-        :min="field.min"
-        :max="field.max"
-        :step="field.step"
+        :cols="field.cols || 30"
+        :rows="field.rows || 10"
+        :maxlength="field.maxlength || 254"
         :placeholder="field.placeholder"
         :required="field.required"
-        :autofocus="field.autofocus"
         :class="field.class || 'input'"
-      />
+      ></textarea>
     </template>
   </form-field>
 </template>
@@ -21,17 +19,12 @@
 export default {
   props: ["field", "form"],
   data() {
-    return {
-      value: null
-    };
+    return { value: null };
   },
   watch: {
     value() {
       this.form.set(this.field.id, this.value);
-      this.$emit("changed", {
-        id: this.field.id,
-        value: this.form.get(this.field.id)
-      });
+      this.$emit("changed", this.form.get(this.field.id));
     }
   },
   mounted() {
@@ -39,3 +32,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+textarea {
+  height: unset;
+}
+</style>

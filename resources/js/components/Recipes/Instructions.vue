@@ -97,7 +97,7 @@ export default {
   },
   watch: {
     instructions() {
-      this.form._data.instructions = this.instructions;
+      this.form.set("instructions", this.instructions);
     },
     canEdit() {
       this.title = "";

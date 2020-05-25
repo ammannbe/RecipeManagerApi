@@ -39,9 +39,9 @@ export default class Recipes extends ApiClient {
             Object.keys(data).forEach(key => {
                 const value: string | null | [] = (<any>data)[key];
 
-                if (value instanceof Array) {
-                    value.forEach((v, i) => {
-                        formData.append(`photos[${i}]`, v);
+                if (value instanceof Array && value.length > 0) {
+                    value.forEach((v: any, i: number) => {
+                        formData.append(`${key}[${i}]`, v);
                     });
                     return;
                 }

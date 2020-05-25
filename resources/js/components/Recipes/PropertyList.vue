@@ -6,26 +6,16 @@
           :class="{'can-edit': canEdit}"
           :title="title"
           @click="toggleEdit('cookbook_id')"
-        >Cookbook:</span>
-        <div @click.stop v-if="canEdit && currentEdit == 'cookbook_id' && cookbooks.length">
-          <input-field name="cookbook_id" :errors="form.errors.get('cookbook_id')">
-            <template v-slot:input>
-              <div class="select">
-                <select v-model="form._data.cookbook_id" name="cookbook_id">
-                  <option :value="null">Öffentlich</option>
-                  <option
-                    :key="cookbook.id"
-                    v-for="cookbook in cookbooks"
-                    :value="cookbook.id"
-                  >{{ cookbook.name }}</option>
-                </select>
-              </div>
-            </template>
-            <template v-slot:icon>
-              <i class="fas fa-layer-group"></i>
-            </template>
-          </input-field>
-        </div>
+        >Kochbuch:</span>
+
+        <select-field
+          v-if="canEdit && currentEdit == 'cookbook_id' && cookbooks.length"
+          :field="{ id: 'cookbook_id', icon: 'fas fa-layer-group', placeholder: 'Öffentlich', nullable: true }"
+          :data="cookbooks"
+          :form="form"
+          @changed="form.set($event.id, $event.value)"
+        ></select-field>
+
         <span v-else>{{ cookbookName }}</span>
       </li>
 
@@ -40,24 +30,15 @@
           :title="title"
           @click="toggleEdit('category_id')"
         >Kategorie:</span>
-        <div @click.stop v-if="canEdit && currentEdit == 'category_id'">
-          <input-field name="category_id" required :errors="form.errors.get('category_id')">
-            <template v-slot:input>
-              <div class="select">
-                <select v-model="form._data.category_id" name="category_id" required>
-                  <option
-                    :key="category.id"
-                    v-for="category in categories"
-                    :value="category.id"
-                  >{{ category.name }}</option>
-                </select>
-              </div>
-            </template>
-            <template v-slot:icon>
-              <i class="fas fa-layer-group"></i>
-            </template>
-          </input-field>
-        </div>
+
+        <select-field
+          v-if="canEdit && currentEdit == 'category_id'"
+          :field="{ id: 'category_id', required: true, icon: 'fas fa-layer-group' }"
+          :data="categories"
+          :form="form"
+          @changed="form.set($event.id, $event.value)"
+        ></select-field>
+
         <span v-else>{{ recipe.category.name }}</span>
       </li>
 
@@ -67,22 +48,22 @@
           :title="title"
           @click="toggleEdit('yield_amount');"
         >Portionen:</span>
-        <div @click.stop v-if="canEdit && currentEdit == 'yield_amount'">
-          <input-field name="yield_amount" :errors="form.errors.get('yield_amount')">
-            <template v-slot:input>
-              <input
-                v-model="form._data.yield_amount"
-                name="yield_amount"
-                type="number"
-                min="1"
-                step="0.5"
-                autofocus
-                placeholder="Portionen eingeben..."
-                @keyup="updateYieldAmount(recipe.yield_amount)"
-              />
-            </template>
-          </input-field>
-        </div>
+
+        <input-field
+          v-if="canEdit && currentEdit == 'yield_amount'"
+          :field="{
+            id: 'yield_amount',
+            min: '1',
+            max: '999',
+            step: '1',
+            placeholder: 'Portionen eingeben...',
+            icon: 'fas fa-sort-amount-up',
+            type: 'number'
+          }"
+          :form="form"
+          @changed="form.set($event.id, $event.value); updateYieldAmount(recipe.yield_amount)"
+        ></input-field>
+
         <div v-else-if="recipe.yield_amount">
           <input
             v-model="yieldAmount"
@@ -109,24 +90,15 @@
           :title="title"
           @click="toggleEdit('complexity')"
         >Schwierigkeitsgrad:</span>
-        <div @click.stop v-if="canEdit && currentEdit == 'complexity'">
-          <input-field name="complexity" :errors="form.errors.get('complexity')">
-            <template v-slot:input>
-              <div class="select">
-                <select v-model="form._data.complexity" name="complexity">
-                  <option
-                    :key="complexity.id"
-                    v-for="complexity in complexities"
-                    :value="complexity.id"
-                  >{{ complexity.name }}</option>
-                </select>
-              </div>
-            </template>
-            <template v-slot:icon>
-              <i class="fas fa-signal"></i>
-            </template>
-          </input-field>
-        </div>
+
+        <select-field
+          v-if="canEdit && currentEdit == 'complexity'"
+          :field="{ id: 'complexity', required: true, icon: 'fas fa-signal' }"
+          :data="complexities"
+          :form="form"
+          @changed="form.set($event.id, $event.value)"
+        ></select-field>
+
         <span v-else>{{ recipe.complexity.name }}</span>
       </li>
 
@@ -136,22 +108,14 @@
           :title="title"
           @click="toggleEdit('preparation_time')"
         >Zubereitungszeit:</span>
-        <div @click.stop v-if="canEdit && currentEdit == 'preparation_time'">
-          <input-field name="preparation_time" :errors="form.errors.get('preparation_time')">
-            <template v-slot:input>
-              <input
-                v-model="form._data.preparation_time"
-                name="preparation_time"
-                class="input"
-                type="time"
-                placeholder="Zubereitungszeit eingeben..."
-              />
-            </template>
-            <template v-slot:icon>
-              <i class="fas fa-clock"></i>
-            </template>
-          </input-field>
-        </div>
+
+        <input-field
+          v-if="canEdit && currentEdit == 'preparation_time'"
+          :field="{ id: 'preparation_time', icon: 'fas fa-clock', type: 'time' }"
+          :form="form"
+          @changed="form.set($event.id, $event.value)"
+        ></input-field>
+
         <span v-else-if="recipe.preparation_time">{{ recipe.preparation_time.slice(0, -3) }}</span>
         <span v-else>-</span>
       </li>
@@ -159,25 +123,15 @@
 
     <div v-if="!$env.DISABLE_TAGS">
       <span :class="{'can-edit': canEdit}" :title="title" @click="toggleEdit('tags')">Tags:</span>
-      <div @click.stop v-if="canEdit && currentEdit == 'tags'">
-        <input-field name="tags" :errors="form.errors.get('tags')">
-          <template v-slot:input>
-            <multiselect
-              v-model="tags.selected"
-              :options="tags.data"
-              :multiple="true"
-              :close-on-select="false"
-              track-by="id"
-              placeholder="Tags eingeben..."
-              label="name"
-              select-label
-              @select="multiselectAdd('tags', $event.id)"
-              @remove="multiselectRemove('tags', $event.id)"
-              @input="form.errors.clear('tags')"
-            ></multiselect>
-          </template>
-        </input-field>
-      </div>
+
+      <multiselect-field
+        v-if="!$env.DISABLE_TAGS && canEdit && currentEdit == 'tags'"
+        :field="{ id: 'tags', placeholder: 'Tags auswählen...', icon: 'fas fa-tags' }"
+        :data="tags"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></multiselect-field>
+
       <router-link
         v-else-if="recipe.tags && recipe.tags.length"
         :key="tag.id"
@@ -219,17 +173,14 @@ export default {
         complexity: null,
         preparation_time: null,
         yield_amount: null,
-        tags: null
+        tags: []
       }),
       cookbooks: null,
       categories: null,
       complexities: null,
       yieldAmount: null,
       currentEdit: null,
-      tags: {
-        data: [],
-        selected: null
-      },
+      tags: [],
       title: ""
     };
   },
@@ -247,22 +198,22 @@ export default {
       if (!this.yieldAmount) {
         this.yieldAmount = this.recipe.yield_amount;
       }
-      this.form._data.category_id = this.recipe.category.id;
-      this.form._data.yield_amount = this.recipe.yield_amount;
+      this.form.set("category_id", this.recipe.category.id);
+      this.form.set("yield_amount", this.recipe.yield_amount);
       if (this.recipe.cookbook_id) {
-        this.form._data.cookbook_id = this.recipe.cookbook_id;
+        this.form.set("cookbook_id", this.recipe.cookbook_id);
       }
       if (this.recipe.preparation_time) {
-        this.form._data.preparation_time = this.recipe.preparation_time.slice(
-          0,
-          -3
+        this.form.set(
+          "preparation_time",
+          this.recipe.preparation_time.slice(0, -3)
         );
       }
-      this.form._data.complexity = this.recipe.complexity.id;
-      this.form._data.tags = this.recipe.tags.map(function(tag) {
-        return tag["id"];
-      });
-      this.tags.selected = this.recipe.tags;
+      this.form.set("complexity", this.recipe.complexity.id);
+      this.form.set(
+        "tags",
+        this.recipe.tags.map(tag => tag.id)
+      );
     },
     canEdit() {
       this.title = "";
@@ -312,28 +263,17 @@ export default {
       }
       this.categories = await new Categories().index();
       if (!this.$env.DISABLE_TAGS) {
-        this.tags.data = await new Tags().index();
+        this.tags = await new Tags().index();
       }
       this.complexities = await new Complexities().index();
-      this.form._data.complexity = this.complexities[0].id;
-    },
-    multiselectAdd(key, value) {
-      if (key === "tags") {
-        this.form._data.tags.push(value);
-        return;
-      }
-      this.form._data[key] = value;
-    },
-    multiselectRemove(key, value) {
-      const index = this.form._data[key].indexOf(value);
-      this.form._data[key].splice(index, 1);
+      this.form.set("complexity", this.complexities[0].id);
     },
     submit() {
       if (!this.canEdit) {
         return;
       }
       let property = this.currentEdit;
-      let value = this.form._data[property];
+      let value = this.form.get(property);
 
       this.form
         .submit(() => new Recipes().update(this.recipe.id, property, value))
@@ -341,7 +281,7 @@ export default {
     },
     updated() {
       let property = this.currentEdit;
-      let value = this.form._data[property];
+      let value = this.form.get(property);
 
       this.recipe[property] = value;
       this.currentEdit = null;

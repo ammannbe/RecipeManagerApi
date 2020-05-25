@@ -10,121 +10,66 @@
       @submit.prevent="submit"
       @change="form.errors.clear($event.target.name)"
     >
+      <select-field
+        v-if="ingredients.length"
+        :field="{ id: 'ingredient_id', placeholder: 'Alternative von', nullable: true }"
+        :data="ingredients"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></select-field>
+
+      <div class="field or" v-if="form.get('ingredient_id')">| Oder:</div>
       <input-field
-        v-if="ingredients.data.length"
-        name="ingredient_id"
-        :errors="form.errors.get('ingredient_id')"
-      >
-        <template v-slot:input>
-          <select v-model="form._data.ingredient_id" name="ingredients">
-            <option :value="null" selected>- Alternative von -</option>
-            <option
-              :key="ingredient.id"
-              v-for="ingredient in ingredients.data"
-              :value="ingredient.id"
-            >
-              <ingredient v-if="ingredient" :ingredient="ingredient"></ingredient>
-            </option>
-          </select>
-        </template>
-      </input-field>
+        :field="{
+            id: 'amount',
+            type: 'number',
+            max: '999998',
+            placeholder: '(Min.) Menge',
+            autofocus: true
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
 
-      <div class="field or" v-if="form._data.ingredient_id">| Oder:</div>
-      <input-field name="amount" required :errors="form.errors.get('amount')">
-        <template v-slot:input>
-          <input
-            v-model="form._data.amount"
-            name="amount"
-            class="input"
-            type="number"
-            max="999999"
-            placeholder="(Min.) Menge"
-            autofocus
-          />
-        </template>
-      </input-field>
+      <input-field
+        :field="{
+            id: 'amount_max',
+            type: 'number',
+            max: '999999',
+            placeholder: 'Max. Menge',
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
 
-      <input-field name="amount_max" required :errors="form.errors.get('amount_max')">
-        <template v-slot:input>
-          <input
-            v-model="form._data.amount_max"
-            name="amount_max"
-            class="input"
-            type="number"
-            max="999999"
-            placeholder="Max. Menge"
-            autofocus
-          />
-        </template>
-      </input-field>
+      <select-field
+        :field="{ id: 'unit_id', placeholder: 'Einheit', nullable: true }"
+        :data="units"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></select-field>
 
-      <input-field name="unit_id" :errors="form.errors.get('unit_id')">
-        <template v-slot:input>
-          <multiselect
-            v-model="units.selected"
-            :options="units.data"
-            :allow-empty="false"
-            deselect-label
-            track-by="id"
-            placeholder="Einheit"
-            label="name"
-            select-label
-            @select="multiselectAdd('unit_id', $event.id)"
-            @input="form.errors.clear('unit_id')"
-          ></multiselect>
-        </template>
-      </input-field>
+      <select-field
+        :field="{ id: 'food_id', placeholder: 'Zutat', required: true }"
+        :data="foods"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></select-field>
 
-      <input-field name="food_id" :errors="form.errors.get('food_id')">
-        <template v-slot:input>
-          <multiselect
-            v-model="foods.selected"
-            :options="foods.data"
-            :allow-empty="false"
-            deselect-label
-            track-by="id"
-            placeholder="Zutat"
-            label="name"
-            select-label
-            @select="multiselectAdd('food_id', $event.id)"
-            @input="form.errors.clear('food_id')"
-          ></multiselect>
-        </template>
-      </input-field>
+      <multiselect-field
+        :field="{ id: 'ingredient_attributes', placeholder: 'Eigenschaften' }"
+        :data="ingredientAttributes"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></multiselect-field>
 
-      <input-field name="ingredient_attributes" :errors="form.errors.get('ingredient_attributes')">
-        <template v-slot:input>
-          <multiselect
-            v-model="ingredientAttributes.selected"
-            :options="ingredientAttributes.data"
-            :multiple="true"
-            :close-on-select="false"
-            track-by="id"
-            placeholder="Eigenschaften"
-            label="name"
-            select-label
-            @select="multiselectAdd('ingredient_attributes', $event.id)"
-            @remove="multiselectRemove('ingredient_attributes', $event.id)"
-            @input="form.errors.clear('ingredient_attributes')"
-          ></multiselect>
-        </template>
-      </input-field>
-
-      <input-field name="ingredient_group_id" :errors="form.errors.get('ingredient_group_id')">
-        <template v-slot:input>
-          <multiselect
-            v-model="ingredientGroups.selected"
-            :options="ingredientGroups.data"
-            :allow-empty="false"
-            deselect-label
-            track-by="id"
-            placeholder="Gruppe"
-            label="name"
-            select-label
-            @select="multiselectAdd('ingredient_group_id', $event.id)"
-          ></multiselect>
-        </template>
-      </input-field>
+      <select-field
+        v-if="ingredientGroups.length"
+        :field="{ id: 'ingredient_group_id', placeholder: 'Gruppe', nullable: true }"
+        :data="ingredientGroups"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></select-field>
 
       <submit-button
         :can-cancel="true"
@@ -157,41 +102,21 @@ export default {
   data() {
     return {
       form: new Form({
-        amount: null,
-        amount_max: null,
-        unit_id: null,
-        food_id: null,
-        ingredient_attributes: [],
-        ingredient_group_id: null,
-        ingredient_id: null,
-        position: 0
+        amount: this.ingredient.amount,
+        amount_max: this.ingredient.amount_max,
+        unit_id: this.ingredient.unit_id,
+        food_id: this.ingredient.food_id,
+        ingredient_attributes: this.ingredient.ingredient_attributes,
+        ingredient_group_id: this.ingredient.ingredient_group_id,
+        ingredient_id: this.ingredient.ingredient_id,
+        position: this.ingredient.position
       }),
 
-      units: {
-        isFetched: false,
-        data: [],
-        selected: null
-      },
-      foods: {
-        isFetched: false,
-        data: [],
-        selected: null
-      },
-      ingredientAttributes: {
-        isFetched: false,
-        data: [],
-        selected: []
-      },
-      ingredientGroups: {
-        isFetched: false,
-        data: [],
-        selected: null
-      },
-      ingredients: {
-        isFetched: false,
-        data: [],
-        selected: null
-      }
+      units: [],
+      foods: [],
+      ingredientAttributes: [],
+      ingredientGroups: [],
+      ingredients: []
     };
   },
   created() {
@@ -205,59 +130,30 @@ export default {
   },
   mounted() {
     this.fetch();
-
-    setTimeout(() => {
-      this.foods.selected = this.foods.data.find(
-        food => food.id == this.ingredient.food_id
-      );
-      this.form._data.food_id = this.ingredient.food_id;
-      this.form._data.amount = this.ingredient.amount;
-      this.form._data.amount_max = this.ingredient.amount_max;
-      this.form._data.unit_id = this.ingredient.unit_id;
-      this.form._data.ingredient_attributes = this.ingredient.ingredient_attributes;
-      this.form._data.ingredient_group_id = this.ingredient.ingredient_group_id;
-      this.form._data.ingredient_id = this.ingredient.ingredient_id;
-      this.form._data.position = this.ingredient.position;
-      this.ingredientAttributes.selected = this.ingredient.ingredient_attributes;
-      this.ingredientGroups.selected = this.ingredient.ingredient_group_id;
-      this.ingredients.selected = this.ingredient.ingredient_id;
-    }, 1000);
   },
   methods: {
     async fetch() {
-      this.units.data = await new Units().index();
-      this.foods.data = await new Foods().index();
-      this.ingredientAttributes.data = await new IngredientAttributes().index();
-      this.ingredientGroups.data = await new IngredientGroups().index({
+      this.units = await new Units().index();
+      this.foods = await new Foods().index();
+      this.ingredientAttributes = await new IngredientAttributes().index();
+      this.ingredientGroups = await new IngredientGroups().index({
         recipeId: this.recipeId
       });
-      this.ingredients.data = await new Ingredients(
-        true,
-        this.recipeId
-      ).index();
-    },
-    multiselectAdd(key, value) {
-      if (key === "ingredient_attributes") {
-        this.form._data.ingredient_attributes.push(value);
-        return;
-      }
-      this.form._data[key] = value;
-    },
-    multiselectRemove(key, value) {
-      const index = this.form._data[key].indexOf(value);
-      this.form._data[key].splice(index, 1);
+      this.ingredients = await new Ingredients(true, this.recipeId).index();
     },
     goUp() {
-      if (this.form._data.position > 0) {
-        this.form._data.position--;
+      let position = this.form.get("position");
+      if (position > 0) {
+        this.form.set("position", position--);
       }
-      this.$emit("position", this.form._data.position - 0.0001);
+      this.$emit("position", position - 0.0001);
     },
     goDown() {
-      if (this.form._data.position < this.ingredients.data.length) {
-        this.form._data.position++;
+      let position = this.form.get("position");
+      if (position < this.ingredients.length) {
+        this.form.set("position", position++);
       }
-      this.$emit("position", this.form._data.position + 0.0001);
+      this.$emit("position", position + 0.0001);
     },
     remove() {
       if (!confirm("Diese Zutat wirklich löschen?")) {

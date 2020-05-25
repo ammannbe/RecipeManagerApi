@@ -43,6 +43,60 @@ export default class Form {
     }
 
     /**
+     * Get the data of a specific property.
+     *
+     * @param {string} property
+     */
+    public get(property: string) {
+        return this._data[property];
+    }
+
+    /**
+     * Set the data of a specific property.
+     *
+     * @param {string} property
+     * @param {any} value
+     */
+    public set(property: string, value: any) {
+        this._errors.clear(property);
+        this._data[property] = value;
+    }
+
+    /**
+     * Push new item to array
+     *
+     * @param {string} property
+     * @param {any} value
+     */
+    public push(property: string, value: any) {
+        this._errors.clear(property);
+        this._data[property].push(value);
+    }
+
+    /**
+     * replace new item to array
+     *
+     * @param {string} property
+     * @param {any} index
+     * @param {any} value
+     */
+    public replace(property: string, index: any, value: any) {
+        this._errors.clear(property);
+        this._data[property][index] = value;
+    }
+
+    /**
+     * Remove item from array
+     *
+     * @param {string} property
+     * @param {any} value
+     */
+    public remove(property: string, value: any) {
+        const index = this._data[property].indexOf(value);
+        this._data[property].splice(index, 1);
+    }
+
+    /**
      * Fetch all errors for the form.
      *
      * @return {Errors}

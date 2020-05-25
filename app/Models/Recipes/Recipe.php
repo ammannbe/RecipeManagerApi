@@ -168,7 +168,7 @@ class Recipe extends Model
             if ($photo instanceof UploadedFile) {
                 $time = time();
                 $extension = $photo->getClientOriginalExtension();
-                $name = "{$time}-{$this->slug}.{$extension}";
+                $name = "{$time}{$key}-{$this->slug}.{$extension}";
 
                 $photo->storeAs('recipes', $name, 'images');
                 $original[$key] = $name;

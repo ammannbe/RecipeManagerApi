@@ -40,6 +40,15 @@ class Ingredient extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'name',
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var array
@@ -51,6 +60,43 @@ class Ingredient extends Model
         'ingredientGroup',
         'ingredients'
     ];
+
+    /**
+     * Generate a human-readable name (e.g. 5 - 6 Liter Tomatenmark)
+     *
+     * @return string
+     */
+    public function getNameAttribute(): string
+    {
+        $name = '';
+        if ($this->amount !== null) {
+            $name .= "{$this->amount}";
+        }
+        if ($this->amount_max !== null) {
+            if ($this->amount !== null) {
+                $name .= ' ';
+            }
+            $name .= "- {$this->amount_max}";
+        }
+        if ($this->unit_id) {
+            $name .= " {$this->unit->name}";
+        }
+        if ($this->food_id) {
+            $name .= " {$this->food->name}";
+        }
+        if ($this->ingredient_attributes) {
+            $this->ingredient_attributes->each(function ($ingredientAttribute, $key) use ($name) {
+                $key === 0 && $name .= " (";
+                $name .= $ingredientAttribute->name;
+                if ($key === $this->ingredient_attributes->count()) {
+                    $name .= ")";
+                } else {
+                    $name .= ", ";
+                }
+            });
+        }
+        return $name;
+    }
 
     /**
      * Get the ingredient's recipe
