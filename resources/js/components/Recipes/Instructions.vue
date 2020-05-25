@@ -6,22 +6,12 @@
       :title="title"
     >Zubereitung</h2>
 
-    <div v-if="canEdit && isEditing">
-      <div :class="{'control': true}">
-        <mavon-editor
-          :class="{'is-danger border': form.errors.any()}"
-          v-model="form._data.instructions"
-          language="de"
-          :toolbars="toolbars"
-          @change="form.errors.clear('instructions')"
-          @save="submit"
-        ></mavon-editor>
-
-        <ul v-if="form.errors.any()" class="help is-danger">
-          <li :key="error" v-for="error in form.errors.all()" v-text="error"></li>
-        </ul>
-      </div>
-    </div>
+    <markdown-field
+      v-if="canEdit && isEditing"
+      :field="{ id: 'instructions' }"
+      :form="form"
+      @saved="form.set($event.id, $event.value); submit();"
+    ></markdown-field>
 
     <div
       v-else
@@ -42,49 +32,13 @@ export default {
   props: ["recipeId", "instructions", "canEdit"],
   data() {
     return {
-      isEditing: false,
-      isUpdating: false,
-      title: "",
-
-      toolbars: {
-        bold: true,
-        italic: true,
-        header: true,
-        underline: true,
-        strikethrough: true,
-        mark: true,
-        superscript: true,
-        subscript: true,
-        quote: true,
-        ol: true,
-        ul: true,
-        link: true,
-        // imagelink: true,
-        code: true,
-        table: true,
-        fullscreen: true,
-        readmodel: true,
-        htmlcode: true,
-        help: true,
-        /* 1.3.5 */
-        undo: true,
-        redo: true,
-        trash: true,
-        save: true,
-        /* 1.4.2 */
-        navigation: false,
-        /* 2.1.8 */
-        alignleft: true,
-        aligncenter: true,
-        alignright: true,
-        /* 2.2.1 */
-        subfield: true,
-        preview: true
-      },
-
       form: new Form({
         instructions: this.instructions
-      })
+      }),
+
+      isEditing: false,
+      isUpdating: false,
+      title: ""
     };
   },
   computed: {
@@ -130,7 +84,7 @@ export default {
           new Recipes().update(
             this.recipeId,
             "instructions",
-            this.form._data.instructions
+            this.form.get("instructions")
           )
         )
         .then(() => {
@@ -146,9 +100,5 @@ export default {
 <style lang="scss" scoped>
 .can-edit {
   cursor: pointer;
-}
-
-.is-danger.border {
-  border: 1px solid red;
 }
 </style>

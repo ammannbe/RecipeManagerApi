@@ -145,6 +145,8 @@
       </span>
     </div>
 
+    <br />
+
     <submit-button
       v-if="canEdit && currentEdit"
       :can-cancel="true"
@@ -292,14 +294,26 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .can-edit {
   cursor: pointer;
 }
 li {
+  display: flex;
+  align-items: flex-start;
+
+  > *:first-child {
+    margin-right: 3px;
+  }
+
   > div {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     margin: 3px;
+
+    > input[name="yield_amount"] {
+      margin-right: 3px;
+    }
   }
 }
 .tag {
