@@ -1,5 +1,4 @@
 import ApiClient from "./ApiClient";
-import LocalStorage from "../LocalStorage";
 
 export default class Auth extends ApiClient {
     protected url = "/auth";

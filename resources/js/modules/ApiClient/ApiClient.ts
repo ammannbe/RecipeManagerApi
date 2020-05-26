@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import env from "../../env";
-import LocalStorage from "../LocalStorage";
 
 export default class ApiClient {
     private axios: AxiosInstance;
