@@ -10,7 +10,8 @@
       v-if="canEdit && isEditing"
       :field="{ id: 'instructions' }"
       :form="form"
-      @saved="form.set($event.id, $event.value); submit();"
+      @changed="form.set($event.id, $event.value)"
+      @saved="submit()"
     ></markdown-field>
 
     <div

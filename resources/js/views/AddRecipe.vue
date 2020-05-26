@@ -83,18 +83,17 @@
         @changed="form.set($event.id, $event.value)"
       ></multiselect-field>
 
-      <textarea-field
+      <markdown-field
         :field="{
             id: 'instructions',
             label: 'Zubereitung',
             maxlength: '16000000',
             placeholder: 'Zubereitung eingeben...',
             required: true,
-            icon: 'fas fa-file-alt'
         }"
         :form="form"
         @changed="form.set($event.id, $event.value)"
-      ></textarea-field>
+      ></markdown-field>
 
       <div>
         <file-field

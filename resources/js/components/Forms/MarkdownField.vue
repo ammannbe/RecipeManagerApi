@@ -1,12 +1,23 @@
 <template>
-  <mavon-editor
-    :class="{'is-danger border': form.errors.any()}"
-    v-model="value"
-    language="de"
-    :toolbars="toolbars"
-    @change="form.errors.clear(field.id)"
-    @save="$emit('saved', { id: field.id, value: value })"
-  ></mavon-editor>
+  <div class="field">
+    <label class="label">
+      {{ field.label }}
+      <div class="control">
+        <mavon-editor
+          :class="{'is-danger border': form.errors.any()}"
+          v-model="value"
+          language="de"
+          :toolbars="toolbars"
+          :required="field.required"
+          :placeholder="field.placeholder"
+          @save="$emit('saved')"
+        ></mavon-editor>
+      </div>
+    </label>
+    <ul v-if="form.errors.has(field.id)" class="help is-danger">
+      <li :key="error" v-for="error in form.errors.get(field.id)" v-text="error"></li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -14,7 +25,7 @@ export default {
   props: ["field", "form"],
   data() {
     return {
-      value: this.form.get(this.field.id),
+      value: "",
 
       toolbars: {
         bold: true,
@@ -52,6 +63,20 @@ export default {
         preview: true
       }
     };
+  },
+  watch: {
+    value() {
+      this.form.set(this.field.id, this.value);
+      this.$emit("changed", {
+        id: this.field.id,
+        value: this.form.get(this.field.id)
+      });
+    }
+  },
+  mounted() {
+    if (this.form.get(this.field.id) != null) {
+      this.value = this.form.get(this.field.id);
+    }
   }
 };
 </script>
