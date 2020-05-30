@@ -5,7 +5,7 @@
         @click="openModal(photoUrls.indexOf(mainPhotoPreviewUrl))"
         :src="mainPhotoPreviewUrl"
         :alt="alt"
-        :class="{'initial-cursor': photoUrls.length <= 1}"
+        :class="{'initial-cursor': !urls}"
       />
     </figure>
     <div v-if="photoUrls.length > 1" class="small-previews">
