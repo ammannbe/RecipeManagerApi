@@ -1,12 +1,7 @@
 <template>
   <div class="edit-mode-switch">
     <label v-if="$Laravel.isLoggedIn" for="edit-mode">
-      <div v-if="!enabled">
-        <slot>Rezept bearbeiten</slot>
-      </div>
-      <div v-else>
-        <slot>Bearbeiten beenden</slot>
-      </div>
+      <i class="fas fa-edit"></i>
       <input @click="toggle()" :checked="enabled" name="edit-mode" id="edit-mode" type="checkbox" />
       <span class="switch round"></span>
     </label>
@@ -45,13 +40,15 @@ export default {
 
 <style lang="scss" scoped>
 .edit-mode-switch {
+  margin-right: 40px;
+
   > label {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
 
-    > div {
+    > i {
       display: flex;
       align-items: center;
       margin-left: 70px;
