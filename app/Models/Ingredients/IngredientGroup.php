@@ -37,7 +37,7 @@ class IngredientGroup extends Model
      * @var array
      */
     protected $softCascade = [
-        'ingredients@restrict',
+        'ingredients',
     ];
 
     /**

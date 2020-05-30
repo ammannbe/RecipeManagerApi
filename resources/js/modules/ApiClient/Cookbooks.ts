@@ -8,8 +8,8 @@ export interface Cookbook {
 export default class Cookbooks extends ApiClient {
     protected url = "/cookbooks";
 
-    public async index(): Promise<Cookbook[]> {
-        return super.index();
+    public async index(filter?: object): Promise<Cookbook[]> {
+        return super.index(filter);
     }
 
     public async show(id: number): Promise<Cookbook> {

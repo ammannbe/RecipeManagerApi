@@ -39,7 +39,7 @@ class Cookbook extends Model
      * @var array
      */
     protected $softCascade = [
-        'recipes@restrict'
+        'recipes'
     ];
 
     /**

@@ -52,11 +52,38 @@
         </li>
       </ul>
     </div>
+    <div class="column is-one-third">
+      <h3 class="title">Deine Kochbücher</h3>
+      <pagination
+        v-if="cookbooks.last_page > 1"
+        position="start"
+        :current-page="cookbooks.current_page"
+        :last-page="cookbooks.last_page"
+        @laod="fetchCookbooks($event)"
+      ></pagination>
+      <ul>
+        <li :key="cookbook.id" v-for="cookbook in cookbooks">
+          <span v-if="!cookbook.deleted_at">
+            <button @click.prevent="removeCookbook(cookbook.id)" class="button is-white is-small">
+              <i class="fas fa-trash"></i>
+            </button>
+            {{ cookbook.name }}
+          </span>
+          <span v-else>
+            <button @click.prevent="restoreCookbook(cookbook.id)" class="button is-white is-small">
+              <i class="fas fa-redo"></i>
+            </button>
+            {{ cookbook.name }}
+          </span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
 import Users from "../modules/ApiClient/Users";
 import Recipes from "../modules/ApiClient/Recipes";
+import Cookbooks from "../modules/ApiClient/Cookbooks";
 
 export default {
   data() {
@@ -68,7 +95,8 @@ export default {
         created_at: "-",
         updated_at: "-"
       },
-      recipes: {}
+      recipes: {},
+      cookbooks: {}
     };
   },
   beforeMount() {
@@ -81,24 +109,35 @@ export default {
   mounted() {
     this.fetchUser();
     this.fetchRecipes();
+    this.fetchCookbooks();
   },
   methods: {
     async fetchUser() {
       this.user = await new Users().show();
     },
     async fetchRecipes(page = 1) {
-      this.recipes = await new Recipes().index({
-        trashed: true,
-        page
-      });
+      let trashed = true;
+      this.recipes = await new Recipes().index({ trashed, page });
+    },
+    async fetchCookbooks() {
+      let trashed = true;
+      this.cookbooks = await new Cookbooks().index({ trashed });
     },
     async removeRecipe(recipeId) {
       await new Recipes().remove(recipeId);
       this.fetchRecipes();
     },
+    async removeCookbook(cookbookId) {
+      await new Cookbooks().remove(cookbookId);
+      this.fetchCookbooks();
+    },
     async restoreRecipe(recipeId) {
       await new Recipes().restore(recipeId);
       this.fetchRecipes();
+    },
+    async restoreCookbook(cookbookId) {
+      await new Cookbooks().restore(cookbookId);
+      this.fetchCookbooks();
     }
   }
 };
