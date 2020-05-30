@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">
+    <label>
       {{ field.label }}
       <div class="control">
         <mavon-editor
