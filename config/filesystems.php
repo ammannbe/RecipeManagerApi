@@ -51,14 +51,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => config('app.url') . '/storage',
             'visibility' => 'public',
         ],
 
-        'images' => [
+        'recipe_images' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/images'),
-            'url' => env('APP_URL').'/storage/images',
+            'root' => storage_path('app/images/recipes'),
+            'url' => config('app.url') . '/images/recipes',
             'visibility' => 'public',
         ],
 

@@ -114,4 +114,22 @@ class RecipeController extends Controller
         $this->authorize($recipe);
         $recipe->restore();
     }
+
+    /**
+     * Show the recipe image
+     *
+     * @param  \App\Models\Recipes\Recipe  $recipe
+     * @param  string  $name
+     * @return \Illuminate\Http\Response
+     */
+    public function image(Recipe $recipe, string $name)
+    {
+        $this->authorize('view', $recipe);
+
+        if (!\Storage::disk('recipe_images')->exists("{$recipe->id}/{$name}")) {
+            abort(404);
+        }
+
+        return \Storage::disk('recipe_images')->download("{$recipe->id}/{$name}");
+    }
 }

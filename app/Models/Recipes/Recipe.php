@@ -129,7 +129,7 @@ class Recipe extends Model
 
         $urls = [];
         foreach ($this->photos as $name) {
-            $urls[] = \Storage::disk('images')->url("recipes/{$name}");
+            $urls[] = \Storage::disk('recipe_images')->url("{$this->id}/{$name}");
         }
 
         return $urls;
@@ -158,6 +158,10 @@ class Recipe extends Model
             return;
         }
 
+        if (!\Storage::disk('recipe_images')->exists("{$this->id}")) {
+            \Storage::disk('recipe_images')->makeDirectory("{$this->id}");
+        }
+
         $original = $this->photos ?? [];
         foreach ($photos as $key => $photo) {
             if ($photo === null) {
@@ -170,12 +174,12 @@ class Recipe extends Model
                 $extension = $photo->getClientOriginalExtension();
                 $name = "{$time}{$key}-{$this->slug}.{$extension}";
 
-                $photo->storeAs('recipes', $name, 'images');
+                $photo->storeAs("{$this->id}", $name, 'recipe_images');
                 $original[$key] = $name;
                 continue;
             }
 
-            throw new FileNotFoundException('Photos has to be uploaded files.');
+            throw new FileNotFoundException('Photos have to be uploaded files.');
         }
 
         $this->update(['photos' => $original ?? null]);
