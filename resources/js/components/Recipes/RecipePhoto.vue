@@ -5,6 +5,7 @@
         @click="openModal(photoUrls.indexOf(mainPhotoPreviewUrl))"
         :src="mainPhotoPreviewUrl"
         :alt="alt"
+        :class="{'initial-cursor': photoUrls.length <= 1}"
       />
     </figure>
     <div v-if="photoUrls.length > 1" class="small-previews">
@@ -121,6 +122,10 @@ div.photo {
       width: 100%;
       object-fit: contain;
       cursor: zoom-in;
+
+      &.initial-cursor {
+        cursor: initial;
+      }
     }
   }
 

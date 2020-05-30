@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Ingredients;
 
+use Illuminate\Http\Request;
 use App\Models\Recipes\Recipe;
 use App\Http\Controllers\Controller;
 use App\Models\Ingredients\Ingredient;
@@ -13,13 +14,25 @@ class IngredientController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Recipes\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function index(Recipe $recipe)
+    public function index(Request $request, Recipe $recipe)
     {
         $this->authorize([Ingredient::class, $recipe]);
-        return $recipe->ingredients()->orderBy('position')->originalOnly()->get();
+        $ingredients = $recipe
+            ->ingredients()
+            ->orderBy('ingredient_group_id')
+            ->orderBy('position')
+            ->originalOnly()
+            ->get();
+
+        if ($request->grouped) {
+            return $ingredients->groupBy('ingredient_group_id');
+        }
+
+        return $ingredients;
     }
 
     /**

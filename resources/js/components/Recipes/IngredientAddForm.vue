@@ -89,7 +89,7 @@ import IngredientGroups from "../../modules/ApiClient/IngredientGroups";
 import Form from "../../modules/Form";
 
 export default {
-  props: ["recipeId"],
+  props: ["recipeId", "maxPosition"],
   data() {
     return {
       form: new Form({
@@ -132,15 +132,17 @@ export default {
     },
     goUp() {
       let position = this.form.get("position");
-      if (position > 1) {
-        this.form.set("position", position--);
+      if (position > 0) {
+        position--;
+        this.form.set("position", position);
       }
       this.$emit("goUp");
     },
     goDown() {
       let position = this.form.get("position");
-      if (position <= this.ingredients.length) {
-        this.form.set("position", position++);
+      if (position <= this.maxPosition) {
+        position++;
+        this.form.set("position", position);
       }
       this.$emit("goDown");
     },

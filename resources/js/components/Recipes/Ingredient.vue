@@ -5,6 +5,7 @@
       :ingredient="ingredient"
       :recipe-id="recipeId"
       :can-edit="canEdit"
+      :max-position="maxPosition"
       @cancel="isEditing = false"
       @updated="$emit('updated'); isEditing = false;"
       @removed="$emit('removed');"
@@ -22,7 +23,7 @@
 
 <script>
 export default {
-  props: ["ingredient", "multiplier", "recipeId", "canEdit"],
+  props: ["ingredient", "multiplier", "recipeId", "canEdit", "maxPosition"],
   data() {
     return {
       isEditing: false,

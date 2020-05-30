@@ -1,17 +1,10 @@
 <template>
-  <ul class="ingredients" v-if="(ingredients && ingredients.length) || showAddForm">
-    <h2
-      v-if="showTitle"
-      class="title is-4"
-      :class="{'add-ingredient-form': canEdit, 'show': !showAddForm, 'cancel': showAddForm}"
-      :title="title"
-      @click="showIngredientAddForm(!showAddForm)"
-    >Zutaten</h2>
-
+  <ul class="ingredients">
     <li class="add-ingredient" v-if="firstLevelList && canEdit && showAddForm">
       <ingredient-add-form
         :recipe-id="recipeId"
-        @cancel="showIngredientAddForm(false)"
+        :max-position="ingredients.length - 1"
+        @cancel="$emit('cancelAdd')"
         @created="$emit('created')"
         @goUp="goUp()"
         @goDown="goDown()"
@@ -20,6 +13,7 @@
     <li :key="ingredient.id" v-for="ingredient in ingredients">
       <ingredient
         :ingredient="ingredient"
+        :max-position="ingredients.length - 1"
         :multiplier="multiplier"
         :recipe-id="recipeId"
         :can-edit="canEdit"
@@ -28,11 +22,10 @@
         @position="$emit('position', $event)"
       ></ingredient>
 
-      <span v-if="ingredient.ingredients && ingredient.ingredients.length">
-        <br />Oder:
-      </span>
+      <span v-if="ingredient.ingredients && ingredient.ingredients.length">Oder:</span>
       <ingredient-list
         v-if="ingredient.ingredients && ingredient.ingredients.length"
+        :show-add-form="false"
         :recipeId="recipeId"
         :ingredients="ingredient.ingredients"
         :can-edit="canEdit"
@@ -44,16 +37,6 @@
       ></ingredient-list>
     </li>
   </ul>
-  <div v-else>
-    <h2
-      v-if="showTitle"
-      class="title is-4"
-      :class="{'add-ingredient-form': canEdit, 'show': !showAddForm, 'cancel': showAddForm}"
-      :title="title"
-      @click="showIngredientAddForm(!showAddForm)"
-    >Zutaten</h2>
-    <span>Keine Zutaten vorhanden!</span>
-  </div>
 </template>
 
 <script>
@@ -63,28 +46,9 @@ export default {
     "ingredients",
     "canEdit",
     "multiplier",
-    "showTitle",
-    "firstLevelList"
+    "firstLevelList",
+    "showAddForm"
   ],
-  data() {
-    return {
-      showAddForm: false,
-      title: ""
-    };
-  },
-  watch: {
-    canEdit() {
-      this.title = "";
-      if (this.canEdit) {
-        this.title = "Klicken zum Hinzufügen";
-      }
-    }
-  },
-  mounted() {
-    this.showIngredientAddForm(
-      this.$route.query["add[ingredient]"] == "true" || false
-    );
-  },
   methods: {
     goUp() {
       const $el = $(`li.add-ingredient`);
@@ -93,21 +57,6 @@ export default {
     goDown() {
       const $el = $(`li.add-ingredient`);
       $el.next().after($el);
-    },
-    showIngredientAddForm(show = true) {
-      if (!this.canEdit) {
-        return;
-      }
-      this.showAddForm = show;
-
-      if (show) {
-        let add = { "add[ingredient]": true };
-        this.$router.push({ query: { ...this.$route.query, ...add } });
-      } else {
-        let query = Object.assign({}, this.$route.query);
-        delete query["add[ingredient]"];
-        this.$router.push({ query });
-      }
     }
   }
 };
@@ -117,14 +66,5 @@ export default {
 .ingredients {
   list-style-type: disc;
   margin-left: 15px;
-}
-
-.add-ingredient-form {
-  &.show {
-    cursor: copy;
-  }
-  &.cancel {
-    cursor: no-drop;
-  }
 }
 </style>

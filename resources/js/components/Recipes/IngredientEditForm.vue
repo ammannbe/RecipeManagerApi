@@ -57,6 +57,7 @@
       ></select-field>
 
       <multiselect-field
+        v-if="ingredientAttributes.length"
         :field="{ id: 'ingredient_attributes', placeholder: 'Eigenschaften' }"
         :data="ingredientAttributes"
         :form="form"
@@ -98,7 +99,7 @@ import IngredientGroups from "../../modules/ApiClient/IngredientGroups";
 import Form from "../../modules/Form";
 
 export default {
-  props: ["recipeId", "ingredient", "canEdit"],
+  props: ["recipeId", "ingredient", "maxPosition", "canEdit"],
   data() {
     return {
       form: new Form({
@@ -106,7 +107,9 @@ export default {
         amount_max: this.ingredient.amount_max,
         unit_id: this.ingredient.unit_id,
         food_id: this.ingredient.food_id,
-        ingredient_attributes: this.ingredient.ingredient_attributes,
+        ingredient_attributes: this.ingredient.ingredient_attributes.map(
+          i => i.id
+        ),
         ingredient_group_id: this.ingredient.ingredient_group_id,
         ingredient_id: this.ingredient.ingredient_id,
         position: this.ingredient.position
@@ -144,14 +147,16 @@ export default {
     goUp() {
       let position = this.form.get("position");
       if (position > 0) {
-        this.form.set("position", position--);
+        position--;
+        this.form.set("position", position);
       }
       this.$emit("position", position - 0.0001);
     },
     goDown() {
       let position = this.form.get("position");
-      if (position < this.ingredients.length) {
-        this.form.set("position", position++);
+      if (position < this.maxPosition) {
+        position++;
+        this.form.set("position", position);
       }
       this.$emit("position", position + 0.0001);
     },
