@@ -20,8 +20,7 @@
       <div v-else-if="!$env.DISABLE_COOKBOOKS">
         <hr />
         <span class="has-text-weight-bold is-danger">Kein persönliches Kochbuch vorhanden!</span>
-        <!-- TODO: -->
-        <a href="#">Jetzt erstellen.</a>
+        <router-link tag="a" :to="{ name: 'cookbooks-add' }">Jetzt erstellen</router-link>
         <hr />
       </div>
 

@@ -24,7 +24,10 @@
       </table>
     </div>
     <div class="column is-one-third">
-      <h3 class="title">Deine Rezepte</h3>
+      <h3
+        @click.prevent="$router.push({ name: 'recipes-add' })"
+        class="title add-cursor"
+      >Deine Rezepte</h3>
       <pagination
         v-if="recipes.last_page > 1"
         position="start"
@@ -53,14 +56,10 @@
       </ul>
     </div>
     <div class="column is-one-third">
-      <h3 class="title">Deine Kochbücher</h3>
-      <pagination
-        v-if="cookbooks.last_page > 1"
-        position="start"
-        :current-page="cookbooks.current_page"
-        :last-page="cookbooks.last_page"
-        @laod="fetchCookbooks($event)"
-      ></pagination>
+      <h3
+        @click.prevent="$router.push({ name: 'cookbooks-add' })"
+        class="title add-cursor"
+      >Deine Kochbücher</h3>
       <ul>
         <li :key="cookbook.id" v-for="cookbook in cookbooks">
           <span v-if="!cookbook.deleted_at">
@@ -96,7 +95,8 @@ export default {
         updated_at: "-"
       },
       recipes: {},
-      cookbooks: {}
+      cookbooks: {},
+      showAddCookbook: false
     };
   },
   beforeMount() {
@@ -146,5 +146,9 @@ export default {
 th {
   text-align: right !important;
   padding-right: 10px;
+}
+
+.add-cursor {
+  cursor: copy;
 }
 </style>
