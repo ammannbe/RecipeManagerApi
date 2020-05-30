@@ -18,9 +18,9 @@
       v-else
       :class="{'can-edit': canEdit}"
       class="content"
-      @click="editInstructions(!isEditing)"
-      title="Klicken zum bearbeiten"
+      :title="title"
       v-html="htmlInstructions"
+      @click="editInstructions(!isEditing)"
     ></div>
   </div>
 </template>
