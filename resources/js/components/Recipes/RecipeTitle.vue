@@ -5,18 +5,16 @@
       @submit.prevent="submit"
       @change="form.errors.clear($event.target.name)"
     >
-      <input-field name="name" required :errors="form.errors.get('name')">
-        <template v-slot:input>
-          <input
-            v-model="form._data.name"
-            name="name"
-            class="input title has-text-centered"
-            type="text"
-            required
-            autofocus
-          />
-        </template>
-      </input-field>
+      <input-field
+        :field="{
+            id: 'name',
+            class: 'input title has-text-centered',
+            required: true,
+            autofocus: true
+        }"
+        :form="form"
+        @changed="form.set($event.id, $event.value)"
+      ></input-field>
 
       <submit-button
         v-if="canEdit && isEditing"
