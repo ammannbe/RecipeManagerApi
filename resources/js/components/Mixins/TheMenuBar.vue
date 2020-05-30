@@ -8,7 +8,7 @@
       <div class="navbar-brand">
         <div class="navbar-item">
           <router-link :to="{ name: 'home' }">
-            <h1 class="title">{{ $env.APP_NAME }}</h1>
+            <h1 @click="$emit('search')" class="title">{{ $env.APP_NAME }}</h1>
           </router-link>
         </div>
         <a
@@ -86,6 +86,7 @@
 
 <script>
 import Auth from "../../modules/ApiClient/Auth";
+
 export default {
   data() {
     return {
