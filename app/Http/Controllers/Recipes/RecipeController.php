@@ -15,7 +15,7 @@ class RecipeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Requests\Recipe\Index  $request
+     * @param  \App\Http\Requests\Recipes\Recipe\Index  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Index $request)
@@ -23,7 +23,7 @@ class RecipeController extends Controller
         $this->authorize(Recipe::class);
 
         $model = new Recipe();
-        if ($request->trashed && auth()->check()) {
+        if ($request->trashed == 'true' && auth()->check()) {
             $model = $model->withTrashed();
         }
         if (TagController::isEnabled()) {

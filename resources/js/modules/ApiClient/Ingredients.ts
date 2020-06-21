@@ -23,8 +23,8 @@ export default class Ingredients extends ApiClient {
     protected url = "/ingredients";
     protected recipeId: number;
 
-    constructor(authorize = true, recipeId: number) {
-        super(authorize);
+    constructor(recipeId: number) {
+        super();
         this.recipeId = recipeId;
     }
 

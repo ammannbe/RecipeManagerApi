@@ -2,97 +2,77 @@
   <div>
     <h2
       :class="{'title is-4': true, 'can-edit': canEdit}"
-      @click="editInstructions(!isEditing)"
+      @click="edit(!isEditing)"
       :title="title"
     >Zubereitung</h2>
 
-    <markdown-field
-      v-if="canEdit && isEditing"
-      :field="{ id: 'instructions' }"
-      :form="form"
-      @changed="form.set($event.id, $event.value)"
-      @saved="submit()"
-    ></markdown-field>
+    <markdown-field v-if="canEdit && isEditing" name="instructions" @saved="submit()"></markdown-field>
 
     <div
       v-else
       :class="{'can-edit': canEdit}"
       class="content"
       :title="title"
-      v-html="htmlInstructions"
-      @click="editInstructions(!isEditing)"
+      v-html="instructions"
+      @click="edit(!isEditing)"
     ></div>
   </div>
 </template>
 
 <script>
-import Form from "../../modules/Form";
 import Recipes from "../../modules/ApiClient/Recipes";
+import { mapState } from "vuex";
 
 export default {
-  props: ["recipeId", "instructions", "canEdit"],
+  props: ["canEdit"],
   data() {
     return {
-      form: new Form({
-        instructions: this.instructions
-      }),
-
-      isEditing: false,
-      isUpdating: false,
-      title: ""
+      isEditing: false
     };
   },
   computed: {
-    htmlInstructions() {
-      if (!this.instructions) {
+    ...mapState({
+      recipe: state => state.recipe.recipe,
+      form: state => state.form.data
+    }),
+    instructions() {
+      if (!this.recipe.instructions) {
         return "";
       }
-      return this.$markdownIt.render(this.instructions);
-    }
-  },
-  watch: {
-    instructions() {
-      this.form.set("instructions", this.instructions);
+      return this.$markdownIt.render(this.recipe.instructions);
     },
-    canEdit() {
-      this.title = "";
+    title() {
       if (this.canEdit) {
-        this.title = "Klicken zum Bearbeiten";
+        return "Klicken zum Bearbeiten";
       }
+      return "";
     }
   },
-  mounted() {
-    this.editInstructions(this.$route.query["edit[instructions]"] == "true");
-  },
+  created() {},
   methods: {
-    editInstructions(isEditing) {
-      this.isEditing = isEditing;
-
-      if (!this.isEditing) {
-        let query = Object.assign({}, this.$route.query);
-        delete query["edit[instructions]"];
-        this.$router.push({ query });
-      } else {
-        let edit = { "edit[instructions]": true };
-        this.$router.push({ query: { ...this.$route.query, ...edit } });
-      }
-    },
     submit() {
-      this.isUpdating = true;
-
-      this.form
-        .submit(() =>
-          new Recipes().update(
-            this.recipeId,
-            "instructions",
-            this.form.get("instructions")
-          )
-        )
+      let id = this.recipe.id;
+      this.$store
+        .dispatch("form/submit", {
+          func: data => {
+            new Recipes(data).update(
+              id,
+              "instructions",
+              this.form.instructions
+            );
+          }
+        })
         .then(() => {
-          this.$emit("updated");
-          this.isUpdating = false;
-          this.editInstructions(false);
+          this.$store.dispatch("recipe/show", { id });
+          this.edit(false);
         });
+    },
+    edit(edit) {
+      if (edit) {
+        const data = { instructions: this.recipe.instructions };
+        this.$store.commit("form/set", { data });
+      }
+      this.isEditing = edit;
     }
   }
 };

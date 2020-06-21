@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  props: ["recipe"],
+  props: ["category"],
   data() {
     return {
       paths: [
@@ -21,9 +21,9 @@ export default {
         { id: 2, text: "Kategorien", name: "categories", query: {} },
         {
           id: 3,
-          text: this.recipe.category.name,
+          text: this.category.name,
           name: "home",
-          query: { "search[category]": this.recipe.category.name }
+          query: { "search[category]": this.category.name }
         }
       ]
     };

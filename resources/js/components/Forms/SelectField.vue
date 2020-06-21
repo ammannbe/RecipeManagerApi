@@ -1,42 +1,65 @@
 <template>
-  <form-field :field="field" :data="data" :form="form" @changed="$emit('changed', $event)">
+  <form-field-template
+    :name="name"
+    :label="label"
+    :icon="icon"
+    :required="required"
+    :inline="inline"
+  >
     <template v-slot:field>
       <div class="select">
-        <select v-model="value" :name="field.id" :required="field.required">
+        <select v-model="value" :name="name" :required="required">
           <option
-            v-if="field.placeholder"
+            v-if="placeholder"
             :value="null"
-            :disabled="!field.nullable"
+            :disabled="!nullable"
             selected
-          >- {{ field.placeholder }} -</option>
+          >- {{ placeholder }} -</option>
           <option
-            :key="el[field.trackBy || 'id']"
+            :key="el[trackByOrId]"
             v-for="el in data"
-            :value="el[field.trackBy || 'id']"
-          >{{ el[field.displayLabel || 'name'] }}</option>
+            :value="el[trackByOrId]"
+          >{{ el[displayLabel || 'name'] }}</option>
         </select>
       </div>
     </template>
-  </form-field>
+  </form-field-template>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: ["field", "data", "form"],
+  props: [
+    "name",
+    "label",
+    "icon",
+    "placeholder",
+    "required",
+    "nullable",
+    "inline",
+    "displayLabel",
+    "data"
+  ],
   data() {
     return { value: null };
   },
-  watch: {
-    value() {
-      this.form.set(this.field.id, this.value);
-      this.$emit("changed", {
-        id: this.field.id,
-        value: this.form.get(this.field.id)
-      });
+  computed: {
+    ...mapState({
+      form: state => state.form.data
+    }),
+    trackByOrId() {
+      return this.trackBy || "id";
     }
   },
-  mounted() {
-    this.value = this.form.get(this.field.id);
+  watch: {
+    value(value) {
+      this.$store.dispatch("form/update", { property: this.name, value });
+      this.$emit("changed", { id: this.name, value });
+    }
+  },
+  created() {
+    this.value = this.form[this.name];
   }
 };
 </script>

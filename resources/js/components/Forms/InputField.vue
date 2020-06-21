@@ -1,41 +1,64 @@
 <template>
-  <form-field :field="field" :form="form">
+  <form-field-template
+    :name="name"
+    :label="label"
+    :icon="icon"
+    :required="required"
+    :inline="inline"
+  >
     <template v-slot:field>
       <input
         v-model="value"
-        :name="field.id"
-        :type="field.type || 'text'"
-        :min="field.min"
-        :max="field.max"
-        :step="field.step"
-        :placeholder="field.placeholder"
-        :required="field.required"
-        :autofocus="field.autofocus"
-        :class="field.class || 'input'"
+        :name="name"
+        :type="type || 'text'"
+        :min="min"
+        :max="max"
+        :maxlength="maxlength"
+        :step="step"
+        :placeholder="placeholder"
+        :required="required"
+        :autofocus="autofocus"
+        :class="fieldClass || 'input'"
       />
     </template>
-  </form-field>
+  </form-field-template>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: ["field", "form"],
+  props: [
+    "name",
+    "label",
+    "icon",
+    "required",
+    "autofocus",
+    "inline",
+    "fieldClass",
+    "type",
+    "min",
+    "max",
+    "maxlength",
+    "step",
+    "placeholder"
+  ],
   data() {
-    return {
-      value: null
-    };
+    return { value: null };
+  },
+  computed: {
+    ...mapState({
+      form: state => state.form.data
+    })
   },
   watch: {
-    value() {
-      this.form.set(this.field.id, this.value);
-      this.$emit("changed", {
-        id: this.field.id,
-        value: this.form.get(this.field.id)
-      });
+    value(value) {
+      this.$store.dispatch("form/update", { property: this.name, value });
+      this.$emit("changed", { id: this.name, value });
     }
   },
-  mounted() {
-    this.value = this.form.get(this.field.id);
+  created() {
+    this.value = this.form[this.name];
   }
 };
 </script>

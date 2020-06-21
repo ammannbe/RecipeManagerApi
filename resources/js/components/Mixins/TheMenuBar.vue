@@ -16,7 +16,7 @@
           class="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
-          @click="expandMobileMenu"
+          @click="expandMobileMenu()"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -75,7 +75,7 @@
               <router-link :to="{ name: 'recipes-add' }">
                 <span class="navbar-item">Rezept hinzufügen</span>
               </router-link>
-              <a class="navbar-item" @click="logout">Abmelden</a>
+              <a class="navbar-item" @click="logout()">Abmelden</a>
             </div>
           </div>
         </div>
@@ -102,9 +102,9 @@ export default {
       this.isMobileMenuExpanded = !this.isMobileMenuExpanded;
     },
     logout() {
-      new Auth().logout().then(() => {
+      this.$store.dispatch("user/logout").then(() => {
         this.$router.push({ name: "home" });
-        location.reload();
+        this.$forceUpdate();
       });
     }
   }

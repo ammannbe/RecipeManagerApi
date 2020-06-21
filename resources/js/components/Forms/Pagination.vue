@@ -19,10 +19,7 @@
 
 <script>
 export default {
-  props: ["currentPage", "lastPage", "position"],
-  mounted() {
-    this.pushCurrentPageToRoute();
-  },
+  props: ["currentPage", "lastPage", "position", "queryPage"],
   computed: {
     nextPage() {
       if (this.lastPage <= this.currentPage) {
@@ -35,6 +32,11 @@ export default {
         return false;
       }
       return this.currentPage - 1;
+    }
+  },
+  mounted() {
+    if (this.queryPage) {
+      this.pushCurrentPageToRoute();
     }
   },
   methods: {

@@ -1,13 +1,13 @@
 <template>
   <div>
     <pagination
-      :current-page="response.current_page"
-      :last-page="response.last_page"
-      @load="fetchRecipes(filterByName, $event)"
+      :current-page="recipes.current_page"
+      :last-page="recipes.last_page"
+      @load="$store.dispatch('recipe/index', { page: $event, filter })"
     ></pagination>
     <div class="columns">
       <recipe-card
-        v-for="recipe in response.data"
+        v-for="recipe in recipes.data"
         :key="recipe.id"
         :recipe="recipe"
         class="column is-one-fifth"
@@ -17,25 +17,23 @@
 </template>
 
 <script>
-import Recipes from "../../modules/ApiClient/Recipes";
+import { mapState } from "vuex";
 
 export default {
   props: ["filterByName"],
-  data() {
-    return {
-      response: {}
-    };
-  },
-  mounted() {
-    this.fetchRecipes(this.filterByName);
-  },
-  methods: {
-    async fetchRecipes(filterByName = null, page = 1) {
-      this.response = await new Recipes().index({
-        "filter[name]": filterByName,
-        page
-      });
+  computed: {
+    ...mapState({
+      recipes: state => state.recipe.recipes
+    }),
+    filter() {
+      if (this.filterByName) {
+        return { "filter[name]": this.filterByName };
+      }
+      return null;
     }
+  },
+  created() {
+    this.$store.dispatch("recipe/index", { filter: this.filter });
   }
 };
 </script>

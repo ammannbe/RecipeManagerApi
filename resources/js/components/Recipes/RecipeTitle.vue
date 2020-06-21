@@ -3,87 +3,62 @@
     <form
       v-if="canEdit && isEditing"
       @submit.prevent="submit"
-      @change="form.errors.clear($event.target.name)"
+      @change="$store.commit('form/errors/clear', { property: $event.target.name })"
     >
-      <input-field
-        :field="{
-            id: 'name',
-            class: 'input title has-text-centered',
-            required: true,
-            autofocus: true
-        }"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></input-field>
+      <input-field name="name" fieldClass="input title has-text-centered" required autofocus></input-field>
 
-      <submit-button
-        v-if="canEdit && isEditing"
-        :can-cancel="true"
-        :disabled="form.errors.any()"
-        @cancel="editTitle(false)"
-      >Speichern</submit-button>
+      <submit-button v-if="canEdit && isEditing" :can-cancel="true" @cancel="edit(false)">Speichern</submit-button>
     </form>
 
     <h1
       v-else
-      @click="editTitle(!isEditing)"
+      @click="edit(!isEditing)"
       :class="{'title has-text-centered': true, 'can-edit': canEdit}"
       :title="title"
-    >{{ recipe.name }}</h1>
+    >{{ recipeName }}</h1>
   </div>
 </template>
 
 <script>
-import Form from "../../modules/Form";
 import Recipes from "../../modules/ApiClient/Recipes";
+import { mapState } from "vuex";
 
 export default {
-  props: ["recipe", "canEdit"],
+  props: ["recipeId", "recipeName", "canEdit"],
   data() {
     return {
-      form: new Form({
-        name
-      }),
-      isEditing: false,
-      title: ""
+      isEditing: false
     };
   },
-  watch: {
-    recipe() {
-      this.form._data.name = this.recipe.name;
-    },
-    canEdit() {
-      this.title = "";
+  computed: {
+    ...mapState({
+      form: state => state.form.data
+    }),
+    title() {
       if (this.canEdit) {
-        this.title = "Klicken zum Bearbeiten";
+        return "Klicken zum Bearbeiten";
       }
+      return "";
     }
   },
-  mounted() {
-    this.editTitle(this.$route.query["edit[title]"] == "true");
-  },
   methods: {
-    editTitle(isEditing) {
-      this.isEditing = isEditing;
-
-      if (!this.isEditing) {
-        let query = Object.assign({}, this.$route.query);
-        delete query["edit[title]"];
-        this.$router.push({ query });
-      } else {
-        let edit = { "edit[title]": true };
-        this.$router.push({ query: { ...this.$route.query, ...edit } });
-      }
-    },
     submit() {
-      this.form
-        .submit(() =>
-          new Recipes().update(this.recipe.id, "name", this.form._data.name)
-        )
+      this.$store
+        .dispatch("form/submit", {
+          func: () =>
+            new Recipes().update(this.recipeId, "name", this.form.name)
+        })
         .then(() => {
-          this.editTitle(false);
+          this.edit(false);
           this.$emit("update");
         });
+    },
+    edit(edit) {
+      if (edit) {
+        const data = { name: this.recipeName };
+        this.$store.commit("form/set", { data });
+      }
+      this.isEditing = edit;
     }
   }
 };

@@ -2,10 +2,8 @@
   <ul class="ingredients">
     <li class="add-ingredient" v-if="firstLevelList && canEdit && showAddForm">
       <ingredient-add-form
-        :recipe-id="recipeId"
-        :max-position="ingredients.length - 1"
         @cancel="$emit('cancelAdd')"
-        @created="$emit('created')"
+        @created="created()"
         @goUp="goUp()"
         @goDown="goDown()"
       ></ingredient-add-form>
@@ -13,27 +11,22 @@
     <li :key="ingredient.id" v-for="ingredient in ingredients">
       <ingredient
         :ingredient="ingredient"
-        :max-position="ingredients.length - 1"
         :multiplier="multiplier"
-        :recipe-id="recipeId"
+        :alternate-id="alternateId || null"
         :can-edit="canEdit"
-        @updated="$emit('updated');"
-        @removed="$emit('removed');"
-        @position="$emit('position', $event)"
+        :is-any-editing="isAnyEditing"
+        @editing="isAnyEditing = $event"
       ></ingredient>
 
       <span v-if="ingredient.ingredients && ingredient.ingredients.length">Oder:</span>
       <ingredient-list
         v-if="ingredient.ingredients && ingredient.ingredients.length"
         :show-add-form="false"
-        :recipeId="recipeId"
+        :alternate-id="ingredient.id || null"
         :ingredients="ingredient.ingredients"
         :can-edit="canEdit"
         :multiplier="multiplier"
         :first-level-list="false"
-        @position="$emit('position', { id: $event.id, position: $event.id + ($event.position / 1000) })"
-        @created="$emit('created')"
-        @updated="$emit('updated')"
       ></ingredient-list>
     </li>
   </ul>
@@ -42,13 +35,18 @@
 <script>
 export default {
   props: [
-    "recipeId",
     "ingredients",
     "canEdit",
     "multiplier",
     "firstLevelList",
-    "showAddForm"
+    "showAddForm",
+    "alternateId"
   ],
+  data() {
+    return {
+      isAnyEditing: false
+    };
+  },
   methods: {
     goUp() {
       const $el = $(`li.add-ingredient`);

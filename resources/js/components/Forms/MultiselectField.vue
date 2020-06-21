@@ -1,36 +1,60 @@
 <template>
-  <form-field :field="field" :data="data" :form="form">
+  <form-field-template
+    :name="name"
+    :label="label"
+    :icon="icon"
+    :required="required"
+    :inline="inline"
+  >
     <template v-slot:field>
       <multiselect
         v-model="value"
-        :label="field.displayLabel || 'name'"
-        :placeholder="field.placeholder"
+        :label="displayLabel || 'name'"
+        :placeholder="placeholder"
         :options="data"
-        :multiple="field.multiple || true"
-        :close-on-select="field.closeOnSelect || false"
+        :multiple="multiple || true"
+        :close-on-select="closeOnSelect || false"
         :track-by="trackBy"
-        :allow-empty="field.allowEmpty || true"
+        :allow-empty="allowEmpty || true"
         @select="add($event)"
         @remove="remove($event)"
       ></multiselect>
     </template>
-  </form-field>
+  </form-field-template>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: ["field", "data", "form"],
+  props: [
+    "name",
+    "label",
+    "icon",
+    "required",
+    "inline",
+    "displayLabel",
+    "placeholder",
+    "multiple",
+    "closeOnSelect",
+    "trackBy",
+    "allowEmpty",
+    "data"
+  ],
   data() {
     return { value: null };
   },
   computed: {
-    trackBy() {
-      return this.field.trackBy || "id";
+    ...mapState({
+      form: state => state.form.data
+    }),
+    trackByOrId() {
+      return this.trackBy || "id";
     }
   },
-  mounted() {
+  created() {
     this.value = this.data.filter(
-      el => this.form.get(this.field.id).indexOf(el[this.trackBy]) != -1
+      el => this.form[this.name].indexOf(el[this.trackByOrId]) != -1
     );
 
     if (!this.value.length) {
@@ -39,17 +63,23 @@ export default {
   },
   methods: {
     add(obj) {
-      this.form.push(this.field.id, obj[this.trackBy]);
-      this.$emit("changed", {
-        id: this.field.id,
-        value: this.form.get(this.field.id)
+      this.$store.dispatch("form/push", {
+        property: this.name,
+        value: obj[this.trackByOrId]
       });
+      this.onChanged();
     },
     remove(obj) {
-      this.form.remove(this.field.id, obj[this.trackBy]);
+      this.$store.dispatch("form/remove", {
+        property: this.name,
+        value: obj[this.trackByOrId]
+      });
+      this.onChanged();
+    },
+    onChanged(id, value) {
       this.$emit("changed", {
-        id: this.field.id,
-        value: this.form.get(this.field.id)
+        id: this.name,
+        value: this.form[this.name]
       });
     }
   }
@@ -67,5 +97,8 @@ export default {
   & ~ .icon {
     z-index: 6 !important;
   }
+}
+.multiselect--active {
+  z-index: 9999; // Higher index as MarkdownField
 }
 </style>

@@ -3,19 +3,16 @@
     <ingredient-edit-form
       v-if="canEdit && isEditing"
       :ingredient="ingredient"
-      :recipe-id="recipeId"
+      :alternate-id="alternateId"
       :can-edit="canEdit"
-      :max-position="maxPosition"
-      @cancel="isEditing = false"
-      @updated="$emit('updated'); isEditing = false;"
-      @removed="$emit('removed');"
-      @position="$emit('position', { id: ingredient.id, position: $event })"
+      @cancel="edit(false)"
+      @changed="edit(false)"
     ></ingredient-edit-form>
 
     <span
       v-else
       :title="title"
-      @click="edit()"
+      @click="edit(true)"
       :class="{'can-edit': canEdit && !isAnyEditing}"
     >{{ text(ingredient) }}</span>
   </div>
@@ -23,17 +20,19 @@
 
 <script>
 export default {
-  props: ["ingredient", "multiplier", "recipeId", "canEdit", "maxPosition"],
+  props: ["ingredient", "multiplier", "canEdit", "alternateId", "isAnyEditing"],
   data() {
     return {
       isEditing: false,
-      multiplyWith: 1,
-      title: ""
+      multiplyWith: 1
     };
   },
   computed: {
-    isAnyEditing() {
-      return this.$route.query["edit[ingredient]"];
+    title() {
+      if (this.canEdit) {
+        return "Klicken zum Bearbeten";
+      }
+      return "";
     }
   },
   watch: {
@@ -47,14 +46,14 @@ export default {
       }
     }
   },
-  mounted() {
-    if (this.canEdit) {
-      this.title = "Klicken zum Bearbeiten";
-    }
-    this.isEditing =
-      this.$route.query["edit[ingredient]"] == this.ingredient.id;
-  },
   methods: {
+    edit(edit) {
+      if (this.isAnyEditing && !this.isEditing) {
+        return;
+      }
+      this.isEditing = edit;
+      this.$emit("editing", edit);
+    },
     text(ingredient) {
       let text = "";
       if (ingredient.amount !== null) {
@@ -88,11 +87,6 @@ export default {
         });
       }
       return text;
-    },
-    edit() {
-      if (!this.isAnyEditing) {
-        this.isEditing = true;
-      }
     }
   }
 };

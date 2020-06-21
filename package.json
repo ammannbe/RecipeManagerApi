@@ -28,6 +28,8 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
-        "mavon-editor": "^2.9.0"
+        "@ianwalter/vuex-reset": "^4.3.1",
+        "mavon-editor": "^2.9.0",
+        "vuex": "^3.4.0"
     }
 }

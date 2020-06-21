@@ -8,75 +8,41 @@
     <form
       class="edit-ingredient"
       @submit.prevent="submit"
-      @change="form.errors.clear($event.target.name)"
+      @change="$store.commit('form/errors/clear', { property: $event.target.name })"
     >
       <select-field
         v-if="ingredients.length"
-        :field="{ id: 'ingredient_id', placeholder: 'Alternative von', nullable: true }"
+        name="ingredient_id"
+        placeholder="Alternative von"
+        nullable
         :data="ingredients"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></select-field>
 
-      <div class="field or" v-if="form.get('ingredient_id')">| Oder:</div>
-      <input-field
-        :field="{
-            id: 'amount',
-            type: 'number',
-            max: '999998',
-            placeholder: '(Min.) Menge',
-            autofocus: true
-        }"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></input-field>
+      <div class="field or" v-if="form && form.ingredient_id">| Oder:</div>
+      <input-field name="amount" type="number" max="999998" placeholder="(Min.) Menge" autofocus></input-field>
 
-      <input-field
-        :field="{
-            id: 'amount_max',
-            type: 'number',
-            max: '999999',
-            placeholder: 'Max. Menge',
-        }"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></input-field>
+      <input-field name="amount_max" type="number" max="999999" placeholder="Max. Menge"></input-field>
 
-      <select-field
-        :field="{ id: 'unit_id', placeholder: 'Einheit', nullable: true }"
-        :data="units"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></select-field>
+      <select-field name="unit_id" placeholder="Einheit" nullable :data="units"></select-field>
 
-      <select-field
-        :field="{ id: 'food_id', placeholder: 'Zutat', required: true }"
-        :data="foods"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></select-field>
+      <select-field name="food_id" placeholder="Zutat" required inline :data="foods"></select-field>
 
       <multiselect-field
         v-if="ingredientAttributes.length"
-        :field="{ id: 'ingredient_attributes', placeholder: 'Eigenschaften' }"
+        name="ingredient_attributes"
+        placeholder="Eigenschaften"
         :data="ingredientAttributes"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></multiselect-field>
 
       <select-field
         v-if="ingredientGroups.length"
-        :field="{ id: 'ingredient_group_id', placeholder: 'Gruppe', nullable: true }"
+        name="ingredient_group_id"
+        placeholder="Gruppe"
+        nullable
         :data="ingredientGroups"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></select-field>
 
-      <submit-button
-        :can-cancel="true"
-        :disabled="form.errors.any()"
-        @cancel="$emit('cancel')"
-      >Speichern</submit-button>
+      <submit-button :can-cancel="true" @cancel="$emit('cancel')">Speichern</submit-button>
       <div class="field is-grouped">
         <div class="control">
           <button @click.prevent="remove()" class="button is-black">
@@ -91,18 +57,27 @@
 </template>
 
 <script>
-import Units from "../../modules/ApiClient/Units";
-import Foods from "../../modules/ApiClient/Foods";
 import Ingredients from "../../modules/ApiClient/Ingredients";
-import IngredientAttributes from "../../modules/ApiClient/IngredientAttributes";
-import IngredientGroups from "../../modules/ApiClient/IngredientGroups";
-import Form from "../../modules/Form";
+import { mapState } from "vuex";
 
 export default {
-  props: ["recipeId", "ingredient", "maxPosition", "canEdit"],
-  data() {
-    return {
-      form: new Form({
+  props: ["ingredient", "canEdit", "alternateId"],
+  computed: {
+    ...mapState({
+      ingredients: state => state.ingredient.ingredients,
+      ingredientGroups: state => state.ingredient_group.ingredientGroups,
+      foods: state => state.food.foods,
+      units: state => state.unit.units,
+      ingredientAttributes: state =>
+        state.ingredient_attribute.ingredientAttributes,
+      recipe: state => state.recipe.recipe,
+      form: state => state.form.data,
+      errors: state => state.form.errors.data
+    })
+  },
+  created() {
+    this.$store.commit("form/set", {
+      data: {
         amount: this.ingredient.amount,
         amount_max: this.ingredient.amount_max,
         unit_id: this.ingredient.unit_id,
@@ -113,70 +88,66 @@ export default {
         ingredient_group_id: this.ingredient.ingredient_group_id,
         ingredient_id: this.ingredient.ingredient_id,
         position: this.ingredient.position
-      }),
-
-      units: [],
-      foods: [],
-      ingredientAttributes: [],
-      ingredientGroups: [],
-      ingredients: []
-    };
-  },
-  created() {
-    let edit = { "edit[ingredient]": this.ingredient.id };
-    this.$router.push({ query: { ...this.$route.query, ...edit } });
-  },
-  destroyed() {
-    let query = Object.assign({}, this.$route.query);
-    delete query["edit[ingredient]"];
-    this.$router.push({ query: query });
-  },
-  mounted() {
-    this.fetch();
+      }
+    });
   },
   methods: {
-    async fetch() {
-      this.units = await new Units().index();
-      this.foods = await new Foods().index();
-      this.ingredientAttributes = await new IngredientAttributes().index();
-      this.ingredientGroups = await new IngredientGroups().index({
-        recipeId: this.recipeId
-      });
-      this.ingredients = await new Ingredients(true, this.recipeId).index();
-    },
     goUp() {
-      let position = this.form.get("position");
-      if (position > 0) {
-        position--;
-        this.form.set("position", position);
+      let value = this.form.position;
+      if (value > 0) {
+        value--;
+        this.$store.dispatch("form/update", { property: "position", value });
       }
-      this.$emit("position", position - 0.0001);
+      let payload = {
+        id: this.ingredient.id,
+        alternateId: this.alternateId,
+        property: "position",
+        value: position - 0.0001
+      };
+      if (this.alternateId) {
+        payload.position /= 1000;
+      }
+      this.$store.commit("ingredient/changeValue", payload);
+      this.$store.commit("ingredient/sort");
     },
     goDown() {
-      let position = this.form.get("position");
-      if (position < this.maxPosition) {
-        position++;
-        this.form.set("position", position);
+      let value = this.form.position;
+      if (value < this.ingredients.length - 1) {
+        value++;
+        this.$store.dispatch("form/update", { property: "position", value });
       }
-      this.$emit("position", position + 0.0001);
+      let payload = {
+        id: this.ingredient.id,
+        alternateId: this.alternateId,
+        property: "position",
+        value: position + 0.0001
+      };
+      if (this.alternateId) {
+        payload.position /= 1000;
+      }
+      this.$store.commit("ingredient/changeValue", payload);
+      this.$store.commit("ingredient/sort");
     },
     remove() {
       if (!confirm("Diese Zutat wirklich löschen?")) {
         return;
       }
-      new Ingredients(true, this.recipeId)
-        .remove(this.ingredient.id)
-        .then(() => this.$emit("removed"));
+      let id = this.ingredient.id;
+      let alternateId = this.alternateId;
+      this.$store.dispatch("ingredient/remove", { id, alternateId });
     },
     submit() {
-      this.form
-        .submit(data =>
-          new Ingredients(true, this.recipeId).bulkUpdate(
-            this.ingredient.id,
-            data
-          )
-        )
-        .then(() => this.$emit("updated"));
+      this.$store
+        .dispatch("form/submit", {
+          func: data =>
+            new Ingredients(this.recipe.id).bulkUpdate(this.ingredient.id, data)
+        })
+        .then(() => {
+          this.$store.dispatch("ingredient/index", {
+            recipeId: this.recipe.id
+          });
+          this.$emit("changed");
+        });
     }
   }
 };

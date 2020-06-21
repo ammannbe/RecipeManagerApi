@@ -4,7 +4,7 @@
       {{ field.label }}
       <div class="control">
         <mavon-editor
-          :class="{'is-danger border': form.errors.any()}"
+          :class="{'is-danger border': showErrors}"
           v-model="value"
           language="de"
           :toolbars="toolbars"
@@ -14,15 +14,17 @@
         ></mavon-editor>
       </div>
     </label>
-    <ul v-if="form.errors.has(field.id)" class="help is-danger">
-      <li :key="error" v-for="error in form.errors.get(field.id)" v-text="error"></li>
+    <ul v-if="showErrors" class="help is-danger">
+      <li :key="error" v-for="error in errors" v-text="error"></li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: ["field", "form"],
+  props: ["field"],
   data() {
     return {
       value: "",
@@ -64,19 +66,27 @@ export default {
       }
     };
   },
-  watch: {
-    value() {
-      this.form.set(this.field.id, this.value);
-      this.$emit("changed", {
-        id: this.field.id,
-        value: this.form.get(this.field.id)
-      });
+  computed: {
+    ...mapState({
+      form: state => state.form.data,
+      errors: state => state.form.errors.data
+    }),
+    showErrors() {
+      return this.$store.getters["form/errors/has"](this.field.id);
     }
   },
-  mounted() {
-    if (this.form.get(this.field.id) != null) {
-      this.value = this.form.get(this.field.id);
+  watch: {
+    value(value) {
+      this.$store.dispatch("form/update", { property: this.field.id, value });
+      this.$emit("changed", { id: this.field.id, value });
     }
+  },
+  created() {
+    let value = this.form[this.field.id];
+    if (value == null) {
+      value = "";
+    }
+    this.value = value;
   }
 };
 </script>

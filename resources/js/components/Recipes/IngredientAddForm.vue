@@ -8,91 +8,64 @@
     <form
       class="add-ingredient"
       @submit.prevent="submit"
-      @change="form.errors.clear($event.target.name)"
+      @change="$store.commit('form/errors/clear', { property: $event.target.name })"
     >
       <select-field
         v-if="ingredients.length"
-        :field="{ id: 'ingredient_id', placeholder: 'Alternative von', nullable: true }"
+        name="ingredient_id"
+        placeholder="Alternative von"
+        nullable
         :data="ingredients"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></select-field>
 
-      <div class="field or" v-if="form.get('ingredient_id')">| Oder:</div>
-      <input-field
-        :field="{
-            id: 'amount',
-            type: 'number',
-            max: '999998',
-            placeholder: '(Min.) Menge',
-            autofocus: true
-        }"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></input-field>
+      <div class="field or" v-if="form.ingredient_id">| Oder:</div>
+      <input-field name="amount" type="number" max="999998" placeholder="(Min.) Menge" autofocus></input-field>
 
-      <input-field
-        :field="{
-            id: 'amount_max',
-            type: 'number',
-            max: '999999',
-            placeholder: 'Max. Menge',
-        }"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></input-field>
+      <input-field name="amount_max" type="number" max="999999" placeholder="Max. Menge"></input-field>
 
-      <select-field
-        :field="{ id: 'unit_id', placeholder: 'Einheit', nullable: true }"
-        :data="units"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></select-field>
+      <select-field name="unit_id" placeholder="Einheit" nullable :data="units"></select-field>
 
-      <select-field
-        :field="{ id: 'food_id', placeholder: 'Zutat', required: true }"
-        :data="foods"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
-      ></select-field>
+      <select-field name="food_id" placeholder="Zutat" required inline :data="foods"></select-field>
 
       <multiselect-field
-        :field="{ id: 'ingredient_attributes', placeholder: 'Eigenschaften' }"
+        name="ingredient_attributes"
+        placeholder="Eigenschaften"
         :data="ingredientAttributes"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></multiselect-field>
 
       <select-field
         v-if="ingredientGroups.length"
-        :field="{ id: 'ingredient_group_id', placeholder: 'Gruppe', nullable: true }"
+        name="ingredient_group_id"
+        placeholder="Gruppe"
+        nullable
         :data="ingredientGroups"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></select-field>
 
-      <submit-button
-        :can-cancel="true"
-        :disabled="form.errors.any()"
-        @cancel="$emit('cancel')"
-      >Hinzufügen</submit-button>
+      <submit-button :can-cancel="true" @cancel="$emit('cancel')">Hinzufügen</submit-button>
     </form>
   </div>
 </template>
 
 <script>
-import Units from "../../modules/ApiClient/Units";
-import Foods from "../../modules/ApiClient/Foods";
 import Ingredients from "../../modules/ApiClient/Ingredients";
-import IngredientAttributes from "../../modules/ApiClient/IngredientAttributes";
-import IngredientGroups from "../../modules/ApiClient/IngredientGroups";
-import Form from "../../modules/Form";
+import { mapState } from "vuex";
 
 export default {
-  props: ["recipeId", "maxPosition"],
-  data() {
-    return {
-      form: new Form({
+  computed: {
+    ...mapState({
+      ingredients: state => state.ingredient.ingredients,
+      ingredientGroups: state => state.ingredient_group.ingredientGroups,
+      foods: state => state.food.foods,
+      units: state => state.unit.units,
+      ingredientAttributes: state =>
+        state.ingredient_attribute.ingredientAttributes,
+      recipe: state => state.recipe.recipe,
+      form: state => state.form.data
+    })
+  },
+  created() {
+    this.$store.commit("form/set", {
+      data: {
         amount: null,
         amount_max: null,
         unit_id: null,
@@ -101,62 +74,49 @@ export default {
         ingredient_group_id: null,
         ingredient_id: null,
         position: 0
-      }),
-
-      units: [],
-      foods: [],
-      ingredientAttributes: [],
-      ingredientGroups: [],
-      ingredients: []
-    };
-  },
-  watch: {
-    ingredientId() {
-      this.form.set("ingredient_id", this.ingredientId);
-    }
+      }
+    });
   },
   mounted() {
-    this.form.set("position", this.getPosition());
-
-    this.fetch();
+    this.$store.dispatch("form/update", {
+      property: "position",
+      value: this.getPosition()
+    });
   },
   methods: {
-    async fetch() {
-      this.units = await new Units().index();
-      this.foods = await new Foods().index();
-      this.ingredientAttributes = await new IngredientAttributes().index();
-      this.ingredientGroups = await new IngredientGroups().index({
-        recipeId: this.recipeId
-      });
-      this.ingredients = await new Ingredients(true, this.recipeId).index();
-    },
     goUp() {
-      let position = this.form.get("position");
-      if (position > 0) {
-        position--;
-        this.form.set("position", position);
+      let value = this.form.position;
+      if (value > 0) {
+        value--;
+        this.updatePosition(value);
       }
       this.$emit("goUp");
     },
     goDown() {
-      let position = this.form.get("position");
-      if (position <= this.maxPosition) {
-        position++;
-        this.form.set("position", position);
+      let value = this.form.position;
+      if (value <= this.ingredients.length - 1) {
+        value++;
+        this.updatePosition(value);
       }
       this.$emit("goDown");
+    },
+    updatePosition(value) {
+      this.$store.dispatch("form/update", { property: "position", value });
     },
     getPosition() {
       return $(".ingredients li").index($("li.add-ingredient")[0]) + 1;
     },
     submit() {
-      this.form.set("position", this.getPosition());
-
-      this.form
-        .submit(data => new Ingredients(true, this.recipeId).store(data))
+      this.updatePosition(this.getPosition());
+      this.$store
+        .dispatch("form/submit", {
+          func: data => new Ingredients(this.recipe.id).store(data)
+        })
         .then(() => {
+          this.$store.dispatch("ingredient/index", {
+            recipeId: this.recipe.id
+          });
           this.$emit("created");
-          this.fetch();
         });
     }
   }

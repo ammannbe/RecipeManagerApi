@@ -1,38 +1,32 @@
 <template>
   <div class="edit-mode-switch">
-    <label v-if="$Laravel.isLoggedIn" for="edit-mode">
+    <label v-if="$Laravel.isLoggedIn && condition" for="edit-mode">
       <i class="fas fa-edit"></i>
-      <input @click="toggle()" :checked="enabled" name="edit-mode" id="edit-mode" type="checkbox" />
+      <input
+        @click="$store.dispatch('editmode/toggle')"
+        :checked="enabled"
+        name="edit-mode"
+        id="edit-mode"
+        type="checkbox"
+      />
       <span class="switch round"></span>
     </label>
   </div>
 </template>
 
 <script>
-import LocalStorage from "../../modules/LocalStorage";
-import Auth from "../../modules/ApiClient/Auth";
+import { mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      enabled: false
-    };
+  props: ["condition"],
+  computed: {
+    ...mapState({
+      enabled: state => state.editmode.enabled
+    })
   },
-  beforeMount() {
-    const enable = JSON.parse(LocalStorage.get("edit-mode"));
-    this.fire(enable);
-  },
-  methods: {
-    toggle() {
-      this.fire(!this.enabled);
-    },
-    fire(enable) {
-      if (!this.$Laravel.isLoggedIn) {
-        enable = false;
-      }
-      this.enabled = enable;
-      LocalStorage.set("edit-mode", enable);
-      this.$emit("toggle", enable);
+  watch: {
+    enabled() {
+      this.$emit("toggle", this.enabled);
     }
   }
 };

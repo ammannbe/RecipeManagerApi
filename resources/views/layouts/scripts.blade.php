@@ -8,10 +8,17 @@
     </script>
 @else
     <script>
-        window.Laravel = {!!json_encode([
-            'isLoggedIn' => false,
-            'hasVerifiedEmail' => false
-        ])!!}
+        window.Laravel = {
+            isLoggedIn: false,
+            hasVerifiedEmail: false,
+            user: {
+                name: "-",
+                email: "-",
+                admin: false,
+                created_at: new Date().toJSON(),
+                updated_at: new Date().toJSON()
+            }
+        }
     </script>
 @endif
 

@@ -5,7 +5,7 @@ export default class ApiClient {
     private axios: AxiosInstance;
     protected url = "";
 
-    constructor(authorize = true) {
+    constructor() {
         this.axios = axios.create({
             baseURL: env.APP_URL + "/api",
             withCredentials: true,

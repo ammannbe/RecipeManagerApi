@@ -15,11 +15,11 @@
         </tr>
         <tr>
           <th>Registriert:</th>
-          <td>{{ user.created_at }}</td>
+          <td :title="$moment(user.created_at)">{{ $moment(user.created_at).from() }}</td>
         </tr>
         <tr>
           <th>Letzte Änderung:</th>
-          <td>{{ user.updated_at }}</td>
+          <td :title="$moment(user.updated_at)">{{ $moment(user.updated_at).from() }}</td>
         </tr>
       </table>
     </div>
@@ -33,12 +33,15 @@
         position="start"
         :current-page="recipes.current_page"
         :last-page="recipes.last_page"
-        @laod="fetchRecipes($event)"
+        @load="$store.dispatch('recipe/index', { trashed: true, page: $event })"
       ></pagination>
       <ul>
         <li :key="recipe.id" v-for="recipe in recipes.data">
           <span v-if="!recipe.deleted_at">
-            <button @click.prevent="removeRecipe(recipe.id)" class="button is-white is-small">
+            <button
+              @click.prevent="$store.dispatch('recipe/remove', { id: recipe.id })"
+              class="button is-white is-small"
+            >
               <i class="fas fa-trash"></i>
             </button>
             <router-link
@@ -47,7 +50,10 @@
             >{{ recipe.name }}</router-link>
           </span>
           <span v-else>
-            <button @click.prevent="restoreRecipe(recipe.id)" class="button is-white is-small">
+            <button
+              @click.prevent="$store.dispatch('recipe/restore', { id: recipe.id })"
+              class="button is-white is-small"
+            >
               <i class="fas fa-redo"></i>
             </button>
             {{ recipe.name }}
@@ -61,15 +67,21 @@
         class="title add-cursor"
       >Deine Kochbücher</h3>
       <ul>
-        <li :key="cookbook.id" v-for="cookbook in cookbooks">
+        <li :key="cookbook.id" v-for="cookbook in cookbooks.data">
           <span v-if="!cookbook.deleted_at">
-            <button @click.prevent="removeCookbook(cookbook.id)" class="button is-white is-small">
+            <button
+              @click.prevent="$store.dispatch('cookbook/remove', { id: cookbook.id })"
+              class="button is-white is-small"
+            >
               <i class="fas fa-trash"></i>
             </button>
             {{ cookbook.name }}
           </span>
           <span v-else>
-            <button @click.prevent="restoreCookbook(cookbook.id)" class="button is-white is-small">
+            <button
+              @click.prevent="$store.dispatch('cookbook/restore', { id: cookbook.id })"
+              class="button is-white is-small"
+            >
               <i class="fas fa-redo"></i>
             </button>
             {{ cookbook.name }}
@@ -79,27 +91,22 @@
     </div>
   </div>
 </template>
+
 <script>
-import Users from "../modules/ApiClient/Users";
-import Recipes from "../modules/ApiClient/Recipes";
-import Cookbooks from "../modules/ApiClient/Cookbooks";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
-      user: {
-        name: "-",
-        email: "-",
-        admin: false,
-        created_at: "-",
-        updated_at: "-"
-      },
-      recipes: {},
-      cookbooks: {},
       showAddCookbook: false
     };
   },
-  beforeMount() {
+  computed: mapState({
+    recipes: state => state.recipe.recipes,
+    cookbooks: state => state.cookbook.cookbooks,
+    user: state => state.user.user
+  }),
+  beforeCreate() {
     if (!this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
     } else if (!this.$Laravel.hasVerifiedEmail) {
@@ -107,41 +114,12 @@ export default {
     }
   },
   mounted() {
-    this.fetchUser();
-    this.fetchRecipes();
-    this.fetchCookbooks();
-  },
-  methods: {
-    async fetchUser() {
-      this.user = await new Users().show();
-    },
-    async fetchRecipes(page = 1) {
-      let trashed = true;
-      this.recipes = await new Recipes().index({ trashed, page });
-    },
-    async fetchCookbooks() {
-      let trashed = true;
-      this.cookbooks = await new Cookbooks().index({ trashed });
-    },
-    async removeRecipe(recipeId) {
-      await new Recipes().remove(recipeId);
-      this.fetchRecipes();
-    },
-    async removeCookbook(cookbookId) {
-      await new Cookbooks().remove(cookbookId);
-      this.fetchCookbooks();
-    },
-    async restoreRecipe(recipeId) {
-      await new Recipes().restore(recipeId);
-      this.fetchRecipes();
-    },
-    async restoreCookbook(cookbookId) {
-      await new Cookbooks().restore(cookbookId);
-      this.fetchCookbooks();
-    }
+    this.$store.dispatch("recipe/index", { trashed: true, page: 1 });
+    this.$store.dispatch("cookbook/index", { trashed: true, page: 1 });
   }
 };
 </script>
+
 <style lang="scss" scoped>
 th {
   text-align: right !important;

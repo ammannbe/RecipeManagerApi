@@ -1,5 +1,8 @@
 <template>
-  <form @submit.prevent="submit" @change="form.errors.clear($event.target.name)">
+  <form
+    @submit.prevent="submit"
+    @change="$store.commit('form/errors/clear', { property: $event.target.name })"
+  >
     <ul>
       <li v-if="!$env.DISABLE_COOKBOOKS">
         <span
@@ -9,14 +12,15 @@
         >Kochbuch:</span>
 
         <select-field
-          v-if="canEdit && currentEdit == 'cookbook_id' && cookbooks.length"
-          :field="{ id: 'cookbook_id', icon: 'fas fa-layer-group', placeholder: 'Öffentlich', nullable: true }"
+          v-if="canEdit && isEditing == 'cookbook_id' && cookbooks.length"
+          name="cookbook_id"
+          icon="fas fa-layer-group"
+          placeholder="Öffentlich"
+          nullable
           :data="cookbooks"
-          :form="form"
-          @changed="form.set($event.id, $event.value)"
         ></select-field>
 
-        <span v-else>{{ cookbookName }}</span>
+        <span v-else-if="recipe.cookbook">{{ recipe.cookbook.name }}</span>
       </li>
 
       <li v-if="recipe.author">
@@ -32,11 +36,11 @@
         >Kategorie:</span>
 
         <select-field
-          v-if="canEdit && currentEdit == 'category_id'"
-          :field="{ id: 'category_id', required: true, icon: 'fas fa-layer-group' }"
+          v-if="canEdit && isEditing == 'category_id'"
+          name="category_id"
+          icon="fas fa-layer-group"
+          required
           :data="categories"
-          :form="form"
-          @changed="form.set($event.id, $event.value)"
         ></select-field>
 
         <span v-else>{{ recipe.category.name }}</span>
@@ -50,18 +54,15 @@
         >Portionen:</span>
 
         <input-field
-          v-if="canEdit && currentEdit == 'yield_amount'"
-          :field="{
-            id: 'yield_amount',
-            min: '1',
-            max: '999',
-            step: '1',
-            placeholder: 'Portionen eingeben...',
-            icon: 'fas fa-sort-amount-up',
-            type: 'number'
-          }"
-          :form="form"
-          @changed="form.set($event.id, $event.value); updateYieldAmount(recipe.yield_amount)"
+          v-if="canEdit && isEditing == 'yield_amount'"
+          name="yield_amount"
+          min="1"
+          max="999"
+          step="1"
+          placeholder="Portionen eingeben..."
+          icon="fas fa-sort-amount-up"
+          type="number"
+          @changed="updateYieldAmount(recipe.yield_amount)"
         ></input-field>
 
         <div v-else-if="recipe.yield_amount">
@@ -74,12 +75,6 @@
             autofocus
             @keyup="updateYieldAmount(yieldAmount)"
           />
-          <button
-            @click.prevent="updateYieldAmount(recipe.yield_amount)"
-            class="button is-black is-small"
-          >
-            <i class="fas fa-redo"></i>
-          </button>
         </div>
         <span v-else>-</span>
       </li>
@@ -92,11 +87,11 @@
         >Schwierigkeitsgrad:</span>
 
         <select-field
-          v-if="canEdit && currentEdit == 'complexity'"
-          :field="{ id: 'complexity', required: true, icon: 'fas fa-signal' }"
+          v-if="canEdit && isEditing == 'complexity'"
+          name="complexity"
+          icon="fas fa-signal"
+          required
           :data="complexities"
-          :form="form"
-          @changed="form.set($event.id, $event.value)"
         ></select-field>
 
         <span v-else>{{ recipe.complexity.name }}</span>
@@ -110,13 +105,13 @@
         >Zubereitungszeit:</span>
 
         <input-field
-          v-if="canEdit && currentEdit == 'preparation_time'"
-          :field="{ id: 'preparation_time', icon: 'fas fa-clock', type: 'time' }"
-          :form="form"
-          @changed="form.set($event.id, $event.value)"
+          v-if="canEdit && isEditing == 'preparation_time'"
+          name="preparation_time"
+          icon="fas fa-clock"
+          type="time"
         ></input-field>
 
-        <span v-else-if="recipe.preparation_time">{{ recipe.preparation_time.slice(0, -3) }}</span>
+        <span v-else-if="recipe.preparation_time">{{ recipe.preparation_time }}</span>
         <span v-else>-</span>
       </li>
     </ul>
@@ -125,11 +120,11 @@
       <span :class="{'can-edit': canEdit}" :title="title" @click="toggleEdit('tags')">Tags:</span>
 
       <multiselect-field
-        v-if="!$env.DISABLE_TAGS && canEdit && currentEdit == 'tags'"
-        :field="{ id: 'tags', placeholder: 'Tags auswählen...', icon: 'fas fa-tags' }"
+        v-if="!$env.DISABLE_TAGS && canEdit && isEditing == 'tags'"
+        name="tags"
+        placeholder="Tags auswählen..."
+        icon="fas fa-tags"
         :data="tags"
-        :form="form"
-        @changed="form.set($event.id, $event.value)"
       ></multiselect-field>
 
       <router-link
@@ -148,91 +143,89 @@
     <br />
 
     <submit-button
-      v-if="canEdit && currentEdit"
+      v-if="canEdit && isEditing"
       :can-cancel="true"
-      :disabled="form.errors.any()"
-      @cancel="currentEdit = null"
+      @cancel="isEditing = null"
     >Speichern</submit-button>
   </form>
 </template>
 
 <script>
-import Form from "../../modules/Form";
 import Recipes from "../../modules/ApiClient/Recipes";
-import Cookbooks from "../../modules/ApiClient/Cookbooks";
-import Categories from "../../modules/ApiClient/Categories";
-import Tags from "../../modules/ApiClient/Tags";
-import Complexities from "../../modules/ApiClient/Complexities";
-import Auth from "../../modules/ApiClient/Auth";
+import { mapState } from "vuex";
 
 export default {
-  props: ["recipe", "canEdit"],
+  props: ["canEdit"],
   data() {
     return {
-      form: new Form({
-        cookbook_id: null,
-        category_id: null,
-        complexity: null,
-        preparation_time: null,
-        yield_amount: null,
-        tags: []
-      }),
-      cookbooks: null,
-      categories: null,
-      complexities: null,
       yieldAmount: null,
-      currentEdit: null,
-      tags: [],
-      title: ""
+      isEditing: null
     };
   },
   computed: {
-    cookbookName() {
-      if (this.recipe.cookbook) {
-        return this.recipe.cookbook.name;
-      } else {
-        return "Öffentlich";
+    ...mapState({
+      tags: state => state.tag.tags,
+      categories: state => state.category.categories,
+      cookbooks: state => state.cookbook.cookbooks.data,
+      complexities: state => state.recipe.complexities,
+      recipe(state) {
+        let recipe = state.recipe.recipe;
+
+        if (!Object.keys(recipe).length) {
+          return recipe;
+        }
+
+        if (!this.yieldAmount) {
+          this.updateYieldAmount(recipe.yield_amount);
+          this.yieldAmount = null;
+        }
+
+        Object.keys(recipe).forEach(property =>
+          this.$store.dispatch("form/update", {
+            property,
+            value: recipe[property]
+          })
+        );
+        this.$store.dispatch("form/update", {
+          property: "complexity",
+          value: recipe.complexity.id
+        });
+        this.$store.dispatch("form/update", {
+          property: "tags",
+          value: recipe.tags.map(tag => tag.id)
+        });
+
+        return recipe;
       }
+    }),
+    title() {
+      if (this.canEdit) {
+        return "Klicken zum Bearbeiten";
+      }
+      return "";
     }
   },
-  watch: {
-    recipe() {
-      if (!this.yieldAmount) {
-        this.yieldAmount = this.recipe.yield_amount;
-      }
-      this.form.set("category_id", this.recipe.category.id);
-      this.form.set("yield_amount", this.recipe.yield_amount);
-      if (this.recipe.cookbook_id) {
-        this.form.set("cookbook_id", this.recipe.cookbook_id);
-      }
-      if (this.recipe.preparation_time) {
-        this.form.set(
-          "preparation_time",
-          this.recipe.preparation_time.slice(0, -3)
-        );
-      }
-      this.form.set("complexity", this.recipe.complexity.id);
-      this.form.set(
-        "tags",
-        this.recipe.tags.map(tag => tag.id)
-      );
-    },
-    canEdit() {
-      this.title = "";
-      if (this.canEdit) {
-        this.title = "Klicken zum Bearbeiten";
-      }
+  created() {
+    if (!this.$env.DISABLE_COOKBOOKS && this.$Laravel.isLoggedIn) {
+      this.$store.dispatch("cookbook/index", { limit: 1000 });
+    }
+    this.$store.dispatch("category/index");
+    if (!this.$env.DISABLE_TAGS) {
+      this.$store.dispatch("tag/index");
     }
   },
   mounted() {
-    if (this.$route.query.yield_amount) {
-      this.yieldAmount = this.$route.query.yield_amount;
+    const routeYieldAmount = this.$route.query.yield_amount;
+    if (routeYieldAmount) {
+      this.yieldAmount = routeYieldAmount;
       setTimeout(() => {
-        this.updateYieldAmount(this.$route.query.yield_amount);
+        this.updateYieldAmount(routeYieldAmount);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        this.updateYieldAmount(this.recipe.yield_amount);
       }, 500);
     }
-
-    this.fetch();
   },
   methods: {
     updateYieldAmount(yieldAmount) {
@@ -254,41 +247,29 @@ export default {
       if (!this.canEdit) {
         return;
       }
-      if (this.currentEdit === field) {
+      if (this.isEditing === field) {
         field = null;
+      } else {
+        this.$store.commit("form/set", { data: { [field]: null } });
       }
-      this.currentEdit = field;
-    },
-    async fetch() {
-      if (!this.$env.DISABLE_COOKBOOKS && this.$Laravel.isLoggedIn) {
-        this.cookbooks = await new Cookbooks().index();
-      }
-      this.categories = await new Categories().index();
-      if (!this.$env.DISABLE_TAGS) {
-        this.tags = await new Tags().index();
-      }
-      this.complexities = await new Complexities().index();
-      this.form.set("complexity", this.complexities[0].id);
+      this.isEditing = field;
     },
     submit() {
       if (!this.canEdit) {
         return;
       }
-      let property = this.currentEdit;
-      let value = this.form.get(property);
+      let id = this.recipe.id;
+      let property = this.isEditing;
+      let value = this.form[property];
 
-      this.form
-        .submit(() => new Recipes().update(this.recipe.id, property, value))
-        .then(() => this.updated());
-    },
-    updated() {
-      let property = this.currentEdit;
-      let value = this.form.get(property);
-
-      this.recipe[property] = value;
-      this.currentEdit = null;
-
-      this.$emit("update");
+      this.$store
+        .dispatch("form/submit", {
+          func: () => new Recipes().update(this.recipe.id, property, value)
+        })
+        .then(() => {
+          this.isEditing = null;
+          this.$store.dispatch("recipe/show", { id });
+        });
     }
   }
 };

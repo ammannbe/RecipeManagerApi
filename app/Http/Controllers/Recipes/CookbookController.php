@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Recipes;
 use Illuminate\Http\Request;
 use App\Models\Recipes\Cookbook;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Recipes\Cookbook\Index;
 use App\Http\Requests\Recipes\Cookbook\Store;
 use App\Http\Requests\Recipes\Cookbook\Update;
 
@@ -13,16 +14,20 @@ class CookbookController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Recipes\Cookbook\Index  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Index $request)
     {
         $this->authorize(Cookbook::class);
-        if ($request->trashed && auth()->check()) {
-            return Cookbook::withTrashed()->get()->makeVisible('deleted_at');
+        $model = new Cookbook();
+        if ($request->trashed == 'true' && auth()->check()) {
+            $model = $model->withTrashed();
         }
-        return Cookbook::get();
+
+        $paginator = $model->paginate($request->limit);
+        $paginator->setCollection($paginator->getCollection()->makeVisible('deleted_at'));
+        return $paginator;
     }
 
     /**

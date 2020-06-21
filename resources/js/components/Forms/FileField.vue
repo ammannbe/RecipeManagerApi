@@ -1,12 +1,18 @@
 <template>
-  <form-field :field="field" :form="form">
+  <form-field-template
+    :name="name"
+    :label="label"
+    :icon="icon"
+    :required="required"
+    :inline="inline"
+  >
     <template v-slot:field>
       <label class="file-label">
         <input
           type="file"
-          :name="field.id"
-          :required="field.required"
-          :class="field.class || 'file-input'"
+          :name="name"
+          :required="required"
+          :class="fieldClass || 'file-input'"
           @change="select($event.target.files[0])"
         />
         <span class="file-cta">
@@ -20,12 +26,12 @@
         <i @click.prevent="remove()" class="fas fa-times remove" title="Auswahl entfernen"></i>
       </label>
     </template>
-  </form-field>
+  </form-field-template>
 </template>
 
 <script>
 export default {
-  props: ["field", "required", "form"],
+  props: ["name", "label", "icon", "required", "inline", "fieldClass"],
   data() {
     return {
       file: null
