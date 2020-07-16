@@ -1,9 +1,8 @@
 <template>
-  <div v-if="recipe">
+  <div v-if="loaded">
     <div class="headline">
-      <edit-mode-switch :condition="recipe.can_edit"></edit-mode-switch>
+      <edit-mode-switch v-model="canEdit" :condition="recipe.can_edit"></edit-mode-switch>
       <social-sharing
-        v-if="recipe.category && recipe.author"
         :url="$env.APP_URL + $router.resolve({ name: 'recipes', params: { id: recipe.id, slug: recipe.slug } }).href"
         :name="recipe.name"
         :author="recipe.author.name"
@@ -11,18 +10,13 @@
       ></social-sharing>
     </div>
 
-    <recipe-title
-      :recipe-id="recipe.id"
-      :recipe-name="recipe.name"
-      :can-edit="canEdit"
-      @update="$store.dispatch('recipe/show', { id })"
-    ></recipe-title>
+    <recipe-title @update="update"></recipe-title>
 
     <div class="container">
-      <link-path-list v-if="recipe.category" :category="recipe.category"></link-path-list>
+      <link-path-list :category="recipe.category"></link-path-list>
       <div class="meta">
         <recipe-photo :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
-        <property-list :can-edit="canEdit" @multiply="multiplier = $event"></property-list>
+        <property-list @update="update" @multiply="multiplier = $event"></property-list>
       </div>
 
       <hr />
@@ -31,11 +25,11 @@
 
       <hr />
 
-      <instructions :can-edit="canEdit"></instructions>
+      <instructions @update="update"></instructions>
 
       <hr />
 
-      <div v-if="recipe.ratings" class="ratings">
+      <div v-if="false" class="ratings">
         <h2 class="title is-4">Bewertungen</h2>
         <!-- TODO: -->
         <rating-card-list :id="id"></rating-card-list>
@@ -58,13 +52,78 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: state => state.editmode.enabled,
-      recipe: state => state.recipe.recipe
-    })
+      recipe: state => state.recipe.data,
+      editmode: state => state.recipe.editmode.data,
+      form: state => state.recipe.form.data
+    }),
+    canEdit: {
+      get() {
+        return this.editmode.enabled;
+      },
+      set(value) {
+        this.$store.commit("recipe/editmode/enable", { enable: value });
+      }
+    },
+    loaded() {
+      const loaded = Object.keys(this.recipe).length && this.form;
+      this.$loading.open();
+
+      if (loaded) {
+        this.$loading.close();
+      }
+
+      return loaded;
+    }
   },
   created() {
-    let id = this.id;
-    this.$store.dispatch("recipe/show", { id });
+    this.load().then(() => {
+      this.initForm();
+    });
+  },
+  methods: {
+    async load() {
+      await this.$store.dispatch("recipe/show", { id: this.id });
+
+      if (this.editmode.enabled) {
+        this.$store.dispatch("category/index");
+      }
+
+      if (!this.$env.DISABLE_COOKBOOKS && this.editmode.enabled) {
+        this.$store.dispatch("cookbook/index", { limit: 1000 });
+      }
+
+      if (!this.$env.DISABLE_TAGS && this.editmode.enabled) {
+        this.$store.dispatch("tag/index");
+      }
+    },
+    initForm() {
+      let data = {};
+      if (!this.$env.DISABLE_COOKBOOKS && this.editmode.enabled) {
+        data.cookbook_id = this.recipe.cookbook_id;
+      }
+      if (!this.$env.DISABLE_TAGS && this.editmode.enabled) {
+        data.tags = this.recipe.tags.map(tag => tag.id);
+      }
+
+      this.$store.commit("recipe/form/set", {
+        data: {
+          category_id: this.recipe.category_id,
+          yield_amount: this.recipe.yield_amount,
+          complexity: this.recipe.complexity.id,
+          preparation_time: this.recipe.preparation_time,
+          name: this.recipe.name,
+          instructions: this.recipe.instructions,
+          ...data
+        }
+      });
+    },
+    async update() {
+      await this.$store.dispatch("recipe/update", {
+        id: this.recipe.id,
+        data: this.form
+      });
+      await this.$store.commit("recipe/editmode/edit", { editing: false });
+    }
   }
 };
 </script>

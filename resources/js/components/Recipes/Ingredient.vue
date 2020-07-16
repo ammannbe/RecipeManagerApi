@@ -9,12 +9,12 @@
       @changed="edit(false)"
     ></ingredient-edit-form>
 
-    <span
+    <li
       v-else
       :title="title"
       @click="edit(true)"
       :class="{'can-edit': canEdit && !isAnyEditing}"
-    >{{ text(ingredient) }}</span>
+    >{{ text(ingredient) }}</li>
   </div>
 </template>
 

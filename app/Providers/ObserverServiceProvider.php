@@ -12,6 +12,7 @@ use App\Models\Recipes\Cookbook;
 use App\Models\Ingredients\Ingredient;
 use App\Models\Ratings\RatingCriterion;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Ingredients\IngredientGroup;
 
 class ObserverServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,7 @@ class ObserverServiceProvider extends ServiceProvider
     public function boot()
     {
         Food::observe('App\Observers\Ingredients\FoodObserver');
+        IngredientGroup::observe('App\Observers\Ingredients\IngredientGroupObserver');
         Ingredient::observe('App\Observers\Ingredients\IngredientObserver');
         Unit::observe('App\Observers\Ingredients\UnitObserver');
 

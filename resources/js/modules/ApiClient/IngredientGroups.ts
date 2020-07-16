@@ -8,15 +8,23 @@ export interface IngredientGroup {
 export default class IngredientGroups extends ApiClient {
     protected url = "/ingredient-groups";
 
-    public async index(filter: {
-        recipeId: number;
-    }): Promise<IngredientGroup[]> {
-        return super.get(`/recipes/${filter.recipeId}${this.url}`) as Promise<
-            IngredientGroup[]
-        >;
+    protected recipeId: number;
+
+    protected rawResponse = false;
+
+    constructor(recipeId: number, rawResponse = false) {
+        super();
+        this.rawResponse = rawResponse;
+        this.recipeId = recipeId;
+    }
+
+    public async index(): Promise<IngredientGroup[]> {
+        const url = `/recipes/${this.recipeId}${this.url}`;
+        return super.get(url) as Promise<IngredientGroup[]>;
     }
 
     public async store(data: IngredientGroup): Promise<any> {
-        return super.store(data);
+        const url = `/recipes/${this.recipeId}${this.url}`;
+        return super.post(url, data);
     }
 }

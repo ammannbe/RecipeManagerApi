@@ -12,36 +12,25 @@ class IngredientObserver
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
      * @return void
      */
-    public function saving(Ingredient $ingredient)
+    public function saving(Ingredient $ingredient): void
     {
-        if ($ingredient->isDirty('position')) {
-            $this->reorder($ingredient);
+        if ($ingredient->isDirty('ingredient_id')) {
+            $this->adoptIngredientGroupFromParent($ingredient);
         }
     }
 
     /**
-     * Reorder the ingridients position
+     * Adopt the ingredient group id from the parent, if present
      *
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
      * @return void
      */
-    private function reorder(Ingredient $ingredient)
+    private function adoptIngredientGroupFromParent(Ingredient $ingredient): void
     {
-        $withSamePosition = Ingredient::where([
-            'recipe_id'             => $ingredient->recipe_id,
-            'ingredient_group_id'   => $ingredient->ingredient_group_id,
-            'ingredient_id'         => $ingredient->ingredient_id,
-            'position'              => $ingredient->position,
-        ])->withTrashed();
-
-        if (!$withSamePosition->exists()) {
-            return true;
+        if (!$ingredient->ingredient_id) {
+            return;
         }
 
-        if ($ingredient->getOriginal('position') < $ingredient->position) {
-            $withSamePosition->withTrashed()->decrement('position', 1);
-        } else {
-            $withSamePosition->withTrashed()->increment('position', 1);
-        }
+        $ingredient->ingredient_group_id = $ingredient->ingredient->ingredient_group_id;
     }
 }

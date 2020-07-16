@@ -14,6 +14,9 @@ export default class LocalStorage {
         if (typeof el === "object" && el !== null) {
             el[property] = value;
         }
+        if (el === null) {
+            el = { [property]: value };
+        }
         this.set(key, el);
     }
 

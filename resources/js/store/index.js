@@ -2,6 +2,7 @@ import VuexReset from '@ianwalter/vuex-reset'
 import Vuex from 'vuex'
 import cookbook from './modules/cookbook'
 import recipe from './modules/recipe'
+import recipes from './modules/recipes'
 import ingredient from './modules/ingredient'
 import ingredient_group from './modules/ingredient_group'
 import category from './modules/category'
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     modules: {
         cookbook,
         recipe,
+        recipes,
         ingredient,
         ingredient_group,
         category,

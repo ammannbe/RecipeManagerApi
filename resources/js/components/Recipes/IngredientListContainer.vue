@@ -3,47 +3,44 @@
     <div>
       <h2
         class="title is-4"
-        :class="{'add-ingredient-form': canEdit, 'show': !showAddForm, 'cancel': showAddForm}"
+        :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
         :title="title"
         @click="showAddForm = !showAddForm"
       >Zutaten</h2>
       <ingredient-list
-        :show-add-form="showAddForm"
         :ingredients="$store.getters['ingredient/byGroup']()"
-        :can-edit="canEdit"
         :multiplier="multiplier"
+        :show-add-form="showAddForm"
         :first-level-list="true"
         @cancelAdd="showAddForm = false"
+        @created="created"
       ></ingredient-list>
     </div>
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
       <h2 class="title is-4">{{ ingredientGroup.name }}</h2>
       <ingredient-list
+        v-if="$store.getters['ingredient/byGroup'](ingredientGroup.id)"
         :ingredients="$store.getters['ingredient/byGroup'](ingredientGroup.id)"
-        :can-edit="canEdit"
         :multiplier="multiplier"
         :first-level-list="true"
       ></ingredient-list>
+      <span v-else>Keine Zutaten...</span>
     </div>
   </div>
   <div v-else>
     <h2
       class="title is-4"
-      :class="{'add-ingredient-form': canEdit, 'show': !showAddForm, 'cancel': showAddForm}"
+      :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
       :title="title"
       @click="showAddForm = !showAddForm"
     >Zutaten</h2>
-    <ingredient-add-form
-      v-if="showAddForm"
-      @cancel="showAddForm = false"
-      @created="$store.dispatch('ingredient/index', { recipeId: id })"
-    ></ingredient-add-form>
+    <ingredient-add-form v-if="showAddForm" @cancel="showAddForm = false" @created="created"></ingredient-add-form>
     <span v-else>Keine Zutaten vorhanden!</span>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   props: ["id", "multiplier"],
@@ -56,25 +53,30 @@ export default {
     ...mapState({
       ingredientGroups: state => state.ingredient_group.ingredientGroups,
       ingredients: state => state.ingredient.ingredients,
-      recipe: state => state.recipe.recipe,
-      canEdit: state => state.editmode.enabled
-    }),
-    ...mapGetters({
-      grouped: "ingredient/grouped"
+      recipe: state => state.recipe.data,
+      editmode: state => state.recipe.editmode.data
     }),
     title() {
-      if (this.canEdit) {
+      if (this.editmode.enabled) {
         return "Klicken zum Hinzufügen";
       }
       return "";
     }
   },
   created() {
-    this.$store.dispatch("unit/index");
-    this.$store.dispatch("food/index");
     this.$store.dispatch("ingredient/index", { recipeId: this.id });
     this.$store.dispatch("ingredient_group/index", { recipeId: this.id });
-    this.$store.dispatch("ingredient_attribute/index");
+
+    if (this.editmode.enabled) {
+      this.$store.dispatch("unit/index");
+      this.$store.dispatch("food/index");
+      this.$store.dispatch("ingredient_attribute/index");
+    }
+  },
+  methods: {
+    created() {
+      this.showAddForm = false;
+    }
   }
 };
 </script>
@@ -90,9 +92,8 @@ div.ingredients {
   }
 
   > div {
-    margin-right: 15px;
     border-right: 1px dotted black;
-    padding-right: 35px;
+    padding: 0 35px 30px 30px;
   }
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Ingredients;
 
+use \Rutorika\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class Ingredient extends Model
 {
     use SoftDeletes;
     use SoftCascadeTrait;
+    use SortableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -59,6 +61,17 @@ class Ingredient extends Model
         'ingredientAttributes',
         'ingredientGroup',
         'ingredients'
+    ];
+
+    /**
+     * Group entity ordering by many fields
+     *
+     * @var array
+     */
+    protected static $sortableGroupField = [
+        'recipe_id',
+        'ingredient_group_id',
+        'ingredient_id'
     ];
 
     /**
@@ -177,5 +190,24 @@ class Ingredient extends Model
     public function scopeOriginalOnly(Builder $builder): Builder
     {
         return $builder->whereNull('ingredient_id');
+    }
+
+    /**
+     * Get ingredient by recipe_id, ingredient_group_id, ingredient_id and position
+     *
+     * This query returns max. one result
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \App\Models\Ingredients\Ingredient  $ingredient
+     * @param  int  $position
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByGroupedPosition(Builder $builder, Ingredient $ingredient, ?int $position): Builder
+    {
+        return $builder
+            ->whereRecipeId($ingredient->recipe_id)
+            ->whereIngredientGroupId($ingredient->ingredient_group_id)
+            ->whereIngredientId($ingredient->ingredient_id)
+            ->wherePosition($position);
     }
 }

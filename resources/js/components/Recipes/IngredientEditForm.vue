@@ -13,7 +13,7 @@
       <select-field
         v-if="ingredients.length"
         name="ingredient_id"
-        placeholder="Alternative von"
+        placeholder="Alternative von..."
         nullable
         :data="ingredients"
       ></select-field>
@@ -70,7 +70,7 @@ export default {
       units: state => state.unit.units,
       ingredientAttributes: state =>
         state.ingredient_attribute.ingredientAttributes,
-      recipe: state => state.recipe.recipe,
+      recipe: state => state.recipe.data,
       form: state => state.form.data,
       errors: state => state.form.errors.data
     })

@@ -1,7 +1,7 @@
 import Cookbooks from "../../modules/ApiClient/Cookbooks";
 
 const state = () => ({
-    cookbooks: []
+    cookbooks: { data: [] }
 });
 
 const actions = {

@@ -17,7 +17,7 @@
 
     <footer class="card-footer">
       <div>
-        <span class="time">{{ recipe.time }}</span>
+        <span class="time">{{ recipe.preparation_time | humanReadablePreparationTime }}</span>
       </div>
       <div>
         <span class="stars" v-for="star in recipe.stars" :key="star">*</span>
@@ -39,7 +39,13 @@ export default {
 
 <style lang="scss" scoped>
 .card {
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+  header {
+    align-items: flex-start;
+  }
 
   .media {
     justify-content: center;
@@ -51,6 +57,11 @@ export default {
 
   .content {
     font-size: 90%;
+  }
+
+  footer {
+    height: 35px;
+    padding: 5px;
   }
 }
 </style>

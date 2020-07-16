@@ -17,10 +17,6 @@ const actions = {
         } else {
             data[property] = value;
         }
-        console.log(property);
-        console.log(value);
-        console.log(data);
-        console.log(index);
         commit('set', { data });
     },
     push({ commit, state, getters }, { property, value }) {
@@ -43,15 +39,36 @@ const actions = {
         data[property].splice(data[property].indexOf(value), 1);
         commit('set', { data });
     },
-    async submit({ commit, state }, { func }) {
+    async onSuccess({ commit }, { response }) {
+        commit('errors/reset');
+        commit('reset');
+        return Promise.resolve(response);
+    },
+    async onFail({ commit }, { response }) {
+        if (!response) {
+            return;
+        }
+
+        let errors = response.errors;
+        if (response.data) {
+            errors = response.data.errors;
+        }
+
+        if (errors) {
+            commit('errors/set', { data: errors });
+        }
+
+        return Promise.reject(response);
+    },
+    // TODO: remove that stuff
+    async submit({ commit, state, dispatch }, { func }) {
         try {
             const response = await func(state.data);
             if (!response) {
                 return;
             }
 
-            commit('errors/reset');
-            commit('reset');
+            dispatch('onSuccess');
             return Promise.resolve(response);
         } catch (error) {
             if (!error) {

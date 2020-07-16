@@ -9,7 +9,7 @@ class FoodObserver
     /**
      * Handle the food "saving" event.
      *
-     * @param  \App\Models\Recipes\Food  $food
+     * @param  \App\Models\Ingredients\Food  $food
      * @return void
      */
     public function saving(Food $food)

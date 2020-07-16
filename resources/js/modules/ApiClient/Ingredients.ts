@@ -22,9 +22,11 @@ export interface Ingredient {
 export default class Ingredients extends ApiClient {
     protected url = "/ingredients";
     protected recipeId: number;
+    protected rawResponse: boolean;
 
-    constructor(recipeId: number) {
+    constructor(recipeId: number, rawResponse = false) {
         super();
+        this.rawResponse = rawResponse;
         this.recipeId = recipeId;
     }
 

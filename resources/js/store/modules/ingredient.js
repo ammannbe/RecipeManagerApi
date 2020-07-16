@@ -1,4 +1,5 @@
 import Ingredients from "../../modules/ApiClient/Ingredients";
+import form from "./form";
 
 const state = () => ({
     ingredients: []
@@ -9,9 +10,24 @@ const actions = {
         let ingredients = await new Ingredients(recipeId).index();
         commit('setIngredients', ingredients);
     },
+    async update({ dispatch }, { id, recipeId, property, value }) {
+        try {
+            await new Ingredients().update(id, property, value);
+            await dispatch('index', { recipeId });
+        } catch (error) { }
+    },
+    async store({ dispatch }, { recipeId, data }) {
+        try {
+            await new Ingredients(recipeId).store(data);
+            await dispatch('index', { recipeId });
+            return dispatch('form/onSuccess', { response: rawResponse.data });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error.data });
+        }
+    },
     async remove({ commit }, { id, groupId, alternateId }) {
         await new Ingredients(null).remove(id);
-        commit('removeIngredient', { id, groupId, alternateId });
+        commit('remove', { id, groupId, alternateId });
     },
 }
 
@@ -31,6 +47,9 @@ const getters = {
 const mutations = {
     setIngredients(state, ingredients) {
         state.ingredients = ingredients;
+    },
+    addIngredient(state, { ingredient }) {
+        state.ingredients.push(ingredient);
     },
     sort(state) {
         Object.keys(state.ingredients).forEach(key => {
@@ -64,5 +83,6 @@ export default {
     state,
     actions,
     mutations,
-    getters
+    getters,
+    modules: { form }
 }

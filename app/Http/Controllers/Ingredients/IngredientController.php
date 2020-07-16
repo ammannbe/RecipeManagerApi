@@ -45,10 +45,20 @@ class IngredientController extends Controller
     {
         $this->authorize([Ingredient::class, $recipe]);
         $validated = $request->validated();
+
+        $position = $validated['position'] ?? null;
+        unset($validated['position']);
+
         $ingredient = $recipe->ingredients()->create($validated);
+
+        if ($ingredientPosition = Ingredient::byGroupedPosition($ingredient, $position)->first()) {
+            $ingredient->moveBefore($ingredientPosition);
+        }
+
         if (isset($validated['ingredient_attributes'])) {
             $ingredient->ingredientAttributes()->sync($validated['ingredient_attributes']);
         }
+
         return $this->responseCreated('ingredients.show', $ingredient->id);
     }
 
@@ -75,10 +85,23 @@ class IngredientController extends Controller
     {
         $this->authorize($ingredient);
         $validated = $request->validated();
+
+        $position = $validated['position'] ?? null;
+        unset($validated['position']);
+
         if (isset($validated['ingredient_attributes'])) {
             $ingredient->ingredientAttributes()->sync($validated['ingredient_attributes']);
         }
-        $ingredient->update($request->validated());
+
+        $ingredient->update($validated);
+
+        if ($ingredientPosition = Ingredient::byGroupedPosition($ingredient, $position)->first()) {
+            if ($position < $ingredient->position) {
+                $ingredient->moveBefore($ingredientPosition);
+            } else {
+                $ingredient->moveAfter($ingredientPosition);
+            }
+        }
     }
 
     /**

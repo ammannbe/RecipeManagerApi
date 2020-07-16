@@ -1,28 +1,34 @@
 import LocalStorage from "../../modules/LocalStorage";
 
 const state = () => ({
-    enabled: LocalStorage.get("edit-mode")
+    data: { enabled: false, editing: false, ...LocalStorage.get('edit-mode') || {} },
 });
 
-const actions = {
-    toggle({ commit, state }) {
-        commit('fire', { enable: !state.enabled });
-    }
-}
-
 const mutations = {
-    fire(state, { enable }) {
+    enable(state, { enable }) {
         if (!Laravel.isLoggedIn) {
             enable = false;
         }
-        state.enabled = enable;
-        LocalStorage.set("edit-mode", enable);
+
+        if (!enable) {
+            state.data.editing = false;
+        }
+
+        state.data.enabled = enable;
+        LocalStorage.update("edit-mode", "enabled", enable);
+    },
+    edit(state, { editing }) {
+        if (!state.data.enabled) {
+            return;
+        }
+
+        state.data.editing = editing;
+        LocalStorage.update("edit-mode", "editing", editing);
     }
 }
 
 export default {
     namespaced: true,
     state,
-    actions,
     mutations
 }

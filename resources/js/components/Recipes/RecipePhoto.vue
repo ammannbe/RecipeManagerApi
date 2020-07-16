@@ -1,35 +1,17 @@
 <template>
-  <div class="photo">
-    <figure class="preview">
-      <img
-        @click="openModal(photoUrls.indexOf(mainPhotoPreviewUrl))"
-        :src="mainPhotoPreviewUrl"
-        :alt="alt"
-        :class="{'initial-cursor': !urls}"
-      />
-    </figure>
-    <div v-if="photoUrls.length > 1" class="small-previews">
-      <figure :key="photoUrls.indexOf(photoUrl)" v-for="photoUrl in photoUrls">
-        <img @click="mainPhotoPreviewUrl = photoUrl" :src="photoUrl" :alt="alt" />
+  <b-carousel :autoplay="false" indicator-custom :indicator-inside="false" :overlay="gallery">
+    <b-carousel-item v-for="(item, i) in photoUrls.length" :key="i">
+      <a @click="switchGallery(true)" class="image">
+        <img :alt="alt" :src="getImgUrl(i)" />
+      </a>
+    </b-carousel-item>
+    <span v-if="gallery" @click="switchGallery(false)" class="modal-close is-large" />
+    <template slot="indicators" slot-scope="props">
+      <figure class="al image" :draggable="false">
+        <img :alt="alt" :draggable="false" :src="getImgUrl(props.i)" :title="alt" />
       </figure>
-    </div>
-
-    <modal
-      v-if="showPhoto !== false"
-      :controls="true"
-      :disable-next="!photoExists(showPhoto + 1)"
-      :disable-prev="showPhoto <= 0"
-      @close="closeModal()"
-      @next="next()"
-      @prev="prev()"
-    >
-      <template>
-        <figure>
-          <img :src="photoUrls[showPhoto]" :alt="alt" />
-        </figure>
-      </template>
-    </modal>
-  </div>
+    </template>
+  </b-carousel>
 </template>
 
 <script>
@@ -37,128 +19,44 @@ export default {
   props: ["urls", "alt"],
   data() {
     return {
-      showPhoto: false,
-      photoUrls: ["https://bulma.io/images/placeholders/128x128.png"],
-      mainPhotoPreviewUrl: "https://bulma.io/images/placeholders/128x128.png"
+      gallery: false, // TODO: check this var
+      photoUrls: ["https://bulma.io/images/placeholders/128x128.png"]
     };
   },
-  watch: {
-    urls() {
-      if (this.urls) {
-        this.photoUrls = this.urls;
-        this.mainPhotoPreviewUrl = this.photoUrls[0];
-      }
+  mounted() {
+    if (this.urls) {
+      this.photoUrls = this.urls;
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.initModal();
-    }, 300);
-  },
   methods: {
-    initModal() {
-      if (!this.$route.query.show_photo) {
-        return;
-      }
-
-      let showPhoto = parseInt(this.$route.query.show_photo);
-
-      if (!this.photoExists(showPhoto)) {
-        this.closeModal();
-        return;
-      }
-
-      this.openModal(showPhoto);
+    getImgUrl(i) {
+      i += 1;
+      return this.photoUrls[i - 1];
     },
-    openModal(index = 0) {
-      if (!this.urls) {
-        return;
+    switchGallery(value) {
+      this.gallery = value;
+      if (value) {
+        return document.documentElement.classList.add("is-clipped");
+      } else {
+        return document.documentElement.classList.remove("is-clipped");
       }
-      this.showPhoto = index;
-
-      let show_photo = this.showPhoto;
-      this.$router.push({ query: { ...this.$route.query, show_photo } });
-    },
-    closeModal() {
-      this.showPhoto = false;
-
-      let query = Object.assign({}, this.$route.query);
-      delete query.show_photo;
-      this.$router.push({ query });
-    },
-    photoExists(index) {
-      return typeof this.photoUrls[index] !== "undefined";
-    },
-    next() {
-      if (!this.photoExists(this.showPhoto + 1)) {
-        return;
-      }
-      this.openModal(this.showPhoto + 1);
-    },
-    prev() {
-      if (!this.photoExists(this.showPhoto - 1)) {
-        return;
-      }
-      this.openModal(this.showPhoto - 1);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-div.photo {
-  display: flex;
-  flex-direction: column;
+.carousel {
+  margin-right: 5px;
+}
 
-  > .preview {
-    margin-right: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.is-active .al img {
+  border: 1px solid #fff;
+  filter: grayscale(0%);
+}
 
-    > img {
-      max-width: 100%;
-      max-height: 200px;
-      width: 100%;
-      object-fit: contain;
-      cursor: zoom-in;
-
-      &.initial-cursor {
-        cursor: initial;
-      }
-    }
-  }
-
-  > .small-previews {
-    display: flex;
-    margin-right: 30px;
-
-    > figure {
-      width: 40px;
-      height: 40px;
-      margin: 5px 5px 0 0;
-      cursor: pointer;
-
-      > img {
-        height: 100%;
-        width: 100%;
-      }
-    }
-  }
-
-  > .modal {
-    cursor: zoom-out;
-
-    figure {
-      display: flex;
-      justify-content: center;
-
-      > img {
-        width: auto;
-        max-height: 100%;
-        cursor: auto;
-      }
-    }
-  }
+.al img {
+  border: 1px solid transparent;
+  filter: grayscale(100%);
 }
 </style>

@@ -30,14 +30,13 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 -   Composer
 -   NPM
 
-### Installing
+### Installation
 
 -   Copy .env.example to .env and modify it to your needs
 -   Generate an app key `php artisan key:generate`
--   Migrate the database `php artisan migrate`
--   Generate JWT secret `php artisan jwt:secret`
 -   Install composer packages `composer install`
 -   Install NPM packages `npm install`
+-   Migrate the database `php artisan migrate`
 -   Add following to your crontab:
 
 ```bash
@@ -46,10 +45,16 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 -   Run the server `php artisan serve`
 
-## Deployment
+### Development deployment
 
--   Install the software as described above (except running the server)
--   Install composer packages `composer install --optimize-autoloader --no-dev`
+-   If not already done, [install](#installation) everything
+-   Run the server `php artisan serve`
+-   Watch for style and js changes: `npm run watch`
+
+### Production Deployment
+
+-   If not already done, [install](#installation) everything
+-   Optimize composer autoload `composer install --optimize-autoloader --no-dev`
 -   Enable caching:
 
 ```bash
@@ -58,20 +63,26 @@ php artisan route:cache
 php artisan view:cache
 ```
 
+-   Optimize npm packages: `npm run prod`
+
 ## Update
 
 -   Get the latest source (see [Getting Started](#getting-started))
--   Migrate the database `php artisan migrate`
--   Install composer packages `composer install`
+-   Check `.env.examples` for changes
+-   Optimize composer autoload `composer install`
 -   Install NPM packages `npm install`
+-   Migrate the database `php artisan migrate`
+-   Follow [Development deployment](#development-deployment) or [Production deployment](#production-deployment)
 
 ## Built With
 
--   [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
 -   [laravel/laravel](https://github.com/laravel/laravel) - A PHP framework for web artisans
+-   [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
+-   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
+-   [SortableJS/Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) - Vue drag-and-drop component based on Sortable.js
 
 ## Authors
 

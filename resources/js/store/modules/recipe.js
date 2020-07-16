@@ -1,8 +1,9 @@
 import Recipes from "../../modules/ApiClient/Recipes";
+import editmode from "./editmode";
+import form from "./form";
 
 const state = () => ({
-    recipes: [],
-    recipe: {},
+    data: {},
     complexities: [
         {
             id: "simple",
@@ -20,32 +21,33 @@ const state = () => ({
 });
 
 const actions = {
-    async index({ commit }, { trashed = false, page = 1, filter = null }) {
-        let recipes = await new Recipes().index({ trashed, page, filter });
-        commit('setRecipes', recipes);
-    },
     async show({ commit }, { id }) {
         let recipe = await new Recipes().show(id);
-        commit('setRecipe', recipe);
+        commit('setRecipe', { recipe });
     },
-    async remove({ commit, state }, { id }) {
+    async update({ dispatch }, { id, data }) {
+        try {
+            const response = await new Recipes().bulkUpdate(id, data);
+            dispatch('show', { id });
+            return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error });
+        }
+    },
+    async remove({ commit }, { id }) {
         await new Recipes().remove(id);
-        commit('changeValue', { id, property: 'deleted_at', value: new Date().toJSON() });
+        commit('reset');
+        this.dispatch('recipes/remove', { id });
     },
-    async restore({ commit, state }, { id }) {
+    async restore({ commit }, { id }) {
         await new Recipes().restore(id);
-        commit('changeValue', { id, property: 'deleted_at', value: null });
+        commit('changeValue', { property: 'deleted_at', value: null });
     }
 }
 
 const mutations = {
-    setRecipes(state, recipes) {
-        state.recipes = recipes;
-    },
-    setRecipe(state, recipe) {
-        recipe.complexity = state.complexities.filter(
-            complexity => complexity.id === recipe.complexity
-        )[0];
+    setRecipe(state, { recipe }) {
+        recipe.complexity = state.complexities.filter(el => el.id === recipe.complexity)[0];
 
         if (recipe.preparation_time) {
             recipe.preparation_time = recipe.preparation_time.slice(0, -3);
@@ -55,17 +57,18 @@ const mutations = {
             recipe.cookbook = { id: null, name: "Öffentlich" };
         }
 
-        state.recipe = recipe;
+        state.data = recipe;
     },
-    changeValue(state, { id, property, value }) {
-        let index = state.recipes.data.findIndex((r => r.id == id));
-        state.recipes.data[index][property] = value;
-    }
+    changeValue(state, { property, value }) {
+        state.data[property] = value;
+    },
+    reset() { }
 }
 
 export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    modules: { form, editmode }
 }

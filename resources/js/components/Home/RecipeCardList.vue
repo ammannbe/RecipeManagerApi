@@ -3,7 +3,7 @@
     <pagination
       :current-page="recipes.current_page"
       :last-page="recipes.last_page"
-      @load="$store.dispatch('recipe/index', { page: $event, filter })"
+      @load="$store.dispatch('recipes/index', { page: $event, filter })"
     ></pagination>
     <div class="columns">
       <recipe-card
@@ -23,7 +23,7 @@ export default {
   props: ["filterByName"],
   computed: {
     ...mapState({
-      recipes: state => state.recipe.recipes
+      recipes: state => state.recipes.data
     }),
     filter() {
       if (this.filterByName) {
@@ -33,7 +33,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("recipe/index", { filter: this.filter });
+    this.$store.dispatch("recipes/index", { filter: this.filter });
   }
 };
 </script>

@@ -2,20 +2,23 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import MavonEditor from 'mavon-editor';
 import Vuex from 'vuex'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
 
 import './nav';
 import env from './env';
-import jQuery from 'jquery';
 import moment from 'moment';
 moment.locale('de');
 
 window.Vue = Vue;
-window.$ = jQuery;
 window.moment = moment;
 
 Vue.use(VueRouter);
 Vue.use(MavonEditor);
-Vue.use(Vuex)
+Vue.use(Vuex);
+Vue.use(Buefy, {
+    defaultIconPack: 'fas',
+});
 
 Vue.prototype.$env = env;
 Vue.prototype.$markdownIt = MavonEditor.markdownIt;
@@ -25,6 +28,49 @@ Vue.prototype.$moment = moment;
 Vue.prototype.$autofocus = function (selector = '[autofocus]') {
     const input = document.querySelector(selector);
     if (input) {
-        input.focus();
+        setTimeout(() => {
+            input.focus();
+        }, 100);
     }
 }
+
+Vue.prototype.$loading = {
+    loader: null,
+    open: function (container = null) {
+        if (this.loader) {
+            return;
+        }
+        this.loader = Vue.prototype.$buefy.loading.open({ container });
+    },
+    close: function () {
+        if (!this.loader) {
+            return;
+        }
+        this.loader.close();
+        this.loader = null;
+    }
+}
+
+Vue.filter('name', function (obj) {
+    if (obj == undefined || obj == null || !Object.keys(obj).length) return '';
+    return obj.name;
+});
+
+Vue.filter('hyphenate', function (value) {
+    if (value == undefined || value == null || value == '') {
+        return '-';
+    }
+    return value;
+})
+
+Vue.filter('humanReadablePreparationTime', function (value) {
+    let [hours, minutes] = value.split(":");
+    let string = "";
+    if (hours > 0) {
+        string += `${hours}h`;
+    }
+    if (minutes > 0) {
+        string += ` ${minutes}min`;
+    }
+    return string;
+})

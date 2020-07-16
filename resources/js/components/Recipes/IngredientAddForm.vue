@@ -1,56 +1,77 @@
 <template>
   <div class="wrapper">
-    <div class="arrows">
-      <span @click="goUp()" class="fas fa-arrow-up"></span>
-      <span @click="goDown()" class="fas fa-arrow-down"></span>
-    </div>
+    <form class="add-ingredient" @submit.prevent="submit">
+      <rm-select
+        v-model="ingredient_id"
+        :disabled="!ingredients.length"
+        placeholder="Alternative von..."
+      >
+        <option
+          v-for="ingredient in $store.getters['ingredient/byGroup']()"
+          :value="ingredient.id"
+          :key="ingredient.id"
+        >{{ ingredient.name }}</option>
 
-    <form
-      class="add-ingredient"
-      @submit.prevent="submit"
-      @change="$store.commit('form/errors/clear', { property: $event.target.name })"
-    >
-      <select-field
-        v-if="ingredients.length"
-        name="ingredient_id"
-        placeholder="Alternative von"
-        nullable
-        :data="ingredients"
-      ></select-field>
+        <optgroup :key="key" v-for="(group, key) in ingredientGroups" :label="group.name">
+          <option
+            v-for="ingredient in $store.getters['ingredient/byGroup'](group.id)"
+            :value="ingredient.id"
+            :key="ingredient.id"
+          >{{ ingredient.name }}</option>
+        </optgroup>
+      </rm-select>
 
-      <div class="field or" v-if="form.ingredient_id">| Oder:</div>
-      <input-field name="amount" type="number" max="999998" placeholder="(Min.) Menge" autofocus></input-field>
+      <div class="field or" v-if="ingredient_id">| Oder:</div>
+      <rm-numberinput v-model="amount" placeholder="Menge" :min="0" :max="999998" autofocus />
 
-      <input-field name="amount_max" type="number" max="999999" placeholder="Max. Menge"></input-field>
+      <rm-numberinput v-model="amount_max" placeholder="Max. Menge" :min="0" :max="999999" />
 
-      <select-field name="unit_id" placeholder="Einheit" nullable :data="units"></select-field>
+      <rm-select v-model="unit_id" placeholder="Einheit" :options="units" />
 
-      <select-field name="food_id" placeholder="Zutat" required inline :data="foods"></select-field>
+      <rm-select v-model="food_id" placeholder="Zutat" :options="foods" required />
 
-      <multiselect-field
-        name="ingredient_attributes"
+      <rm-multiselect
+        v-model="ingredient_attributes"
         placeholder="Eigenschaften"
         :data="ingredientAttributes"
-      ></multiselect-field>
+      />
 
-      <select-field
-        v-if="ingredientGroups.length"
-        name="ingredient_group_id"
+      <rm-switch
+        v-if="!ingredient_id && ingredientGroups.length"
+        v-model="showNewIngredientGroup"
+      >Neue gruppe hinzufügen</rm-switch>
+      <rm-select
+        v-if="ingredientGroups.length && !showNewIngredientGroup && !ingredient_id"
+        v-model="ingredient_group_id"
         placeholder="Gruppe"
-        nullable
-        :data="ingredientGroups"
-      ></select-field>
+        :options="ingredientGroups"
+      ></rm-select>
+      <rm-textinput
+        v-if="(!ingredientGroups.length || showNewIngredientGroup) && !ingredient_id"
+        v-model="newIngredientGroupName"
+        placeholder="Gruppenname"
+      ></rm-textinput>
 
-      <submit-button :can-cancel="true" @cancel="$emit('cancel')">Hinzufügen</submit-button>
+      <rm-submit-button>
+        Hinzufügen
+        <template v-slot:buttons>
+          <b-button @click="initForm && $emit('cancel')" type="is-danger">Abbrechen</b-button>
+        </template>
+      </rm-submit-button>
     </form>
   </div>
 </template>
 
 <script>
-import Ingredients from "../../modules/ApiClient/Ingredients";
 import { mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      showNewIngredientGroup: false,
+      newIngredientGroupName: null
+    };
+  },
   computed: {
     ...mapState({
       ingredients: state => state.ingredient.ingredients,
@@ -59,65 +80,106 @@ export default {
       units: state => state.unit.units,
       ingredientAttributes: state =>
         state.ingredient_attribute.ingredientAttributes,
-      recipe: state => state.recipe.recipe,
-      form: state => state.form.data
-    })
+      recipe: state => state.recipe.data,
+      form: state => state.ingredient.form.data
+    }),
+    ingredient_id: {
+      get() {
+        return this.form.ingredient_id;
+      },
+      set(value) {
+        this.updateFormProperty("ingredient_id", value);
+      }
+    },
+    amount: {
+      get() {
+        return this.form.amount;
+      },
+      set(value) {
+        this.updateFormProperty("amount", value);
+      }
+    },
+    amount_max: {
+      get() {
+        return this.form.amount_max;
+      },
+      set(value) {
+        this.updateFormProperty("amount_max", value);
+      }
+    },
+    unit_id: {
+      get() {
+        return this.form.unit_id;
+      },
+      set(value) {
+        this.updateFormProperty("unit_id", value);
+      }
+    },
+    food_id: {
+      get() {
+        return this.form.food_id;
+      },
+      set(value) {
+        this.updateFormProperty("food_id", value);
+      }
+    },
+    ingredient_attributes: {
+      get() {
+        return this.form.ingredient_attributes;
+      },
+      set(value) {
+        this.updateFormProperty("ingredient_attributes", value);
+      }
+    },
+    ingredient_group_id: {
+      get() {
+        return this.form.ingredient_group_id;
+      },
+      set(value) {
+        this.updateFormProperty("ingredient_group_id", value);
+      }
+    }
   },
   created() {
-    this.$store.commit("form/set", {
-      data: {
-        amount: null,
-        amount_max: null,
-        unit_id: null,
-        food_id: null,
-        ingredient_attributes: [],
-        ingredient_group_id: null,
-        ingredient_id: null,
-        position: 0
-      }
-    });
+    this.initForm();
   },
   mounted() {
-    this.$store.dispatch("form/update", {
-      property: "position",
-      value: this.getPosition()
-    });
+    this.$autofocus();
   },
   methods: {
-    goUp() {
-      let value = this.form.position;
-      if (value > 0) {
-        value--;
-        this.updatePosition(value);
-      }
-      this.$emit("goUp");
+    initForm() {
+      this.$store.commit("ingredient/form/set", {
+        data: {
+          amount: null,
+          amount_max: null,
+          unit_id: null,
+          food_id: null,
+          ingredient_attributes: [],
+          ingredient_group_id: null,
+          ingredient_id: null,
+          position: null
+        }
+      });
     },
-    goDown() {
-      let value = this.form.position;
-      if (value <= this.ingredients.length - 1) {
-        value++;
-        this.updatePosition(value);
-      }
-      this.$emit("goDown");
+    updateFormProperty(property, value) {
+      this.$store.dispatch("ingredient/form/update", { property, value });
     },
-    updatePosition(value) {
-      this.$store.dispatch("form/update", { property: "position", value });
-    },
-    getPosition() {
-      return $(".ingredients li").index($("li.add-ingredient")[0]) + 1;
-    },
-    submit() {
-      this.updatePosition(this.getPosition());
-      this.$store
-        .dispatch("form/submit", {
-          func: data => new Ingredients(this.recipe.id).store(data)
-        })
-        .then(() => {
-          this.$store.dispatch("ingredient/index", {
-            recipeId: this.recipe.id
-          });
-          this.$emit("created");
+    async submit() {
+      const recipeId = this.recipe.id;
+
+      if (this.showNewIngredientGroup == true) {
+        const groupId = await this.$store.dispatch("ingredient_group/store", {
+          recipeId,
+          name: this.newIngredientGroupName
         });
+        await this.updateFormProperty("ingredient_group_id", groupId);
+      }
+
+      await this.$store.dispatch("ingredient/store", {
+        recipeId,
+        data: this.form
+      });
+      this.initForm();
     }
   }
 };
@@ -126,24 +188,6 @@ export default {
 <style lang="scss" scoped>
 div.wrapper {
   display: flex;
-
-  div.arrows {
-    display: flex;
-    flex-direction: column;
-    margin-right: 3px;
-
-    > span {
-      margin: 2px;
-
-      &:nth-child(1) {
-        cursor: n-resize;
-      }
-
-      &:nth-child(2) {
-        cursor: s-resize;
-      }
-    }
-  }
 }
 </style>
 

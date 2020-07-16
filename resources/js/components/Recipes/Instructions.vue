@@ -1,78 +1,53 @@
 <template>
   <div>
     <h2
-      :class="{'title is-4': true, 'can-edit': canEdit}"
-      @click="edit(!isEditing)"
+      :class="{'title is-4': true, 'can-edit': editmode.enabled}"
+      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
       :title="title"
     >Zubereitung</h2>
 
-    <markdown-field v-if="canEdit && isEditing" name="instructions" @saved="submit()"></markdown-field>
+    <rm-markdown
+      v-if="editmode.editing"
+      v-model="instructions"
+      @save="$emit('update')"
+      :autofocus="false"
+    ></rm-markdown>
 
     <div
       v-else
-      :class="{'can-edit': canEdit}"
+      :class="{'can-edit': editmode.enabled}"
       class="content"
       :title="title"
-      v-html="instructions"
-      @click="edit(!isEditing)"
+      v-html="$markdownIt.render(instructions)"
+      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
     ></div>
   </div>
 </template>
 
 <script>
-import Recipes from "../../modules/ApiClient/Recipes";
 import { mapState } from "vuex";
 
 export default {
-  props: ["canEdit"],
-  data() {
-    return {
-      isEditing: false
-    };
-  },
   computed: {
     ...mapState({
-      recipe: state => state.recipe.recipe,
-      form: state => state.form.data
+      recipe: state => state.recipe.data,
+      editmode: state => state.recipe.editmode.data,
+      form: state => state.recipe.form.data
     }),
-    instructions() {
-      if (!this.recipe.instructions) {
-        return "";
+    instructions: {
+      get() {
+        return this.form.instructions;
+      },
+      set(value) {
+        const property = "instructions";
+        this.$store.dispatch("recipe/form/update", { property, value });
       }
-      return this.$markdownIt.render(this.recipe.instructions);
     },
     title() {
-      if (this.canEdit) {
+      if (this.editmode.enabled) {
         return "Klicken zum Bearbeiten";
       }
       return "";
-    }
-  },
-  created() {},
-  methods: {
-    submit() {
-      let id = this.recipe.id;
-      this.$store
-        .dispatch("form/submit", {
-          func: data => {
-            new Recipes(data).update(
-              id,
-              "instructions",
-              this.form.instructions
-            );
-          }
-        })
-        .then(() => {
-          this.$store.dispatch("recipe/show", { id });
-          this.edit(false);
-        });
-    },
-    edit(edit) {
-      if (edit) {
-        const data = { instructions: this.recipe.instructions };
-        this.$store.commit("form/set", { data });
-      }
-      this.isEditing = edit;
     }
   }
 };

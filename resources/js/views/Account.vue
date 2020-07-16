@@ -33,13 +33,13 @@
         position="start"
         :current-page="recipes.current_page"
         :last-page="recipes.last_page"
-        @load="$store.dispatch('recipe/index', { trashed: true, page: $event })"
+        @load="$store.dispatch('recipes/index', { trashed: true, page: $event })"
       ></pagination>
       <ul>
         <li :key="recipe.id" v-for="recipe in recipes.data">
           <span v-if="!recipe.deleted_at">
             <button
-              @click.prevent="$store.dispatch('recipe/remove', { id: recipe.id })"
+              @click.prevent="$store.dispatch('recipes/remove', { id: recipe.id })"
               class="button is-white is-small"
             >
               <i class="fas fa-trash"></i>
@@ -51,7 +51,7 @@
           </span>
           <span v-else>
             <button
-              @click.prevent="$store.dispatch('recipe/restore', { id: recipe.id })"
+              @click.prevent="$store.dispatch('recipes/restore', { id: recipe.id })"
               class="button is-white is-small"
             >
               <i class="fas fa-redo"></i>
@@ -102,7 +102,7 @@ export default {
     };
   },
   computed: mapState({
-    recipes: state => state.recipe.recipes,
+    recipes: state => state.recipes.data,
     cookbooks: state => state.cookbook.cookbooks,
     user: state => state.user.user
   }),
@@ -114,7 +114,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("recipe/index", { trashed: true, page: 1 });
+    this.$store.dispatch("recipes/index", { trashed: true, page: 1 });
     this.$store.dispatch("cookbook/index", { trashed: true, page: 1 });
   }
 };

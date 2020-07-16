@@ -4,6 +4,7 @@ import env from "../../env";
 export default class ApiClient {
     private axios: AxiosInstance;
     protected url = "";
+    protected rawResponse = false;
 
     constructor() {
         this.axios = axios.create({
@@ -32,7 +33,9 @@ export default class ApiClient {
         }
         return this.axios
             .request(request)
-            .then(response => Promise.resolve(response.data))
+            .then(response =>
+                Promise.resolve(this.rawResponse ? response : response.data)
+            )
             .catch(error => {
                 if (
                     error.response.status == 403 ||
@@ -40,7 +43,9 @@ export default class ApiClient {
                 ) {
                     alert("Oopsii.. Diese Aktion ist leider nicht erlaubt :-(");
                 }
-                return Promise.reject(error.response);
+                return Promise.reject(
+                    this.rawResponse ? error : error.response
+                );
             });
     }
 

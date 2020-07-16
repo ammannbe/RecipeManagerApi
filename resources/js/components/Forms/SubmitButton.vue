@@ -20,15 +20,8 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-
 export default {
-  props: ["can-cancel"],
-  computed: {
-    ...mapGetters({
-      disabled: "form/errors/any"
-    })
-  }
+  props: ["can-cancel", "disabled"]
 };
 </script>
 <style lang="scss" scoped>
