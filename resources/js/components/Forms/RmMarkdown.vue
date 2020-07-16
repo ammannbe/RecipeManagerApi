@@ -1,5 +1,12 @@
 <template>
-  <b-field :message="message">
+  <b-field :horizontal="horizontal" :message="message">
+    <template v-if="label" slot="label">
+      {{ label }}
+      <span v-if="required !== undefined" class="required">*</span>
+      <b-tooltip v-if="labelTooltip" type="is-dark" :label="labelTooltip">
+        <b-icon size="is-small" icon="question-circle" />
+      </b-tooltip>
+    </template>
     <mavon-editor
       :class="{'is-danger border': !!message}"
       v-model="model"
@@ -13,8 +20,19 @@
 </template>
 
 <script>
+import "mavon-editor/dist/css/index.css";
+
 export default {
-  props: ["value", "message", "placeholder", "autofocus"],
+  props: [
+    "value",
+    "label",
+    "labelTooltip",
+    "horizontal",
+    "message",
+    "placeholder",
+    "autofocus",
+    "required"
+  ],
   data() {
     return {
       toolbars: {

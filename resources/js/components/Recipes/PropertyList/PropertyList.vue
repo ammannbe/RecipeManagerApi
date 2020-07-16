@@ -10,13 +10,13 @@
           v-model="cookbook_id"
           size="is-small"
           :options="[{ id: null, name: 'Öffentlich' }, ...cookbooks]"
-        ></rm-select>
+        />
       </property-list-item>
 
-      <property-list-item label="Verfasser" :value="recipe.author.name" :disable-editing="true"></property-list-item>
+      <property-list-item label="Verfasser" :value="recipe.author.name" :disable-editing="true" />
 
       <property-list-item label="Kategorie" :value="recipe.category | name | hyphenate">
-        <rm-select v-model="category_id" size="is-small" :options="categories" required></rm-select>
+        <rm-select v-model="category_id" size="is-small" :options="categories" required />
       </property-list-item>
 
       <property-list-item label="Portionen">
@@ -27,7 +27,7 @@
           :max="999"
           :step="1"
           placeholder="Portionen eingeben..."
-        ></rm-numberinput>
+        />
         <template v-slot:fallback>
           <rm-numberinput
             v-model="yieldAmountMultiplier"
@@ -36,12 +36,12 @@
             :max="999"
             :step="1"
             placeholder="Portionen eingeben..."
-          ></rm-numberinput>
+          />
         </template>
       </property-list-item>
 
       <property-list-item label="Schwierigkeitsgrad" :value="recipe.complexity | name | hyphenate">
-        <rm-select v-model="complexity" size="is-small" :options="complexities" required></rm-select>
+        <rm-select v-model="complexity" size="is-small" :options="complexities" required />
       </property-list-item>
 
       <property-list-item label="Zubereitungszeit" :value="recipe.preparation_time">
@@ -57,7 +57,7 @@
           size="is-small"
           placeholder="Tags auswählen..."
           :data="tags"
-        ></rm-multiselect>
+        />
         <template v-if="recipe.tags.length" v-slot:fallback>
           <router-link
             :key="tag.id"

@@ -68,8 +68,7 @@ export default {
       ingredientGroups: state => state.ingredient_group.ingredientGroups,
       foods: state => state.food.foods,
       units: state => state.unit.units,
-      ingredientAttributes: state =>
-        state.ingredient_attribute.ingredientAttributes,
+      ingredientAttributes: state => state.ingredient_attribute.data,
       recipe: state => state.recipe.data,
       form: state => state.form.data,
       errors: state => state.form.errors.data
@@ -82,9 +81,7 @@ export default {
         amount_max: this.ingredient.amount_max,
         unit_id: this.ingredient.unit_id,
         food_id: this.ingredient.food_id,
-        ingredient_attributes: this.ingredient.ingredient_attributes.map(
-          i => i.id
-        ),
+        ingredient_attributes: this.ingredient.data.map(i => i.id),
         ingredient_group_id: this.ingredient.ingredient_group_id,
         ingredient_id: this.ingredient.ingredient_id,
         position: this.ingredient.position

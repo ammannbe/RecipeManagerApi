@@ -1,6 +1,12 @@
 <template>
-  <b-field :message="this.message">
-    <b-timepicker v-model="model" :size="size"></b-timepicker>
+  <b-field :label="label" :horizontal="horizontal" :message="message">
+    <b-timepicker
+      v-model="model"
+      :size="size"
+      :placeholder="placeholder"
+      :open-on-focus="true"
+      style="max-width: 300px"
+    />
   </b-field>
 </template>
 
@@ -8,10 +14,14 @@
 import { mapState } from "vuex";
 
 export default {
-  props: ["value", "message", "size"],
+  props: ["value", "label", "horizontal", "message", "size", "placeholder"],
   computed: {
     model: {
       get() {
+        if (this.value === null) {
+          return;
+        }
+
         const [hours, minutes] = this.value.split(":");
         const date = new Date();
         date.setHours(hours);

@@ -1,3 +1,4 @@
+import ApiClient from "../../modules/ApiClient/ApiClient";
 import Recipes from "../../modules/ApiClient/Recipes";
 import editmode from "./editmode";
 import form from "./form";
@@ -30,6 +31,17 @@ const actions = {
             const response = await new Recipes().bulkUpdate(id, data);
             dispatch('show', { id });
             return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error });
+        }
+    },
+    async store({ dispatch }, { data }) {
+        try {
+            const response = await new Recipes(true).store(data);
+            const url = response.headers.location;
+            const recipe = await new ApiClient().get(url);
+            dispatch('show', { id: recipe.id });
+            return dispatch('form/onSuccess', { response: recipe });
         } catch (error) {
             return dispatch('form/onFail', { response: error });
         }

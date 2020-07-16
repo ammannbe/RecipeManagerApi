@@ -1,19 +1,19 @@
 import IngredientAttributes from "../../modules/ApiClient/IngredientAttributes";
 
 const state = () => ({
-    ingredientAttributes: []
+    data: []
 });
 
 const actions = {
     async index({ commit }) {
-        let ingredientAttributes = await new IngredientAttributes().index();
-        commit('setIngredientAttributes', ingredientAttributes);
+        let data = await new IngredientAttributes().index();
+        commit('setIngredientAttributes', { data });
     }
 }
 
 const mutations = {
-    setIngredientAttributes(state, ingredientAttributes) {
-        state.ingredientAttributes = ingredientAttributes;
+    setIngredientAttributes(state, { data }) {
+        state.data = data;
     }
 }
 

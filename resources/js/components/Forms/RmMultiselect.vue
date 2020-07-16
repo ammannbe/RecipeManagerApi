@@ -1,5 +1,5 @@
 <template>
-  <b-field :message="this.message">
+  <b-field :label="label" :horizontal="horizontal" :message="message">
     <b-taginput
       v-model="model"
       :data="data | search(filter)"
@@ -9,6 +9,7 @@
       field="name"
       :placeholder="placeholder"
       @typing="filter = $event"
+      style="max-width: 300px"
     ></b-taginput>
   </b-field>
 </template>
@@ -18,6 +19,8 @@ export default {
   props: [
     "value",
     "name",
+    "label",
+    "horizontal",
     "message",
     "min",
     "max",
@@ -33,6 +36,10 @@ export default {
   computed: {
     model: {
       get() {
+        if (this.value === null) {
+          return [];
+        }
+
         return this.data.filter(el => this.value.indexOf(el.id) != -1) || null;
       },
       set(value) {

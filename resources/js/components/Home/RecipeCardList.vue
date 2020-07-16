@@ -3,7 +3,7 @@
     <pagination
       :current-page="recipes.current_page"
       :last-page="recipes.last_page"
-      @load="$store.dispatch('recipes/index', { page: $event, filter })"
+      @load="$store.dispatch('recipes/index', { page: $event, filter, limit: 16 })"
     ></pagination>
     <div class="columns">
       <recipe-card
@@ -33,7 +33,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("recipes/index", { filter: this.filter });
+    this.$store.dispatch("recipes/index", { filter: this.filter, limit: 16 });
   }
 };
 </script>

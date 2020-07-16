@@ -1,5 +1,12 @@
 <template>
-  <b-field :message="this.message">
+  <b-field :horizontal="horizontal" :message="message">
+    <template v-if="label" slot="label">
+      {{ label }}
+      <span v-if="required !== undefined" class="required">*</span>
+      <b-tooltip v-if="labelTooltip" type="is-dark" :label="labelTooltip">
+        <b-icon size="is-small" icon="question-circle" />
+      </b-tooltip>
+    </template>
     <b-select
       v-model="model"
       :min="min"
@@ -28,6 +35,9 @@ import { mapState } from "vuex";
 export default {
   props: [
     "value",
+    "label",
+    "labelTooltip",
+    "horizontal",
     "message",
     "min",
     "max",
@@ -51,3 +61,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.required {
+  color: red;
+}
+</style>

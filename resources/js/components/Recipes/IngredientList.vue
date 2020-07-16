@@ -3,10 +3,10 @@
     <li class="add-ingredient" v-if="firstLevelList && editmode.enabled && showAddForm">
       <ingredient-add-form @cancel="$emit('cancelAdd')" @created="$emit('created')"></ingredient-add-form>
     </li>
-    <draggable handle=".handle" :value="ingredients" @start="drag=true" @end="endDrag($event)">
+    <draggable handle=".handle" :value="ingredients" @end="endDrag($event)">
       <div v-for="ingredient in ingredients" :key="ingredient.position">
         <div class="item">
-          <i v-if="firstLevelList && editmode.enabled" class="fas fa-arrows-alt handle"></i>
+          <i v-if="editmode.enabled" class="fas fa-arrows-alt handle"></i>
           <ingredient
             :ingredient="ingredient"
             :multiplier="multiplier"
@@ -57,17 +57,23 @@ export default {
     })
   },
   methods: {
-    endDrag($event, groupId = null) {
-      const ingredients = this.$store.getters["ingredient/byGroup"](groupId);
-      const ingredient = ingredients.find(
-        el => el.position == $event.oldIndex + 1
-      );
+    endDrag({ oldIndex, newIndex }, groupId = null) {
+      if (oldIndex === newIndex) return;
+
+      let ingredients = this.$store.getters["ingredient/byGroup"](groupId);
+
+      if (this.alternateId) {
+        ingredients = ingredients.find(i => i.id === this.alternateId)
+          .ingredients;
+      }
+
+      const ingredient = ingredients.find(i => i.position == oldIndex + 1);
 
       this.$store.dispatch("ingredient/update", {
         id: ingredient.id,
         recipeId: ingredient.recipe_id,
         property: "position",
-        value: $event.newIndex + 1
+        value: newIndex + 1
       });
     }
   }

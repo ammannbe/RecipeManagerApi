@@ -64,6 +64,10 @@ Vue.filter('hyphenate', function (value) {
 })
 
 Vue.filter('humanReadablePreparationTime', function (value) {
+    if (!value) {
+        value = '00:00';
+    }
+
     let [hours, minutes] = value.split(":");
     let string = "";
     if (hours > 0) {

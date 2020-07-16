@@ -18,9 +18,9 @@ const actions = {
     },
     async store({ dispatch }, { recipeId, data }) {
         try {
-            await new Ingredients(recipeId).store(data);
+            const response = await new Ingredients(recipeId).store(data);
             await dispatch('index', { recipeId });
-            return dispatch('form/onSuccess', { response: rawResponse.data });
+            return dispatch('form/onSuccess', { response });
         } catch (error) {
             return dispatch('form/onFail', { response: error.data });
         }

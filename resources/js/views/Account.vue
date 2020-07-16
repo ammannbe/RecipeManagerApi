@@ -101,11 +101,13 @@ export default {
       showAddCookbook: false
     };
   },
-  computed: mapState({
-    recipes: state => state.recipes.data,
-    cookbooks: state => state.cookbook.cookbooks,
-    user: state => state.user.user
-  }),
+  computed: {
+    ...mapState({
+      recipes: state => state.recipes.data,
+      cookbooks: state => state.cookbook.cookbooks,
+      user: state => state.user.user
+    })
+  },
   beforeCreate() {
     if (!this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });

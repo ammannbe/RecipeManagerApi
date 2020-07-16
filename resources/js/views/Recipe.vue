@@ -14,8 +14,8 @@
 
     <div class="container">
       <link-path-list :category="recipe.category"></link-path-list>
-      <div class="meta">
-        <recipe-photo :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
+      <div class="meta columns">
+        <recipe-photo class="column is-one-fifth" :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
         <property-list @update="update" @multiply="multiplier = $event"></property-list>
       </div>
 

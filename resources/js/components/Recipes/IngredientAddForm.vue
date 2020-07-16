@@ -39,7 +39,7 @@
       <rm-switch
         v-if="!ingredient_id && ingredientGroups.length"
         v-model="showNewIngredientGroup"
-      >Neue gruppe hinzufügen</rm-switch>
+      >Neue Gruppe</rm-switch>
       <rm-select
         v-if="ingredientGroups.length && !showNewIngredientGroup && !ingredient_id"
         v-model="ingredient_group_id"
@@ -78,8 +78,7 @@ export default {
       ingredientGroups: state => state.ingredient_group.ingredientGroups,
       foods: state => state.food.foods,
       units: state => state.unit.units,
-      ingredientAttributes: state =>
-        state.ingredient_attribute.ingredientAttributes,
+      ingredientAttributes: state => state.ingredient_attribute.data,
       recipe: state => state.recipe.data,
       form: state => state.ingredient.form.data
     }),

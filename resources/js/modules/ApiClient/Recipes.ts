@@ -23,6 +23,12 @@ export interface Recipe {
 
 export default class Recipes extends ApiClient {
     protected url = "/recipes";
+    protected rawResponse: boolean;
+
+    constructor(rawResponse = false) {
+        super();
+        this.rawResponse = rawResponse;
+    }
 
     public async index(filter?: object): Promise<Recipe[]> {
         return super.index(filter) as Promise<Recipe[]>;

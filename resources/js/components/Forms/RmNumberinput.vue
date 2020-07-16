@@ -1,5 +1,5 @@
 <template>
-  <b-field :message="message">
+  <b-field :label="label" :horizontal="horizontal" :message="message">
     <b-numberinput
       v-model="model"
       :min="min"
@@ -20,6 +20,8 @@ import { mapState } from "vuex";
 export default {
   props: [
     "value",
+    "label",
+    "horizontal",
     "message",
     "min",
     "max",

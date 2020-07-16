@@ -35,7 +35,7 @@ let routes = [
     {
         path: '/rezepte/neu',
         name: 'recipes-add',
-        component: require('./views/AddRecipe').default
+        component: require('./views/AddRecipe/Index').default
     },
     {
         path: '/kochbuch/neu',

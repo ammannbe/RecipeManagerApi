@@ -1,5 +1,5 @@
 <template>
-  <b-field :message="this.message">
+  <b-field :message="message">
     <b-switch v-model="model" :disabled="disabled" :size="size">
       <slot></slot>
     </b-switch>

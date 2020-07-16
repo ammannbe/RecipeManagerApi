@@ -25,8 +25,10 @@
 
 <script>
 import { mapState } from "vuex";
+import Multiselect from "vue-multiselect";
 
 export default {
+  components: { Multiselect },
   props: [
     "name",
     "label",
@@ -102,3 +104,5 @@ export default {
   z-index: 9999; // Higher index as MarkdownField
 }
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

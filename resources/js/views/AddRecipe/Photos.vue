@@ -1,0 +1,40 @@
+<template>
+  <div class="column">
+    <h1 class="title has-text-centered">Zubereitung</h1>
+
+    <form @submit.prevent="$emit('input', form); $emit('next')">
+      <rm-file
+        v-model="form.photos"
+        placeholder="Bitte wählen..."
+        accept="image/*"
+        :preview="true"
+        multiple
+        drag-drop
+        required
+        autofocus
+      />
+
+      <rm-submit-button>
+        Speichern
+        <template v-slot:buttons>
+          <b-button @click="$emit('back')" type="is-danger">Zurück</b-button>
+        </template>
+      </rm-submit-button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      form: {
+        photos: []
+      }
+    };
+  }
+};
+</script>
+
+<style>
+</style>
