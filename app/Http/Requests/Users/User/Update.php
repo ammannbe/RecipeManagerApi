@@ -24,8 +24,9 @@ class Update extends FormRequest
     public function rules()
     {
         $userId = auth()->user()->id;
+        $name = auth()->user()->author->name;
         return [
-            'name'  => ['string', 'max:255'],
+            'name'  => ['string', 'max:255', "unique:users,name,{$name}"],
             'email' => ['email', 'max:255', "unique:users,email,{$userId}"],
         ];
     }

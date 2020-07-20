@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use App\Mail\ExceptionOccured;
-use Illuminate\Support\Facades\Mail;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
@@ -83,7 +82,7 @@ class Handler extends ExceptionHandler
             $flatten = FlattenException::create($exception);
             $handler = new SymfonyExceptionHandler();
             $html = $handler->getHtml($flatten);
-            Mail::to(config('mail.exception_recipient'))->send(new ExceptionOccured($html));
+            \Mail::to(config('mail.exception_recipient'))->send(new ExceptionOccured($html));
         } catch (\Exception $e) {
             dd("An error occured while sending the exception email: {$e}", "Previous error: {$exception}");
         }

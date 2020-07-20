@@ -112,6 +112,22 @@ class Ingredient extends Model
     }
 
     /**
+     * Adopt the ingredient group id from the parent, if parent is present
+     *
+     * This method does not automatically save the model
+     *
+     * @return void
+     */
+    public function adoptIngredientGroupFromParent(): void
+    {
+        if (!$this->ingredient_id) {
+            return;
+        }
+
+        $this->ingredient_group_id = $this->ingredient->ingredient_group_id;
+    }
+
+    /**
      * Get the ingredient's recipe
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

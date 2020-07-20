@@ -74,7 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getNameAttribute(): string
     {
-        return $this->author->name;
+        return $this->author->name ?? '';
     }
 
     /**
