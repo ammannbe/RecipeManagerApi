@@ -17,10 +17,8 @@
         <rm-multiselect
           v-model="form.ingredient_attributes"
           placeholder="Eigenschaften"
-          :data="ingredientAttributes"
+          :options="ingredientAttributes"
         />
-
-        <!-- <rm-textinput v-model="form.ingredient_group_name" placeholder="Gruppenname"></rm-textinput> -->
 
         <rm-button @click="remove(index)" type="is-danger">
           <i class="fas fa-trash"></i>
@@ -50,15 +48,14 @@ export default {
         unit_id: null,
         food_id: null,
         ingredient_attributes: null
-        // ingredient_group_name: null
       }
     };
   },
   computed: {
     ...mapState({
-      foods: state => state.food.foods,
-      units: state => state.unit.units,
-      ingredientAttributes: state => state.ingredient_attribute.data
+      foods: state => state.foods.data,
+      units: state => state.units.data,
+      ingredientAttributes: state => state.ingredient_attributes.data
     })
   },
   created() {

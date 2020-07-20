@@ -1,61 +1,82 @@
 <template>
-  <form class="columns" @submit.prevent="submit" @change="$store.commit('form/errors/reset')">
+  <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
       <h1 class="title has-text-centered">Anmelden</h1>
 
-      <input-field
+      <br />
+
+      <rm-emailinput
+        v-model="email"
+        label="E-Mail:"
         name="email"
-        label="E-Mail"
-        placeholder="E-Mail-Adresse eingeben..."
-        icon="fas fa-envelope"
-        type="email"
+        horizontal
+        placeholder="E-Mail eingeben..."
+        :message="errors.email"
         required
         autofocus
-      ></input-field>
+      />
 
-      <input-field
+      <rm-passwordinput
+        v-model="password"
+        label="Passwort:"
         name="password"
-        label="Passwort"
+        horizontal
         placeholder="Passwort eingeben..."
-        required="true"
-        icon="fas fa-key"
-        type="password"
-      ></input-field>
+        :message="errors.password"
+        required
+      />
 
-      <submit-button>Login</submit-button>
+      <rm-submit-button>Login</rm-submit-button>
     </div>
   </form>
 </template>
 <script>
-import Auth from "../modules/ApiClient/Auth";
+import { mapState } from "vuex";
 
 export default {
-  created() {
-    this.$store.commit("form/set", {
-      data: {
-        email: "",
-        password: ""
+  computed: {
+    ...mapState({
+      form: state => state.user.login.form.data,
+      errors: state => state.user.login.form.errors.data
+    }),
+    email: {
+      get() {
+        return this.form.email;
+      },
+      set(value) {
+        this.updateFormProperty("email", value);
       }
-    });
+    },
+    password: {
+      get() {
+        return this.form.password;
+      },
+      set(value) {
+        this.updateFormProperty("password", value);
+      }
+    }
   },
-  beforeMount() {
+  beforeCreate() {
     if (this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
     }
+  },
+  created() {
+    this.$store.commit("user/login/form/set", {
+      data: { email: null, password: null }
+    });
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
+    updateFormProperty(property, value) {
+      this.$store.dispatch("user/login/form/update", { property, value });
+    },
     submit() {
-      this.$store
-        .dispatch("form/submit", {
-          func: data => new Auth().login(data)
-        })
-        .then(() => {
-          this.$router.push({ name: "home" });
-          location.reload();
-        });
+      this.$store.dispatch("user/login", { data: this.form }).then(() => {
+        this.$router.push({ name: "home" });
+      });
     }
   }
 };

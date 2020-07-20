@@ -56,7 +56,7 @@
           v-model="tag_ids"
           size="is-small"
           placeholder="Tags auswählen..."
-          :data="tags"
+          :options="tags"
         />
         <template v-if="recipe.tags.length" v-slot:fallback>
           <router-link
@@ -96,9 +96,9 @@ export default {
   },
   computed: {
     ...mapState({
-      tags: state => state.tag.tags,
-      categories: state => state.category.categories,
-      cookbooks: state => state.cookbook.cookbooks.data,
+      tags: state => state.tags.data,
+      categories: state => state.categories.data,
+      cookbooks: state => state.cookbooks.data.data,
       complexities: state => state.recipe.complexities,
       recipe: state => state.recipe.data,
       form: state => state.recipe.form.data,
@@ -155,27 +155,29 @@ export default {
     }
   },
   watch: {
-    yieldAmountMultiplier(value) {
-      if (this.recipe.yield_amount != value) {
-        let yield_amount = value;
-        this.$router.push({ query: { ...this.$route.query, yield_amount } });
-      } else {
-        let query = Object.assign({}, this.$route.query);
-        delete query.yield_amount;
-        this.$router.push({ query });
+    yieldAmountMultiplier(value, oldValue) {
+      if (oldValue != null) {
+        if (this.recipe.yield_amount != value) {
+          let yield_amount = value;
+          this.$router.push({ query: { ...this.$route.query, yield_amount } });
+        } else {
+          let query = Object.assign({}, this.$route.query);
+          delete query.yield_amount;
+          this.$router.push({ query });
+        }
       }
+
       this.$emit("multiply", (1 / this.recipe.yield_amount) * value);
     }
   },
-  created() {
-    this.yieldAmountMultiplier = this.recipe.yield_amount;
-  },
   mounted() {
-    let yieldAmount = this.$route.query.yield_amount;
-    if (!yieldAmount) {
-      yieldAmount = this.recipe.yield_amount;
-    }
-    this.yieldAmountMultiplier = yieldAmount;
+    setTimeout(() => {
+      let yieldAmount = this.$route.query.yield_amount;
+      if (!yieldAmount) {
+        yieldAmount = this.recipe.yield_amount;
+      }
+      this.yieldAmountMultiplier = yieldAmount;
+    }, 1000);
   },
   methods: {
     updateFormProperty(property, value) {

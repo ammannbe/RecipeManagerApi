@@ -51,17 +51,17 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("category/index");
-    this.$store.dispatch("unit/index");
-    this.$store.dispatch("food/index");
-    this.$store.dispatch("ingredient_attribute/index");
+    this.$store.dispatch("categories/index");
+    this.$store.dispatch("units/index");
+    this.$store.dispatch("foods/index");
+    this.$store.dispatch("ingredient_attributes/index");
 
     if (!this.$env.DISABLE_COOKBOOKS) {
-      this.$store.dispatch("cookbook/index", { limit: 1000 });
+      this.$store.dispatch("cookbooks/index", { limit: 1000 });
     }
 
     if (!this.$env.DISABLE_TAGS) {
-      this.$store.dispatch("tag/index");
+      this.$store.dispatch("tags/index");
     }
   },
   methods: {
@@ -70,7 +70,7 @@ export default {
       const recipe = await this.$store.dispatch("recipe/store", { data });
 
       this.ingredients.forEach(ingredient => {
-        this.$store.dispatch("ingredient/store", {
+        this.$store.dispatch("ingredients/store", {
           recipeId: recipe.id,
           data: ingredient
         });

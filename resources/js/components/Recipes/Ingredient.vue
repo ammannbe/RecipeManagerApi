@@ -1,69 +1,36 @@
 <template>
   <div>
-    <ingredient-edit-form
-      v-if="canEdit && isEditing"
-      :ingredient="ingredient"
-      :alternate-id="alternateId"
-      :can-edit="canEdit"
-      @cancel="edit(false)"
-      @changed="edit(false)"
-    ></ingredient-edit-form>
-
-    <li
-      v-else
-      :title="title"
-      @click="edit(true)"
-      :class="{'can-edit': canEdit && !isAnyEditing}"
-    >{{ text(ingredient) }}</li>
+    <li>{{ ingredient | textify(multiply) }}</li>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["ingredient", "multiplier", "canEdit", "alternateId", "isAnyEditing"],
-  data() {
-    return {
-      isEditing: false,
-      multiplyWith: 1
-    };
-  },
+  props: ["ingredient", "multiplier", "alternateId"],
   computed: {
-    title() {
-      if (this.canEdit) {
-        return "Klicken zum Bearbeten";
-      }
-      return "";
-    }
-  },
-  watch: {
-    multiplier() {
+    multiply() {
       if (
-        this.multiplier != null &&
-        this.multiplier != undefined &&
-        this.multiplier != "undefined"
+        this.multiplier == null ||
+        this.multiplier == undefined ||
+        this.multiplier == "undefined"
       ) {
-        this.multiplyWith = this.multiplier;
+        return 1;
       }
+
+      return this.multiplier;
     }
   },
-  methods: {
-    edit(edit) {
-      if (this.isAnyEditing && !this.isEditing) {
-        return;
-      }
-      this.isEditing = edit;
-      this.$emit("editing", edit);
-    },
-    text(ingredient) {
+  filters: {
+    textify(ingredient, multiply = 1) {
       let text = "";
       if (ingredient.amount !== null) {
-        text += Math.round(ingredient.amount * this.multiplyWith);
+        text += Math.round(ingredient.amount * multiply);
       }
       if (ingredient.amount_max !== null) {
         if (ingredient.amount !== null) {
           text += ` `;
         }
-        text += `- ${Math.round(ingredient.amount_max * this.multiplyWith)}`;
+        text += `- ${Math.round(ingredient.amount_max * multiply)}`;
       }
       if (ingredient.unit !== null) {
         text += ` ${ingredient.unit.name}`;
@@ -99,9 +66,5 @@ export default {
   > span {
     display: block;
   }
-}
-
-.can-edit {
-  cursor: pointer;
 }
 </style>

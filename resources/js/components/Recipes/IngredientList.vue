@@ -11,8 +11,6 @@
             :ingredient="ingredient"
             :multiplier="multiplier"
             :alternate-id="alternateId || null"
-            :is-any-editing="isAnyEditing"
-            @editing="isAnyEditing = $event"
           ></ingredient>
         </div>
 
@@ -46,11 +44,6 @@ export default {
     "alternateId",
     "customClass"
   ],
-  data() {
-    return {
-      isAnyEditing: false
-    };
-  },
   computed: {
     ...mapState({
       editmode: state => state.recipe.editmode.data
@@ -60,7 +53,7 @@ export default {
     endDrag({ oldIndex, newIndex }, groupId = null) {
       if (oldIndex === newIndex) return;
 
-      let ingredients = this.$store.getters["ingredient/byGroup"](groupId);
+      let ingredients = this.$store.getters["ingredients/byGroup"](groupId);
 
       if (this.alternateId) {
         ingredients = ingredients.find(i => i.id === this.alternateId)
@@ -69,7 +62,7 @@ export default {
 
       const ingredient = ingredients.find(i => i.position == oldIndex + 1);
 
-      this.$store.dispatch("ingredient/update", {
+      this.$store.dispatch("ingredients/update", {
         id: ingredient.id,
         recipeId: ingredient.recipe_id,
         property: "position",

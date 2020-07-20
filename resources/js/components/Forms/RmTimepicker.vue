@@ -1,5 +1,12 @@
 <template>
-  <b-field :label="label" :horizontal="horizontal" :message="message">
+  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
+    <template v-if="label" slot="label">
+      {{ label }}
+      <span v-if="required !== undefined" class="required">*</span>
+      <b-tooltip v-if="labelTooltip" type="is-dark" :label="labelTooltip">
+        <b-icon size="is-small" icon="question-circle" />
+      </b-tooltip>
+    </template>
     <b-timepicker
       v-model="model"
       :size="size"
@@ -14,7 +21,22 @@
 import { mapState } from "vuex";
 
 export default {
-  props: ["value", "label", "horizontal", "message", "size", "placeholder"],
+  props: [
+    "value",
+    "name",
+    "label",
+    "labelTooltip",
+    "labelPosition",
+    "horizontal",
+    "message",
+    "messageType",
+    "placeholder",
+    "disabled",
+    "autofocus",
+    "required",
+
+    "size"
+  ],
   computed: {
     model: {
       get() {
@@ -38,6 +60,17 @@ export default {
 
         this.$emit("input", `${hours}:${minutes}`);
       }
+    },
+    type() {
+      if (!this.message) {
+        return;
+      }
+
+      if (this.messageType) {
+        return this.messageType;
+      }
+
+      return "is-danger";
     }
   }
 };

@@ -1,31 +1,31 @@
+import ApiClient from "../../modules/ApiClient/ApiClient";
 import Cookbooks from "../../modules/ApiClient/Cookbooks";
+import form from "./form";
 
 const state = () => ({
-    cookbooks: { data: [] }
+    data: {}
 });
 
 const actions = {
-    async index({ commit }, { trashed = false, page = null, limit = 15 }) {
-        let cookbooks = await new Cookbooks().index({ trashed, page, limit });
-        commit('setCookbooks', cookbooks);
+    async show({ commit }, { id }) {
+        const cookbook = await new Cookbooks().show(id);
+        commit('set', { cookbook });
     },
-    async remove({ commit }, { id }) {
-        await new Cookbooks().remove(id);
-        commit('changeValue', { id, property: 'deleted_at', value: new Date().toJSON() });
-    },
-    async restore({ commit }, { id }) {
-        await new Cookbooks().restore(id);
-        commit('changeValue', { id, property: 'deleted_at', value: null });
+    async store({ dispatch }, { data }) {
+        try {
+            const response = await new Cookbooks(true).store(data);
+            const url = response.headers.location;
+            const cookbook = await new ApiClient().get(url);
+            dispatch('show', { id: cookbook.id });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error });
+        }
     }
 }
 
 const mutations = {
-    setCookbooks(state, cookbooks) {
-        state.cookbooks = cookbooks;
-    },
-    changeValue(state, { id, property, value }) {
-        let index = state.cookbooks.data.findIndex((r => r.id == id));
-        state.cookbooks.data[index][property] = value;
+    set(state, { cookbook }) {
+        state.data = cookbook;
     }
 }
 
@@ -33,5 +33,6 @@ export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    modules: { form }
 }

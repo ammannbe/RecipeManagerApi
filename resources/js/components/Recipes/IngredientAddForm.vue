@@ -7,14 +7,14 @@
         placeholder="Alternative von..."
       >
         <option
-          v-for="ingredient in $store.getters['ingredient/byGroup']()"
+          v-for="ingredient in $store.getters['ingredients/byGroup']()"
           :value="ingredient.id"
           :key="ingredient.id"
         >{{ ingredient.name }}</option>
 
         <optgroup :key="key" v-for="(group, key) in ingredientGroups" :label="group.name">
           <option
-            v-for="ingredient in $store.getters['ingredient/byGroup'](group.id)"
+            v-for="ingredient in $store.getters['ingredients/byGroup'](group.id)"
             :value="ingredient.id"
             :key="ingredient.id"
           >{{ ingredient.name }}</option>
@@ -22,31 +22,59 @@
       </rm-select>
 
       <div class="field or" v-if="ingredient_id">| Oder:</div>
-      <rm-numberinput v-model="amount" placeholder="Menge" :min="0" :max="999998" autofocus />
+      <rm-numberinput
+        label="Menge"
+        label-position="on-border"
+        v-model="amount"
+        :min="0"
+        :max="999998"
+        autofocus
+      />
 
-      <rm-numberinput v-model="amount_max" placeholder="Max. Menge" :min="0" :max="999999" />
+      <rm-numberinput
+        label="Max. Menge"
+        label-position="on-border"
+        v-model="amount_max"
+        :min="0"
+        :max="999999"
+      />
 
-      <rm-select v-model="unit_id" placeholder="Einheit" :options="units" />
+      <rm-select
+        label-position="on-border"
+        v-model="unit_id"
+        placeholder="Einheit"
+        :options="units"
+      />
 
-      <rm-select v-model="food_id" placeholder="Zutat" :options="foods" required />
+      <rm-select
+        label-position="on-border"
+        v-model="food_id"
+        placeholder="Zutat"
+        :options="foods"
+        required
+      />
 
       <rm-multiselect
+        label-position="on-border"
         v-model="ingredient_attributes"
         placeholder="Eigenschaften"
-        :data="ingredientAttributes"
+        :options="ingredientAttributes"
       />
 
       <rm-switch
+        label-position="on-border"
         v-if="!ingredient_id && ingredientGroups.length"
         v-model="showNewIngredientGroup"
       >Neue Gruppe</rm-switch>
       <rm-select
+        label-position="on-border"
         v-if="ingredientGroups.length && !showNewIngredientGroup && !ingredient_id"
         v-model="ingredient_group_id"
         placeholder="Gruppe"
         :options="ingredientGroups"
       ></rm-select>
       <rm-textinput
+        label-position="on-border"
         v-if="(!ingredientGroups.length || showNewIngredientGroup) && !ingredient_id"
         v-model="newIngredientGroupName"
         placeholder="Gruppenname"
@@ -74,13 +102,13 @@ export default {
   },
   computed: {
     ...mapState({
-      ingredients: state => state.ingredient.ingredients,
-      ingredientGroups: state => state.ingredient_group.ingredientGroups,
-      foods: state => state.food.foods,
-      units: state => state.unit.units,
-      ingredientAttributes: state => state.ingredient_attribute.data,
+      ingredients: state => state.ingredients.data,
+      ingredientGroups: state => state.ingredient_groups.data,
+      foods: state => state.foods.data,
+      units: state => state.units.data,
+      ingredientAttributes: state => state.ingredient_attributes.data,
       recipe: state => state.recipe.data,
-      form: state => state.ingredient.form.data
+      form: state => state.ingredients.form.data
     }),
     ingredient_id: {
       get() {
@@ -147,7 +175,7 @@ export default {
   },
   methods: {
     initForm() {
-      this.$store.commit("ingredient/form/set", {
+      this.$store.commit("ingredients/form/set", {
         data: {
           amount: null,
           amount_max: null,
@@ -161,20 +189,20 @@ export default {
       });
     },
     updateFormProperty(property, value) {
-      this.$store.dispatch("ingredient/form/update", { property, value });
+      this.$store.dispatch("ingredients/form/update", { property, value });
     },
     async submit() {
       const recipeId = this.recipe.id;
 
       if (this.showNewIngredientGroup == true) {
-        const groupId = await this.$store.dispatch("ingredient_group/store", {
+        const groupId = await this.$store.dispatch("ingredient_groups/store", {
           recipeId,
           name: this.newIngredientGroupName
         });
         await this.updateFormProperty("ingredient_group_id", groupId);
       }
 
-      await this.$store.dispatch("ingredient/store", {
+      await this.$store.dispatch("ingredients/store", {
         recipeId,
         data: this.form
       });

@@ -8,7 +8,7 @@
         @click="showAddForm = !showAddForm"
       >Zutaten</h2>
       <ingredient-list
-        :ingredients="$store.getters['ingredient/byGroup']()"
+        :ingredients="$store.getters['ingredients/byGroup']()"
         :multiplier="multiplier"
         :show-add-form="showAddForm"
         :first-level-list="true"
@@ -19,8 +19,8 @@
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
       <h2 class="title is-4">{{ ingredientGroup.name }}</h2>
       <ingredient-list
-        v-if="$store.getters['ingredient/byGroup'](ingredientGroup.id)"
-        :ingredients="$store.getters['ingredient/byGroup'](ingredientGroup.id)"
+        v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
+        :ingredients="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :multiplier="multiplier"
         :first-level-list="true"
       ></ingredient-list>
@@ -51,8 +51,8 @@ export default {
   },
   computed: {
     ...mapState({
-      ingredientGroups: state => state.ingredient_group.ingredientGroups,
-      ingredients: state => state.ingredient.ingredients,
+      ingredientGroups: state => state.ingredient_groups.data,
+      ingredients: state => state.ingredients.data,
       recipe: state => state.recipe.data,
       editmode: state => state.recipe.editmode.data
     }),
@@ -64,13 +64,13 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("ingredient/index", { recipeId: this.id });
-    this.$store.dispatch("ingredient_group/index", { recipeId: this.id });
+    this.$store.dispatch("ingredients/index", { recipeId: this.id });
+    this.$store.dispatch("ingredient_groups/index", { recipeId: this.id });
 
     if (this.editmode.enabled) {
-      this.$store.dispatch("unit/index");
-      this.$store.dispatch("food/index");
-      this.$store.dispatch("ingredient_attribute/index");
+      this.$store.dispatch("units/index");
+      this.$store.dispatch("foods/index");
+      this.$store.dispatch("ingredient_attributes/index");
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 import LocalStorage from "../../modules/LocalStorage";
 
 const state = () => ({
-    data: { enabled: false, editing: false, ...LocalStorage.get('edit-mode') || {} },
+    data: { enabled: false, editing: false, ...LocalStorage.get('edit-mode') || {} }
 });
 
 const mutations = {

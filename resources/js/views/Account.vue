@@ -104,7 +104,7 @@ export default {
   computed: {
     ...mapState({
       recipes: state => state.recipes.data,
-      cookbooks: state => state.cookbook.cookbooks,
+      cookbooks: state => state.cookbooks.data,
       user: state => state.user.user
     })
   },
@@ -117,7 +117,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("recipes/index", { trashed: true, page: 1 });
-    this.$store.dispatch("cookbook/index", { trashed: true, page: 1 });
+    this.$store.dispatch("cookbooks/index", { trashed: true, page: 1 });
   }
 };
 </script>

@@ -19,26 +19,6 @@ const actions = {
         }
         commit('set', { data });
     },
-    push({ commit, state, getters }, { property, value }) {
-        if (!getters.has(property)) {
-            return false;
-        }
-        commit('errors/clear', { property });
-
-        let data = state.data;
-        data[property].push(value);
-        commit('set', { data });
-    },
-    remove({ commit, state, getters }, { property, value }) {
-        if (!getters.has(property)) {
-            return false;
-        }
-        commit('errors/clear', { property });
-
-        let data = state.data;
-        data[property].splice(data[property].indexOf(value), 1);
-        commit('set', { data });
-    },
     async onSuccess({ commit }, { response }) {
         commit('errors/reset');
         commit('reset');
@@ -59,33 +39,7 @@ const actions = {
         }
 
         return Promise.reject(response);
-    },
-    // TODO: remove that stuff
-    async submit({ commit, state, dispatch }, { func }) {
-        try {
-            const response = await func(state.data);
-            if (!response) {
-                return;
-            }
-
-            dispatch('onSuccess');
-            return Promise.resolve(response);
-        } catch (error) {
-            if (!error) {
-                return;
-            }
-
-            let errors = error.errors;
-            if (error.data) {
-                errors = error.data.errors;
-            }
-
-            if (errors) {
-                commit('errors/set', { data: errors });
-            }
-            return Promise.reject(errors);
-        }
-    },
+    }
 }
 
 const getters = {

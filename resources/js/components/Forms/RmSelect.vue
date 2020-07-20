@@ -1,5 +1,5 @@
 <template>
-  <b-field :horizontal="horizontal" :message="message">
+  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -35,19 +35,23 @@ import { mapState } from "vuex";
 export default {
   props: [
     "value",
+    "name",
     "label",
     "labelTooltip",
+    "labelPosition",
     "horizontal",
     "message",
-    "min",
-    "max",
+    "messageType",
     "placeholder",
     "disabled",
-    "controlsPosition",
-    "size",
-    "required",
     "autofocus",
-    "options"
+    "required",
+
+    "min",
+    "max",
+    "size",
+    "options",
+    "controlsPosition"
   ],
   computed: {
     model: {
@@ -57,6 +61,17 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    },
+    type() {
+      if (!this.message) {
+        return;
+      }
+
+      if (this.messageType) {
+        return this.messageType;
+      }
+
+      return "is-danger";
     }
   }
 };

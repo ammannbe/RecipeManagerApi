@@ -7,6 +7,12 @@ export interface Cookbook {
 
 export default class Cookbooks extends ApiClient {
     protected url = "/cookbooks";
+    protected rawResponse: boolean;
+
+    constructor(rawResponse = false) {
+        super();
+        this.rawResponse = rawResponse;
+    }
 
     public async index(filter?: object): Promise<Cookbook[]> {
         return super.index(filter);

@@ -1,5 +1,5 @@
 <template>
-  <b-field :horizontal="horizontal" :message="message">
+  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -25,13 +25,17 @@ import "mavon-editor/dist/css/index.css";
 export default {
   props: [
     "value",
+    "name",
     "label",
     "labelTooltip",
+    "labelPosition",
     "horizontal",
     "message",
+    "messageType",
     "placeholder",
+    "disabled",
     "autofocus",
-    "required"
+    "required",
   ],
   data() {
     return {
@@ -80,6 +84,17 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    },
+    type() {
+      if (!this.message) {
+        return;
+      }
+
+      if (this.messageType) {
+        return this.messageType;
+      }
+
+      return "is-danger";
     }
   }
 };

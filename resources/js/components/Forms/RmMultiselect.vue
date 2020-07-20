@@ -1,8 +1,15 @@
 <template>
-  <b-field :label="label" :horizontal="horizontal" :message="message">
+  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
+    <template v-if="label" slot="label">
+      {{ label }}
+      <span v-if="required !== undefined" class="required">*</span>
+      <b-tooltip v-if="labelTooltip" type="is-dark" :label="labelTooltip">
+        <b-icon size="is-small" icon="question-circle" />
+      </b-tooltip>
+    </template>
     <b-taginput
       v-model="model"
-      :data="data | search(filter)"
+      :data="options | search(filter)"
       autocomplete
       allow-new
       open-on-focus
@@ -20,15 +27,20 @@ export default {
     "value",
     "name",
     "label",
+    "labelTooltip",
+    "labelPosition",
     "horizontal",
     "message",
-    "min",
-    "max",
+    "messageType",
     "placeholder",
     "disabled",
-    "controlsPosition",
     "autofocus",
-    "data"
+    "required",
+
+    "min",
+    "max",
+    "controlsPosition",
+    "options"
   ],
   data() {
     return { filter: "" };
@@ -40,18 +52,32 @@ export default {
           return [];
         }
 
-        return this.data.filter(el => this.value.indexOf(el.id) != -1) || null;
+        const filtered = this.options.filter(
+          el => this.value.indexOf(el.id) != -1
+        );
+        return filtered || [];
       },
       set(value) {
         const v = [];
         value.forEach(el => v.push(el.id));
         this.$emit("input", v);
       }
+    },
+    type() {
+      if (!this.message) {
+        return;
+      }
+
+      if (this.messageType) {
+        return this.messageType;
+      }
+
+      return "is-danger";
     }
   },
   filters: {
-    search(data, filter) {
-      return data.filter(
+    search(options, filter) {
+      return options.filter(
         el =>
           el.name
             .toString()

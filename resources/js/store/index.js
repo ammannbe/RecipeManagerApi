@@ -1,15 +1,16 @@
 import VuexReset from '@ianwalter/vuex-reset'
 import Vuex from 'vuex'
 import cookbook from './modules/cookbook'
+import cookbooks from './modules/cookbooks'
 import recipe from './modules/recipe'
 import recipes from './modules/recipes'
-import ingredient from './modules/ingredient'
-import ingredient_group from './modules/ingredient_group'
-import category from './modules/category'
-import tag from './modules/tag'
-import unit from './modules/unit'
-import food from './modules/food'
-import ingredient_attribute from './modules/ingredient_attribute'
+import ingredients from './modules/ingredients'
+import ingredient_groups from './modules/ingredient_groups'
+import ingredient_attributes from './modules/ingredient_attributes'
+import categories from './modules/categories'
+import tags from './modules/tags'
+import units from './modules/units'
+import foods from './modules/foods'
 import user from './modules/user'
 import editmode from './modules/editmode'
 import socialsharing from './modules/socialsharing'
@@ -21,15 +22,16 @@ export default new Vuex.Store({
     plugins: [VuexReset()],
     modules: {
         cookbook,
+        cookbooks,
         recipe,
         recipes,
-        ingredient,
-        ingredient_group,
-        category,
-        tag,
-        unit,
-        food,
-        ingredient_attribute,
+        ingredients,
+        ingredient_groups,
+        categories,
+        tags,
+        units,
+        foods,
+        ingredient_attributes,
         user,
         editmode,
         socialsharing,

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  beforeMount() {
+  beforeCreate() {
     if (!this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
     } else if (this.$Laravel.hasVerifiedEmail) {

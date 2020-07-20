@@ -1,90 +1,125 @@
 <template>
-  <form
-    class="columns"
-    @submit.prevent="submit"
-    @keypress="$store.commit('form/errors/clear', { property: $event.target.name })"
-  >
+  <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
       <h1 class="title has-text-centered">Registrieren</h1>
 
-      <input-field
+      <br />
+
+      <rm-textinput
+        v-model="name"
+        label="Name:"
         name="name"
-        label="Name"
-        placeholder="Name eingeben..."
-        icon="fas fa-user"
+        horizontal
+        placeholder="eingeben..."
+        :message="errors.name"
         required
         autofocus
-      ></input-field>
+      />
 
-      <input-field
+      <rm-emailinput
+        v-model="email"
+        label="E-Mail:"
         name="email"
-        label="E-Mail"
-        placeholder="E-Mail-Adresse eingeben..."
-        icon="fas fa-envelope"
-        type="email"
+        horizontal
+        placeholder="E-Mail eingeben..."
+        :message="errors.email"
         required
-      ></input-field>
+        autofocus
+      />
 
-      <input-field
+      <rm-passwordinput
+        v-model="password"
+        label="Passwort:"
         name="password"
-        label="Passwort"
+        horizontal
         placeholder="Passwort eingeben..."
-        icon="fas fa-key"
-        type="password"
+        :message="errors.password"
         required
-      ></input-field>
+      />
 
-      <input-field
+      <rm-passwordinput
+        v-model="password_confirmation"
+        label="Passwort bestätigen:"
         name="password_confirmation"
-        label="Passwort"
-        placeholder="Passwort bestätigen..."
-        icon="fas fa-key"
-        type="password"
+        horizontal
+        placeholder="Passwort erneut eingeben..."
+        :message="errors.password_confirmation"
         required
-      ></input-field>
+      />
 
-      <submit-button>Registrieren</submit-button>
+      <rm-submit-button>Registrieren</rm-submit-button>
     </div>
   </form>
 </template>
 <script>
-import Auth from "../modules/ApiClient/Auth";
+import { mapState } from "vuex";
 
 export default {
-  created() {
-    this.$store.commit("form/set", {
-      data: {
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: ""
+  computed: {
+    ...mapState({
+      form: state => state.user.register.form.data,
+      errors: state => state.user.register.form.errors.data
+    }),
+    name: {
+      get() {
+        return this.form.name;
+      },
+      set(value) {
+        this.updateFormProperty("name", value);
       }
-    });
+    },
+    email: {
+      get() {
+        return this.form.email;
+      },
+      set(value) {
+        this.updateFormProperty("email", value);
+      }
+    },
+    password: {
+      get() {
+        return this.form.password;
+      },
+      set(value) {
+        this.updateFormProperty("password", value);
+      }
+    },
+    password_confirmation: {
+      get() {
+        return this.form.password_confirmation;
+      },
+      set(value) {
+        this.updateFormProperty("password_confirmation", value);
+      }
+    }
   },
-  beforeMount() {
+  beforeCreate() {
     if (this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
     }
+  },
+  created() {
+    this.$store.commit("user/register/form/set", {
+      data: {
+        name: null,
+        email: null,
+        password: null,
+        password_confirmation: null
+      }
+    });
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
+    updateFormProperty(property, value) {
+      this.$store.dispatch("user/register/form/update", { property, value });
+    },
     submit() {
-      this.$store
-        .dispatch("form/submit", {
-          func: async data => {
-            await new Auth().register(data);
-            await new Auth().login({
-              email: data.email,
-              password: data.password
-            });
-          }
-        })
-        .then(() => {
-          this.$router.push({ name: "email.verify" });
-          this.$forceUpdate();
-        });
+      this.$store.dispatch("user/register", { data: this.form }).then(() => {
+        this.$router.push({ name: "email.verify" });
+        location.reload();
+      });
     }
   }
 };

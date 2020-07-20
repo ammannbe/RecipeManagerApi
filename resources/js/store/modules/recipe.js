@@ -50,10 +50,6 @@ const actions = {
         await new Recipes().remove(id);
         commit('reset');
         this.dispatch('recipes/remove', { id });
-    },
-    async restore({ commit }, { id }) {
-        await new Recipes().restore(id);
-        commit('changeValue', { property: 'deleted_at', value: null });
     }
 }
 
@@ -70,9 +66,6 @@ const mutations = {
         }
 
         state.data = recipe;
-    },
-    changeValue(state, { property, value }) {
-        state.data[property] = value;
     },
     reset() { }
 }

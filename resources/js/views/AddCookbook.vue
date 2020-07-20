@@ -1,43 +1,67 @@
 <template>
-  <form
-    class="columns"
-    @submit.prevent="submit"
-    @change="$store.commit('form/errors/clear', { property: $event.target.name })"
-  >
+  <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
-      <h1 class="title has-text-centered">Neues Kochbuch hinzufügen</h1>
+      <h1 class="title has-text-centered">Kochbuch hinzufügen</h1>
 
-      <input-field
-        name="name"
-        label="Name"
+      <br />
+
+      <rm-textinput
+        label="Name:"
+        horizontal
+        v-model="name"
+        placeholder="Bitte Name eingeben..."
         maxlength="100"
-        placeholder="Name eingeben..."
-        icon="fas fa-signature"
         required
-      ></input-field>
+        autofocus
+      />
 
-      <submit-button :can-cancel="true" @cancel="$router.go(-1)">Kochbuch hinzufügen</submit-button>
+      <rm-submit-button>
+        Hinzufügen
+        <template v-slot:buttons>
+          <b-button @click="$router.go(-1)" type="is-danger">Abbrechen</b-button>
+        </template>
+      </rm-submit-button>
     </div>
   </form>
 </template>
+
 <script>
-import Cookbooks from "../modules/ApiClient/Cookbooks";
+import { mapState } from "vuex";
 
 export default {
-  beforeMount() {
+  computed: {
+    ...mapState({
+      form: state => state.cookbook.form.data
+    }),
+    name: {
+      get() {
+        return this.form.name;
+      },
+      set(value) {
+        this.updateFormProperty("name", value);
+      }
+    }
+  },
+  beforeCreate() {
     if (!this.$Laravel.isLoggedIn) {
       this.$router.push({ name: "home" });
+    } else if (!this.$Laravel.hasVerifiedEmail) {
+      this.$router.push({ name: "verify.email" });
     }
+  },
+  created() {
+    this.$store.commit("cookbook/form/set", { data: { name: null } });
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
+    updateFormProperty(property, value) {
+      this.$store.dispatch("cookbook/form/update", { property, value });
+    },
     submit() {
       this.$store
-        .dispatch("form/submit", {
-          func: data => new Cookbooks().store(data)
-        })
+        .dispatch("cookbook/store", { data: this.form })
         .then(() => this.$router.go(-1));
     }
   }

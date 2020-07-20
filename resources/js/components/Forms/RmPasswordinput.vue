@@ -7,23 +7,21 @@
         <b-icon size="is-small" icon="question-circle" />
       </b-tooltip>
     </template>
-    <b-numberinput
+    <b-input
       v-model="model"
-      :min="min"
-      :max="max"
-      :step="step"
+      :maxlength="maxlength"
       :placeholder="placeholder"
       :disabled="disabled"
-      :controls-position="controlsPosition || 'compact'"
-      :size="size"
       :autofocus="autofocus"
-    ></b-numberinput>
+      :required="required"
+      :password-reveal="passwordReveal"
+      type="password"
+      style="max-width: 300px"
+    ></b-input>
   </b-field>
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
   props: [
     "value",
@@ -39,19 +37,16 @@ export default {
     "autofocus",
     "required",
 
-    "min",
-    "max",
-    "step",
-    "size",
-    "controlsPosition"
+    "maxlength",
+    "showPassword"
   ],
   computed: {
     model: {
       get() {
-        return parseFloat(this.value);
+        return this.value;
       },
       set(value) {
-        this.$emit("input", parseFloat(value));
+        this.$emit("input", value);
       }
     },
     type() {
@@ -64,7 +59,20 @@ export default {
       }
 
       return "is-danger";
+    },
+    passwordReveal() {
+      if (this.showPassword !== undefined) {
+        return this.showPassword;
+      }
+
+      return true;
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.required {
+  color: red;
+}
+</style>

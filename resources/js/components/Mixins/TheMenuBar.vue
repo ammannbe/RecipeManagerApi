@@ -75,6 +75,9 @@
               <router-link :to="{ name: 'recipes-add' }">
                 <span class="navbar-item">Rezept hinzufügen</span>
               </router-link>
+              <router-link :to="{ name: 'cookbooks-add' }">
+                <span class="navbar-item">Kochbuch hinzufügen</span>
+              </router-link>
               <a class="navbar-item" @click="logout()">Abmelden</a>
             </div>
           </div>

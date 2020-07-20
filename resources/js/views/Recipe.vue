@@ -85,15 +85,15 @@ export default {
       await this.$store.dispatch("recipe/show", { id: this.id });
 
       if (this.editmode.enabled) {
-        this.$store.dispatch("category/index");
+        this.$store.dispatch("categories/index");
       }
 
       if (!this.$env.DISABLE_COOKBOOKS && this.editmode.enabled) {
-        this.$store.dispatch("cookbook/index", { limit: 1000 });
+        this.$store.dispatch("cookbooks/index", { limit: 1000 });
       }
 
       if (!this.$env.DISABLE_TAGS && this.editmode.enabled) {
-        this.$store.dispatch("tag/index");
+        this.$store.dispatch("tags/index");
       }
     },
     initForm() {

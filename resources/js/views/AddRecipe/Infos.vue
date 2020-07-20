@@ -61,7 +61,7 @@
         horizontal
         v-model="form.tags"
         placeholder="Bitte auswählen..."
-        :data="tags"
+        :options="tags"
       />
 
       <rm-submit-button>
@@ -92,10 +92,10 @@ export default {
   },
   computed: {
     ...mapState({
-      cookbooks: state => state.cookbook.cookbooks.data,
-      categories: state => state.category.categories,
+      cookbooks: state => state.cookbooks.data.data,
+      categories: state => state.categories.data,
       complexities: state => state.recipe.complexities,
-      tags: state => state.tag.tags
+      tags: state => state.tags.data
     })
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <b-field class="container" :horizontal="horizontal" :message="message">
+  <b-field class="container" :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -18,7 +18,7 @@
       </section>
     </b-upload>
 
-    <div class="tags" v-if="preview != undefined">
+    <div class="tags" v-if="preview !== undefined">
       <div v-for="(file, index) in model" :key="index">
         <img :src="url(file)" />
         <span class="tag is-primary">
@@ -34,15 +34,19 @@
 export default {
   props: [
     "value",
+    "name",
     "label",
     "labelTooltip",
+    "labelPosition",
     "horizontal",
     "message",
-    "maxlength",
+    "messageType",
     "placeholder",
     "disabled",
     "autofocus",
     "required",
+
+    "maxlength",
     "accept",
     "multiple",
     "dragDrop",
@@ -56,6 +60,17 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    },
+    type() {
+      if (!this.message) {
+        return;
+      }
+
+      if (this.messageType) {
+        return this.messageType;
+      }
+
+      return "is-danger";
     }
   },
   methods: {
