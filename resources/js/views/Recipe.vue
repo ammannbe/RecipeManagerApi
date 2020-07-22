@@ -60,8 +60,8 @@ export default {
       get() {
         return this.editmode.enabled;
       },
-      set(value) {
-        this.$store.commit("recipe/editmode/enable", { enable: value });
+      set(enable) {
+        this.$store.commit("recipe/editmode/enable", { enable });
       }
     },
     loaded() {
@@ -78,6 +78,10 @@ export default {
   created() {
     this.load().then(() => {
       this.initForm();
+
+      if (!this.recipe.can_edit) {
+        this.$store.commit("recipe/editmode/enable", { enable: false });
+      }
     });
   },
   methods: {

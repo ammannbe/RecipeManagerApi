@@ -13,7 +13,7 @@ const actions = {
 
 const mutations = {
     set(state, { categories }) {
-        state.categories = categories;
+        state.data = categories;
     }
 }
 

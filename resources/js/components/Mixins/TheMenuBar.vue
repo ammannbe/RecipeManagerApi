@@ -64,7 +64,7 @@
                 <span class="icon">
                   <i class="fas fa-user"></i>
                 </span>
-                <span>Mein Konto</span>
+                <span>{{ user.name }}</span>
               </div>
             </router-link>
 
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import Auth from "../../modules/ApiClient/Auth";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -96,6 +96,11 @@ export default {
       isMobileMenuExpanded: false,
       search: null
     };
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user.user
+    })
   },
   mounted() {
     this.search = this.$route.query.search;

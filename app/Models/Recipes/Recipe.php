@@ -181,9 +181,9 @@ class Recipe extends Model
             }
 
             if ($photo instanceof UploadedFile) {
-                $time = time();
                 $extension = $photo->getClientOriginalExtension();
-                $name = "{$time}{$key}-{$this->slug}.{$extension}";
+                $uuid = \Str::uuid()->toString();
+                $name = "{$uuid}-{$this->slug}.{$extension}";
 
                 $photo->storeAs("{$this->id}", $name, 'recipe_images');
                 $original[$key] = $name;
