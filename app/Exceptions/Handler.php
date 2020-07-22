@@ -2,10 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Mail\ExceptionOccured;
-use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -29,32 +27,15 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Determine if the exception should be reported.
-     *
-     * @param  \Throwable  $e
-     * @return bool
-     */
-    public function shouldReport(\Throwable $e)
-    {
-        if (config('app.debug')) {
-            return false;
-        }
-
-        return parent::shouldReport($e);
-    }
-
-    /**
      * Report or log an exception.
      *
      * @param  \Throwable  $exception
      * @return void
+     *
+     * @throws \Exception
      */
-    public function report(\Throwable $exception)
+    public function report(Throwable $exception)
     {
-        if ($this->shouldReport($exception)) {
-            $this->sendEmail($exception);
-        }
-
         parent::report($exception);
     }
 
@@ -63,28 +44,12 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $exception
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
      */
-    public function render($request, \Throwable $exception)
+    public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Sends an email to the developer about the exception.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     */
-    private function sendEmail(\Throwable $exception)
-    {
-        try {
-            $flatten = FlattenException::create($exception);
-            $handler = new SymfonyExceptionHandler();
-            $html = $handler->getHtml($flatten);
-            \Mail::to(config('mail.exception_recipient'))->send(new ExceptionOccured($html));
-        } catch (\Exception $e) {
-            dd("An error occured while sending the exception email: {$e}", "Previous error: {$exception}");
-        }
     }
 }

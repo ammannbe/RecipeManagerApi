@@ -79,6 +79,7 @@ php artisan view:cache
 -   [laravel/laravel](https://github.com/laravel/laravel) - A PHP framework for web artisans
 -   [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
 -   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
+-   [GrKamil/laravel-telegram-logging](https://github.com/GrKamil/laravel-telegram-logging) - Send logs to Telegram chat via Telegram bot
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js

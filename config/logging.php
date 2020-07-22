@@ -1,5 +1,6 @@
 <?php
 
+use Logger\TelegramLogger;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -45,6 +46,12 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
+        ],
+
+        'telegram' => [
+            'driver' => 'custom',
+            'via'    => TelegramLogger::class,
+            'level'  => 'debug',
         ],
 
         'daily' => [
