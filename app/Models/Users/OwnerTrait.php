@@ -12,7 +12,7 @@ trait OwnerTrait
     /**
      * Determine if the user is an admin or the owner of a specific object
      *
-     * @see User::isOwnerOf()
+     * @see OwnerTrait::isOwnerOf()
      * @param  mixed  $object
      * @return bool
      */
