@@ -19,8 +19,8 @@ const state = () => ({
 });
 
 const actions = {
-    async index({ commit }, { trashed = false, page = 1, filter = null, limit = 15 }) {
-        let recipes = await new Recipes().index({ trashed, page, filter, limit });
+    async index({ commit }, { trashed = false, only_own = false, page = 1, filter = null, limit = 15 }) {
+        let recipes = await new Recipes().index({ trashed, only_own, page, filter, limit });
         commit('setRecipes', { recipes });
     },
     async show({ state }, { id }) {

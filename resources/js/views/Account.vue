@@ -33,7 +33,7 @@
         position="start"
         :current-page="recipes.current_page"
         :last-page="recipes.last_page"
-        @load="$store.dispatch('recipes/index', { trashed: true, page: $event })"
+        @load="loadRecipes"
       ></pagination>
       <ul>
         <li :key="recipe.id" v-for="recipe in recipes.data">
@@ -116,8 +116,17 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("recipes/index", { trashed: true, page: 1 });
+    this.loadRecipes();
     this.$store.dispatch("cookbooks/index", { trashed: true, page: 1 });
+  },
+  methods: {
+    loadRecipes(page = 1) {
+      this.$store.dispatch("recipes/index", {
+        trashed: true,
+        only_own: true,
+        page
+      });
+    }
   }
 };
 </script>

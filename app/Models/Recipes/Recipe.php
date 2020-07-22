@@ -96,24 +96,35 @@ class Recipe extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('ownOrPublic', function (Builder $query) {
-            if (auth()->check() && !auth()->user()->admin) {
-                $cookbookIds = Cookbook::pluck('id');
-                if ($cookbookIds->count()) {
-                    $query
-                        ->whereIn('cookbook_id', $cookbookIds)
-                        ->orWhere('cookbook_id', null);
-                } else {
-                    $query->where('cookbook_id', null);
-                }
-            }
-
-            if (!auth()->check()) {
-                $query->whereNull('cookbook_id');
-            }
-
-            return $query;
+        static::addGlobalScope('isOwnOrPublic', function (Builder $query) {
+            return $query->where(function (Builder $q) {
+                return $q->isOwn();
+            })->orWhere(function (Builder $q) {
+                return $q->isPublic();
+            });
         });
+    }
+
+    /**
+     * Get only the recipes of the logged in user
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsOwn(Builder $query): Builder
+    {
+        return $query->whereUserId(auth()->id());
+    }
+
+    /**
+     * Get only the "public" recipes
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsPublic(Builder $query): Builder
+    {
+        return $query->whereNull('cookbook_id');
     }
 
     /**
