@@ -1,7 +1,14 @@
 <template>
   <div>
     <form v-if="editmode.editing" @submit.prevent="$emit('update')">
-      <rm-textinput id="recipe-title" v-model="name" :message="errors.name" required autofocus></rm-textinput>
+      <rm-textinput
+        id="recipe-title"
+        :inline-style="null"
+        v-model="name"
+        :message="errors.name"
+        required
+        autofocus
+      ></rm-textinput>
 
       <rm-submit-button>
         Speichern
@@ -54,13 +61,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .can-edit {
   cursor: pointer;
 }
 </style>
 
 <style lang="scss">
-#recipe-title > div > input {
-  text-align: center;
+#recipe-title {
+  width: 100%;
+
+  > div > input {
+    text-align: center;
+    color: #363636;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.125;
+  }
 }
 </style>

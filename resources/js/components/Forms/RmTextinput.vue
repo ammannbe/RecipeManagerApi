@@ -14,7 +14,7 @@
       :disabled="disabled"
       :autofocus="autofocus"
       :required="required"
-      style="max-width: 300px"
+      :style="customInlineStyle"
     ></b-input>
   </b-field>
 </template>
@@ -34,6 +34,7 @@ export default {
     "disabled",
     "autofocus",
     "required",
+    "inlineStyle",
 
     "maxlength"
   ],
@@ -56,6 +57,13 @@ export default {
       }
 
       return "is-danger";
+    },
+    customInlineStyle() {
+      if (this.inlineStyle === undefined) {
+        return "max-width: 300px";
+      }
+
+      return this.inlineStyle;
     }
   }
 };
