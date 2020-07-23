@@ -12,6 +12,13 @@ use Askedio\SoftCascade\Traits\SoftCascadeTrait;
  */
 class Food extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'foods';
+
     use SoftDeletes;
     use SoftCascadeTrait;
     use SlugifyTrait;

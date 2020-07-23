@@ -11,11 +11,11 @@
         "php": "^7.2.5",
         "askedio/laravel-soft-cascade": "^7.0",
         "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^1.0",
+        "fruitcake/laravel-cors": "^2.0",
         "grkamil/laravel-telegram-logging": "^1.2",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
-        "laravel/sanctum": "^2.3",
+        "laravel/sanctum": "^2.4",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.0",
         "rutorika/sortable": "^7.0"
