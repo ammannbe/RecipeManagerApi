@@ -14,7 +14,7 @@ class RatingController extends Controller
      * Display a listing of the resource.
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index(Recipe $recipe)
     {
@@ -26,7 +26,7 @@ class RatingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Ratings\Rating\Store  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function store(Store $request)
     {
@@ -38,7 +38,7 @@ class RatingController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ratings\Rating  $rating
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ratings\Rating
      */
     public function show(Rating $rating)
     {
@@ -51,7 +51,7 @@ class RatingController extends Controller
      *
      * @param  \App\Http\Requests\Ratings\Rating\Update  $request
      * @param  \App\Models\Ratings\Rating  $rating
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Rating $rating)
     {
@@ -63,7 +63,7 @@ class RatingController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ratings\Rating  $rating
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Rating $rating)
     {

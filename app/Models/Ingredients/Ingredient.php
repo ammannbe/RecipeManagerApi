@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property  \Illuminate\Support\Collection|null  $ingredient_attributes
+ */
 class Ingredient extends Model
 {
     use SoftDeletes;

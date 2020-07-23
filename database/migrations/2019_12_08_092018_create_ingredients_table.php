@@ -28,10 +28,10 @@ class CreateIngredientsTable extends Migration
 
             $table->unique(['recipe_id', 'ingredient_group_id', 'ingredient_id', 'position'], 'ingridient_position_unique');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-            $table->foreign('unit_id')->references('id')->on('units')->nullable()->default(null);
+            $table->foreign('unit_id')->references('id')->on('units');
             $table->foreign('food_id')->references('id')->on('foods');
             $table->foreign('ingredient_group_id')->references('id')->on('ingredient_groups')->onDelete('cascade');
-            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade')->nullable()->default(null);
+            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
         });
     }
 

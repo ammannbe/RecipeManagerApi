@@ -111,9 +111,9 @@ class Recipe extends Model
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeIsOwn(Builder $query): Builder
+    public function scopeIsOwn(Builder $builder): Builder
     {
-        return $query->whereUserId(auth()->id());
+        return $builder->whereUserId(auth()->id());
     }
 
     /**
@@ -122,20 +122,20 @@ class Recipe extends Model
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeIsPublic(Builder $query): Builder
+    public function scopeIsPublic(Builder $builder): Builder
     {
-        return $query->whereNull('cookbook_id');
+        return $builder->whereNull('cookbook_id');
     }
 
     /**
      * Get the full URLs of the photos
      *
-     * @return string|null
+     * @return array<string>
      */
-    public function getPhotoUrlsAttribute()
+    public function getPhotoUrlsAttribute(): array
     {
         if (!$this->photos) {
-            return null;
+            return [];
         }
 
         $urls = [];
@@ -146,7 +146,12 @@ class Recipe extends Model
         return $urls;
     }
 
-    public function getCanEditAttribute()
+    /**
+     * Evaluate if the user can edit this recipe
+     *
+     * @return bool
+     */
+    public function getCanEditAttribute(): bool
     {
         if (!auth()->check()) {
             return false;

@@ -28,7 +28,6 @@ class Update extends FormRequest
             'amount_max'                     => ['nullable', 'numeric', 'gt:amount'],
             'unit_id'                        => ['nullable', 'exists:units,id'],
             'food_id'                        => ['exists:foods,id'],
-            'ingredient_id'                  => ['exists:ingredients,id'],
             'ingredient_attributes'          => ['nullable', 'array'],
             'ingredient_attributes.*'        => ['required_with:ingredient_attributes', 'exists:ingredient_attributes,id'],
             'ingredient_group_id'            => ['nullable', 'exists:ingredient_groups,id'],

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Recipes;
 
-use Illuminate\Http\Request;
 use App\Models\Recipes\Cookbook;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recipes\Cookbook\Index;
@@ -15,7 +14,7 @@ class CookbookController extends Controller
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Recipes\Cookbook\Index  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Index $request)
     {
@@ -47,7 +46,7 @@ class CookbookController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Recipes\Cookbook  $cookbook
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Recipes\Cookbook
      */
     public function show(Cookbook $cookbook)
     {
@@ -60,7 +59,7 @@ class CookbookController extends Controller
      *
      * @param  \App\Http\Requests\Recipes\Cookbook\Update  $request
      * @param  \App\Models\Recipes\Cookbook  $cookbook
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Cookbook $cookbook)
     {
@@ -72,7 +71,7 @@ class CookbookController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Recipes\Cookbook  $cookbook
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Cookbook $cookbook)
     {
@@ -84,10 +83,11 @@ class CookbookController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Recipes\Cookbook $cookbook */
         $cookbook = Cookbook::onlyTrashed()->findOrFail($id);
         $this->authorize($cookbook);
         $cookbook->restore();

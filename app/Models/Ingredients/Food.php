@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
+/**
+ * @property  string  $name
+ */
 class Food extends Model
 {
     use SoftDeletes;

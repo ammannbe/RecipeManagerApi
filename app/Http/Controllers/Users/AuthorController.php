@@ -12,7 +12,7 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class AuthorController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Users\Author\Store  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function store(Store $request)
     {
@@ -36,7 +36,7 @@ class AuthorController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Users\Author  $author
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Users\Author
      */
     public function show(Author $author)
     {
@@ -49,7 +49,7 @@ class AuthorController extends Controller
      *
      * @param  \App\Http\Requests\Users\Author\Update  $request
      * @param  \App\Models\Users\Author  $author
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Author $author)
     {
@@ -61,7 +61,7 @@ class AuthorController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Users\Author  $author
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Author $author)
     {

@@ -16,7 +16,7 @@ class RecipeController extends Controller
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Recipes\Recipe\Index  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Index $request)
     {
@@ -42,7 +42,7 @@ class RecipeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Recipe\Store  $request
+     * @param  \App\Http\Requests\Recipes\Recipe\Store  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Store $request)
@@ -61,7 +61,7 @@ class RecipeController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Recipes\Recipe
      */
     public function show(Recipe $recipe)
     {
@@ -79,9 +79,9 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Recipe\Update  $request
+     * @param  \App\Http\Requests\Recipes\Recipe\Update  $request
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Recipe $recipe)
     {
@@ -97,7 +97,7 @@ class RecipeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Recipe $recipe)
     {
@@ -109,10 +109,11 @@ class RecipeController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Recipes\Recipe $recipe */
         $recipe = Recipe::onlyTrashed()->findOrFail($id);
         $this->authorize($recipe);
         $recipe->restore();
@@ -123,7 +124,7 @@ class RecipeController extends Controller
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
      * @param  string  $name
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function image(Recipe $recipe, string $name)
     {
@@ -133,6 +134,6 @@ class RecipeController extends Controller
             abort(404);
         }
 
-        return \Storage::disk('recipe_images')->download("{$recipe->id}/{$name}");
+        return \Storage::disk('recipe_images')->download("{$recipe->id}/{$name}", null, ['Content-Disposition' => 'inline']);
     }
 }

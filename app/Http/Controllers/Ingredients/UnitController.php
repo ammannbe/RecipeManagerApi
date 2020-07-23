@@ -12,7 +12,7 @@ class UnitController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -37,7 +37,7 @@ class UnitController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ingredients\Unit
      */
     public function show(Unit $unit)
     {
@@ -50,7 +50,7 @@ class UnitController extends Controller
      *
      * @param  \App\Http\Requests\Ingredients\Unit\Update  $request
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Unit $unit)
     {
@@ -62,7 +62,7 @@ class UnitController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Unit $unit)
     {
@@ -74,10 +74,11 @@ class UnitController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Ingredients\Unit $unit */
         $unit = Unit::onlyTrashed()->findOrFail($id);
         $this->authorize($unit);
         $unit->restore();

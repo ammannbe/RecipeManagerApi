@@ -20,6 +20,7 @@ class ExceptionOccured extends Mailable
     /**
      * Create a new message instance.
      *
+     * @param  \Exception  $exception
      * @return void
      */
     public function __construct($exception)

@@ -30,8 +30,10 @@ class QueryLogServiceProvider extends ServiceProvider
 
     /**
      * Listen and log DB Queries in the Laravel Log file
+     *
+     * @return void
      */
-    protected function logQueries()
+    protected function logQueries(): void
     {
         \DB::listen(function ($sql) {
             $query = $sql->sql;

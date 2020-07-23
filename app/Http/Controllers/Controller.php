@@ -17,7 +17,7 @@ class Controller extends BaseController
      * @see response()
      * @param  string  $routeName
      * @param  int  $resourceId
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\Response
      */
     protected function responseCreated(string $routeName, int $resourceId)
     {
@@ -27,7 +27,6 @@ class Controller extends BaseController
     /**
      * Check if the current controller is enabled
      *
-     * @param  \App\Http\Controllers\Controller  $controller
      * @return bool
      */
     public static function isEnabled()

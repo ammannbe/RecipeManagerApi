@@ -16,6 +16,10 @@ use Faker\Generator as Faker;
 |
 */
 
+if (!isset($factory)) {
+    throw new \Exception('Factory is not defined');
+}
+
 $factory->define(User::class, function (Faker $faker) {
     return [
         'email' => $faker->unique()->safeEmail,

@@ -44,7 +44,7 @@ class Tag extends Model
     /**
      * Get the tag's recipes
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function recipes(): BelongsToMany
     {

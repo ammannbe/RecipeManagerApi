@@ -12,7 +12,7 @@ class FoodController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -37,7 +37,7 @@ class FoodController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ingredients\Food  $food
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ingredients\Food
      */
     public function show(Food $food)
     {
@@ -50,7 +50,7 @@ class FoodController extends Controller
      *
      * @param  \App\Http\Requests\Ingredients\Food\Update  $request
      * @param  \App\Models\Ingredients\Food  $food
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Food $food)
     {
@@ -62,7 +62,7 @@ class FoodController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ingredients\Food  $food
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Food $food)
     {
@@ -74,10 +74,11 @@ class FoodController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Ingredients\Food $food */
         $food = Food::onlyTrashed()->findOrFail($id);
         $this->authorize($food);
         $food->restore();

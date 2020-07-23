@@ -13,7 +13,7 @@ class IngredientGroupController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index(Recipe $recipe)
     {
@@ -38,7 +38,7 @@ class IngredientGroupController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ingredients\IngredientGroup
      */
     public function show(IngredientGroup $ingredientGroup)
     {
@@ -51,7 +51,7 @@ class IngredientGroupController extends Controller
      *
      * @param  \App\Http\Requests\Ingredients\IngredientGroup\Update  $request
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, IngredientGroup $ingredientGroup)
     {
@@ -63,7 +63,7 @@ class IngredientGroupController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(IngredientGroup $ingredientGroup)
     {
@@ -75,10 +75,11 @@ class IngredientGroupController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Ingredients\IngredientGroup $ingredientGroup */
         $ingredientGroup = IngredientGroup::onlyTrashed()->findOrFail($id);
         $this->authorize($ingredientGroup);
         $ingredientGroup->restore();

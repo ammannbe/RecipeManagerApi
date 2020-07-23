@@ -12,7 +12,7 @@ class IngredientAttributeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -37,7 +37,7 @@ class IngredientAttributeController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ingredients\IngredientAttribute
      */
     public function show(IngredientAttribute $ingredientAttribute)
     {
@@ -50,7 +50,7 @@ class IngredientAttributeController extends Controller
      *
      * @param  \App\Http\Requests\Ingredients\IngredientAttribute\Update  $request
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, IngredientAttribute $ingredientAttribute)
     {
@@ -62,7 +62,7 @@ class IngredientAttributeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(IngredientAttribute $ingredientAttribute)
     {
@@ -74,10 +74,11 @@ class IngredientAttributeController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Ingredients\IngredientAttribute $ingredientAttribute */
         $ingredientAttribute = IngredientAttribute::onlyTrashed()->findOrFail($id);
         $this->authorize($ingredientAttribute);
         $ingredientAttribute->restore();

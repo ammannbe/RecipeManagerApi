@@ -10,10 +10,13 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Users\User
      */
     public function show()
     {
+        if (!auth()->check()) {
+            abort(401);
+        }
         return auth()->user();
     }
 
@@ -21,7 +24,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\Users\User\Update  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request)
     {
@@ -34,7 +37,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy()
     {

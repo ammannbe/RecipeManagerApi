@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property  int  $author_id
+ */
 class Unit extends Model
 {
     use SoftDeletes;

@@ -16,7 +16,7 @@ class IngredientController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request, Recipe $recipe)
     {
@@ -38,7 +38,7 @@ class IngredientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Ingredients\Ingredient\Store  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Store $request, Recipe $recipe)
@@ -66,7 +66,7 @@ class IngredientController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ingredients\Ingredient
      */
     public function show(Ingredient $ingredient)
     {
@@ -77,9 +77,9 @@ class IngredientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Ingredients\Ingredient\Update  $request
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Ingredient $ingredient)
     {
@@ -108,7 +108,7 @@ class IngredientController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Ingredient $ingredient)
     {
@@ -120,10 +120,11 @@ class IngredientController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Ingredients\Ingredient $ingredient */
         $ingredient = Ingredient::onlyTrashed()->findOrFail($id);
         $this->authorize($ingredient);
         $ingredient->restore();

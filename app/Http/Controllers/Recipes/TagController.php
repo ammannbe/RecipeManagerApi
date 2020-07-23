@@ -12,7 +12,7 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -37,7 +37,7 @@ class TagController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Recipes\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Recipes\Tag
      */
     public function show(Tag $tag)
     {
@@ -50,7 +50,7 @@ class TagController extends Controller
      *
      * @param  \App\Http\Requests\Recipes\Tag\Update  $request
      * @param  \App\Models\Recipes\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, Tag $tag)
     {
@@ -62,7 +62,7 @@ class TagController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Recipes\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Tag $tag)
     {
@@ -74,10 +74,11 @@ class TagController extends Controller
      * Restore the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function restore(int $id)
     {
+        /** @var \App\Models\Recipes\Tag $tag */
         $tag = Tag::onlyTrashed()->findOrFail($id);
         $this->authorize($tag);
         $tag->restore();

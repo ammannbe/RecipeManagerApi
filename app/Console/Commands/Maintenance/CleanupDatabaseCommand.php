@@ -45,6 +45,11 @@ class CleanupDatabaseCommand extends Command
         'cookbooks',
     ];
 
+    /**
+     * Possible models to cleanup
+     *
+     * @var array
+     */
     protected $models = [
         'ingredients' => 'App\Models\Ingredients\Ingredient',
         'ingredient_groups' => 'App\Models\Ingredients\IngredientGroup',
@@ -78,9 +83,9 @@ class CleanupDatabaseCommand extends Command
      */
     public function handle()
     {
-        $tables = $this->getTables();
-
         $days = $this->getDays();
+
+        $tables = $this->getTables();
 
         $this->cleanup($tables, $days);
     }
@@ -92,7 +97,12 @@ class CleanupDatabaseCommand extends Command
      */
     protected function getDays(): int
     {
-        return (int) $this->option('days');
+        $days = $this->option('days');
+        if (!is_string($days)) {
+            $this->error('The days option must be a number!');
+            exit(1);
+        }
+        return (int) $days;
     }
 
     /**
@@ -102,7 +112,7 @@ class CleanupDatabaseCommand extends Command
      */
     protected function getTables(): array
     {
-        if ($this->option('table')) {
+        if ($this->option('table') && is_array($this->option('table'))) {
             return $this->option('table');
         }
 
@@ -110,8 +120,8 @@ class CleanupDatabaseCommand extends Command
             return $this->tables;
         }
 
-        $response = '';
-        while (empty($response)) {
+        $response = null;
+        while (!$response) {
             $response = $this->ask('Which table(s) you would you like to cleanup? (comma separated list)');
         }
         return explode(',', $response);

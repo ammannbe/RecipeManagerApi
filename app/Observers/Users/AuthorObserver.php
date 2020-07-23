@@ -9,7 +9,7 @@ class AuthorObserver
     /**
      * Handle the author "saving" event.
      *
-     * @param  \App\Models\Recipes\Author  $author
+     * @param  \App\Models\Users\Author  $author
      * @return void
      */
     public function saving(Author $author)

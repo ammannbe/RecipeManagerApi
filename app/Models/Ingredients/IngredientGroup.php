@@ -55,7 +55,7 @@ class IngredientGroup extends Model
     /**
      * Get the ingredient-group's ingredients
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function ingredients(): HasMany
     {

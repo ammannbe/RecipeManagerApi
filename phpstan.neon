@@ -13,6 +13,12 @@ parameters:
         - public/index.php
 
     # The level 8 is the highest level
-    level: 8
+    level: 7
+
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Support\\Collection::makeVisible\(\)#'
+
+    excludes_analyse:
+        - ./routes/console.php
 
     checkMissingIterableValueType: false

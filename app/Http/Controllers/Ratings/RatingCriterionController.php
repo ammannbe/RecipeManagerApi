@@ -12,7 +12,7 @@ class RatingCriterionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class RatingCriterionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Ratings\RatingCriterion\Store  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function store(Store $request)
     {
@@ -36,7 +36,7 @@ class RatingCriterionController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Ratings\RatingCriterion  $ratingCriterion
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Ratings\RatingCriterion
      */
     public function show(RatingCriterion $ratingCriterion)
     {
@@ -49,7 +49,7 @@ class RatingCriterionController extends Controller
      *
      * @param  \App\Http\Requests\Ratings\RatingCriterion\Update  $request
      * @param  \App\Models\Ratings\RatingCriterion  $ratingCriterion
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Update $request, RatingCriterion $ratingCriterion)
     {
@@ -61,7 +61,7 @@ class RatingCriterionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ratings\RatingCriterion  $ratingCriterion
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(RatingCriterion $ratingCriterion)
     {
