@@ -74,9 +74,10 @@ php artisan view:cache
 -   Migrate the database `php artisan migrate`
 -   Follow [Development deployment](#development-deployment) or [Production deployment](#production-deployment)
 
-## Testing
+## Testing / Code Quality
 
 -   Run static code analysis `composer phpstan`
+-   Run PHP Coding Standards Fixer `composer php-cs-fixer`
 
 ## Built With
 
@@ -85,6 +86,7 @@ php artisan view:cache
 -   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
 -   [GrKamil/laravel-telegram-logging](https://github.com/GrKamil/laravel-telegram-logging) - Send logs to Telegram chat via Telegram bot
 -   [nunomaduro/larastan](https://github.com/nunomaduro/larastan) - Adds static analysis to Laravel improving developer productivity and code quality
+-   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixe
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js

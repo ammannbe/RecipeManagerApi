@@ -29,8 +29,8 @@ trait FilterScope
                     continue;
                 }
 
-                if ($value === NULL) {
-                    $q->{$method}($key, NULL);
+                if ($value === null) {
+                    $q->{$method}($key, null);
                     continue;
                 }
 
