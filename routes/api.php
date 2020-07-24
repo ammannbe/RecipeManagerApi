@@ -45,11 +45,9 @@ Route::apiResources([
 
 Route::apiResource('ingredients', 'Ingredients\IngredientController')->only(['show']);
 Route::get('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@index')->name('ingredients.index');
-Route::post('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@store')->name('ingredients.store');
 
 Route::apiResource('ingredient-groups', 'Ingredients\IngredientGroupController')->only(['show']);
 Route::get('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@index')->name('ingredient-groups.index');
-Route::post('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@store')->name('ingredient-groups.store');
 
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
@@ -69,7 +67,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::apiResources([
         'ingredients' => 'Ingredients\IngredientController',
         'ingredient-groups' => 'Ingredients\IngredientGroupController',
-    ], ['only' => ['update', 'destroy']]);
+    ], ['only' => ['store', 'update', 'destroy']]);
 
     Route::apiResource('cookbooks', 'Recipes\CookbookController');
 

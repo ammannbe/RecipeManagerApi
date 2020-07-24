@@ -10,18 +10,6 @@ use App\Models\Ingredients\IngredientGroup;
 trait OwnerTrait
 {
     /**
-     * Determine if the user is an admin or the owner of a specific object
-     *
-     * @see OwnerTrait::isOwnerOf()
-     * @param  mixed  $object
-     * @return bool
-     */
-    public function isAdminOrOwnerOf($object): bool
-    {
-        return $this->admin || $this->isOwnerOf($object);
-    }
-
-    /**
      * Determine if the user is owner of a specific object
      *
      * @param  mixed  $object

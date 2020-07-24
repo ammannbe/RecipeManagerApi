@@ -11,12 +11,26 @@ class RecipePolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if this user is an admin and skip other validations
+     *
+     * @param  \App\Models\Users\User  $user
+     * @param  mixed  $ability
+     * @return bool|void
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->admin) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view any recipes.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(?User $user)
+    public function viewAny(?User $user): bool
     {
         return true;
     }
@@ -26,20 +40,20 @@ class RecipePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @return bool
      */
-    public function view(?User $user, Recipe $recipe)
+    public function view(?User $user, Recipe $recipe): bool
     {
-        return !$recipe->cookbook_id || $user->isAdminOrOwnerOf($recipe->cookbook);
+        return !$recipe->cookbook_id || $user->isOwnerOf($recipe->cookbook);
     }
 
     /**
      * Determine whether the user can create recipes.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return true;
     }
@@ -49,11 +63,11 @@ class RecipePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @return bool
      */
-    public function update(User $user, Recipe $recipe)
+    public function update(User $user, Recipe $recipe): bool
     {
-        return $user->isAdminOrOwnerOf($recipe);
+        return $user->isOwnerOf($recipe);
     }
 
     /**
@@ -61,11 +75,11 @@ class RecipePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @return bool
      */
-    public function delete(User $user, Recipe $recipe)
+    public function delete(User $user, Recipe $recipe): bool
     {
-        return $user->isAdminOrOwnerOf($recipe);
+        return $user->isOwnerOf($recipe);
     }
 
     /**
@@ -73,11 +87,11 @@ class RecipePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @return bool
      */
-    public function restore(User $user, Recipe $recipe)
+    public function restore(User $user, Recipe $recipe): bool
     {
-        return $user->isAdminOrOwnerOf($recipe);
+        return $user->isOwnerOf($recipe);
     }
 
     /**
@@ -85,9 +99,9 @@ class RecipePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @return bool
      */
-    public function forceDelete(User $user, Recipe $recipe)
+    public function forceDelete(User $user, Recipe $recipe): bool
     {
         return $user->admin;
     }

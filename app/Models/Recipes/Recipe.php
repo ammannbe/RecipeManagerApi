@@ -157,7 +157,7 @@ class Recipe extends Model
             return false;
         }
 
-        return auth()->user()->isAdminOrOwnerOf($this);
+        return auth()->user()->can('update', $this);
     }
 
     /**

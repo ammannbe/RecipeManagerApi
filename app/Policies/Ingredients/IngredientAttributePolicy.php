@@ -11,12 +11,26 @@ class IngredientAttributePolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if this user is an admin and skip other validations
+     *
+     * @param  \App\Models\Users\User  $user
+     * @param  mixed  $ability
+     * @return bool|void
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->admin) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view any ingredient-attributes.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(?User $user)
+    public function viewAny(?User $user): bool
     {
         return true;
     }
@@ -26,9 +40,9 @@ class IngredientAttributePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return mixed
+     * @return bool
      */
-    public function view(?User $user, IngredientAttribute $ingredientAttribute)
+    public function view(?User $user, IngredientAttribute $ingredientAttribute): bool
     {
         return true;
     }
@@ -37,9 +51,9 @@ class IngredientAttributePolicy
      * Determine whether the user can create ingredient-attributes.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->admin;
     }
@@ -49,9 +63,9 @@ class IngredientAttributePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return mixed
+     * @return bool
      */
-    public function update(User $user, IngredientAttribute $ingredientAttribute)
+    public function update(User $user, IngredientAttribute $ingredientAttribute): bool
     {
         return $user->admin;
     }
@@ -61,9 +75,9 @@ class IngredientAttributePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return mixed
+     * @return bool
      */
-    public function delete(User $user, IngredientAttribute $ingredientAttribute)
+    public function delete(User $user, IngredientAttribute $ingredientAttribute): bool
     {
         return $user->admin;
     }
@@ -73,9 +87,9 @@ class IngredientAttributePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return mixed
+     * @return bool
      */
-    public function restore(User $user, IngredientAttribute $ingredientAttribute)
+    public function restore(User $user, IngredientAttribute $ingredientAttribute): bool
     {
         return $user->admin;
     }
@@ -85,9 +99,9 @@ class IngredientAttributePolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientAttribute  $ingredientAttribute
-     * @return mixed
+     * @return bool
      */
-    public function forceDelete(User $user, IngredientAttribute $ingredientAttribute)
+    public function forceDelete(User $user, IngredientAttribute $ingredientAttribute): bool
     {
         return $user->admin;
     }

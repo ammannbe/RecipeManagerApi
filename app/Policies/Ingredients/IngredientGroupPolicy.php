@@ -4,23 +4,36 @@ namespace App\Policies\Ingredients;
 
 use App\Models\Users\User;
 use App\Models\Recipes\Recipe;
-use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\Ingredients\IngredientGroup;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class IngredientGroupPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any ingredient groups.
+     * Determine if this user is an admin and skip other validations
      *
      * @param  \App\Models\Users\User  $user
-     * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @param  mixed  $ability
+     * @return bool|void
      */
-    public function viewAny(?User $user, Recipe $recipe)
+    public function before(User $user, $ability)
     {
-        return true;
+        if ($user->admin) {
+            return true;
+        }
+    }
+
+    /**
+     * Determine whether the user can view any recipes.
+     *
+     * @param  \App\Models\Users\User  $user
+     * @return bool
+     */
+    public function viewAny(?User $user, Recipe $recipe): bool
+    {
+        return !$recipe->cookbook_id || $user->isOwnerOf($recipe->cookbook);
     }
 
     /**
@@ -28,9 +41,9 @@ class IngredientGroupPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return mixed
+     * @return bool
      */
-    public function view(?User $user, IngredientGroup $ingredientGroup)
+    public function view(?User $user, IngredientGroup $ingredientGroup): bool
     {
         return true;
     }
@@ -40,11 +53,11 @@ class IngredientGroupPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return mixed
+     * @return bool
      */
-    public function create(User $user, Recipe $recipe)
+    public function create(User $user, Recipe $recipe): bool
     {
-        return $user->isAdminOrOwnerOf($recipe);
+        return $user->isOwnerOf($recipe);
     }
 
     /**
@@ -52,11 +65,11 @@ class IngredientGroupPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return mixed
+     * @return bool
      */
-    public function update(User $user, IngredientGroup $ingredientGroup)
+    public function update(User $user, IngredientGroup $ingredientGroup): bool
     {
-        return $user->isAdminOrOwnerOf($ingredientGroup);
+        return $user->isOwnerOf($ingredientGroup);
     }
 
     /**
@@ -64,11 +77,11 @@ class IngredientGroupPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return mixed
+     * @return bool
      */
-    public function delete(User $user, IngredientGroup $ingredientGroup)
+    public function delete(User $user, IngredientGroup $ingredientGroup): bool
     {
-        return $user->isAdminOrOwnerOf($ingredientGroup);
+        return $user->isOwnerOf($ingredientGroup);
     }
 
     /**
@@ -76,11 +89,11 @@ class IngredientGroupPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return mixed
+     * @return bool
      */
-    public function restore(User $user, IngredientGroup $ingredientGroup)
+    public function restore(User $user, IngredientGroup $ingredientGroup): bool
     {
-        return $user->isAdminOrOwnerOf($ingredientGroup);
+        return $user->isOwnerOf($ingredientGroup);
     }
 
     /**
@@ -88,9 +101,9 @@ class IngredientGroupPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\IngredientGroup  $ingredientGroup
-     * @return mixed
+     * @return bool
      */
-    public function forceDelete(User $user, IngredientGroup $ingredientGroup)
+    public function forceDelete(User $user, IngredientGroup $ingredientGroup): bool
     {
         return $user->admin;
     }

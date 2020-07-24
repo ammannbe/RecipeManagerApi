@@ -11,12 +11,26 @@ class CategoryPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if this user is an admin and skip other validations
+     *
+     * @param  \App\Models\Users\User  $user
+     * @param  mixed  $ability
+     * @return bool|void
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->admin) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view any categories.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(?User $user)
+    public function viewAny(?User $user): bool
     {
         return true;
     }
@@ -26,9 +40,9 @@ class CategoryPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Category  $category
-     * @return mixed
+     * @return bool
      */
-    public function view(?User $user, Category $category)
+    public function view(?User $user, Category $category): bool
     {
         return true;
     }
@@ -37,9 +51,9 @@ class CategoryPolicy
      * Determine whether the user can create categories.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->admin;
     }
@@ -49,9 +63,9 @@ class CategoryPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Category  $category
-     * @return mixed
+     * @return bool
      */
-    public function update(User $user, Category $category)
+    public function update(User $user, Category $category): bool
     {
         return $user->admin;
     }
@@ -61,9 +75,9 @@ class CategoryPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Category  $category
-     * @return mixed
+     * @return bool
      */
-    public function delete(User $user, Category $category)
+    public function delete(User $user, Category $category): bool
     {
         return $user->admin;
     }
@@ -73,9 +87,9 @@ class CategoryPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Category  $category
-     * @return mixed
+     * @return bool
      */
-    public function restore(User $user, Category $category)
+    public function restore(User $user, Category $category): bool
     {
         return $user->admin;
     }
@@ -85,9 +99,9 @@ class CategoryPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Recipes\Category  $category
-     * @return mixed
+     * @return bool
      */
-    public function forceDelete(User $user, Category $category)
+    public function forceDelete(User $user, Category $category): bool
     {
         return $user->admin;
     }

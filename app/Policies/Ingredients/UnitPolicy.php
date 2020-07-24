@@ -11,12 +11,26 @@ class UnitPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if this user is an admin and skip other validations
+     *
+     * @param  \App\Models\Users\User  $user
+     * @param  mixed  $ability
+     * @return bool|void
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->admin) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view any units.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(?User $user)
+    public function viewAny(?User $user): bool
     {
         return true;
     }
@@ -26,9 +40,9 @@ class UnitPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return mixed
+     * @return bool
      */
-    public function view(?User $user, Unit $unit)
+    public function view(?User $user, Unit $unit): bool
     {
         return true;
     }
@@ -37,9 +51,9 @@ class UnitPolicy
      * Determine whether the user can create units.
      *
      * @param  \App\Models\Users\User  $user
-     * @return mixed
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->admin;
     }
@@ -49,9 +63,9 @@ class UnitPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return mixed
+     * @return bool
      */
-    public function update(User $user, Unit $unit)
+    public function update(User $user, Unit $unit): bool
     {
         return $user->admin;
     }
@@ -61,9 +75,9 @@ class UnitPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return mixed
+     * @return bool
      */
-    public function delete(User $user, Unit $unit)
+    public function delete(User $user, Unit $unit): bool
     {
         return $user->admin;
     }
@@ -73,9 +87,9 @@ class UnitPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return mixed
+     * @return bool
      */
-    public function restore(User $user, Unit $unit)
+    public function restore(User $user, Unit $unit): bool
     {
         return $user->admin;
     }
@@ -85,9 +99,9 @@ class UnitPolicy
      *
      * @param  \App\Models\Users\User  $user
      * @param  \App\Models\Ingredients\Unit  $unit
-     * @return mixed
+     * @return bool
      */
-    public function forceDelete(User $user, Unit $unit)
+    public function forceDelete(User $user, Unit $unit): bool
     {
         return $user->admin;
     }
