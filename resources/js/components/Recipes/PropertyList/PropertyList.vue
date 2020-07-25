@@ -71,8 +71,6 @@
       </property-list-item>
     </ul>
 
-    <br />
-
     <rm-submit-button v-if="editmode.editing">
       Speichern
       <template v-slot:buttons>
@@ -188,17 +186,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li {
-  display: flex;
-  align-items: baseline;
-  min-height: 30px;
+ul {
+  margin-bottom: 5px;
 
-  > div {
-    margin: 1px;
-  }
+  li {
+    display: flex;
+    align-items: baseline;
+    min-height: 30px;
 
-  > a {
-    margin-right: 3px;
+    > div {
+      margin: 1px;
+    }
+
+    > a {
+      margin-right: 3px;
+    }
   }
 }
 </style>

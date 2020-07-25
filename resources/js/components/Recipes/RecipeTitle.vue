@@ -63,8 +63,7 @@ export default {
 <style lang="scss" scoped>
 form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 
 .can-edit {
@@ -74,12 +73,13 @@ form {
 
 <style lang="scss">
 #recipe-title {
-  width: 100%;
+  margin-bottom: 0;
+  margin-right: 7px;
 
   > div > input {
     text-align: center;
     color: #363636;
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.125;
   }

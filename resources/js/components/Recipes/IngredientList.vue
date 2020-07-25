@@ -80,7 +80,7 @@ export default {
 
 .item {
   display: flex;
-  align-items: center;
+  align-items: baseline;
 
   > div {
     margin-left: 20px;

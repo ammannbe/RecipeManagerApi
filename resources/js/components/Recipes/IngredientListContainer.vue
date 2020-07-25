@@ -1,6 +1,6 @@
 <template>
   <div class="ingredients" v-if="ingredients.length">
-    <div>
+    <div :class="{'multiple-lists': ingredientGroups.length}">
       <h2
         class="title is-4"
         :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
@@ -92,8 +92,11 @@ div.ingredients {
   }
 
   > div {
-    border-right: 1px dotted black;
     padding: 0 35px 30px 30px;
+
+    &.multiple-lists {
+      border-right: 1px dotted black;
+    }
   }
 }
 

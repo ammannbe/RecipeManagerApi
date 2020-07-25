@@ -120,6 +120,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.navbar {
+  z-index: 9999;
+}
+
 .search > button {
   margin-left: 10px;
 }

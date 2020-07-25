@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{'add-padding': !editmode.editing}">
     <h2
       :class="{'title is-4': true, 'can-edit': editmode.enabled}"
       @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
@@ -54,6 +54,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+div.add-padding {
+  padding: 0 30px;
+}
+
 .can-edit {
   cursor: pointer;
 }
