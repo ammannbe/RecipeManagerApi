@@ -91,7 +91,7 @@ class CookbookPolicy
      */
     public function restore(User $user, Cookbook $cookbook): bool
     {
-        return $user->admin;
+        return $user->isOwnerOf($cookbook);
     }
 
     /**

@@ -27,7 +27,7 @@ class RecipeController extends Controller
             $model = $model->withTrashed();
         }
         if ($request->only_own == 'true' && auth()->check()) {
-            $model = $model->withoutGlobalScope('isOwnOrPublic')->isOwn();
+            $model = $model->withoutGlobalScope('isAdminOrOwnOrPublic')->isOwn();
         }
         if (TagController::isEnabled()) {
             $model->with('tags');

@@ -96,7 +96,11 @@ class Recipe extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('isOwnOrPublic', function (Builder $query) {
+        static::addGlobalScope('isAdminOrOwnOrPublic', function (Builder $query) {
+            if (auth()->check() && auth()->user()->admin) {
+                return $query;
+            }
+
             return $query->where(function (Builder $q) {
                 return $q->isOwn();
             })->orWhere(function (Builder $q) {

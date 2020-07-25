@@ -18,7 +18,7 @@ class Rating extends Model
      * @var array
      */
     protected $with = [
-        'rating_criterion'
+        'ratingCriterion'
     ];
 
     /**

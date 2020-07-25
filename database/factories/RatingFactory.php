@@ -13,7 +13,7 @@ if (!isset($factory)) {
 }
 
 $factory->define(Rating::class, function (Faker $faker) {
-    $recipeIds = Recipe::withoutGlobalScope('isOwnOrPublic')->pluck('id')->toArray();
+    $recipeIds = Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->pluck('id')->toArray();
 
     return [
         'recipe_id' => $faker->randomElement($recipeIds),
