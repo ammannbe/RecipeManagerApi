@@ -14,7 +14,9 @@ class CookbookObserver
      */
     public function creating(Cookbook $cookbook)
     {
-        $cookbook->author_id = auth()->user()->author->id;
+        if (!$cookbook->author_id) {
+            $cookbook->author_id = auth()->user()->author->id;
+        }
     }
 
     /**

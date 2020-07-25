@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property  int  $id
+ * @property  \App\Models\Users\Author  $author
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable, SoftDeletes, SoftCascadeTrait, OwnerTrait;

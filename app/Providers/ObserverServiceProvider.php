@@ -10,6 +10,7 @@ use App\Models\Ingredients\Unit;
 use App\Models\Recipes\Category;
 use App\Models\Recipes\Cookbook;
 use App\Models\Ingredients\Ingredient;
+use App\Models\Ingredients\IngredientAttribute;
 use App\Models\Ratings\RatingCriterion;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Ingredients\IngredientGroup;
@@ -35,6 +36,7 @@ class ObserverServiceProvider extends ServiceProvider
     {
         Food::observe('App\Observers\Ingredients\FoodObserver');
         IngredientGroup::observe('App\Observers\Ingredients\IngredientGroupObserver');
+        IngredientAttribute::observe('App\Observers\Ingredients\IngredientAttributeObserver');
         Ingredient::observe('App\Observers\Ingredients\IngredientObserver');
         Unit::observe('App\Observers\Ingredients\UnitObserver');
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Ingredients;
 
+use App\Models\SlugifyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
@@ -11,6 +12,7 @@ class IngredientAttribute extends Model
 {
     use SoftDeletes;
     use SoftCascadeTrait;
+    use SlugifyTrait;
 
     /**
      * The attributes that are mass assignable.

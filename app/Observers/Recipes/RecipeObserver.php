@@ -14,7 +14,9 @@ class RecipeObserver
      */
     public function creating(Recipe $recipe)
     {
-        $recipe->author_id = auth()->user()->author->id;
+        if (!$recipe->author_id) {
+            $recipe->author_id = auth()->user()->author->id;
+        }
     }
 
     /**

@@ -17,6 +17,8 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method Illuminate\\Support\\Collection::makeVisible\(\)#'
+        - '#Call to an undefined method Faker\\Generator::foodName\(\)#'
+        - '#Call to an undefined method Faker\\Generator::randomDigit\(\)#'
 
     excludes_analyse:
         - ./routes/console.php

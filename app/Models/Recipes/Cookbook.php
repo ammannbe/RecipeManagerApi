@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property  int  $user_id
+ */
 class Cookbook extends Model
 {
     use SoftDeletes;
@@ -22,6 +25,9 @@ class Cookbook extends Model
      */
     protected $fillable = [
         'name',
+        // Only for CookbookFactory
+        'user_id',
+        'author_id',
     ];
 
     /**
