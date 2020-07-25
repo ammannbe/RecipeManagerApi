@@ -10,7 +10,7 @@
     <mavon-editor
       :class="{'is-danger border': !!message}"
       v-model="model"
-      language="de"
+      :language="$env.LOCALE"
       :toolbars="toolbars"
       :placeholder="placeholder"
       :autofocus="autofocus"
@@ -35,7 +35,7 @@ export default {
     "placeholder",
     "disabled",
     "autofocus",
-    "required",
+    "required"
   ],
   data() {
     return {
