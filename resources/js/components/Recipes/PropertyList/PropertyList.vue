@@ -58,7 +58,7 @@
           placeholder="Tags auswählen..."
           :options="tags"
         />
-        <template v-if="recipe.tags.length" v-slot:fallback>
+        <template v-if="recipe.tags && recipe.tags.length" v-slot:fallback>
           <router-link
             :key="tag.id"
             v-for="tag in recipe.tags"
