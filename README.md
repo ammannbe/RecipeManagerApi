@@ -31,10 +31,10 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 ### Installing
 
+- Install composer packages first `composer install`
 - Copy .env.example to .env and modify it to your needs
 - Generate an app key `php artisan key:generate`
 - Migrate the database `php artisan migrate`
-- Install composer packages `composer install`
 - Install NPM packages `npm install`
 - Add following to your crontab:
 
