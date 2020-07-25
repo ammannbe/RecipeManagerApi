@@ -102,9 +102,11 @@ export default {
     },
     initForm() {
       let data = {};
+      data.cookbook_id = null;
       if (!this.$env.DISABLE_COOKBOOKS && this.editmode.enabled) {
         data.cookbook_id = this.recipe.cookbook_id;
       }
+      data.tags = [];
       if (!this.$env.DISABLE_TAGS && this.editmode.enabled) {
         data.tags = this.recipe.tags.map(tag => tag.id);
       }
@@ -141,5 +143,6 @@ export default {
 .meta {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 5px;
 }
 </style>

@@ -37,6 +37,10 @@ export default {
         return this.editmode.editing && !this.disableEditing;
       },
       set(editing) {
+        if (this.disableEditing) {
+          return;
+        }
+
         this.$store.commit("recipe/editmode/edit", { editing });
       }
     }

@@ -67,7 +67,7 @@
       <rm-submit-button>
         Weiter
         <template v-slot:buttons>
-          <b-button type="is-danger" disabled>Zurück</b-button>
+          <b-button type="is-danger" @click="$router.go(-1)">Abbrechen</b-button>
         </template>
       </rm-submit-button>
     </form>

@@ -18,7 +18,7 @@ export default {
     };
   },
   mounted() {
-    if (this.urls) {
+    if (this.urls.length) {
       this.photoUrls = this.urls;
     }
   }
