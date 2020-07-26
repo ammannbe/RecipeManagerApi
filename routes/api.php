@@ -68,7 +68,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::apiResources([
         'ingredients' => 'Ingredients\IngredientController',
         'ingredient-groups' => 'Ingredients\IngredientGroupController',
-    ], ['only' => ['store', 'update', 'destroy']]);
+    ], ['only' => ['update', 'destroy']]);
 
     Route::apiResource('cookbooks', 'Recipes\CookbookController');
 
@@ -76,7 +76,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('foods/{id}/restore', 'Ingredients\FoodController@restore')->name('foods.restore');
     Route::post('ingredient-attributes/{id}/restore', 'Ingredients\IngredientAttributeController@restore')->name('ingredient-attributes.restore');
     Route::post('ingredients/{id}/restore', 'Ingredients\IngredientController@restore')->name('ingredients.restore');
+    Route::post('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@store')->name('ingredients.store');
     Route::post('ingredient-groups/{id}/restore', 'Ingredients\IngredientGroupController@restore')->name('ingredient-groups.restore');
+    Route::post('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@store')->name('ingredient-groups.store');
     Route::post('categories/{id}/restore', 'Recipes\CategoryController@restore')->name('categories.restore');
     Route::post('cookbooks/{id}/restore', 'Recipes\CookbookController@restore')->name('cookbooks.restore');
     Route::post('recipes/{id}/restore', 'Recipes\RecipeController@restore')->name('recipes.restore');

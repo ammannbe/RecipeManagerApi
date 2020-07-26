@@ -24,8 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('cleanup:database')
-            ->daily();
+        $schedule->command('cleanup:database')->daily();
+
+        $schedule->command('integrity:check', ['--fix'])->daily();
     }
 
     /**

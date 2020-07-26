@@ -28,5 +28,9 @@ class RecipeObserver
     public function saving(Recipe $recipe)
     {
         $recipe->slugifyName();
+
+        if ($recipe->yield_amount === 0) {
+            $recipe->yield_amount = null;
+        }
     }
 }

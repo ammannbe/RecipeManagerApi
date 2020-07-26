@@ -17,5 +17,13 @@ class IngredientObserver
         if ($ingredient->isDirty('ingredient_id')) {
             $ingredient->adoptIngredientGroupFromParent();
         }
+
+        if ($ingredient->amount_max === 0) {
+            $ingredient->amount_max = null;
+        }
+
+        if ($ingredient->amount === 0 && !$ingredient->amount_max) {
+            $ingredient->amount = null;
+        }
     }
 }
