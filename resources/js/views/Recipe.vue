@@ -44,7 +44,7 @@ import Recipes from "../modules/ApiClient/Recipes";
 import Ingredients from "../modules/ApiClient/Ingredients";
 
 export default {
-  props: ["id", "slug", "search"],
+  props: ["id", "slug"],
   data() {
     return {
       multiplier: 1
