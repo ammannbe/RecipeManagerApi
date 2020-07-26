@@ -18,16 +18,18 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('status', 'Auth\LoginController@status');
 
     Route::middleware(['auth'])->group(function () {
-        Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+        Route::post('logout', 'Auth\LoginController@logout');
         Route::post('refresh', 'Auth\LoginController@refresh')->name('refresh');
     });
 
-    Route::post('register', 'Auth\RegisterController@register')->name('register');
+    if (!config('app.disable_registration')) {
+        Route::post('register', 'Auth\RegisterController@register');
+    }
 
-    Route::post('confirm', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
+    Route::post('confirm', 'Auth\ConfirmPasswordController@confirm');
 
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 });
 
 

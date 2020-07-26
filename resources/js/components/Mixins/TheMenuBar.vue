@@ -40,7 +40,7 @@
         </div>
 
         <div v-if="!$Laravel.isLoggedIn" class="navbar-end">
-          <div class="navbar-item">
+          <div v-if="!$env.DISABLE_REGISTRATION" class="navbar-item">
             <router-link :to="{ name: 'register' }" class="button">
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>
@@ -48,7 +48,7 @@
               <span>Registrieren</span>
             </router-link>
           </div>
-          <div v-if="!$Laravel.isLoggedIn" class="navbar-item">
+          <div class="navbar-item">
             <router-link :to="{ name: 'login' }" class="button is-primary">
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>

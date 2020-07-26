@@ -1,4 +1,5 @@
 import VueRouter from 'vue-router';
+import env from './env';
 
 let routes = [
     {
@@ -10,11 +11,6 @@ let routes = [
         path: '/login',
         name: 'login',
         component: require('./views/Auth/Login').default
-    },
-    {
-        path: '/registrieren',
-        name: 'register',
-        component: require('./views/Auth/Register').default
     },
     {
         path: '/email/verifizieren',
@@ -47,13 +43,24 @@ let routes = [
         path: '/rezepte/neu',
         name: 'recipes-add',
         component: require('./views/AddRecipe/Index').default
-    },
-    {
+    }
+];
+
+if (!env.DISABLE_COOKBOOK) {
+    routes.push({
         path: '/kochbuch/neu',
         name: 'cookbooks-add',
         component: require('./views/AddCookbook').default
-    }
-];
+    });
+}
+
+if (!env.DISABLE_REGISTRATION) {
+    routes.push({
+        path: '/registrieren',
+        name: 'register',
+        component: require('./views/Auth/Register').default
+    });
+}
 
 export default new VueRouter({
     routes,
