@@ -28,4 +28,17 @@ export default class Auth extends ApiClient {
     }): Promise<void> {
         return this.post(`${this.url}/register`, data);
     }
+
+    public forgotPassword(data: { email: string }): Promise<void> {
+        return this.post(`${this.url}/password/email`, data);
+    }
+
+    public resetPassword(data: {
+        token: string;
+        email: string;
+        password: string;
+        password_confirmation: string;
+    }): Promise<void> {
+        return this.post(`${this.url}/password/reset`, data);
+    }
 }

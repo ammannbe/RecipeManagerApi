@@ -12,6 +12,22 @@ moment.locale('de');
 
 window.Vue = Vue;
 window.moment = moment;
+window.Loading = {
+    loader: null,
+    open(container = null) {
+        if (this.loader) {
+            return;
+        }
+        this.loader = Vue.prototype.$buefy.loading.open({ container });
+    },
+    close() {
+        if (!this.loader) {
+            return;
+        }
+        this.loader.close();
+        this.loader = null;
+    }
+}
 
 Vue.use(VueRouter);
 Vue.use(MavonEditor);
@@ -24,6 +40,7 @@ Vue.prototype.$env = env;
 Vue.prototype.$markdownIt = MavonEditor.markdownIt;
 Vue.prototype.$Laravel = Laravel;
 Vue.prototype.$moment = moment;
+Vue.prototype.$loading = Loading;
 
 Vue.prototype.$autofocus = function (selector = '[autofocus]') {
     const input = document.querySelector(selector);
@@ -34,22 +51,6 @@ Vue.prototype.$autofocus = function (selector = '[autofocus]') {
     }
 }
 
-Vue.prototype.$loading = {
-    loader: null,
-    open: function (container = null) {
-        if (this.loader) {
-            return;
-        }
-        this.loader = Vue.prototype.$buefy.loading.open({ container });
-    },
-    close: function () {
-        if (!this.loader) {
-            return;
-        }
-        this.loader.close();
-        this.loader = null;
-    }
-}
 
 Vue.filter('name', function (obj) {
     if (obj == undefined || obj == null || !Object.keys(obj).length) return '';

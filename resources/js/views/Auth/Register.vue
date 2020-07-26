@@ -51,6 +51,7 @@
     </div>
   </form>
 </template>
+
 <script>
 import { mapState } from "vuex";
 

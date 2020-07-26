@@ -9,17 +9,28 @@ let routes = [
     {
         path: '/login',
         name: 'login',
-        component: require('./views/Login').default
+        component: require('./views/Auth/Login').default
     },
     {
         path: '/registrieren',
         name: 'register',
-        component: require('./views/Register').default
+        component: require('./views/Auth/Register').default
     },
     {
         path: '/email/verifizieren',
         name: 'email.verify',
-        component: require('./views/VerifyEmail').default
+        component: require('./views/Auth/VerifyEmail').default
+    },
+    {
+        path: '/password/reset',
+        name: 'password.forgot',
+        component: require('./views/Auth/ForgotPassword').default
+    },
+    {
+        path: '/password/reset/:token',
+        name: 'password.reset',
+        component: require('./views/Auth/ResetPassword').default,
+        props: true
     },
     {
         path: '/account',

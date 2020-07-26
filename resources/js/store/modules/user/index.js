@@ -1,6 +1,7 @@
 import Auth from "../../../modules/ApiClient/Auth";
 import login from "./login";
 import register from "./register";
+import password from "./password";
 
 const state = () => ({
     user: Laravel.user,
@@ -32,5 +33,5 @@ export default {
     state,
     actions,
     mutations,
-    modules: { login, register }
+    modules: { login, register, password }
 }

@@ -24,9 +24,10 @@ Route::group(['prefix' => 'auth'], function () {
 
     Route::post('register', 'Auth\RegisterController@register')->name('register');
 
+    Route::post('confirm', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
+
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm')->name('password.confirm');
-    Route::post('password/update', 'Auth\ResetPasswordController@reset')->name('password.update');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 });
 
 
