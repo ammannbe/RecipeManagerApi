@@ -1,6 +1,6 @@
 <template>
   <div class="ingredients" v-if="ingredients.length">
-    <div :class="{'multiple-lists': ingredientGroups.length}">
+    <div v-if="hasIngredientsWithoutGroup" :class="{'multiple-lists': ingredientGroups.length}">
       <h2
         class="title is-4"
         :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
@@ -11,19 +11,27 @@
         :ingredients="$store.getters['ingredients/byGroup']()"
         :multiplier="multiplier"
         :show-add-form="showAddForm"
+        :ingredient-group-id="null"
         :first-level-list="true"
         @cancelAdd="showAddForm = false"
         @created="created"
-      ></ingredient-list>
+      />
     </div>
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
-      <h2 class="title is-4">{{ ingredientGroup.name }}</h2>
+      <h2
+        class="title is-4"
+        :class="{'add-ingredient-form': editmode.enabled && !hasIngredientsWithoutGroup, 'show': !showAddForm, 'cancel': showAddForm}"
+        :title="title"
+        @click="showAddForm = !showAddForm"
+      >{{ ingredientGroup.name }}</h2>
       <ingredient-list
         v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :ingredients="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :multiplier="multiplier"
+        :show-add-form="showAddForm && !hasIngredientsWithoutGroup"
+        :ingredient-group-id="ingredientGroup.id"
         :first-level-list="true"
-      ></ingredient-list>
+      />
       <span v-else>Keine Zutaten...</span>
     </div>
   </div>
@@ -61,6 +69,12 @@ export default {
         return "Klicken zum Hinzufügen";
       }
       return "";
+    },
+    hasIngredientsWithoutGroup() {
+      return (
+        this.$store.getters["ingredients/byGroup"]() &&
+        this.$store.getters["ingredients/byGroup"]().length
+      );
     }
   },
   created() {

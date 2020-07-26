@@ -1,7 +1,11 @@
 <template>
   <ul class="ingredients" :class="customClass">
     <li class="add-ingredient" v-if="firstLevelList && editmode.enabled && showAddForm">
-      <ingredient-add-form @cancel="$emit('cancelAdd')" @created="$emit('created')"></ingredient-add-form>
+      <ingredient-add-form
+        @cancel="$emit('cancelAdd')"
+        @created="$emit('created')"
+        :ingredient-group-id="ingredientGroupId"
+      ></ingredient-add-form>
     </li>
     <draggable handle=".handle" :value="ingredients" @end="endDrag($event)">
       <div v-for="ingredient in ingredients" :key="ingredient.position">
@@ -37,6 +41,7 @@ export default {
     draggable
   },
   props: [
+    "ingredientGroupId",
     "ingredients",
     "multiplier",
     "firstLevelList",

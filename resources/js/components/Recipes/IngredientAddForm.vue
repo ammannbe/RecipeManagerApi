@@ -94,6 +94,7 @@
 import { mapState } from "vuex";
 
 export default {
+  props: ["ingredientGroupId"],
   data() {
     return {
       showNewIngredientGroup: false,
@@ -182,7 +183,7 @@ export default {
           unit_id: null,
           food_id: null,
           ingredient_attributes: [],
-          ingredient_group_id: null,
+          ingredient_group_id: this.ingredientGroupId,
           ingredient_id: null,
           position: null
         }
