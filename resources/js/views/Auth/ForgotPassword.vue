@@ -1,19 +1,19 @@
 <template>
   <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
-      <h1 class="title is-3">Passwort zurücksetzen</h1>
+      <h1 class="title is-3">{{ $t('Reset password') }}</h1>
       <rm-emailinput
         v-model="email"
-        label="E-Mail:"
+        :label="$t('E-Mail') + ':'"
         name="email"
         horizontal
-        placeholder="E-Mail eingeben..."
+        :placeholder="$t('Enter email...')"
         :message="errors.email"
         required
         autofocus
       />
 
-      <rm-submit-button>Senden</rm-submit-button>
+      <rm-submit-button>{{ $t('Send') }}</rm-submit-button>
     </div>
   </form>
 </template>
@@ -59,7 +59,7 @@ export default {
     },
     submit() {
       this.$store.dispatch("user/password/forgot", this.form).then(response => {
-        alert("Wir haben dir einen Link per E-Mail zugestellt.");
+        alert(this.$t("We've sent you a link per email."));
         this.$router.push({ name: "login" });
       });
     }

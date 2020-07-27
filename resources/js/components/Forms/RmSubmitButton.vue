@@ -3,7 +3,7 @@
     <slot name="buttons"></slot>
 
     <b-button native-type="submit" :disabled="disabled">
-      <slot>Bestätigen</slot>
+      <slot>{{ $t('Confirm') }}</slot>
     </b-button>
   </div>
 </template>

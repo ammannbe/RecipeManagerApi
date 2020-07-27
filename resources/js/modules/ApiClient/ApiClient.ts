@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import env from "../../env";
+import Locale from "../Locale";
 
 export default class ApiClient {
     private axios: AxiosInstance;
@@ -13,6 +14,7 @@ export default class ApiClient {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": "application/json",
+                "Accept-Language": Locale.get(),
                 Accept: "application/json"
             }
         });

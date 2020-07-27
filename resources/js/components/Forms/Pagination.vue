@@ -1,18 +1,17 @@
 <template>
   <div class="pagination" :class="position">
-    <div>
-      <a v-if="prevPage" @click="$emit('load', prevPage)">&#60;&#60;</a>
-      <span v-else>&#60;&#60;</span>
+    <div v-if="lastPage != 1">
+      <a v-if="prevPage" @click="$emit('load', prevPage)" v-html="$t('pagination.previous')"></a>
 
       <span class="pages">
-        Seite
-        <span>{{ currentPage }}</span> von
+        [
+        <span>{{ currentPage }}</span> /
         <a v-if="currentPage !== lastPage" @click="$emit('load', lastPage)">{{ lastPage }}</a>
         <span v-else>{{ lastPage }}</span>
+        ]
       </span>
 
-      <a v-if="nextPage" @click="$emit('load', nextPage)">&#62;&#62;</a>
-      <span v-else>&#62;&#62;</span>
+      <a v-if="nextPage" @click="$emit('load', nextPage)" v-html="$t('pagination.next')"></a>
     </div>
   </div>
 </template>

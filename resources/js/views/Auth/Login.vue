@@ -1,16 +1,16 @@
 <template>
   <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
-      <h1 class="title has-text-centered">Anmelden</h1>
+      <h1 class="title has-text-centered">{{ $t('Login') }}</h1>
 
       <br />
 
       <rm-emailinput
         v-model="email"
-        label="E-Mail:"
+        :label="$t('Email') + ':'"
         name="email"
         horizontal
-        placeholder="E-Mail eingeben..."
+        :placeholder="$t('Enter email...')"
         :message="errors.email"
         required
         autofocus
@@ -18,17 +18,17 @@
 
       <rm-passwordinput
         v-model="password"
-        label="Passwort:"
+        :label="$t('Password') + ':'"
         name="password"
         horizontal
-        placeholder="Passwort eingeben..."
+        :placeholder="$t('Enter password...')"
         :message="errors.password"
         required
       />
 
-      <router-link tag="a" :to="{ name: 'password.forgot' }">Passwort vergessen?</router-link>
+      <router-link tag="a" :to="{ name: 'password.forgot' }">{{ $t('Forgot password?') }}</router-link>
 
-      <rm-submit-button>Login</rm-submit-button>
+      <rm-submit-button>{{ $t('Login') }}</rm-submit-button>
     </div>
   </form>
 </template>

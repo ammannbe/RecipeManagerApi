@@ -2,7 +2,6 @@ includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 
 parameters:
-
     paths:
         - app
         - config
@@ -21,6 +20,7 @@ parameters:
         - '#Call to an undefined method Faker\\Generator::randomDigit\(\)#'
 
     excludes_analyse:
-        - ./routes/console.php
+        - routes/console.php
+        - database/migrations/2014_04_02_193005_create_translations_table.php
 
     checkMissingIterableValueType: false

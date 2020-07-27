@@ -1,18 +1,18 @@
 <template>
   <b-steps v-model="step" :has-navigation="false">
-    <b-step-item :step="0" label="Informationen" :type="{'is-success': success.informations}">
+    <b-step-item :step="0" :label="$t('Infos')" :type="{'is-success': success.informations}">
       <infos @input="recipe = $event" @next="step++" />
     </b-step-item>
 
-    <b-step-item :step="1" label="Zutaten" :type="{'is-success': success.ingredients}">
+    <b-step-item :step="1" :label="$t('ingredients')" :type="{'is-success': success.ingredients}">
       <ingredients @input="ingredients = $event" @next="step++" @back="step--" />
     </b-step-item>
 
-    <b-step-item :step="2" label="Zubereitung" :type="{'is-success': success.instructions}">
+    <b-step-item :step="2" :label="$t('Instructions')" :type="{'is-success': success.instructions}">
       <instructions @input="instructions = $event" @next="step++" @back="step--" />
     </b-step-item>
 
-    <b-step-item :step="3" label="Bilder" :type="{'is-success': success.photos}">
+    <b-step-item :step="3" :label="$t('Photos')" :type="{'is-success': success.photos}">
       <photos @input="photos = $event" @next="submit" @back="step--" />
     </b-step-item>
   </b-steps>

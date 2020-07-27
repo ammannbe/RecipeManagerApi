@@ -3,7 +3,7 @@
     <ul>
       <property-list-item
         v-if="!$env.DISABLE_COOKBOOK && recipe.cookbook"
-        label="Kochbuch"
+        :label="$t('Cookbook')"
         :value="recipe.cookbook | name | hyphenate"
       >
         <rm-select
@@ -13,20 +13,20 @@
         />
       </property-list-item>
 
-      <property-list-item label="Verfasser" :value="recipe.author.name" :disable-editing="true" />
+      <property-list-item :label="$t('Author')" :value="recipe.author.name" :disable-editing="true" />
 
-      <property-list-item label="Kategorie" :value="recipe.category | name | hyphenate">
+      <property-list-item :label="$t('Category')" :value="recipe.category | name | hyphenate">
         <rm-select v-model="category_id" size="is-small" :options="categories" required />
       </property-list-item>
 
-      <property-list-item label="Portionen">
+      <property-list-item :label="$t('Yield amount')">
         <rm-numberinput
           v-model="yield_amount"
           size="is-small"
           :min="0"
           :max="999"
           :step="1"
-          placeholder="Portionen eingeben..."
+          :placeholder="$t('Enter yield amount...')"
         />
         <template v-slot:fallback>
           <rm-numberinput
@@ -35,27 +35,27 @@
             :min="0"
             :max="999"
             :step="1"
-            placeholder="Portionen eingeben..."
+            :placeholder="$t('Enter yield amount...')"
           />
         </template>
       </property-list-item>
 
-      <property-list-item label="Schwierigkeitsgrad" :value="recipe.complexity | name | hyphenate">
+      <property-list-item :label="$t('Complexity')" :value="recipe.complexity | name | hyphenate">
         <rm-select v-model="complexity" size="is-small" :options="complexities" required />
       </property-list-item>
 
-      <property-list-item label="Zubereitungszeit" :value="recipe.preparation_time">
+      <property-list-item :label="$t('Preparation time')" :value="recipe.preparation_time">
         <rm-timepicker v-model="preparation_time" size="is-small"></rm-timepicker>
         <template v-slot:fallback>
           <span>{{ preparation_time | humanReadablePreparationTime | hyphenate }}</span>
         </template>
       </property-list-item>
 
-      <property-list-item label="Tags">
+      <property-list-item :label="$t('Tags')">
         <rm-multiselect
           v-model="tag_ids"
           size="is-small"
-          placeholder="Tags auswählen..."
+          :placeholder="$t('Choose tags...')"
           :options="tags"
         />
         <template v-if="recipe.tags && recipe.tags.length" v-slot:fallback>
@@ -72,12 +72,12 @@
     </ul>
 
     <rm-submit-button v-if="editmode.editing">
-      Speichern
+      {{ $t('Save') }}
       <template v-slot:buttons>
         <b-button
           @click="$store.commit('recipe/editmode/edit', { editing: false })"
           type="is-danger"
-        >Abbrechen</b-button>
+        >{{ $t('Cancel') }}</b-button>
       </template>
     </rm-submit-button>
   </form>

@@ -15,18 +15,27 @@
 export default {
   props: ["category"],
   data() {
-    return {
-      paths: [
-        { id: 1, text: "Startseite", name: "home", query: {}, isFirst: true },
-        { id: 2, text: "Kategorien", name: "categories", query: {} },
+    return {};
+  },
+  computed: {
+    paths() {
+      return [
+        {
+          id: 1,
+          text: this.$t("Home"),
+          name: "home",
+          query: {},
+          isFirst: true
+        },
+        { id: 2, text: this.$t("Categories"), name: "categories", query: {} },
         {
           id: 3,
           text: this.category.name,
           name: "home",
           query: { "search[category]": this.category.name }
         }
-      ]
-    };
+      ];
+    }
   }
 };
 </script>

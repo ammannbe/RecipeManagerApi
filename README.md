@@ -74,9 +74,35 @@ php artisan view:cache
 -   Migrate the database `php artisan migrate`
 -   Follow [Development deployment](#development-deployment) or [Production deployment](#production-deployment)
 
+## Translations
+
+All application related files are translated with [laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) and [laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator).
+Translations should only be done on development.
+
+You need to run the migrations for this package:
+
+```bash
+php artisan vendor:publish --provider="Barryvdh\TranslationManager\ManagerServiceProvider" --tag=migrations
+php artisan migrate
+```
+
+-   Import translations `composer translations:import`
+-   Navigate to `<your-domain>/translations` for translation
+-   PHP: short keys within `resources/lang/<lang>/<group>.php`
+-   Vue.js: translation strings within `/resources/lang/<lang>.json` (these files will be imported into the `_json` group)
+-   Export & generate translations `composer translations:export`
+
+Don't forget to run `composer php-cs-fixer`
+
+Other commands:
+
+-   Export translations `php artisan translations:export \*`
+-   Reset translations `php artisan translations:reset`
+-   Generate ES6 file for Vue.js `php artisan vue-i18n:generate`
+
 ## Testing / Code Quality
 
--   Run static code analysis `composer phpstan`
+-   Run static code analytics `composer phpstan`
 -   Run PHP Coding Standards Fixer `composer php-cs-fixer`
 
 ## Built With
@@ -87,6 +113,8 @@ php artisan view:cache
 -   [GrKamil/laravel-telegram-logging](https://github.com/GrKamil/laravel-telegram-logging) - Send logs to Telegram chat via Telegram bot
 -   [nunomaduro/larastan](https://github.com/nunomaduro/larastan) - Adds static analysis to Laravel improving developer productivity and code quality
 -   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixe
+-   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
+-   [martinlindhe/laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator) - Generates a vue-i18n compatible include file from your Laravel translations
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js

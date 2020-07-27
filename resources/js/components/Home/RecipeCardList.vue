@@ -3,7 +3,7 @@
     <pagination
       :current-page="recipes.current_page"
       :last-page="recipes.last_page"
-      @load="$store.dispatch('recipes/index', { page: $event, filter, limit: 16 })"
+      @load="$store.dispatch('recipes/index', { page: $event, filter, limit })"
     ></pagination>
     <div class="columns">
       <recipe-card
@@ -21,6 +21,11 @@ import { mapState } from "vuex";
 
 export default {
   props: ["filterByName"],
+  data() {
+    return {
+      limit: 16
+    };
+  },
   computed: {
     ...mapState({
       recipes: state => state.recipes.data
@@ -33,7 +38,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("recipes/index", { filter: this.filter, limit: 16 });
+    this.$store.dispatch("recipes/index", {
+      filter: this.filter,
+      limit: this.limit
+    });
   }
 };
 </script>

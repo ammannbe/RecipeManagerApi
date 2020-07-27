@@ -21,3 +21,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# Laravel Translation Manager
+database/migrations/2014_04_02_193005_create_translations_table.php

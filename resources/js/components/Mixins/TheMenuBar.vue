@@ -30,7 +30,7 @@
               type="text"
               class="input is-rounded"
               minlength="5"
-              placeholder="Suchen..."
+              :placeholder="$t('Search...')"
               v-model="search"
             />
             <button class="button is-link is-rounded">
@@ -40,12 +40,15 @@
         </div>
 
         <div v-if="!$Laravel.isLoggedIn" class="navbar-end">
+          <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
+            <a @click="switchLanguage(locale)">{{ locale.toUpperCase() }}</a>
+          </div>
           <div v-if="!$env.DISABLE_REGISTRATION" class="navbar-item">
             <router-link :to="{ name: 'register' }" class="button">
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
-              <span>Registrieren</span>
+              <span>{{ $t('Signup') }}</span>
             </router-link>
           </div>
           <div class="navbar-item">
@@ -53,11 +56,14 @@
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
-              <span>Anmelden</span>
+              <span>{{ $t('Login') }}</span>
             </router-link>
           </div>
         </div>
-        <div class="navbar-end" v-else>
+        <div v-else class="navbar-end">
+          <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
+            <a @click="switchLanguage(locale)">{{ locale.toUpperCase() }}</a>
+          </div>
           <div class="navbar-item has-dropdown is-hoverable">
             <router-link :to="{ name: 'account' }">
               <div style="position:relative" class="navbar-link">
@@ -70,15 +76,15 @@
 
             <div class="navbar-dropdown">
               <router-link :to="{ name: 'account' }">
-                <span class="navbar-item">Mein Konto</span>
+                <span class="navbar-item">{{ $t('My Account') }}</span>
               </router-link>
-              <router-link :to="{ name: 'recipes-add' }">
-                <span class="navbar-item">Rezept hinzufügen</span>
+              <router-link :to="{ name: 'recipes.add' }">
+                <span class="navbar-item">{{ $t('Add recipe') }}</span>
               </router-link>
-              <router-link :to="{ name: 'cookbooks-add' }">
-                <span class="navbar-item">Kochbuch hinzufügen</span>
+              <router-link :to="{ name: 'cookbooks.add' }">
+                <span class="navbar-item">{{ $t('Add cookbook') }}</span>
               </router-link>
-              <a class="navbar-item" @click="logout()">Abmelden</a>
+              <a class="navbar-item" @click="logout()">{{ $t('Logout') }}</a>
             </div>
           </div>
         </div>
@@ -89,6 +95,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Locale from "../../modules/Locale";
 
 export default {
   data() {
@@ -109,6 +116,10 @@ export default {
     expandMobileMenu() {
       this.isMobileMenuExpanded = !this.isMobileMenuExpanded;
     },
+    switchLanguage(locale) {
+      this.$i18n.locale = locale;
+      Locale.set(locale);
+    },
     logout() {
       this.$store.dispatch("user/logout").then(() => {
         this.$router.push({ name: "home" });
@@ -122,6 +133,10 @@ export default {
 <style lang="scss" scoped>
 .navbar {
   z-index: 9999;
+
+  .navbar-item.lang {
+    justify-content: space-around;
+  }
 }
 
 .search > button {

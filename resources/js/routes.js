@@ -13,7 +13,7 @@ let routes = [
         component: require('./views/Auth/Login').default
     },
     {
-        path: '/email/verifizieren',
+        path: '/email/verify',
         name: 'email.verify',
         component: require('./views/Auth/VerifyEmail').default
     },
@@ -34,29 +34,29 @@ let routes = [
         component: require('./views/Account').default
     },
     {
-        path: '/rezepte/:id/:slug',
+        path: '/recipes/:id/:slug',
         name: 'recipes',
         component: require('./views/Recipe').default,
         props: true
     },
     {
-        path: '/rezepte/neu',
-        name: 'recipes-add',
+        path: '/recipes/add',
+        name: 'recipes.add',
         component: require('./views/AddRecipe/Index').default
     }
 ];
 
 if (!env.DISABLE_COOKBOOK) {
     routes.push({
-        path: '/kochbuch/neu',
-        name: 'cookbooks-add',
+        path: '/cookbook/add',
+        name: 'cookbooks.add',
         component: require('./views/AddCookbook').default
     });
 }
 
 if (!env.DISABLE_REGISTRATION) {
     routes.push({
-        path: '/registrieren',
+        path: '/register',
         name: 'register',
         component: require('./views/Auth/Register').default
     });

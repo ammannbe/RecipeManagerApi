@@ -4,7 +4,7 @@
       <rm-select
         v-model="ingredient_id"
         :disabled="!ingredients.length"
-        placeholder="Alternative von..."
+        :placeholder="$t('Alternate of...')"
       >
         <option
           v-for="ingredient in $store.getters['ingredients/byGroup']()"
@@ -21,9 +21,9 @@
         </optgroup>
       </rm-select>
 
-      <div class="field or" v-if="ingredient_id">| Oder:</div>
+      <div class="field or" v-if="ingredient_id">| {{ $t('Or') }}:</div>
       <rm-numberinput
-        label="Menge"
+        :label="$t('Amount')"
         label-position="on-border"
         v-model="amount"
         :min="0"
@@ -32,7 +32,7 @@
       />
 
       <rm-numberinput
-        label="Max. Menge"
+        :label="$t('Max. amount')"
         label-position="on-border"
         v-model="amount_max"
         :min="0"
@@ -42,14 +42,14 @@
       <rm-select
         label-position="on-border"
         v-model="unit_id"
-        placeholder="Einheit"
+        :placeholder="$t('Unit')"
         :options="units"
       />
 
       <rm-select
         label-position="on-border"
         v-model="food_id"
-        placeholder="Zutat"
+        :placeholder="$t('Ingredient')"
         :options="foods"
         required
       />
@@ -57,7 +57,7 @@
       <rm-multiselect
         label-position="on-border"
         v-model="ingredient_attributes"
-        placeholder="Eigenschaften"
+        :placeholder="$t('Attributes')"
         :options="ingredientAttributes"
       />
 
@@ -65,25 +65,25 @@
         label-position="on-border"
         v-if="!ingredient_id && ingredientGroups.length"
         v-model="showNewIngredientGroup"
-      >Neue Gruppe</rm-switch>
+      >{{ $t('New group') }}</rm-switch>
       <rm-select
         label-position="on-border"
         v-if="ingredientGroups.length && !showNewIngredientGroup && !ingredient_id"
         v-model="ingredient_group_id"
-        placeholder="Gruppe"
+        :placeholder="$t('Group')"
         :options="ingredientGroups"
       ></rm-select>
       <rm-textinput
         label-position="on-border"
         v-if="(!ingredientGroups.length || showNewIngredientGroup) && !ingredient_id"
         v-model="newIngredientGroupName"
-        placeholder="Gruppenname"
+        :placeholder="$t('Group name')"
       ></rm-textinput>
 
       <rm-submit-button>
-        Hinzufügen
+        {{ ('Add') }}
         <template v-slot:buttons>
-          <b-button @click="initForm && $emit('cancel')" type="is-danger">Abbrechen</b-button>
+          <b-button @click="initForm && $emit('cancel')" type="is-danger">{{ $t('Cancel') }}</b-button>
         </template>
       </rm-submit-button>
     </form>

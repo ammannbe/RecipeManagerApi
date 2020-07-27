@@ -2,37 +2,37 @@
   <div
     class="column is-full-mobile is-full-tablet is-three-fifths-desktop is-offset-one-fifth-desktop"
   >
-    <h1 class="title has-text-centered">Informationen</h1>
+    <h1 class="title has-text-centered">{{ $t('Infos') }}</h1>
 
     <form @submit.prevent="$emit('input', form); $emit('next')">
       <rm-textinput
-        label="Name:"
+        :label="$t('Name') + ':'"
         horizontal
         v-model="form.name"
-        placeholder="Bitte eingeben..."
+        :placeholder="$t('Please enter...')"
         required
         autofocus
       />
 
       <rm-select
-        label="Kochbuch:"
-        label-tooltip="Rezepte in einem Kochbuch sind nicht öffentlich einsehbar."
+        :label="$t('Kochbuch') + ':'"
+        :label-tooltip="$t('Recipes in a cookbook are not public visible.')"
         horizontal
         v-model="form.cookbook_id"
         :options="[{ id: null, name: 'Öffentlich' }, ...cookbooks]"
       />
 
       <rm-select
-        label="Kategorie:"
+        :label="$t('Category') + ':'"
         horizontal
         v-model="form.category_id"
-        placeholder="Bitte wählen..."
+        :placeholder="$t('Please choose...')"
         :options="categories"
         required
       />
 
       <rm-numberinput
-        label="Portionen:"
+        :label="$t('Yield amount') + ':'"
         horizontal
         v-model="form.yield_amount"
         :min="0"
@@ -41,26 +41,26 @@
       />
 
       <rm-select
-        label="Schwierigkeitsgrad:"
+        :label="$t('Complexity') + ':'"
         horizontal
         v-model="form.complexity"
-        placeholder="Bitte wählen..."
+        :placeholder="$t('Please choose...')"
         :options="complexities"
         required
       />
 
       <rm-timepicker
-        label="Zubereitungszeit"
+        :label="$t('Preparation time') + ':'"
         horizontal
         v-model="form.preparation_time"
-        placeholder="Bitte wählen..."
+        :placeholder="$t('Please choose...')"
       />
 
       <rm-multiselect
-        label="Tags:"
+        :label="$t('Tags') + ':'"
         horizontal
         v-model="form.tags"
-        placeholder="Bitte auswählen..."
+        :placeholder="$t('Please choose...')"
         :options="tags"
       />
 

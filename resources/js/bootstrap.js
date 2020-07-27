@@ -4,11 +4,14 @@ import MavonEditor from 'mavon-editor';
 import Vuex from 'vuex'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import VueInternationalization from 'vue-i18n';
 
 import './nav';
 import env from './env';
 import moment from 'moment';
-moment.locale('de');
+import Locale from './modules/Locale';
+
+Locale.init();
 
 window.Vue = Vue;
 window.moment = moment;
@@ -32,13 +35,12 @@ window.Loading = {
 Vue.use(VueRouter);
 Vue.use(MavonEditor);
 Vue.use(Vuex);
-Vue.use(Buefy, {
-    defaultIconPack: 'fas',
-});
+Vue.use(Buefy, { defaultIconPack: 'fas' });
+Vue.use(VueInternationalization);
 
+Vue.prototype.$Laravel = Laravel;
 Vue.prototype.$env = env;
 Vue.prototype.$markdownIt = MavonEditor.markdownIt;
-Vue.prototype.$Laravel = Laravel;
 Vue.prototype.$moment = moment;
 Vue.prototype.$loading = Loading;
 

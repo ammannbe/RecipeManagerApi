@@ -4,7 +4,7 @@
       :class="{'title is-4': true, 'can-edit': editmode.enabled}"
       @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
       :title="title"
-    >Zubereitung</h2>
+    >{{ $t('Instructions') }}</h2>
 
     <rm-markdown
       v-if="editmode.editing"
@@ -45,7 +45,7 @@ export default {
     },
     title() {
       if (this.editmode.enabled) {
-        return "Klicken zum Bearbeiten";
+        return this.$t("Click to edit");
       }
       return "";
     }

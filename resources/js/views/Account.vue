@@ -1,35 +1,35 @@
 <template>
   <div class="columns">
     <div class="column is-one-third">
-      <h3 class="title">Details</h3>
+      <h3 class="title">{{ $t('Details') }}</h3>
 
       <table>
         <tr>
-          <th>Name:</th>
+          <th>{{ $t('Name') }}:</th>
           <td>{{ user.name }}</td>
         </tr>
         <tr>
-          <th>E-Mail:</th>
+          <th>{{ $t('Email') }}:</th>
           <td>{{ user.email }}</td>
         </tr>
         <tr>
-          <th>Registriert:</th>
+          <th>{{ $t('Signed Up') }}:</th>
           <td :title="$moment(user.created_at)">{{ $moment(user.created_at).from() }}</td>
         </tr>
         <tr>
-          <th>Letzte Änderung:</th>
+          <th>{{ $t('Last change') }}:</th>
           <td :title="$moment(user.updated_at)">{{ $moment(user.updated_at).from() }}</td>
         </tr>
         <tr>
-          <span v-if="user.admin" class="tag is-info">Du bist Admin</span>
+          <span v-if="user.admin" class="tag is-info">{{ $t('You\'re admin') }}</span>
         </tr>
       </table>
     </div>
     <div class="column is-one-third">
       <h3
-        @click.prevent="$router.push({ name: 'recipes-add' })"
+        @click.prevent="$router.push({ name: 'recipes.add' })"
         class="title add-cursor"
-      >{{ user.admin ? 'Alle Rezepte' : 'Deine Rezepte' }}</h3>
+      >{{ user.admin ? $t('All recipes') : $t('Your recipes') }}</h3>
       <pagination
         v-if="recipes.last_page > 1"
         position="start"
@@ -65,9 +65,9 @@
     </div>
     <div class="column is-one-third">
       <h3
-        @click.prevent="$router.push({ name: 'cookbooks-add' })"
+        @click.prevent="$router.push({ name: 'cookbooks.add' })"
         class="title add-cursor"
-      >{{ user.admin ? 'Alle Kochbücher' : 'Deine Kochbücher' }}</h3>
+      >{{ user.admin ? $t('All cookbooks') : $t('Your cookbooks') }}</h3>
       <ul>
         <li :key="cookbook.id" v-for="cookbook in sortedCookbooks">
           <span v-if="!cookbook.deleted_at">
@@ -109,14 +109,18 @@ export default {
         return this.recipes;
       }
 
-      return this.recipes.data.sort((a, b) => a.deleted_at != null && a.id > b.id);
+      return this.recipes.data.sort(
+        (a, b) => a.deleted_at != null && a.id > b.id
+      );
     },
     sortedCookbooks() {
       if (!this.cookbooks.data) {
         return this.cookbooks;
       }
 
-      return this.cookbooks.data.sort((a, b) => a.deleted_at != null && a.id > b.id);
+      return this.cookbooks.data.sort(
+        (a, b) => a.deleted_at != null && a.id > b.id
+      );
     }
   },
   beforeCreate() {

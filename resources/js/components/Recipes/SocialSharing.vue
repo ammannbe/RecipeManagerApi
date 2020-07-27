@@ -4,16 +4,16 @@
     <a
       :href="'//telegram.me/share/url?url=' + url + '&text=' + name"
       target="_blank"
-      title="Via Telegram teilen"
+      :title="$t('Share via Telegram')"
     >
       <i class="fab fa-telegram"></i>
     </a>
     <!-- E-Mail -->
-    <a :href="'mailto:?Subject=' + name + '&amp;Body=' + body" title="Via E-Mail teilen">
+    <a :href="'mailto:?Subject=' + name + '&amp;Body=' + body" :title="$t('Share via email')">
       <i class="fas fa-envelope"></i>
     </a>
     <!-- Print -->
-    <a @click="print()" title="Rezept drucken">
+    <a @click="print()" :title="$t('Print recipe')">
       <i class="fas fa-print"></i>
     </a>
 

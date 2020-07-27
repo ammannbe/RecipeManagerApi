@@ -1,22 +1,22 @@
 <template>
   <div class="column is-full-tablet">
-    <h1 class="title has-text-centered">Zutaten</h1>
+    <h1 class="title has-text-centered">{{ $t('Ingredients') }}</h1>
 
     <b-button class="add" @click="add()">+</b-button>
 
     <form @submit.prevent="$emit('input', forms); $emit('next')">
       <div class="ingredient" v-for="(form, index) in forms" :key="index">
-        <rm-numberinput v-model="form.amount" placeholder="Menge" :min="0" :max="999998" autofocus />
+        <rm-numberinput v-model="form.amount" :placeholder="$t('Amount')" :min="0" :max="999998" autofocus />
 
-        <rm-numberinput v-model="form.amount_max" placeholder="Max. Menge" :min="0" :max="999999" />
+        <rm-numberinput v-model="form.amount_max" :placeholder="$t('Max. amount')" :min="0" :max="999999" />
 
-        <rm-select v-model="form.unit_id" placeholder="Einheit" :options="units" />
+        <rm-select v-model="form.unit_id" :placeholder="$t('Unit')" :options="units" />
 
-        <rm-select v-model="form.food_id" placeholder="Zutat" :options="foods" required />
+        <rm-select v-model="form.food_id" :placeholder="$t('Ingredient')" :options="foods" required />
 
         <rm-multiselect
           v-model="form.ingredient_attributes"
-          placeholder="Eigenschaften"
+          :placeholder="$t('Attributes')"
           :options="ingredientAttributes"
         />
 
@@ -28,7 +28,7 @@
       <rm-submit-button>
         Weiter
         <template v-slot:buttons>
-          <b-button @click="$emit('back')" type="is-danger">Zurück</b-button>
+          <b-button @click="$emit('back')" type="is-danger">{{ $t('Back') }}</b-button>
         </template>
       </rm-submit-button>
     </form>

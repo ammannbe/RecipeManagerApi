@@ -30,7 +30,7 @@
       <hr />
 
       <div v-if="false" class="ratings">
-        <h2 class="title is-4">Bewertungen</h2>
+        <h2 class="title is-4">{{ $t('Ratings') }}</h2>
         <!-- TODO: -->
         <rating-card-list :id="id"></rating-card-list>
       </div>

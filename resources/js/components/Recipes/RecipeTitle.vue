@@ -11,12 +11,12 @@
       ></rm-textinput>
 
       <rm-submit-button>
-        Speichern
+        {{ $t('Save') }}
         <template v-slot:buttons>
           <b-button
             @click="$store.commit('recipe/editmode/edit', { editing: false })"
             type="is-danger"
-          >Abbrechen</b-button>
+          >{{ $t('Cancel') }}</b-button>
         </template>
       </rm-submit-button>
     </form>
@@ -52,7 +52,7 @@ export default {
     },
     title() {
       if (this.editmode.enabled) {
-        return "Klicken zum Bearbeiten";
+        return this.$t("Click to edit");
       }
       return "";
     }

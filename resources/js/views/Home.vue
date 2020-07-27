@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="title has-text-centered">Übersicht Rezepte</h1>
-    <p v-if="$route.query.search">Suche nach "{{ $route.query.search }}"</p>
+    <h1 class="title has-text-centered">{{ $t('Recipes Overview') }}</h1>
+    <p v-if="$route.query.search">{{ $t('Search for', { search: $route.query.search }) }}</p>
     <hr />
     <recipe-card-list :filter-by-name="$route.query.search"></recipe-card-list>
   </div>

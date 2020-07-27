@@ -1,13 +1,13 @@
 <template>
   <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
-      <h1 class="title has-text-centered">Registrieren</h1>
+      <h1 class="title has-text-centered">{{ $t('Signup') }}</h1>
 
       <br />
 
       <rm-textinput
         v-model="name"
-        label="Name:"
+        :label="$t('Name') + ':'"
         name="name"
         horizontal
         placeholder="eingeben..."
@@ -18,10 +18,10 @@
 
       <rm-emailinput
         v-model="email"
-        label="E-Mail:"
+        :label="$t('Email') + ':'"
         name="email"
         horizontal
-        placeholder="E-Mail eingeben..."
+        :placeholder="$t('Enter email...')"
         :message="errors.email"
         required
         autofocus
@@ -29,25 +29,25 @@
 
       <rm-passwordinput
         v-model="password"
-        label="Passwort:"
+        :label="$t('Password') + ':'"
         name="password"
         horizontal
-        placeholder="Passwort eingeben..."
+        :placeholder="$t('Enter password...')"
         :message="errors.password"
         required
       />
 
       <rm-passwordinput
         v-model="password_confirmation"
-        label="Passwort bestätigen:"
+        :label="$t('Confirm password') + ':'"
         name="password_confirmation"
         horizontal
-        placeholder="Passwort erneut eingeben..."
+        :placeholder="$t('Confirm password...')"
         :message="errors.password_confirmation"
         required
       />
 
-      <rm-submit-button>Registrieren</rm-submit-button>
+      <rm-submit-button>{{ $t('Signup') }}</rm-submit-button>
     </div>
   </form>
 </template>

@@ -28,7 +28,7 @@ export default {
     }),
     title() {
       if (this.editmode.enabled) {
-        return "Klicken zum Bearbeiten";
+        return this.$t("Click to edit");
       }
       return "";
     },

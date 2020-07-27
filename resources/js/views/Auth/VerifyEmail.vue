@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="box column is-one-third">Please verify your email address, before you proceed.</div>
+    <div class="box column is-one-third">{{ $t('Please verify your email address, before you proceed.') }}</div>
   </div>
 </template>
 

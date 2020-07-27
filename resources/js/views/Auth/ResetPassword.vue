@@ -3,10 +3,10 @@
     <div class="column is-one-third is-offset-3">
       <rm-emailinput
         :value="email"
-        label="E-Mail:"
+        :label="$t('Email') + ':'"
         name="email"
         horizontal
-        placeholder="E-Mail eingeben..."
+        :placeholder="$t('Enter email...')"
         :message="errors.email"
         required
         disabled
@@ -14,10 +14,10 @@
 
       <rm-passwordinput
         v-model="password"
-        label="Neues Passwort:"
+        :label="$t('New Password') + ':'"
         name="password"
         horizontal
-        placeholder="Passwort eingeben..."
+        :placeholder="$t('Enter password...')"
         :message="errors.password"
         required
         autofocus
@@ -25,15 +25,15 @@
 
       <rm-passwordinput
         v-model="password_confirmation"
-        label="Neues Passwort bestätigen:"
+        :label="$t('Confirm new password') + ':'"
         name="password_confirmation"
         horizontal
-        placeholder="Passwort erneut eingeben..."
+        :placeholder="$t('Confirm password...')"
         :message="errors.password_confirmation"
         required
       />
 
-      <rm-submit-button>Neues Passwort setzen</rm-submit-button>
+      <rm-submit-button>{{ $t('Save password') }}</rm-submit-button>
     </div>
   </form>
 </template>

@@ -6,7 +6,7 @@
         :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
         :title="title"
         @click="showAddForm = !showAddForm"
-      >Zutaten</h2>
+      >{{ $t('Ingredients') }}</h2>
       <ingredient-list
         :ingredients="$store.getters['ingredients/byGroup']()"
         :multiplier="multiplier"
@@ -32,7 +32,7 @@
         :ingredient-group-id="ingredientGroup.id"
         :first-level-list="true"
       />
-      <span v-else>Keine Zutaten...</span>
+      <span v-else>{{ $t('No ingredients available...') }}</span>
     </div>
   </div>
   <div v-else>
@@ -43,7 +43,7 @@
       @click="showAddForm = !showAddForm"
     >Zutaten</h2>
     <ingredient-add-form v-if="showAddForm" @cancel="showAddForm = false" @created="created"></ingredient-add-form>
-    <span v-else>Keine Zutaten vorhanden!</span>
+    <span v-else>{{ $t('No ingredients available...') }}</span>
   </div>
 </template>
 
@@ -66,7 +66,7 @@ export default {
     }),
     title() {
       if (this.editmode.enabled) {
-        return "Klicken zum Hinzufügen";
+        return this.$t("Click to add");
       }
       return "";
     },

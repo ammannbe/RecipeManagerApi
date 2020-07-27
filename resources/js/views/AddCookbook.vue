@@ -1,24 +1,24 @@
 <template>
   <form class="columns" @submit.prevent="submit">
     <div class="column is-one-third is-offset-3">
-      <h1 class="title has-text-centered">Kochbuch hinzufügen</h1>
+      <h1 class="title has-text-centered">{{ $t('Add cookbook') }}</h1>
 
       <br />
 
       <rm-textinput
-        label="Name:"
+        :label="$t('Name') + ':'"
         horizontal
         v-model="name"
-        placeholder="Bitte Name eingeben..."
+        :placeholder="$t('Please enter name...')"
         maxlength="100"
         required
         autofocus
       />
 
       <rm-submit-button>
-        Hinzufügen
+        {{ ('Add') }}
         <template v-slot:buttons>
-          <b-button @click="$router.go(-1)" type="is-danger">Abbrechen</b-button>
+          <b-button @click="$router.go(-1)" type="is-danger">{{ $t('Cancel') }}</b-button>
         </template>
       </rm-submit-button>
     </div>
