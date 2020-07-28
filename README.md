@@ -4,6 +4,12 @@ Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
 
 Manage your families and friends recipes like a chef.
 
+----
+
+### ***Comming from an older version? Check out the migration guide from the 5.x branch.***
+
+----
+
 ![Recipes Overview](https://klaud.narrenhaus.ch/index.php/s/MRNc7KsMbcAFnkn/preview)
 
 ## Why is this so awesome?
