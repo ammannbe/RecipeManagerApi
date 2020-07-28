@@ -35,11 +35,11 @@
 <script>
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
+import Ingredient from "./Ingredient";
+import IngredientAddForm from "./IngredientAddForm";
 
 export default {
-  components: {
-    draggable
-  },
+  components: { draggable, Ingredient, IngredientAddForm },
   props: [
     "ingredientGroupId",
     "ingredients",

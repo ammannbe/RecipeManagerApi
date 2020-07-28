@@ -4,7 +4,7 @@ Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
 
 Manage your families and friends recipes like a chef.
 
-![Overview recipes](https://klaud.narrenhaus.ch/index.php/s/8zNX4inf8xaRgD2/preview)
+![Recipes Overview](https://klaud.narrenhaus.ch/index.php/s/MRNc7KsMbcAFnkn/preview)
 
 ## Why is this so awesome?
 
@@ -131,6 +131,6 @@ This project is licensed under the AGPLv3 or later - see the [LICENSE](LICENSE) 
 
 ## Gallery
 
-![Overview recipes](https://klaud.narrenhaus.ch/index.php/s/brXWi2Eg7ofK2e4/preview)
-![Search recipe](https://klaud.narrenhaus.ch/index.php/s/KnoxBjsWaGT7T5w/preview)
-![Zwiebel-Chutney](https://klaud.narrenhaus.ch/index.php/s/2cAXpKr2tobp7AN/preview)
+![Recipes Overview - Mobile](https://klaud.narrenhaus.ch/index.php/s/mgasnaoeXWMQttc/preview)
+![Account - Mobile](https://klaud.narrenhaus.ch/index.php/s/6QXbsZymS2econD/preview)
+![Recipe - Mobile](https://klaud.narrenhaus.ch/index.php/s/dq44kfHykxs9AZx/preview)
