@@ -13,7 +13,11 @@
         />
       </property-list-item>
 
-      <property-list-item :label="$t('Author')" :value="recipe.author.name" :disable-editing="true" />
+      <property-list-item
+        :label="$t('Author')"
+        :value="recipe.author.name"
+        :disable-editing="true"
+      />
 
       <property-list-item :label="$t('Category')" :value="recipe.category | name | hyphenate">
         <rm-select v-model="category_id" size="is-small" :options="categories" required />
@@ -85,8 +89,10 @@
 
 <script>
 import { mapState } from "vuex";
+import PropertyListItem from "./PropertyListItem";
 
 export default {
+  components: { PropertyListItem },
   data() {
     return {
       yieldAmountMultiplier: null

@@ -18,8 +18,10 @@
 
 <script>
 import { mapState } from "vuex";
+import RecipeCard from "./RecipeCard";
 
 export default {
+  components: { RecipeCard },
   props: ["filterByName"],
   data() {
     return {

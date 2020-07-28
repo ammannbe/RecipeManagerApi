@@ -5,7 +5,7 @@ let routes = [
     {
         path: '/',
         name: 'home',
-        component: require('./views/Home').default
+        component: require('./views/Home/Index').default
     },
     {
         path: '/login',
@@ -36,21 +36,21 @@ let routes = [
     {
         path: '/recipes/:id/:slug',
         name: 'recipes',
-        component: require('./views/Recipe').default,
+        component: require('./views/Recipe/Index').default,
         props: true
     },
     {
         path: '/recipes/add',
         name: 'recipes.add',
-        component: require('./views/AddRecipe/Index').default
+        component: require('./views/Recipe/Add/Index').default
     }
 ];
 
 if (!env.DISABLE_COOKBOOK) {
     routes.push({
-        path: '/cookbook/add',
+        path: '/cookbooks/add',
         name: 'cookbooks.add',
-        component: require('./views/AddCookbook').default
+        component: require('./views/Cookbook/Add').default
     });
 }
 

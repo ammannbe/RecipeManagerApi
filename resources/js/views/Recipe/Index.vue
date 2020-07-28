@@ -13,7 +13,7 @@
     <recipe-title @update="update"></recipe-title>
 
     <div class="container">
-      <link-path-list :category="recipe.category"></link-path-list>
+      <breadcrumb-trail :category="recipe.category" />
       <div class="meta columns">
         <recipe-photo class="column is-one-fifth" :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
         <property-list @update="update" @multiply="multiplier = $event"></property-list>
@@ -40,10 +40,22 @@
 
 <script>
 import { mapState } from "vuex";
-import Recipes from "../modules/ApiClient/Recipes";
-import Ingredients from "../modules/ApiClient/Ingredients";
+import Recipes from "../../modules/ApiClient/Recipes";
+import Ingredients from "../../modules/ApiClient/Ingredients";
+import SocialSharing from "./SocialSharing";
+import RecipeTitle from "./RecipeTitle";
+import RecipePhoto from "./RecipePhoto";
+import PropertyList from "./PropertyList/PropertyList";
+import IngredientListContainer from "./Ingredient/IngredientListContainer";
 
 export default {
+  components: {
+    SocialSharing,
+    RecipeTitle,
+    RecipePhoto,
+    PropertyList,
+    IngredientListContainer
+  },
   props: ["id", "slug"],
   data() {
     return {

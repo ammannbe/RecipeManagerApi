@@ -20,14 +20,13 @@
 
 <script>
 import { mapState } from "vuex";
+import Infos from "./Infos";
+import Ingredients from "./Ingredients";
+import Instructions from "./Instructions";
+import Photos from "./Photos";
 
 export default {
-  components: {
-    Infos: require("./Infos").default,
-    Ingredients: require("./Ingredients").default,
-    Instructions: require("./Instructions").default,
-    Photos: require("./Photos").default
-  },
+  components: { Infos, Ingredients, Instructions, Photos },
   data() {
     return {
       step: 0,

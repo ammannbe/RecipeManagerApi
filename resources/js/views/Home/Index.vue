@@ -7,6 +7,14 @@
   </div>
 </template>
 
+<script>
+import RecipeCardList from "./RecipeCardList";
+
+export default {
+  components: { RecipeCardList }
+};
+</script>
+
 <style lang="scss" scoped>
 .columns {
   padding-left: 50px;

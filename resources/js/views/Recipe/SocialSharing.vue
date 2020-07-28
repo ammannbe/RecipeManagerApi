@@ -9,7 +9,7 @@
       <i class="fab fa-telegram"></i>
     </a>
     <!-- E-Mail -->
-    <a :href="'mailto:?Subject=' + name + '&amp;Body=' + body" :title="$t('Share via email')">
+    <a :href="'mailto:?Subject=' + name + '&amp;Body=' + emailBody" :title="$t('Share via email')">
       <i class="fas fa-envelope"></i>
     </a>
     <!-- Print -->
@@ -30,7 +30,7 @@ export default {
     ...mapState({
       enabled: state => state.socialsharing.enabled
     }),
-    body() {
+    emailBody() {
       return `${this.name}%0D%0A${this.author}%0D%0A${this.category}%0D%0A${this.url}`;
     }
   },
