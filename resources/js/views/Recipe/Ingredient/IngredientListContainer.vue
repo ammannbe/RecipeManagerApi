@@ -49,8 +49,10 @@
 
 <script>
 import { mapState } from "vuex";
+import IngredientList from "./IngredientList";
 
 export default {
+  components: { IngredientList },
   props: ["id", "multiplier"],
   data() {
     return {
