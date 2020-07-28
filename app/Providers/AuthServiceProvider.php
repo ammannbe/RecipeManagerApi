@@ -13,11 +13,21 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Models\IngredientDetail' => 'App\Policies\IngredientDetailPolicy',
-        'App\Models\IngredientDetailGroup' => 'App\Policies\IngredientDetailGroupPolicy',
-        'App\Models\Rating'           => 'App\Policies\RatingPolicy',
-        'App\Models\Recipe'           => 'App\Policies\RecipePolicy',
-        'App\Models\Author'           => 'App\Policies\AuthorPolicy',
+        'App\Models\Ingredients\Food' => 'App\Policies\Ingredients\FoodPolicy',
+        'App\Models\Ingredients\IngredientGroup' => 'App\Policies\Ingredients\IngredientGroupPolicy',
+        'App\Models\Ingredients\Ingredient' => 'App\Policies\Ingredients\IngredientPolicy',
+        'App\Models\Ingredients\IngredientAttribute' => 'App\Policies\Ingredients\IngredientAttributePolicy',
+        'App\Models\Ingredients\Unit' => 'App\Policies\Ingredients\UnitPolicy',
+
+        'App\Models\Ratings\RatingCriterion' => 'App\Policies\Ratings\RatingCriterionPolicy',
+        'App\Models\Ratings\Rating' => 'App\Policies\Ratings\RatingPolicy',
+
+        'App\Models\Recipes\Category' => 'App\Policies\Recipes\CategoryPolicy',
+        'App\Models\Recipes\Cookbook' => 'App\Policies\Recipes\CookbookPolicy',
+        'App\Models\Recipes\Recipe' => 'App\Policies\Recipes\RecipePolicy',
+        'App\Models\Recipes\Tag' => 'App\Policies\Recipes\TagPolicy',
+
+        'App\Models\Users\Author' => 'App\Policies\Users\AuthorPolicy',
     ];
 
     /**
@@ -28,7 +38,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
     }
 }

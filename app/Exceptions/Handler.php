@@ -2,12 +2,8 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use App\Mail\ExceptionOccured;
-use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Debug\Exception\FlattenException;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,15 +29,13 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return void
+     *
+     * @throws \Exception
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
-        if ($this->shouldReport($exception)) {
-            $this->sendEmail($exception);
-        }
-
         parent::report($exception);
     }
 
@@ -49,31 +43,13 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Sends an email to the developer about the exception.
-     *
-     * @param  \Exception  $exception
-     * @return void
-     */
-    private function sendEmail(Exception $exception)
-    {
-        try {
-            if (env('APP_DEBUG') === false) {
-                $flatten = FlattenException::create($exception);
-                $handler = new SymfonyExceptionHandler();
-                $html = $handler->getHtml($flatten);
-                Mail::to(env('MAIL_RECIPIENT'))->send(new ExceptionOccured($html));
-            }
-        } catch (Exception $e) {
-            dd($e);
-        }
     }
 }

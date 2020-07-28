@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,6 +55,35 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disabled Controllers
+    |--------------------------------------------------------------------------
+    |
+    | These properties are used to enable or disable whole controllers. Each
+    | disabled controller and all related functionalities will throw a
+    | HTTP Status 404 (Not Found) or 422 (Validation Error).
+    |
+    | NOTE: only the listed controllers can be disabled!
+    |
+    */
+
+    'disabled_controllers' => [
+        \App\Http\Controllers\Recipes\CookbookController::class => env('DISABLE_COOKBOOKS', false),
+        \App\Http\Controllers\Recipes\TagController::class => env('DISABLE_TAGS', false),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disabled Registration
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable the registration system.
+    |
+    */
+
+    'disable_registration' => env('DISABLE_REGISTRATION', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -112,6 +141,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Log DB Queries
+    |--------------------------------------------------------------------------
+    |
+    | This flag will be used to determine if DB Queries should be logged in
+    | the log file or not. This should not be enabled in production, cause it
+    | will slowing your query time.
+    |
+    */
+
+    'log_queries' => env('LOG_QUERIES', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
@@ -163,7 +205,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Nathanmac\Utilities\Parser\ParserServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -176,6 +217,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\ObserverServiceProvider::class,
+        App\Providers\QueryLogServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
@@ -210,6 +253,7 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Http' => Illuminate\Support\Facades\Http::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
@@ -228,14 +272,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        'Adldap' => Adldap\Laravel\Facades\Adldap::class,
-        'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
-
-        'CodeHelper'   => App\Helpers\CodeHelper::class,
-        'FormatHelper' => App\Helpers\FormatHelper::class,
-        'FormHelper'   => App\Helpers\FormHelper::class,
-        'RecipeHelper' => App\Helpers\RecipeHelper::class,
 
     ],
 
