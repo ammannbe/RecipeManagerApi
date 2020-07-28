@@ -1,47 +1,69 @@
 <template>
   <div class="pagination" :class="position">
-    <div v-if="lastPage != 1">
-      <a v-if="prevPage" @click="$emit('load', prevPage)" v-html="$t('pagination.previous')"></a>
+    <div v-if="last != 1">
+      <div>
+        <a
+          :class="{'disabled': !previous}"
+          @click="load(previous)"
+          v-html="$t('pagination.previous')"
+        ></a>
+        |
+        <a :class="{'disabled': !next}" @click="load(next)" v-html="$t('pagination.next')"></a>
+      </div>
 
       <span class="pages">
-        [
-        <span>{{ currentPage }}</span> /
-        <a v-if="currentPage !== lastPage" @click="$emit('load', lastPage)">{{ lastPage }}</a>
-        <span v-else>{{ lastPage }}</span>
-        ]
+        (
+        <span>{{ current }}</span> /
+        <a v-if="current !== last" @click="load(last)">{{ last }}</a>
+        <span v-else>{{ last }}</span>
+        )
       </span>
-
-      <a v-if="nextPage" @click="$emit('load', nextPage)" v-html="$t('pagination.next')"></a>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["currentPage", "lastPage", "position", "queryPage"],
+  props: ["current", "last", "position", "routeName", "queryUrl"],
   computed: {
-    nextPage() {
-      if (this.lastPage <= this.currentPage) {
+    next() {
+      if (this.last <= this.current) {
         return false;
       }
-      return this.currentPage + 1;
+      return this.current + 1;
     },
-    prevPage() {
-      if (this.currentPage <= 1) {
+    previous() {
+      if (this.current <= 1) {
         return false;
       }
-      return this.currentPage - 1;
+      return this.current - 1;
     }
   },
   mounted() {
-    if (this.queryPage) {
-      this.pushCurrentPageToRoute();
+    if (this.getUrlQuery() && this.routeName == this.$route.name) {
+      this.load(this.getUrlQuery());
     }
   },
   methods: {
-    pushCurrentPageToRoute() {
-      let page = this.currentPage;
-      this.$router.push({ query: { ...this.$route.query, page } });
+    load(page) {
+      this.pushPageToRoute(page);
+      this.$emit("load", page);
+    },
+    pushPageToRoute(page = 1) {
+      if (!this.queryUrl) {
+        return;
+      }
+
+      if (this.getUrlQuery() == page) {
+        return;
+      }
+
+      this.$router.push({
+        query: { ...this.$route.query, [this.queryUrl]: page }
+      });
+    },
+    getUrlQuery() {
+      return this.$route.query[this.queryUrl] || null;
     }
   }
 };
@@ -53,6 +75,17 @@ export default {
 
   &.start {
     justify-content: start;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    .disabled {
+      pointer-events: none;
+      cursor: default;
+      color: inherit;
+    }
   }
 }
 </style>

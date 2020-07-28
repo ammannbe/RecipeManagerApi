@@ -33,8 +33,10 @@
       <pagination
         v-if="recipes.last_page > 1"
         position="start"
-        :current-page="recipes.current_page"
-        :last-page="recipes.last_page"
+        :current="recipes.current_page"
+        :last="recipes.last_page"
+        :route-name="this.$route.name"
+        query-url="recipe-page"
         @load="loadRecipes"
       ></pagination>
       <ul>
