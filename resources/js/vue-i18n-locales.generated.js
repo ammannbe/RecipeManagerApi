@@ -70,6 +70,7 @@ export default {
         "Search for": "Suche nach {search}",
         "Home": "Startseite",
         "Categories": "Kategorien",
+        "No more data :)": "Keine weiteren Daten :)",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

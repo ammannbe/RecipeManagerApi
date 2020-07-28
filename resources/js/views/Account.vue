@@ -25,20 +25,11 @@
         </tr>
       </table>
     </div>
-    <div class="column is-one-third">
+    <div ref="top" class="column is-one-third">
       <h3
         @click.prevent="$router.push({ name: 'recipes.add' })"
         class="title add-cursor"
       >{{ user.admin ? $t('All recipes') : $t('Your recipes') }}</h3>
-      <pagination
-        v-if="recipes.last_page > 1"
-        position="start"
-        :current="recipes.current_page"
-        :last="recipes.last_page"
-        :route-name="this.$route.name"
-        query-url="recipe-page"
-        @load="loadRecipes"
-      ></pagination>
       <ul>
         <li :key="recipe.id" v-for="recipe in sortedRecipes">
           <span v-if="!recipe.deleted_at">
@@ -64,6 +55,15 @@
           </span>
         </li>
       </ul>
+      <pagination
+        v-if="recipes.last_page > 1"
+        position="start"
+        :current="recipes.current_page"
+        :last="recipes.last_page"
+        :route-name="this.$route.name"
+        query-url="recipe-page"
+        @load="loadRecipes"
+      />
     </div>
     <div class="column is-one-third">
       <h3
@@ -144,6 +144,7 @@ export default {
         only_own: !this.user.admin,
         page
       });
+      this.$refs.top.scrollIntoView({ behavior: "smooth" });
     },
     async removeCookbook(id) {
       await this.$store.dispatch("cookbooks/remove", { id });

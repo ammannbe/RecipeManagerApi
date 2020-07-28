@@ -71,6 +71,7 @@ export default {
 
 <style lang="scss" scoped>
 .pagination {
+  margin: 15px;
   justify-content: end;
 
   &.start {
@@ -80,12 +81,6 @@ export default {
   > div {
     display: flex;
     flex-direction: column;
-
-    .disabled {
-      pointer-events: none;
-      cursor: default;
-      color: inherit;
-    }
   }
 }
 </style>

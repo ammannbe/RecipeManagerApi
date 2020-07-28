@@ -21,3 +21,9 @@
 .hljs-left {
     text-align: start;
 }
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: inherit;
+}

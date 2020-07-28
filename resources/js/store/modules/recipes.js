@@ -19,9 +19,14 @@ const state = () => ({
 });
 
 const actions = {
-    async index({ commit }, { trashed = false, only_own = false, page = 1, filter = null, limit = 15 }) {
+    async index({ commit }, { trashed = false, only_own = false, page = 1, filter = null, limit = 15, push = false }) {
         let recipes = await new Recipes().index({ trashed, only_own, page, limit, ...filter });
-        commit('setRecipes', { recipes });
+        if (push) {
+            commit('pushRecipes', { recipes });
+        } else {
+            commit('setRecipes', { recipes });
+        }
+        return recipes;
     },
     async show({ state }, { id }) {
         return state.data.filter(recipe => recipe.id === id)[0];
@@ -39,6 +44,14 @@ const actions = {
 const mutations = {
     setRecipes(state, { recipes }) {
         state.data = recipes;
+    },
+    pushRecipes(state, { recipes }) {
+        if (!state.data.data) {
+            state.data = recipes;
+            return;
+        }
+
+        state.data.data.push(...recipes.data);
     },
     addRecipe(state, { recipe }) {
         state.data.push(recipe);

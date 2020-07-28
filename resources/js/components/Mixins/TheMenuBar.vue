@@ -41,7 +41,10 @@
 
         <div v-if="!$Laravel.isLoggedIn" class="navbar-end">
           <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
-            <a @click="switchLanguage(locale)">{{ locale.toUpperCase() }}</a>
+            <a
+              :class="{'disabled': $i18n.locale == locale}"
+              @click="switchLanguage(locale)"
+            >{{ locale.toUpperCase() }}</a>
           </div>
           <div v-if="!$env.DISABLE_REGISTRATION" class="navbar-item">
             <router-link :to="{ name: 'register' }" class="button">
@@ -62,7 +65,10 @@
         </div>
         <div v-else class="navbar-end">
           <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
-            <a @click="switchLanguage(locale)">{{ locale.toUpperCase() }}</a>
+            <a
+              :class="{'disabled': $i18n.locale == locale}"
+              @click="switchLanguage(locale)"
+            >{{ locale.toUpperCase() }}</a>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
             <router-link :to="{ name: 'account' }">
