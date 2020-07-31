@@ -22,7 +22,7 @@ class CleanupDatabaseCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Daily cleanup soft deleted entries';
+    protected $description = 'Cleanup soft deleted entries';
 
     /**
      * All tables to cleanup
