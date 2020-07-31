@@ -109,7 +109,7 @@ class DatabaseIntegrityCommand extends Command
      *
      * @return void
      */
-    public function validateZeroValuesIngredientAmount(): void
+    protected function validateZeroValuesIngredientAmount(): void
     {
         $this->line('Validate: ingredients.amount == 0 && ingredients.amount_max == 0|NULL');
 
@@ -127,7 +127,7 @@ class DatabaseIntegrityCommand extends Command
      *
      * @return void
      */
-    public function validateZeroValuesIngredientAmountMax(): void
+    protected function validateZeroValuesIngredientAmountMax(): void
     {
         $this->line('Validate: ingredients.amount_max == 0');
 
