@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import MavonEditor from 'mavon-editor';
 import Vuex from 'vuex'
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
 import VueInternationalization from 'vue-i18n';
 
 import './nav';
