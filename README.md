@@ -21,6 +21,20 @@ Manage your families and friends recipes like a chef.
 -   **Disable/Enable functionalities** Disable or enable dynamically cookbooks and/or tags.
 -   **Great and easy API** Access the easy-to-use REST-API.
 
+## What features are planned?
+
+- Docker support with CI/CD for gitea
+- Unit and feature tests
+- Better support for editing and deleting cookbooks, recipes, ingredients, etc.
+- Better support for photos (creating thumbnails, convert them to WEBP, allow cropping)
+- Improve and add advanced searching and filtering
+- An installer
+- An advanced User-Role-System
+- WebSockets
+- Import & Export of recipes
+- Nutrition informations
+- Rating system (the API code is already written ;-) )
+
 ## Getting Started
 
 Get the latest [release](https://git.narrenhaus.ch/Narrenhaus/Cookbook/releases) or clone the repo with
@@ -126,6 +140,10 @@ Other commands:
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
 -   [SortableJS/Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) - Vue drag-and-drop component based on Sortable.js
 -   [PeachScript/vue-infinite-loading](https://github.com/PeachScript/vue-infinite-loading) - An infinite scroll plugin for Vue.js.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Authors
 
