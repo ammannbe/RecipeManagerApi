@@ -4,11 +4,11 @@ Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
 
 Manage your families and friends recipes like a chef.
 
-----
+---
 
-### ***Comming from an older version? Check out the migration guide from the 5.x branch.***
+### **_Comming from an older version? Check out the migration guide from the 5.x branch._**
 
-----
+---
 
 ![Recipes Overview](https://klaud.narrenhaus.ch/index.php/s/MRNc7KsMbcAFnkn/preview)
 
@@ -23,17 +23,17 @@ Manage your families and friends recipes like a chef.
 
 ## What features are planned?
 
-- Docker support with CI/CD for gitea
-- Unit and feature tests
-- Better support for editing and deleting cookbooks, recipes, ingredients, etc.
-- Better support for photos (creating thumbnails, convert them to WEBP, allow cropping)
-- Improve and add advanced searching and filtering
-- An installer
-- An advanced User-Role-System
-- WebSockets
-- Import & Export of recipes
-- Nutrition informations
-- Rating system (the API code is already written ;-) )
+-   Docker support with CI/CD for gitea
+-   Unit and feature tests
+-   Better support for editing and deleting cookbooks, recipes, ingredients, etc.
+-   Better support for photos (creating thumbnails, convert them to WEBP, allow cropping)
+-   Improve and add advanced searching and filtering
+-   An installer
+-   An advanced User-Role-System
+-   WebSockets
+-   Import & Export of recipes
+-   Nutrition informations
+-   Rating system (the API code is already written ;-) )
 
 ## Getting Started
 
@@ -155,6 +155,6 @@ This project is licensed under the AGPLv3 or later - see the [LICENSE](LICENSE) 
 
 ## Gallery
 
-![Recipes Overview - Mobile](https://klaud.narrenhaus.ch/index.php/s/mgasnaoeXWMQttc/preview)
-![Account - Mobile](https://klaud.narrenhaus.ch/index.php/s/6QXbsZymS2econD/preview)
-![Recipe - Mobile](https://klaud.narrenhaus.ch/index.php/s/dq44kfHykxs9AZx/preview)
+|                                                                                               |                                                                                      |                                                                                     |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| ![Recipes Overview - Mobile](https://klaud.narrenhaus.ch/index.php/s/mgasnaoeXWMQttc/preview) | ![Account - Mobile](https://klaud.narrenhaus.ch/index.php/s/6QXbsZymS2econD/preview) | ![Recipe - Mobile](https://klaud.narrenhaus.ch/index.php/s/dq44kfHykxs9AZx/preview) |

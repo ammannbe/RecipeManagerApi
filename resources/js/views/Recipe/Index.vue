@@ -47,6 +47,7 @@ import RecipeTitle from "./RecipeTitle";
 import RecipePhoto from "./RecipePhoto";
 import PropertyList from "./PropertyList/PropertyList";
 import IngredientListContainer from "./Ingredient/IngredientListContainer";
+import Instructions from './Instructions';
 
 export default {
   components: {
@@ -54,7 +55,8 @@ export default {
     RecipeTitle,
     RecipePhoto,
     PropertyList,
-    IngredientListContainer
+    IngredientListContainer,
+    Instructions
   },
   props: ["id", "slug"],
   data() {

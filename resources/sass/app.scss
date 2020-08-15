@@ -1,4 +1,12 @@
-@import "~bulma/bulma";
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+
+// Customize bulma variables
+@import "variables";
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
 
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/regular";
