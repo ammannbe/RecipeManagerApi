@@ -44,10 +44,9 @@ class VerificationController extends Controller
     /**
      * Show the email verification notice.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function show(Request $request)
+    public function show()
     {
         return view('app');
     }
