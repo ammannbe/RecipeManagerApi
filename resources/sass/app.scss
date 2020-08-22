@@ -46,3 +46,14 @@ i {
         color: $danger;
     }
 }
+
+.dialog.modal.is-active {
+    z-index: 9999;
+}
+
+.notices {
+    .is-top,
+    .is-bottom {
+        z-index: 9999;
+    }
+}
