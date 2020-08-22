@@ -15,6 +15,7 @@
       open-on-focus
       field="name"
       :placeholder="placeholder"
+      attached
       @typing="filter = $event"
       style="max-width: 300px"
     ></b-taginput>
