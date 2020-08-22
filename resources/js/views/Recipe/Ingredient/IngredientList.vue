@@ -24,6 +24,7 @@
           :alternate-id="ingredient.id || null"
           :ingredients="ingredient.ingredients"
           :multiplier="multiplier"
+          :ingredient-group-id="ingredientGroupId"
           :first-level-list="false"
           custom-class="child"
         ></ingredient-list>
@@ -39,7 +40,13 @@ import Ingredient from "./Ingredient";
 import IngredientAddForm from "./IngredientAddForm";
 
 export default {
-  components: { draggable, Ingredient, IngredientAddForm },
+  name: "ingredient-list", // For recursive components, make sure to provide the "name" option.
+  components: {
+    draggable,
+    Ingredient,
+    IngredientAddForm,
+    IngredientList: this
+  },
   props: [
     "ingredientGroupId",
     "ingredients",
@@ -55,10 +62,10 @@ export default {
     })
   },
   methods: {
-    endDrag({ oldIndex, newIndex }, groupId = null) {
+    endDrag({ oldIndex, newIndex }) {
       if (oldIndex === newIndex) return;
 
-      let ingredients = this.$store.getters["ingredients/byGroup"](groupId);
+      let ingredients = this.$store.getters["ingredients/byGroup"](this.ingredientGroupId);
 
       if (this.alternateId) {
         ingredients = ingredients.find(i => i.id === this.alternateId)
