@@ -16,7 +16,7 @@
       />
 
       <rm-submit-button>
-        {{ ('Add') }}
+        {{ $t('Add') }}
         <template v-slot:buttons>
           <b-button @click="$router.go(-1)" type="is-danger">{{ $t('Cancel') }}</b-button>
         </template>
