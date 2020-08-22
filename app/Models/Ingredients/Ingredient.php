@@ -247,7 +247,6 @@ class Ingredient extends Model
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
-     * @param  int  $position
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeInSameScope(Builder $builder, Ingredient $ingredient): Builder
