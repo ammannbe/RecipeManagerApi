@@ -71,6 +71,7 @@ export default {
         "Home": "Startseite",
         "Categories": "Kategorien",
         "No more data :)": "Keine weiteren Daten :)",
+        "Group": "Gruppe",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."
