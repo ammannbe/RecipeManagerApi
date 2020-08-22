@@ -11,6 +11,11 @@
       <div v-for="ingredient in ingredients" :key="ingredient.position">
         <div class="item">
           <i v-if="editmode.enabled" class="fas fa-arrows-alt handle"></i>
+          <i
+            v-if="editmode.enabled"
+            class="fas fa-trash"
+            @click.prevent="$emit('remove', { id: ingredient.id, alternateId })"
+          ></i>
           <ingredient
             :ingredient="ingredient"
             :multiplier="multiplier"
@@ -27,6 +32,7 @@
           :ingredient-group-id="ingredientGroupId"
           :first-level-list="false"
           custom-class="child"
+          @remove="$emit('remove', $event)"
         ></ingredient-list>
       </div>
     </draggable>
@@ -40,7 +46,7 @@ import Ingredient from "./Ingredient";
 import IngredientAddForm from "./IngredientAddForm";
 
 export default {
-  name: "ingredient-list", // For recursive components, make sure to provide the "name" option.
+  name: "IngredientList", // For recursive components, make sure to provide the "name" option.
   components: {
     draggable,
     Ingredient,
@@ -98,8 +104,8 @@ export default {
     margin-left: 20px;
   }
 
-  > .handle {
-    cursor: pointer;
+  > .fa-arrows-alt {
+    margin-right: 7px;
   }
 }
 

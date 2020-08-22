@@ -35,3 +35,14 @@ a.disabled {
     cursor: default;
     color: inherit;
 }
+
+i {
+    &.fas.fa-arrows-alt {
+        cursor: pointer;
+    }
+
+    &.fas.fa-trash {
+        cursor: pointer;
+        color: $danger;
+    }
+}
