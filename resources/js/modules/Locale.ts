@@ -1,5 +1,6 @@
 import LocalStorage from "./LocalStorage";
 import moment from "moment";
+import env from '../env';
 
 export default class Locale {
     protected static locale = navigator.language;
@@ -8,6 +9,10 @@ export default class Locale {
         let locale = LocalStorage.get("locale");
         if (!locale) {
             locale = this.locale;
+        }
+
+        if (!env.LOCALES.find(l => l == locale)) {
+            locale = env.LOCALE;
         }
 
         this.set(locale);
