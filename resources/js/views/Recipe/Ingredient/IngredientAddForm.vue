@@ -81,7 +81,7 @@
       ></rm-textinput>
 
       <rm-submit-button>
-        {{ ('Add') }}
+        {{ $t('Add') }}
         <template v-slot:buttons>
           <b-button @click="initForm && $emit('cancel')" type="is-danger">{{ $t('Cancel') }}</b-button>
         </template>

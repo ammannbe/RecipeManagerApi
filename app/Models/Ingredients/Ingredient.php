@@ -2,7 +2,7 @@
 
 namespace App\Models\Ingredients;
 
-use \Rutorika\Sortable\SortableTrait;
+use Rutorika\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -131,6 +131,37 @@ class Ingredient extends Model
     }
 
     /**
+     * Move the ingredient to the specified position
+     *
+     * If the position is NULL, append it to the end
+     *
+     * @param  int|null  $position
+     * @return void
+     */
+    public function updatePosition(int $position = null): void
+    {
+        $query = Ingredient::inSameScope($this);
+
+        if ($query->count() <= 1) {
+            $this->update(['position' => 1]);
+            return;
+        }
+
+        if ($position === null) {
+            $position = $query->max('position');
+        }
+
+        $ingredientPosition = $query->wherePosition($position)->first();
+
+        if ($position < $this->position) {
+            $this->moveBefore($ingredientPosition);
+            return;
+        }
+
+        $this->moveAfter($ingredientPosition);
+    }
+
+    /**
      * Get the ingredient's recipe
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -171,13 +202,13 @@ class Ingredient extends Model
     }
 
     /**
-     * Get all alternatives to this ingredient
+     * Get all alternatives to this ingredient, ordered by the position
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function ingredients(): HasMany
     {
-        return $this->hasMany('\App\Models\Ingredients\Ingredient');
+        return $this->hasMany('\App\Models\Ingredients\Ingredient')->orderBy('position');
     }
 
     /**
@@ -212,21 +243,17 @@ class Ingredient extends Model
     }
 
     /**
-     * Get ingredient by recipe_id, ingredient_group_id, ingredient_id and position
-     *
-     * This query returns max. one result
+     * Get ingredients by recipe_id, ingredient_group_id, ingredient_id
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  \App\Models\Ingredients\Ingredient  $ingredient
-     * @param  int  $position
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeByGroupedPosition(Builder $builder, Ingredient $ingredient, ?int $position): Builder
+    public function scopeInSameScope(Builder $builder, Ingredient $ingredient): Builder
     {
         return $builder
             ->whereRecipeId($ingredient->recipe_id)
             ->whereIngredientGroupId($ingredient->ingredient_group_id)
-            ->whereIngredientId($ingredient->ingredient_id)
-            ->wherePosition($position);
+            ->whereIngredientId($ingredient->ingredient_id);
     }
 }
