@@ -74,6 +74,7 @@ export default {
         "Group": "Gruppe",
         "Delete recipe?": "Rezept löschen?",
         "Delete recipe": "Rezept löschen",
+        "Please enter...": "Bitte eingeben...",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."
