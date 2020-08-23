@@ -1,6 +1,6 @@
 <template>
-  <div class="ingredients" v-if="ingredients.length">
-    <div v-if="hasIngredientsWithoutGroup" :class="{'multiple-lists': ingredientGroups.length}">
+  <div class="ingredients" v-if="ingredients.length || showAddForm">
+    <div v-if="hasIngredientsWithoutGroup || showAddForm" :class="{'multiple-lists': ingredientGroups.length}">
       <h2
         class="title is-4"
         :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
