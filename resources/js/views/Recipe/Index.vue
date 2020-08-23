@@ -1,15 +1,7 @@
 <template>
   <div v-if="loaded">
     <div class="headline">
-      <div>
-        <edit-mode-switch v-model="canEdit" :condition="recipe.can_edit"></edit-mode-switch>
-        <rm-button
-          :is-danger="true"
-          class="delete-button"
-          v-if="canEdit"
-          @click="remove"
-        >{{ $t('Delete recipe') }}</rm-button>
-      </div>
+      <div></div>
       <social-sharing
         :url="$env.APP_URL + $router.resolve({ name: 'recipes', params: { id: recipe.id, slug: recipe.slug } }).href"
         :name="recipe.name"
@@ -42,6 +34,18 @@
         <!-- TODO: -->
         <rating-card-list :id="id"></rating-card-list>
       </div>
+    </div>
+
+    <div class="edit-buttons" v-if="this.$Laravel.isLoggedIn && recipe.can_edit">
+      <button class="button is-rounded is-danger" v-if="canEdit" @click="remove">Löschen</button>
+      <button
+        class="button is-rounded"
+        v-if="canEdit"
+        @click="editmode.editing = !editmode.editing"
+      >Bearbeiten</button>
+      <button @click="canEdit = !canEdit" class="button is-rounded is-primary enable">
+        <i class="fas fa-edit"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -156,6 +160,7 @@ export default {
       this.$buefy.dialog.confirm({
         message: this.$t("Delete recipe?"),
         cancelText: this.$t("Cancel"),
+
         onConfirm: async () => {
           await this.$store.dispatch("recipe/remove", { id: this.recipe.id });
           this.$router.push({ name: "home" });
@@ -181,5 +186,26 @@ export default {
 
 .delete-button {
   margin-top: 7px;
+}
+
+.edit-buttons {
+  position: fixed;
+  right: 5%;
+  bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  > button {
+    margin-top: 5px;
+  }
+
+  > .enable {
+    padding-top: 10px;
+    padding-bottom: 11px;
+    padding-left: 17px;
+    padding-right: 13px;
+    font-size: 23px;
+  }
 }
 </style>

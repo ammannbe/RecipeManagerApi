@@ -10,9 +10,9 @@
     <draggable handle=".handle" :value="ingredients" @end="endDrag($event)">
       <div v-for="ingredient in ingredients" :key="ingredient.position">
         <div class="item">
-          <i v-if="editmode.enabled" class="fas fa-arrows-alt handle"></i>
+          <i class="fas fa-arrows-alt handle"></i>
           <i
-            v-if="editmode.enabled"
+            v-if="editmode.editing"
             class="fas fa-trash"
             @click.prevent="$emit('remove', { id: ingredient.id, alternateId })"
           ></i>
