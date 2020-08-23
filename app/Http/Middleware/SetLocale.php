@@ -17,6 +17,10 @@ class SetLocale
     {
         $locale = (string) \Str::of($request->getPreferredLanguage())->before('_');
 
+        if (!in_array($locale, config('app.locales'))) {
+            $locale = config('app.locale');
+        }
+
         app()->setLocale($locale);
 
         return $next($request);

@@ -26,4 +26,28 @@ class IngredientObserver
             $ingredient->amount = null;
         }
     }
+
+    /**
+     * Handle the ingredient "deleted" event.
+     *
+     * @param  \App\Models\Ingredients\Ingredient  $ingredient
+     * @return void
+     */
+    public function deleted(Ingredient $ingredient): void
+    {
+        if ($ingredient->trashed()) {
+            $ingredient->update(['position' => null]);
+        }
+    }
+
+    /**
+     * Handle the ingredient "restored" event.
+     *
+     * @param  \App\Models\Ingredients\Ingredient  $ingredient
+     * @return void
+     */
+    public function restored(Ingredient $ingredient): void
+    {
+        $ingredient->updatePosition();
+    }
 }

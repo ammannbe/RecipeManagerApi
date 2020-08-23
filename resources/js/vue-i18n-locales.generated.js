@@ -71,6 +71,9 @@ export default {
         "Home": "Startseite",
         "Categories": "Kategorien",
         "No more data :)": "Keine weiteren Daten :)",
+        "Group": "Gruppe",
+        "Delete recipe?": "Rezept löschen?",
+        "Delete recipe": "Rezept löschen",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

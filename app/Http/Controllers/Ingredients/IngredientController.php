@@ -51,9 +51,7 @@ class IngredientController extends Controller
 
         $ingredient = $recipe->ingredients()->create($validated);
 
-        if ($ingredientPosition = Ingredient::byGroupedPosition($ingredient, $position)->first()) {
-            $ingredient->moveBefore($ingredientPosition);
-        }
+        $ingredient->updatePosition($position);
 
         if (isset($validated['ingredient_attributes'])) {
             $ingredient->ingredientAttributes()->sync($validated['ingredient_attributes']);
@@ -95,13 +93,7 @@ class IngredientController extends Controller
 
         $ingredient->update($validated);
 
-        if ($ingredientPosition = Ingredient::byGroupedPosition($ingredient, $position)->first()) {
-            if ($position < $ingredient->position) {
-                $ingredient->moveBefore($ingredientPosition);
-            } else {
-                $ingredient->moveAfter($ingredientPosition);
-            }
-        }
+        $ingredient->updatePosition($position);
     }
 
     /**

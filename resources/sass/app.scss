@@ -35,3 +35,25 @@ a.disabled {
     cursor: default;
     color: inherit;
 }
+
+i {
+    &.fas.fa-arrows-alt {
+        cursor: pointer;
+    }
+
+    &.fas.fa-trash {
+        cursor: pointer;
+        color: $danger;
+    }
+}
+
+.dialog.modal.is-active {
+    z-index: 9999;
+}
+
+.notices {
+    .is-top,
+    .is-bottom {
+        z-index: 9999;
+    }
+}

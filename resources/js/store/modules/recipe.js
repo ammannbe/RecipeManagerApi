@@ -47,9 +47,8 @@ const actions = {
         }
     },
     async remove({ commit }, { id }) {
-        await new Recipes().remove(id);
         commit('reset');
-        this.dispatch('recipes/remove', { id });
+        await this.dispatch('recipes/remove', { id });
     }
 }
 

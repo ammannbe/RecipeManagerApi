@@ -10,7 +10,12 @@
     <draggable handle=".handle" :value="ingredients" @end="endDrag($event)">
       <div v-for="ingredient in ingredients" :key="ingredient.position">
         <div class="item">
-          <i v-if="editmode.enabled" class="fas fa-arrows-alt handle"></i>
+          <i class="fas fa-arrows-alt handle"></i>
+          <i
+            v-if="editmode.editing"
+            class="fas fa-trash"
+            @click.prevent="$emit('remove', { id: ingredient.id, alternateId })"
+          ></i>
           <ingredient
             :ingredient="ingredient"
             :multiplier="multiplier"
@@ -24,8 +29,10 @@
           :alternate-id="ingredient.id || null"
           :ingredients="ingredient.ingredients"
           :multiplier="multiplier"
+          :ingredient-group-id="ingredientGroupId"
           :first-level-list="false"
           custom-class="child"
+          @remove="$emit('remove', $event)"
         ></ingredient-list>
       </div>
     </draggable>
@@ -39,7 +46,13 @@ import Ingredient from "./Ingredient";
 import IngredientAddForm from "./IngredientAddForm";
 
 export default {
-  components: { draggable, Ingredient, IngredientAddForm },
+  name: "IngredientList", // For recursive components, make sure to provide the "name" option.
+  components: {
+    draggable,
+    Ingredient,
+    IngredientAddForm,
+    IngredientList: this
+  },
   props: [
     "ingredientGroupId",
     "ingredients",
@@ -55,10 +68,10 @@ export default {
     })
   },
   methods: {
-    endDrag({ oldIndex, newIndex }, groupId = null) {
+    endDrag({ oldIndex, newIndex }) {
       if (oldIndex === newIndex) return;
 
-      let ingredients = this.$store.getters["ingredients/byGroup"](groupId);
+      let ingredients = this.$store.getters["ingredients/byGroup"](this.ingredientGroupId);
 
       if (this.alternateId) {
         ingredients = ingredients.find(i => i.id === this.alternateId)
@@ -91,8 +104,8 @@ export default {
     margin-left: 20px;
   }
 
-  > .handle {
-    cursor: pointer;
+  > .fa-arrows-alt {
+    margin-right: 7px;
   }
 }
 

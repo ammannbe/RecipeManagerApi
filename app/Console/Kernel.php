@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('cleanup:database')->daily();
+        $schedule->command('cleanup:database', ['--all'])->daily();
 
         $schedule->command('cleanup:images', ['--database', '--filesystem', '--fix'])->daily();
 

@@ -2,7 +2,12 @@
   <div class="buttons">
     <slot name="buttons"></slot>
 
-    <b-button @click="$emit('click')" :type="type" :disabled="disabled">
+    <b-button
+      :class="{'is-danger': isDanger}"
+      @click="$emit('click')"
+      :type="type"
+      :disabled="disabled"
+    >
       <slot>{{ $t('Confirm') }}</slot>
     </b-button>
   </div>
@@ -10,7 +15,7 @@
 
 <script>
 export default {
-  props: ["type", "disabled"]
+  props: ["type", "disabled", "isDanger"]
 };
 </script>
 

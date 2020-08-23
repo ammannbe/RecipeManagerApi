@@ -15,6 +15,7 @@
         :first-level-list="true"
         @cancelAdd="showAddForm = false"
         @created="created"
+        @remove="remove"
       />
     </div>
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
@@ -31,6 +32,7 @@
         :show-add-form="showAddForm && !hasIngredientsWithoutGroup"
         :ingredient-group-id="ingredientGroup.id"
         :first-level-list="true"
+        @remove="remove"
       />
       <span v-else>{{ $t('No ingredients available...') }}</span>
     </div>
@@ -92,6 +94,9 @@ export default {
   methods: {
     created() {
       this.showAddForm = false;
+    },
+    remove({ id, alternateId }) {
+      this.$store.dispatch("ingredients/remove", { id, alternateId });
     }
   }
 };
