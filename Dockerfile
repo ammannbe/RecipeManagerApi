@@ -41,6 +41,8 @@ RUN chmod a+x /usr/local/bin/init-recipe-manager.sh
 # Setup repo
 COPY . /var/www/html
 
+RUN chown -R $user:$user /var/www/html
+
 # Set working directory
 WORKDIR /var/www/html
 
