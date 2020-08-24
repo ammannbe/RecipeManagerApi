@@ -3,6 +3,7 @@
 namespace App\Models\Recipes;
 
 use App\Models\SlugifyTrait;
+use App\Models\OrderByNameScope;
 use App\Models\Users\AdminOrOwnerScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -58,6 +59,7 @@ class Cookbook extends Model
         parent::boot();
 
         static::addGlobalScope(new AdminOrOwnerScope);
+        static::addGlobalScope(new OrderByNameScope);
     }
 
     /**

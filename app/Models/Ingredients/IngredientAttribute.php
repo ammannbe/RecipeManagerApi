@@ -3,6 +3,7 @@
 namespace App\Models\Ingredients;
 
 use App\Models\SlugifyTrait;
+use App\Models\OrderByNameScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
@@ -40,6 +41,18 @@ class IngredientAttribute extends Model
     protected $softCascade = [
         'ingredients@restrict'
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new OrderByNameScope);
+    }
 
     /**
      * Get the ingredient-attribute's ingredients

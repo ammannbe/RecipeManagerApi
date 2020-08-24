@@ -57,6 +57,7 @@
       />
 
       <rm-multiselect
+        v-if="!$env.DISABLE_TAGS"
         :label="$t('Tags') + ':'"
         horizontal
         v-model="form.tags"

@@ -55,7 +55,7 @@
         </template>
       </property-list-item>
 
-      <property-list-item :label="$t('Tags')">
+      <property-list-item v-if="!$env.DISABLE_TAGS" :label="$t('Tags')">
         <rm-multiselect
           v-model="tag_ids"
           size="is-small"

@@ -22,7 +22,7 @@ class RecipeController extends Controller
     {
         $this->authorize(Recipe::class);
 
-        $model = new Recipe();
+        $model = Recipe::latest();
         if ($request->trashed == 'true' && auth()->check()) {
             $model = $model->withTrashed();
         }
