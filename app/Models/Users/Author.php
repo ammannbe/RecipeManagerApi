@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\SlugifyTrait;
+use App\Models\OrderByNameScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
@@ -40,6 +41,18 @@ class Author extends Model
     protected $softCascade = [
         'recipes'
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new OrderByNameScope);
+    }
 
     /**
      * Get the author's recipes
