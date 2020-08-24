@@ -1,8 +1,4 @@
-FROM php:7.4-fpm
-
-# Arguments defined in docker-compose.yml
-ARG user=recipe-manager
-ARG uid=1000
+FROM php:7.4-apache
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -22,35 +18,42 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install \
+    bcmath \
+    pdo_mysql \
+    intl \
+    pcntl \
+    opcache \
+    exif \
+    gd
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+# set our application folder as an environment variable
+ENV APP_HOME /var/www/html
+
+# change uid and gid of apache to docker user uid/gid
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+# change the web_root to laravel /var/www/html/public folder
+RUN sed -i -e "s/html/html\/public/g" /etc/apache2/sites-enabled/000-default.conf
+
+# enable apache module rewrite
+RUN a2enmod rewrite
+
+# copy source files and run composer
+COPY . $APP_HOME
 
 # Get init data
 COPY docker/root /
-
-# Make init script executable
 RUN chmod a+x /usr/local/bin/init-recipe-manager.sh
-
-# Setup repo
-COPY . /var/www/html
-
-RUN chown -R $user:$user /var/www/html
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Change to user
-USER $user
 
 # Install dependencies
 RUN composer install --optimize-autoloader --no-dev
 RUN npm install
+
+# change ownership of our applications
+RUN chown -R www-data:www-data $APP_HOME
 
 ENTRYPOINT /usr/local/bin/init-recipe-manager.sh
