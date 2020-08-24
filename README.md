@@ -23,7 +23,6 @@ Manage your families and friends recipes like a chef.
 
 ## What features are planned?
 
--   Docker support with CI/CD for gitea
 -   Unit and feature tests
 -   Better support for editing and deleting cookbooks, recipes, ingredients, etc.
 -   Better support for photos (creating thumbnails, convert them to WEBP, allow cropping)
@@ -34,6 +33,7 @@ Manage your families and friends recipes like a chef.
 -   Import & Export of recipes
 -   Nutrition informations
 -   Rating system (the API code is already written ;-) )
+-   And a lot more...
 
 ## Getting Started
 
