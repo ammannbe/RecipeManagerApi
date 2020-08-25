@@ -78,7 +78,6 @@ class UnitController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Ingredients\Unit $unit */
         $unit = Unit::onlyTrashed()->findOrFail($id);
         $this->authorize($unit);
         $unit->restore();

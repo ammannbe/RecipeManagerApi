@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Ingredients;
 
-use App\Http\Controllers\Controller;
 use App\Models\Ingredients\Food;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Ingredients\Food\Store;
 use App\Http\Requests\Ingredients\Food\Update;
 
@@ -78,7 +78,6 @@ class FoodController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Ingredients\Food $food */
         $food = Food::onlyTrashed()->findOrFail($id);
         $this->authorize($food);
         $food->restore();

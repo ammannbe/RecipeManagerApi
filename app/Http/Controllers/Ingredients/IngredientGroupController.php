@@ -79,7 +79,6 @@ class IngredientGroupController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Ingredients\IngredientGroup $ingredientGroup */
         $ingredientGroup = IngredientGroup::onlyTrashed()->findOrFail($id);
         $this->authorize($ingredientGroup);
         $ingredientGroup->restore();

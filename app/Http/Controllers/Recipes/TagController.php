@@ -78,7 +78,6 @@ class TagController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Recipes\Tag $tag */
         $tag = Tag::onlyTrashed()->findOrFail($id);
         $this->authorize($tag);
         $tag->restore();
