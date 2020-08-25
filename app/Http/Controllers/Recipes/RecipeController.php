@@ -113,7 +113,6 @@ class RecipeController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Recipes\Recipe $recipe */
         $recipe = Recipe::onlyTrashed()->findOrFail($id);
         $this->authorize($recipe);
         $recipe->restore();

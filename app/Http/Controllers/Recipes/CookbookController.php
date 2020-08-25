@@ -87,7 +87,6 @@ class CookbookController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Recipes\Cookbook $cookbook */
         $cookbook = Cookbook::onlyTrashed()->findOrFail($id);
         $this->authorize($cookbook);
         $cookbook->restore();

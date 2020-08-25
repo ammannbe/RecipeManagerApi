@@ -78,7 +78,6 @@ class CategoryController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Recipes\Category $category */
         $category = Category::onlyTrashed()->findOrFail($id);
         $this->authorize($category);
         $category->restore();

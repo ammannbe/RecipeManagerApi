@@ -15,16 +15,13 @@ if (!isset($factory)) {
 
 $factory->define(Recipe::class, function (Faker $faker) {
     $cookbookIds = Cookbook::withoutGlobalScope(AdminOrOwnerScope::class)->pluck('id')->toArray();
-    $cookbookId = $faker->randomElement([null, ...$cookbookIds]);
+    $cookbookId = (int) $faker->randomElement([null, ...$cookbookIds]);
     if ($cookbookId) {
-        /** @var \App\Models\Recipes\Cookbook $cookbook */
         $cookbook = Cookbook::withoutGlobalScope(AdminOrOwnerScope::class)->find($cookbookId);
-        /** @var \App\Models\Users\User $user */
         $user = User::find($cookbook->user_id);
     } else {
         $cookbookId = null;
-        $userId = $faker->randomElement(User::pluck('id')->toArray());
-        /** @var \App\Models\Users\User $user */
+        $userId = (int) $faker->randomElement(User::pluck('id')->toArray());
         $user = User::find($userId);
     }
 
