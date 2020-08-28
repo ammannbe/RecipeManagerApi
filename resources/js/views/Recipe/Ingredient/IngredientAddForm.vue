@@ -61,24 +61,14 @@
         :options="ingredientAttributes"
       />
 
-      <rm-switch
+      <rm-autocomplete
         label-position="on-border"
-        v-if="!ingredient_id && ingredientGroups.length"
-        v-model="showNewIngredientGroup"
-      >{{ $t('New group') }}</rm-switch>
-      <rm-select
-        label-position="on-border"
-        v-if="ingredientGroups.length && !showNewIngredientGroup && !ingredient_id"
-        v-model="ingredient_group_id"
+        v-if="!ingredient_id"
+        v-model="new_ingredient_group_name"
+        @select="ingredient_group_id = $event"
         :placeholder="$t('Group')"
         :options="ingredientGroups"
-      ></rm-select>
-      <rm-textinput
-        label-position="on-border"
-        v-if="(!ingredientGroups.length || showNewIngredientGroup) && !ingredient_id"
-        v-model="newIngredientGroupName"
-        :placeholder="$t('Group name')"
-      ></rm-textinput>
+      />
 
       <rm-submit-button>
         {{ $t('Add') }}
@@ -97,8 +87,7 @@ export default {
   props: ["ingredientGroupId"],
   data() {
     return {
-      showNewIngredientGroup: false,
-      newIngredientGroupName: null
+      new_ingredient_group_name: null
     };
   },
   computed: {
@@ -195,12 +184,19 @@ export default {
     async submit() {
       const recipeId = this.recipe.id;
 
-      if (this.showNewIngredientGroup == true) {
-        const groupId = await this.$store.dispatch("ingredient_groups/store", {
-          recipeId,
-          name: this.newIngredientGroupName
-        });
-        await this.updateFormProperty("ingredient_group_id", groupId);
+      if (!this.ingredient_group_id && this.new_ingredient_group_name) {
+        try {
+          const groupId = await this.$store.dispatch(
+            "ingredient_groups/store",
+            {
+              recipeId,
+              name: this.new_ingredient_group_name
+            }
+          );
+          await this.updateFormProperty("ingredient_group_id", groupId);
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       await this.$store.dispatch("ingredients/store", {
