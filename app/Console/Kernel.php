@@ -12,9 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -26,7 +24,12 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('cleanup:database', ['--all'])->daily();
 
-        $schedule->command('cleanup:images', ['--database', '--filesystem', '--fix'])->daily();
+        $schedule->command('cleanup:images', [
+            '--database',
+            '--direcotires',
+            '--files',
+            '--fix'
+        ])->daily();
 
         $schedule->command('integrity:check', ['--fix'])->daily();
     }

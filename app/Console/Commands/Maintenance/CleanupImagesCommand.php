@@ -5,8 +5,6 @@ namespace App\Console\Commands\Maintenance;
 use App\Models\Recipes\Recipe;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Collection as IlluminateCollection;
 
 class CleanupImagesCommand extends Command
 {
@@ -16,8 +14,9 @@ class CleanupImagesCommand extends Command
      * @var string
      */
     protected $signature = 'cleanup:images
-        {--filesystem : Scan filesystem and get orphaned images ; With --fix, orphaned images will be deleted}
         {--database : Scan database and get orphaned entries ; With --fix, orphaned entries will be deleted}
+        {--directories : Scan filesystem and get orphaned directories ; With --fix, orphaned directories will be deleted}
+        {--files : Scan filesystem and get orphaned images ; With --fix, orphaned images will be imported}
         {--fix : Fix all issues}
     ';
 
@@ -26,7 +25,7 @@ class CleanupImagesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Cleanup orphaned images or database entries. This command only deletes stuff!';
+    protected $description = 'Cleanup orphaned images or database entries.!';
 
     /**
      * Create a new command instance.
@@ -51,10 +50,14 @@ class CleanupImagesCommand extends Command
             $this->scanAndFixDatabase($query);
         }
 
-        $this->line("");
+        if ($this->option('directories')) {
+            $this->line('');
+            $this->scanAndFixDirectories($query);
+        }
 
-        if ($this->option('filesystem')) {
-            $this->scanAndFixFilesystem($query);
+        if ($this->option('files')) {
+            $this->line('');
+            $this->scanAndFixFiles($query);
         }
 
         return 0;
@@ -71,104 +74,96 @@ class CleanupImagesCommand extends Command
         $this->line('Scan database');
 
         $query->each(function ($recipe) {
-            $orphaned = collect($recipe->photos)->sort()->values();
-            $remaining = collect($recipe->photos)->sort()->values();
-
             $files = \Storage::disk('recipe_images')->files($recipe->id);
-            foreach ($files as $file) {
-                $file = \Str::after($file, "{$recipe->id}/");
-                $orphaned->forget($orphaned->search($file));
-            }
+            $files = collect($files)->map(function ($file) use ($recipe) {
+                return \Str::after($file, "{$recipe->id}/");
+            });
 
-            foreach ($orphaned as $photo) {
-                $remaining->forget($remaining->search($photo));
-            }
+            $photos = collect($recipe->photos)->filter(function ($photo) use ($files) {
+                return $files->search($photo) !== false;
+            });
 
-            $count = $orphaned->count();
-            if ($count) {
+            $diff = collect($recipe->photos)->diff($photos);
+
+            if ($count = $diff->count()) {
                 $this->line("  ID {$recipe->id}: found {$count} orphaned " . \Str::plural('entry', $count));
-            }
 
-            $update = null;
-            if ($remaining->count()) {
-                $update = $remaining->toArray();
-            }
-
-            if ($this->option('fix') && $count) {
-                $this->info("Delete orphaned photos in recipe {$recipe->id}");
-                $recipe->update(['photos' => $update]);
+                if ($count && $this->option('fix')) {
+                    $this->info("Delete orphaned photos in recipe {$recipe->id}");
+                    $recipe->update(['photos' => $photos->toArray()]);
+                }
             }
         });
     }
 
     /**
-     * Loop through all folders and remove orphaned files and folders
+     * Loop through directories and delete orphaned entries
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return void
      */
-    public function scanAndFixFilesystem(Builder $query): void
-    {
-        $remaining = $this->scanAndFixDirectories($query);
-
-        $this->line('');
-
-        $this->scanAndFixFiles($query, $remaining);
-    }
-
-    private function scanAndFixDirectories(Builder $query): array
+    private function scanAndFixDirectories(Builder $query): void
     {
         $this->line('Scan directories');
 
         $directories = collect(\Storage::disk('recipe_images')->directories());
-        $orphaned = $directories = collect(\Storage::disk('recipe_images')->directories());
+        $recipeIds = $query->pluck('id');
 
-        $orphaned->forget($query->pluck('id')->toArray());
+        $orphaned = $directories->filter(function ($id) use ($recipeIds) {
+            return $recipeIds->search($id) === false;
+        });
 
-        $count = $orphaned->count();
-        $this->line("Found {$count} orphaned " . \Str::plural('directory', $count));
+        if ($count = $orphaned->count()) {
+            $this->line("  Found {$count} orphaned " . \Str::plural('entry', $count));
 
-        if ($this->option('fix') && $count) {
-            $this->info('Delete orphaned directories ' . $orphaned->join(', '));
-            $orphaned->each(function ($directory) {
-                \Storage::disk('recipe_images')->deleteDirectory($directory);
-            });
+            if ($count && $this->option('fix')) {
+                $this->info("Delete orphaned directories");
+
+                $orphaned->each(function ($directory) {
+                    \Storage::disk('recipe_images')->deleteDirectory($directory);
+                });
+            }
         }
-
-        foreach ($orphaned as $directory) {
-            $directories->forget($directories->search($directory));
-        }
-
-        return $directories->toArray();
     }
 
-    private function scanAndFixFiles(Builder $query, array $directories): void
+    /**
+     * Loop through directories and delete orphaned entries
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    private function scanAndFixFiles(Builder $query): void
     {
         $this->line('Scan files');
 
-        if (!$directories) {
-            $this->line('No files found');
-            return;
-        }
+        $directories = collect(\Storage::disk('recipe_images')->directories());
+        $recipes = $query->get();
 
-        $query->each(function ($recipe) {
-            $files = collect();
-            foreach (\Storage::disk('recipe_images')->files($recipe->id) as $file) {
-                $files->push(\Str::after($file, "{$recipe->id}/"));
+        $directories->each(function ($id) use ($recipes) {
+            /** @var \App\Models\Recipes\Recipe|null $recipe */
+            $recipe = $recipes->find($id);
+            if (!$recipe) {
+                return;
             }
 
-            foreach ($recipe->photos as $photo) {
-                $files->forget($files->search($photo));
-            }
+            $photos = collect($recipe->photos);
 
-            $count = $files->count();
-            $this->line("Found {$count} orphaned " . \Str::plural('file', $count));
+            $files = \Storage::disk('recipe_images')->files($id);
+            $orphaned = collect($files)->map(function ($file) use ($id) {
+                return \Str::after($file, "{$id}/");
+            })->filter(function ($file) use ($photos) {
+                return $photos->search($file) === false;
+            });
 
-            if ($this->option('fix') && $count) {
-                $files->each(function ($file) use ($recipe) {
-                    $this->info("  Delete orphaned files {$file}");
-                    \Storage::disk('recipe_images')->delete("{$recipe->id}/{$file}");
-                });
+            $update = $orphaned->merge($photos);
+
+            if ($count = $orphaned->count()) {
+                $this->line("  ID {$recipe->id}: found {$count} orphaned " . \Str::plural('entry', $count));
+
+                if ($count && $this->option('fix')) {
+                    $this->info("Imported orphaned photos in recipe {$recipe->id}");
+                    $recipe->update(['photos' => $update]);
+                }
             }
         });
     }

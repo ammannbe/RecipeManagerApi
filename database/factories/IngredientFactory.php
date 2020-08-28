@@ -14,8 +14,7 @@ if (!isset($factory)) {
 
 $factory->define(Ingredient::class, function (Faker $faker) {
     $recipeIds = Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->pluck('id')->toArray();
-    $recipeId = $faker->randomElement($recipeIds);
-    /** @var \App\Models\Recipes\Recipe $recipe */
+    $recipeId = (int) $faker->randomElement($recipeIds);
     $recipe = Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->find($recipeId);
 
     $amount = $faker->randomElement([null, $faker->randomFloat(2, 0, 999)]);

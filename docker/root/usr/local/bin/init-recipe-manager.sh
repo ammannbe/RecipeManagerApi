@@ -11,4 +11,4 @@ php artisan view:cache
 # Compile JS/CSS
 npm run prod
 
-exec php-fpm
+exec apache2-foreground

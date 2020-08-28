@@ -78,7 +78,6 @@ class IngredientAttributeController extends Controller
      */
     public function restore(int $id)
     {
-        /** @var \App\Models\Ingredients\IngredientAttribute $ingredientAttribute */
         $ingredientAttribute = IngredientAttribute::onlyTrashed()->findOrFail($id);
         $this->authorize($ingredientAttribute);
         $ingredientAttribute->restore();

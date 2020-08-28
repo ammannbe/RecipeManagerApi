@@ -71,7 +71,9 @@ export default {
     endDrag({ oldIndex, newIndex }) {
       if (oldIndex === newIndex) return;
 
-      let ingredients = this.$store.getters["ingredients/byGroup"](this.ingredientGroupId);
+      let ingredients = this.$store.getters["ingredients/byGroup"](
+        this.ingredientGroupId
+      );
 
       if (this.alternateId) {
         ingredients = ingredients.find(i => i.id === this.alternateId)
@@ -92,6 +94,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~bulma/sass/utilities/_all";
+@import "/resources/sass/variables";
+
 .ingredients {
   list-style-type: disc;
 }
@@ -106,6 +111,10 @@ export default {
 
   > .fa-arrows-alt {
     margin-right: 7px;
+  }
+
+  > .fa-trash {
+    color: $danger;
   }
 }
 
