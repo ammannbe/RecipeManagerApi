@@ -10,6 +10,7 @@ const state = () => ({
 
 const actions = {
     async submit({ dispatch }, { data }) {
+        dispatch('form/onStart');
         try {
             const response = await new Auth().login(data);
             location.reload();
