@@ -61,6 +61,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h1 {
+  margin-bottom: 4px;
+}
+
 form {
   display: flex;
   justify-content: center;

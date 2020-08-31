@@ -193,20 +193,7 @@ export default {
 
 <style lang="scss" scoped>
 ul {
+  margin-top: 12px;
   margin-bottom: 5px;
-
-  li {
-    display: flex;
-    align-items: baseline;
-    min-height: 30px;
-
-    > div {
-      margin: 1px;
-    }
-
-    > a {
-      margin-right: 3px;
-    }
-  }
 }
 </style>

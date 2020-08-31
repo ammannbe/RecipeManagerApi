@@ -2,6 +2,7 @@
   <li>
     <span
       :title="title"
+      class="label"
       :class="{'can-edit': editmode.enabled && !disableEditing}"
       @click="editing = !editing"
     >{{ label }}:&nbsp;</span>
@@ -9,10 +10,11 @@
     <slot
       v-else
       name="fallback"
+      class="value"
       :class="{'can-edit': editmode.enabled && !disableEditing}"
       @click="editing = !editing"
     >
-      <span>{{ value }}</span>
+      <span class="value">{{ value }}</span>
     </slot>
   </li>
 </template>
@@ -49,7 +51,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+li {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+
+  > div {
+    margin: 1px;
+  }
+
+  > a {
+    margin-right: 3px;
+  }
+}
+
 .can-edit {
   cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.value {
+  margin-bottom: 8px;
 }
 </style>

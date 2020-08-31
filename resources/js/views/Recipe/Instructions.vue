@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'add-padding': !editmode.editing}">
+  <div class="add-padding">
     <h2
       :class="{'title is-4': true, 'can-edit': editmode.enabled}"
       @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"

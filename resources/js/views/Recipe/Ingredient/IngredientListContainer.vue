@@ -1,6 +1,6 @@
 <template>
   <div class="ingredients" v-if="ingredients.length || showAddForm">
-    <div v-if="hasIngredientsWithoutGroup || showAddForm" :class="{'multiple-lists': ingredientGroups.length}">
+    <div v-if="hasIngredientsWithoutGroup || showAddForm">
       <h2
         class="title is-4"
         :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
@@ -21,7 +21,7 @@
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
       <h2
         class="title is-4"
-        :class="{'add-ingredient-form': editmode.enabled && !hasIngredientsWithoutGroup, 'show': !showAddForm, 'cancel': showAddForm}"
+        :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
         :title="title"
         @click="showAddForm = !showAddForm"
       >{{ ingredientGroup.name }}</h2>

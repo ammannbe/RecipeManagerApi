@@ -76,10 +76,9 @@ export default {
     updateFormProperty(property, value) {
       this.$store.dispatch("user/login/form/update", { property, value });
     },
-    submit() {
-      this.$store.dispatch("user/login", { data: this.form }).then(() => {
-        this.$router.push({ name: "home" });
-      });
+    async submit() {
+      await this.$store.dispatch("user/login", { data: this.form });
+      this.$router.push({ name: "home" });
     }
   }
 };

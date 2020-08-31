@@ -3,47 +3,50 @@
     <div class="headline">
       <div></div>
       <social-sharing
-        :url="$env.APP_URL + $router.resolve({ name: 'recipes', params: { id: recipe.id, slug: recipe.slug } }).href"
+        :url="url"
         :name="recipe.name"
         :author="recipe.author.name"
         :category="recipe.category.name"
       ></social-sharing>
     </div>
 
-    <recipe-title @update="update"></recipe-title>
+    <recipe-title @update="update" />
 
     <div class="container">
       <breadcrumb-trail :category="recipe.category" />
       <div class="meta columns">
-        <recipe-photo class="column is-one-fifth" :urls="recipe.photo_urls" :alt="recipe.name"></recipe-photo>
-        <property-list @update="update" @multiply="multiplier = $event"></property-list>
+        <recipe-photo class="column is-one-fifth" :urls="recipe.photo_urls" :alt="recipe.name" />
+        <property-list @update="update" @multiply="multiplier = $event" />
       </div>
 
       <hr />
 
-      <ingredient-list-container :id="id" :multiplier="multiplier"></ingredient-list-container>
+      <ingredient-list-container :id="id" :multiplier="multiplier" />
 
       <hr />
 
-      <instructions @update="update"></instructions>
+      <instructions @update="update" />
 
       <hr />
 
       <div v-if="false" class="ratings">
         <h2 class="title is-4">{{ $t('Ratings') }}</h2>
         <!-- TODO: -->
-        <rating-card-list :id="id"></rating-card-list>
+        <rating-card-list :id="id" />
       </div>
     </div>
 
     <div class="edit-buttons" v-if="this.$Laravel.isLoggedIn && recipe.can_edit">
-      <button class="button is-rounded is-danger" v-if="canEdit" @click="remove">Löschen</button>
+      <button class="button is-rounded is-danger" v-if="editmode.enabled" @click="remove">Löschen</button>
       <button
         class="button is-rounded"
-        v-if="canEdit"
+        v-if="editmode.enabled"
         @click="editmode.editing = !editmode.editing"
       >Bearbeiten</button>
-      <button @click="canEdit = !canEdit" class="button is-rounded is-primary enable">
+      <button
+        @click="editmode.enabled = !editmode.enabled"
+        class="button is-rounded is-primary enable"
+      >
         <i class="fas fa-edit"></i>
       </button>
     </div>
@@ -82,13 +85,10 @@ export default {
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),
-    canEdit: {
-      get() {
-        return this.editmode.enabled;
-      },
-      set(enable) {
-        this.$store.commit("recipe/editmode/enable", { enable });
-      }
+    url() {
+      const name = "recipes";
+      const params = { id: this.recipe.id, slug: this.recipe.slug };
+      return this.$env.APP_URL + this.$router.resolve({ name, params }).href;
     },
     loaded() {
       const loaded = Object.keys(this.recipe).length && this.form;
