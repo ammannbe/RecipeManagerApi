@@ -19,13 +19,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.password.form.data,
       errors: state => state.user.password.form.errors.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
     }),
     email: {
       get() {
@@ -36,12 +39,11 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$Laravel.isLoggedIn) {
+  created() {
+    if (this.loggedIn) {
       this.$router.push({ name: "home" });
     }
-  },
-  created() {
+
     this.$store.commit("user/password/form/set", {
       data: {
         email: null,

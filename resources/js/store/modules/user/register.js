@@ -12,7 +12,6 @@ const state = () => ({
 
 const actions = {
     async submit({ dispatch }, { data }) {
-        dispatch('form/onStart');
         try {
             const response = await new Auth().register(data);
             return dispatch('form/onSuccess', { response });

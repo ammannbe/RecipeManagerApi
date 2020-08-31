@@ -26,12 +26,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   computed: {
     ...mapState({
-      form: state => state.cookbook.form.data
+      form: state => state.cookbook.form.data,
+      user: state => state.user.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
     }),
     name: {
       get() {
@@ -42,14 +46,13 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (!this.$Laravel.isLoggedIn) {
+  created() {
+    if (!this.loggedIn) {
       this.$router.push({ name: "home" });
-    } else if (!this.$Laravel.hasVerifiedEmail) {
+    } else if (!this.user.has_verified_email) {
       this.$router.push({ name: "verify.email" });
     }
-  },
-  created() {
+
     this.$store.commit("cookbook/form/set", { data: { name: null } });
   },
   mounted() {

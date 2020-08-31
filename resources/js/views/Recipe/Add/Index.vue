@@ -4,7 +4,7 @@
       <infos @input="recipe = $event" @next="step++" />
     </b-step-item>
 
-    <b-step-item :step="1" :label="$t('ingredients')" :type="{'is-success': success.ingredients}">
+    <b-step-item :step="1" :label="$t('Ingredients')" :type="{'is-success': success.ingredients}">
       <ingredients @input="ingredients = $event" @next="step++" @back="step--" />
     </b-step-item>
 
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Infos from "./Infos";
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
@@ -27,6 +27,14 @@ import Photos from "./Photos";
 
 export default {
   components: { Infos, Ingredients, Instructions, Photos },
+  computed: {
+    ...mapState({
+      user: state => state.user.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    })
+  },
   data() {
     return {
       step: 0,
@@ -42,14 +50,13 @@ export default {
       photos: []
     };
   },
-  beforeCreate() {
-    if (!this.$Laravel.isLoggedIn) {
+  created() {
+    if (!this.loggedIn) {
       this.$router.push({ name: "home" });
-    } else if (!this.$Laravel.hasVerifiedEmail) {
+    } else if (!this.user.has_verified_email) {
       this.$router.push({ name: "verify.email" });
     }
-  },
-  created() {
+
     this.$store.dispatch("categories/index");
     this.$store.dispatch("units/index");
     this.$store.dispatch("foods/index");

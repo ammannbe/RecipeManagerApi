@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -104,7 +104,10 @@ export default {
     ...mapState({
       recipes: state => state.recipes.data,
       cookbooks: state => state.cookbooks.data,
-      user: state => state.user.user
+      user: state => state.user.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
     }),
     sortedRecipes() {
       if (!this.recipes.data) {
@@ -125,10 +128,10 @@ export default {
       );
     }
   },
-  beforeCreate() {
-    if (!this.$Laravel.isLoggedIn) {
+  created() {
+    if (!this.loggedIn) {
       this.$router.push({ name: "home" });
-    } else if (!this.$Laravel.hasVerifiedEmail) {
+    } else if (!this.user.has_verified_email) {
       this.$router.push({ name: "verify.email" });
     }
   },

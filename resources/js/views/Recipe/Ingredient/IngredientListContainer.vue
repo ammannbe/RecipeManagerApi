@@ -1,5 +1,5 @@
 <template>
-  <div class="ingredients" v-if="ingredients.length || showAddForm">
+  <div class="ingredients" v-if="ingredients.length || (showAddForm && editmode.enabled)">
     <div v-if="hasIngredientsWithoutGroup || showAddForm">
       <h2
         class="title is-4"
@@ -37,14 +37,19 @@
       <span v-else>{{ $t('No ingredients available...') }}</span>
     </div>
   </div>
+
   <div v-else>
     <h2
       class="title is-4"
       :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
       :title="title"
       @click="showAddForm = !showAddForm"
-    >Zutaten</h2>
-    <ingredient-add-form v-if="showAddForm" @cancel="showAddForm = false" @created="created"></ingredient-add-form>
+    >{{ $t('Ingredients') }}</h2>
+    <ingredient-add-form
+      v-if="showAddForm && editmode.enabled"
+      @cancel="showAddForm = false"
+      @created="created"
+    ></ingredient-add-form>
     <span v-else>{{ $t('No ingredients available...') }}</span>
   </div>
 </template>

@@ -12,7 +12,6 @@ const actions = {
         commit('set', { ingredientGroups });
     },
     async store({ dispatch }, { recipeId, name }) {
-        dispatch('form/onStart');
         try {
             const response = await new IngredientGroups(recipeId, true).store({ name });
             const url = response.headers.location;

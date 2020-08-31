@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import env from "../../env";
 import Locale from "../Locale";
+import Loading from "../Loading";
 
 export default class ApiClient {
     private axios: AxiosInstance;
@@ -26,6 +27,7 @@ export default class ApiClient {
         data?: object,
         headers?: object
     ): Promise<any> {
+        Loading.open();
         let request: {};
         if (method === "get") {
             const params = data;
@@ -35,16 +37,14 @@ export default class ApiClient {
         }
         return this.axios
             .request(request)
-            .then(response =>
-                Promise.resolve(this.rawResponse ? response : response.data)
-            )
+            .then(response => {
+                Loading.close();
+                return Promise.resolve(
+                    this.rawResponse ? response : response.data
+                );
+            })
             .catch(error => {
-                if (
-                    error.response.status == 403 ||
-                    error.response.status == 401
-                ) {
-                    alert("Oopsii.. Diese Aktion ist leider nicht erlaubt :-(");
-                }
+                Loading.close();
                 return Promise.reject(
                     this.rawResponse ? error : error.response
                 );

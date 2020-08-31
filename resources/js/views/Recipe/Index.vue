@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="edit-buttons" v-if="this.$Laravel.isLoggedIn && recipe.can_edit">
+    <div class="edit-buttons" v-if="this.loggedIn && recipe.can_edit">
       <button class="button is-rounded is-danger" v-if="editmode.enabled" @click="remove">Löschen</button>
       <button
         class="button is-rounded"
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Recipes from "../../modules/ApiClient/Recipes";
 import Ingredients from "../../modules/ApiClient/Ingredients";
 import SocialSharing from "./SocialSharing";
@@ -85,20 +85,16 @@ export default {
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    }),
     url() {
       const name = "recipes";
       const params = { id: this.recipe.id, slug: this.recipe.slug };
       return this.$env.APP_URL + this.$router.resolve({ name, params }).href;
     },
     loaded() {
-      const loaded = Object.keys(this.recipe).length && this.form;
-      this.$loading.open();
-
-      if (loaded) {
-        this.$loading.close();
-      }
-
-      return loaded;
+      return Object.keys(this.recipe).length && this.form;
     }
   },
   created() {
@@ -164,7 +160,6 @@ export default {
         onConfirm: async () => {
           await this.$store.dispatch("recipe/remove", { id: this.recipe.id });
           this.$router.push({ name: "home" });
-          this.$loading.close();
         }
       });
     }

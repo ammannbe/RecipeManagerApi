@@ -19,20 +19,13 @@ const actions = {
         }
         commit('set', { data });
     },
-    onStart() {
-        Loading.open();
-    },
     async onSuccess({ commit }, { response }) {
-        Loading.close();
-
         commit('errors/reset');
         commit('reset');
 
         return Promise.resolve(response);
     },
     async onFail({ commit }, { response }) {
-        Loading.close();
-
         if (!response) {
             return;
         }

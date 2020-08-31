@@ -34,13 +34,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.login.form.data,
       errors: state => state.user.login.form.errors.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
     }),
     email: {
       get() {
@@ -59,12 +62,11 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$Laravel.isLoggedIn) {
+  created() {
+    if (this.loggedIn) {
       this.$router.push({ name: "home" });
     }
-  },
-  created() {
+
     this.$store.commit("user/login/form/set", {
       data: { email: null, password: null }
     });
@@ -78,7 +80,7 @@ export default {
     },
     async submit() {
       await this.$store.dispatch("user/login", { data: this.form });
-      this.$router.push({ name: "home" });
+      this.$router.go(-1);
     }
   }
 };

@@ -59,7 +59,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'name'
+        'name',
+        'has_verified_email',
     ];
 
     /**
@@ -79,6 +80,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNameAttribute(): string
     {
         return $this->author->name ?? '';
+    }
+
+    /**
+     * Check if the user has a verified email
+     *
+     * @return bool
+     */
+    public function getHasVerifiedEmailAttribute(): bool
+    {
+        return $this->hasVerifiedEmail();
     }
 
     /**

@@ -11,7 +11,6 @@ const state = () => ({
 
 const actions = {
     async forgot({ dispatch }, { email }) {
-        dispatch('form/onStart');
         return new Auth().forgotPassword({ email }).then((response) => {
             return dispatch('form/onSuccess', { response });
         }).catch((err) => {
@@ -19,7 +18,6 @@ const actions = {
         });
     },
     async reset({ dispatch }, { token, email, password, password_confirmation }) {
-        dispatch('form/onStart');
         return new Auth().resetPassword({ token, email, password, password_confirmation }).then((response) => {
             return dispatch('form/onSuccess', { response });
         }).catch((err) => {

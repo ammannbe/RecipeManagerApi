@@ -6,7 +6,7 @@ const state = () => ({
 
 const mutations = {
     enable(state, { enable }) {
-        if (!Laravel.isLoggedIn) {
+        if (!this.getters['user/loggedIn']) {
             enable = false;
         }
 
