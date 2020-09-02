@@ -66,7 +66,7 @@ export default {
           page: this.page,
           filter: this.filter,
           limit: this.limit,
-          push: true
+          push: this.page !== 1
         })
         .then(() => {
           $state.loaded();
