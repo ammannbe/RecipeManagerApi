@@ -10,7 +10,9 @@
     "require": {
         "php": "^7.2.5",
         "askedio/laravel-soft-cascade": "^7.0",
+        "barryvdh/laravel-dompdf": "^0.8.6",
         "barryvdh/laravel-translation-manager": "^0.5.8",
+        "erusev/parsedown": "^1.7",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "grkamil/laravel-telegram-logging": "^1.2",

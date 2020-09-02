@@ -52,7 +52,7 @@ class Recipe extends Model
      * @var array
      */
     protected $casts = [
-        'photos' => 'array'
+        'photos' => 'array',
     ];
 
     /**
@@ -132,6 +132,49 @@ class Recipe extends Model
     }
 
     /**
+     * Get translated text of complexities
+     *
+     * @return string
+     */
+    public function getComplexityTextAttribute(): string
+    {
+        $text = '';
+
+        switch ($this->attributes['complexity']) {
+            case 'simple':
+                $text = __('Simple');
+                break;
+
+            case 'normal':
+                $text = __('Normal');
+                break;
+
+            case 'difficult':
+                $text = __('Difficult');
+                break;
+        }
+
+        /** @var string */
+        return $text;
+    }
+
+    /**
+     * Get the preparation time
+     *
+     * Return NULL, if the time is 00:00:00
+     *
+     * @return string|null
+     */
+    public function getPreparationTimeAttribute(): ?string
+    {
+        if ($this->attributes['preparation_time'] == '00:00:00') {
+            return null;
+        }
+
+        return $this->attributes['preparation_time'];
+    }
+
+    /**
      * Get the full URLs of the photos
      *
      * @return array<string>
@@ -148,6 +191,25 @@ class Recipe extends Model
         }
 
         return $urls;
+    }
+
+    /**
+     * Get the full paths of the photos
+     *
+     * @return array<string>
+     */
+    public function getPhotoPathsAttribute(): array
+    {
+        if (!$this->photos) {
+            return [];
+        }
+
+        $paths = [];
+        foreach ($this->photos as $name) {
+            $paths[] = \Storage::disk('recipe_images')->path("{$this->id}/{$name}");
+        }
+
+        return $paths;
     }
 
     /**

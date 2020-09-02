@@ -25,16 +25,19 @@ export default class ApiClient {
         method: any,
         url: string,
         data?: object,
-        headers?: object
+        headers?: object,
+        responseType?: string
     ): Promise<any> {
         Loading.open();
         let request: {};
+        request = { method, url, data, headers };
         if (method === "get") {
-            const params = data;
-            request = { method, url, params, headers };
-        } else {
-            request = { method, url, data, headers };
+            request = { method, url, params: data, headers };
         }
+        if (responseType) {
+            request = { ...request, responseType };
+        }
+
         return this.axios
             .request(request)
             .then(response => {
@@ -51,8 +54,12 @@ export default class ApiClient {
             });
     }
 
-    public get(url: string, data?: object): Promise<any> {
-        return this.request("get", url, data);
+    public get(
+        url: string,
+        data?: object,
+        responseType?: string
+    ): Promise<any> {
+        return this.request("get", url, data, undefined, responseType);
     }
 
     public show(id?: number): Promise<any> {

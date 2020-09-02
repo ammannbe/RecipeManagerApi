@@ -119,6 +119,19 @@ class RecipeController extends Controller
     }
 
     /**
+     * Stream PDF
+     *
+     * @param  \App\Models\Recipes\Recipe  $recipe
+     * @return \Illuminate\Http\Response
+     */
+    public function pdf(Recipe $recipe)
+    {
+        $this->authorize('view', $recipe);
+
+        return \PDF::loadView('pdf.recipe', ['recipe' => $recipe])->stream("{$recipe->name}.pdf");
+    }
+
+    /**
      * Show the recipe image
      *
      * @param  \App\Models\Recipes\Recipe  $recipe

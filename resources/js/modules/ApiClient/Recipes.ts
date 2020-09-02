@@ -58,4 +58,13 @@ export default class Recipes extends ApiClient {
         }
         return super.store(formData || data, !!data.photos.length);
     }
+
+    public async pdf(id: number): Promise<any> {
+        const data = await super.get(
+            `${this.url}/${id}/pdf`,
+            undefined,
+            "blob"
+        );
+        return window.URL.createObjectURL(new Blob([data]));
+    }
 }

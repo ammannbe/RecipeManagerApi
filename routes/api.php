@@ -52,6 +52,8 @@ Route::get('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@ind
 Route::apiResource('ingredient-groups', 'Ingredients\IngredientGroupController')->only(['show']);
 Route::get('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@index')->name('ingredient-groups.index');
 
+Route::get('recipes/{recipe}/pdf', 'Recipes\RecipeController@pdf');
+
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::apiResources([
