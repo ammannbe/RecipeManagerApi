@@ -41,10 +41,10 @@
       <button
         class="button is-rounded"
         v-if="editmode.enabled"
-        @click="editmode.editing = !editmode.editing"
+        @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
       >Bearbeiten</button>
       <button
-        @click="editmode.enabled = !editmode.enabled"
+        @click="$store.dispatch('recipe/editmode/enable', { enable: !editmode.enabled })"
         class="button is-rounded is-primary enable"
       >
         <i class="fas fa-edit"></i>
@@ -101,10 +101,10 @@ export default {
     this.load().then(() => {
       this.initForm();
 
-      if (!this.recipe.can_edit) {
-        this.$store.commit("recipe/editmode/enable", { enable: false });
-      }
-    });
+        if (!this.recipe.can_edit) {
+          this.$store.dispatch("recipe/editmode/enable", { enable: false });
+        }
+      });
   },
   methods: {
     async load() {
@@ -150,7 +150,7 @@ export default {
         id: this.recipe.id,
         data: this.form
       });
-      await this.$store.commit("recipe/editmode/edit", { editing: false });
+      await this.$store.dispatch("recipe/editmode/edit", { editing: false });
     },
     remove() {
       this.$buefy.dialog.confirm({

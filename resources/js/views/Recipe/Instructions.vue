@@ -2,7 +2,7 @@
   <div class="add-padding">
     <h2
       :class="{'title is-4': true, 'can-edit': editmode.enabled}"
-      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
+      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
       :title="title"
     >{{ $t('Instructions') }}</h2>
 
@@ -19,7 +19,7 @@
       class="content"
       :title="title"
       v-html="$markdownIt.render(instructions)"
-      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
+      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
     ></div>
   </div>
 </template>

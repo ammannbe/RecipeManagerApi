@@ -14,7 +14,7 @@
         {{ $t('Save') }}
         <template v-slot:buttons>
           <b-button
-            @click="$store.commit('recipe/editmode/edit', { editing: false })"
+            @click="$store.dispatch('recipe/editmode/edit', { editing: false })"
             type="is-danger"
           >{{ $t('Cancel') }}</b-button>
         </template>
@@ -23,7 +23,7 @@
 
     <h1
       v-else
-      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
+      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
       :class="{'title has-text-centered': true, 'can-edit': editmode.enabled}"
       :title="title"
     >{{ recipe | name }}</h1>

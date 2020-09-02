@@ -43,7 +43,7 @@ export default {
           return;
         }
 
-        this.$store.commit("recipe/editmode/edit", { editing });
+        this.$store.dispatch("recipe/editmode/edit", { editing });
       }
     }
   }

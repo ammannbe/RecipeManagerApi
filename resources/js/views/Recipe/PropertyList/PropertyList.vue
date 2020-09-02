@@ -79,7 +79,7 @@
       {{ $t('Save') }}
       <template v-slot:buttons>
         <b-button
-          @click="$store.commit('recipe/editmode/edit', { editing: false })"
+          @click="$store.dispatch('recipe/editmode/edit', { editing: false })"
           type="is-danger"
         >{{ $t('Cancel') }}</b-button>
       </template>
