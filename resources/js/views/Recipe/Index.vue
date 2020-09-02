@@ -98,38 +98,40 @@ export default {
     }
   },
   created() {
-    this.load().then(() => {
-      this.initForm();
+    setTimeout(() => {
+      this.load().then(() => {
+        this.initForm();
 
         if (!this.recipe.can_edit) {
           this.$store.dispatch("recipe/editmode/enable", { enable: false });
         }
       });
+    }, 500);
   },
   methods: {
     async load() {
       await this.$store.dispatch("recipe/show", { id: this.id });
 
-      if (this.editmode.enabled) {
+      if (this.loggedIn) {
         this.$store.dispatch("categories/index");
       }
 
-      if (!this.$env.DISABLE_COOKBOOKS && this.editmode.enabled) {
+      if (!this.$env.DISABLE_COOKBOOKS && this.loggedIn) {
         this.$store.dispatch("cookbooks/index", { limit: 1000 });
       }
 
-      if (!this.$env.DISABLE_TAGS && this.editmode.enabled) {
+      if (!this.$env.DISABLE_TAGS && this.loggedIn) {
         this.$store.dispatch("tags/index");
       }
     },
     initForm() {
       let data = {};
       data.cookbook_id = null;
-      if (!this.$env.DISABLE_COOKBOOKS && this.editmode.enabled) {
+      if (!this.$env.DISABLE_COOKBOOKS && this.loggedIn) {
         data.cookbook_id = this.recipe.cookbook_id;
       }
       data.tags = [];
-      if (!this.$env.DISABLE_TAGS && this.editmode.enabled) {
+      if (!this.$env.DISABLE_TAGS && this.loggedIn) {
         data.tags = this.recipe.tags.map(tag => tag.id);
       }
 

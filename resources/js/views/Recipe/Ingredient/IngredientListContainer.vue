@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import IngredientList from "./IngredientList";
 
 export default {
@@ -72,6 +72,9 @@ export default {
       ingredients: state => state.ingredients.data,
       recipe: state => state.recipe.data,
       editmode: state => state.recipe.editmode.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
     }),
     title() {
       if (this.editmode.enabled) {
@@ -90,11 +93,13 @@ export default {
     this.$store.dispatch("ingredients/index", { recipeId: this.id });
     this.$store.dispatch("ingredient_groups/index", { recipeId: this.id });
 
-    if (this.editmode.enabled) {
-      this.$store.dispatch("units/index");
-      this.$store.dispatch("foods/index");
-      this.$store.dispatch("ingredient_attributes/index");
-    }
+    setTimeout(() => {
+      if (this.loggedIn) {
+        this.$store.dispatch("units/index");
+        this.$store.dispatch("foods/index");
+        this.$store.dispatch("ingredient_attributes/index");
+      }
+    }, 500);
   },
   methods: {
     created() {
