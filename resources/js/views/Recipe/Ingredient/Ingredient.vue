@@ -1,6 +1,9 @@
 <template>
   <div>
-    <li>{{ ingredient | textify(multiply) }}</li>
+    <li>
+      <span v-if="alternateId">{{ $t('Or') }}:</span>
+      {{ ingredient | textify(multiply) }}
+    </li>
   </div>
 </template>
 
