@@ -8,6 +8,7 @@
       </b-tooltip>
     </template>
     <mavon-editor
+      class="mavon-editor"
       :class="{'is-danger border': !!message}"
       v-model="model"
       :language="$i18n.locale"
@@ -103,5 +104,9 @@ export default {
 <style lang="scss" scoped>
 .is-danger.border {
   border: 1px solid red;
+}
+
+.mavon-editor {
+  z-index: 99999 !important;
 }
 </style>
