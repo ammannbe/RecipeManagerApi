@@ -95,7 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~bulma/sass/utilities/_all";
-@import "/resources/sass/variables";
+@import "resources/sass/variables";
 
 .ingredients {
   list-style-type: disc;
