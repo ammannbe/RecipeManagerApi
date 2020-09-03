@@ -1,6 +1,6 @@
 <template>
   <b-carousel :indicator-inside="false">
-    <b-carousel-item v-for="(url, i) in photoUrls" :key="i">
+    <b-carousel-item id="carousel" v-for="(url, i) in photoUrls" :key="i">
       <span class="image">
         <img :src="url" />
       </span>
@@ -36,5 +36,11 @@ export default {
 
 .al img {
   filter: grayscale(100%);
+}
+</style>
+
+<style lang="scss">
+#carousel {
+  height: 200px;
 }
 </style>
