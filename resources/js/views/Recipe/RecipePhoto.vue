@@ -41,6 +41,14 @@ export default {
 
 <style lang="scss">
 #carousel {
-  height: 200px;
+  height: 250px;
+
+  @media screen and (max-width: 768px) {
+    height: 400px;
+  }
+
+  @media screen and (max-width: 360px) {
+    height: 350px;
+  }
 }
 </style>

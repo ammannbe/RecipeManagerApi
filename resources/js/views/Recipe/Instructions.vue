@@ -56,6 +56,10 @@ export default {
 <style lang="scss" scoped>
 div.add-padding {
   padding: 0 30px;
+
+  @media screen and (max-width: 1024px) {
+    padding: 0;
+  }
 }
 
 .can-edit {

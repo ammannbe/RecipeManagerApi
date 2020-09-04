@@ -192,6 +192,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 99999;
 
   > button {
     margin-top: 5px;
