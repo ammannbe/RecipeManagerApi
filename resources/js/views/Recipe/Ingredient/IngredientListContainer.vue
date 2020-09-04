@@ -16,6 +16,7 @@
         @cancelAdd="showAddForm = false"
         @created="created"
         @remove="remove"
+        @edit="edit"
       />
     </div>
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
@@ -57,6 +58,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import IngredientList from "./IngredientList";
+import IngredientEditForm from "./IngredientEditForm";
 
 export default {
   components: { IngredientList },
@@ -107,6 +109,16 @@ export default {
     },
     remove({ id, alternateId }) {
       this.$store.dispatch("ingredients/remove", { id, alternateId });
+    },
+    edit(ingredient) {
+
+      this.$buefy.modal.open({
+        parent: this,
+        component: IngredientEditForm,
+        hasModalCard: true,
+        trapFocus: true,
+        props: { ingredient }
+      });
     }
   }
 };
@@ -125,6 +137,10 @@ div.ingredients {
   > div {
     padding: 0 35px 30px 30px;
 
+    @media screen and (max-width: 1024px) {
+      padding: 0;
+    }
+
     &.multiple-lists {
       border-right: 1px dotted black;
     }
@@ -138,5 +154,11 @@ div.ingredients {
   &.cancel {
     cursor: no-drop;
   }
+}
+</style>
+
+<style lang="scss">
+.modal.is-active {
+  z-index: 99999;
 }
 </style>

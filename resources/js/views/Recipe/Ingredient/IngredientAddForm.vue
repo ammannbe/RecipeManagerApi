@@ -32,6 +32,7 @@
       />
 
       <rm-numberinput
+        v-if="amount"
         :label="$t('Max. amount')"
         label-position="on-border"
         v-model="amount_max"
@@ -110,7 +111,7 @@ export default {
     },
     amount: {
       get() {
-        return this.form.amount;
+        return this.form.amount || 0;
       },
       set(value) {
         this.updateFormProperty("amount", value);
@@ -118,7 +119,7 @@ export default {
     },
     amount_max: {
       get() {
-        return this.form.amount_max;
+        return this.form.amount_max || 0;
       },
       set(value) {
         this.updateFormProperty("amount_max", value);

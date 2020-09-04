@@ -41,7 +41,8 @@ i {
         cursor: pointer;
     }
 
-    &.fas.fa-trash {
+    &.fas.fa-trash,
+    &.fas.fa-edit {
         cursor: pointer;
     }
 }

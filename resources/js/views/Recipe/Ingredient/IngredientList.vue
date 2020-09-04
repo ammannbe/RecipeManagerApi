@@ -16,10 +16,16 @@
             class="fas fa-trash"
             @click.prevent="$emit('remove', { id: ingredient.id, alternateId })"
           ></i>
+          <i
+            v-if="editmode.editing"
+            class="fas fa-edit"
+            @click.prevent="$emit('edit', ingredient.id)"
+          ></i>
           <ingredient
             :ingredient="ingredient"
             :multiplier="multiplier"
             :alternate-id="alternateId || null"
+            @click.prevent="$emit('edit', ingredient)"
           ></ingredient>
         </div>
 
@@ -109,7 +115,8 @@ export default {
     margin-left: 20px;
   }
 
-  > .fa-arrows-alt {
+  > .fa-arrows-alt,
+  > .fas.fa-trash {
     margin-right: 7px;
   }
 

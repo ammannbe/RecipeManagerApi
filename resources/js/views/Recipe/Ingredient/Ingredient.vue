@@ -1,8 +1,10 @@
 <template>
   <div>
     <li>
-      <span v-if="alternateId">{{ $t('Or') }}:</span>
-      {{ ingredient | textify(multiply) }}
+      <span @click.prevent="$emit('click', $event)">
+        <span v-if="alternateId">{{ $t('Or') }}:</span>
+        {{ ingredient | textify(multiply) }}
+      </span>
     </li>
   </div>
 </template>
@@ -63,11 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.alternates {
-  display: inline-block;
-
-  > span {
-    display: block;
-  }
+li > span {
+  cursor: pointer;
 }
 </style>
