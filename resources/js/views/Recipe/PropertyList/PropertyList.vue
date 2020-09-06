@@ -95,7 +95,7 @@ export default {
   components: { PropertyListItem },
   data() {
     return {
-      yieldAmountMultiplier: null
+      yieldAmountMultiplier: 0
     };
   },
   computed: {
@@ -171,7 +171,8 @@ export default {
         }
       }
 
-      this.$emit("multiply", (1 / this.recipe.yield_amount) * value);
+      const multiply = (1 / (this.recipe.yield_amount || 1)) * (value || 1);
+      this.$emit("multiply", multiply);
     }
   },
   mounted() {

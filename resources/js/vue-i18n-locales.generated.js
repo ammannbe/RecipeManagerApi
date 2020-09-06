@@ -82,6 +82,7 @@ export default {
         "Password": "Passwort",
         "Edit ingredient": "Zutat bearbeiten",
         "Unit": "Einheit",
+        "Edit cookbook": "Kochbuch bearbeiten",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

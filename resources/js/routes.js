@@ -31,7 +31,7 @@ let routes = [
     {
         path: '/account',
         name: 'account',
-        component: require('./views/Account').default
+        component: require('./views/Account/Index').default
     },
     {
         path: '/recipes/:id/:slug',

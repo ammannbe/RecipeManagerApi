@@ -195,9 +195,7 @@ export default {
             }
           );
           await this.updateFormProperty("ingredient_group_id", groupId);
-        } catch (error) {
-          console.error(error);
-        }
+        } catch (error) {}
       }
 
       await this.$store.dispatch("ingredients/store", {

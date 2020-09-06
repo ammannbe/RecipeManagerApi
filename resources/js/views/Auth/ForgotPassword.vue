@@ -61,7 +61,7 @@ export default {
     },
     submit() {
       this.$store.dispatch("user/password/forgot", this.form).then(response => {
-        alert(this.$t("We've sent you a link per email."));
+        this.$buefy.snackbar.open("We've sent you a link per email.");
         this.$router.push({ name: "login" });
       });
     }

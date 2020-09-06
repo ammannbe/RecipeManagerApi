@@ -201,16 +201,12 @@ export default {
           return;
         }
 
-        try {
-          await this.$store.dispatch("ingredients/update", {
-            id: this.ingredient.id,
-            recipeId: this.ingredient.recipe_id,
-            property,
-            value
-          });
-        } catch (error) {
-          console.error(error);
-        }
+        await this.$store.dispatch("ingredients/update", {
+          id: this.ingredient.id,
+          recipeId: this.ingredient.recipe_id,
+          property,
+          value
+        });
       });
     }
   }

@@ -2,7 +2,6 @@
   <div class="columns">
     <div class="column is-one-third">
       <h3 class="title">{{ $t('Details') }}</h3>
-
       <table>
         <tr>
           <th>{{ $t('Name') }}:</th>
@@ -25,6 +24,7 @@
         </tr>
       </table>
     </div>
+
     <div ref="top" class="column is-one-third">
       <h3
         @click.prevent="$router.push({ name: 'recipes.add' })"
@@ -65,6 +65,7 @@
         @load="loadRecipes"
       />
     </div>
+
     <div class="column is-one-third">
       <h3
         @click.prevent="$router.push({ name: 'cookbooks.add' })"
@@ -72,32 +73,51 @@
       >{{ user.admin ? $t('All cookbooks') : $t('Your cookbooks') }}</h3>
       <ul>
         <li :key="cookbook.id" v-for="cookbook in sortedCookbooks">
-          <span v-if="!cookbook.deleted_at">
-            <button @click.prevent="removeCookbook(cookbook.id)" class="button is-white is-small">
+          <span>
+            <button
+              v-if="!cookbook.deleted_at"
+              @click.prevent="removeCookbook(cookbook)"
+              class="button is-white is-small"
+            >
               <i class="fas fa-trash"></i>
             </button>
-            {{ cookbook.name }}
-          </span>
-          <span v-else>
-            <button @click.prevent="restoreCookbook(cookbook.id)" class="button is-white is-small">
+            <button
+              v-else
+              @click.prevent="restoreCookbook(cookbook)"
+              class="button is-white is-small"
+            >
               <i class="fas fa-redo"></i>
+            </button>
+            <button @click.prevent="editCookbook(cookbook)" class="button is-white is-small">
+              <i class="fas fa-edit"></i>
             </button>
             {{ cookbook.name }}
           </span>
         </li>
       </ul>
+      <pagination
+        v-if="cookbooks.last_page > 1"
+        position="start"
+        :current="cookbooks.current_page"
+        :last="cookbooks.last_page"
+        :route-name="this.$route.name"
+        query-url="cookbook-page"
+        @load="loadCookbooks"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import EditCookbook from "./EditCookbook";
 
 export default {
   data() {
     return {
       showAddCookbook: false,
-      currentRecipePage: 1
+      currentRecipePage: 1,
+      currentCookbookPage: 1
     };
   },
   computed: {
@@ -140,8 +160,17 @@ export default {
       this.$store.dispatch("cookbooks/index", { trashed: true, page: 1 });
     }, 1000);
   },
-  mounted() {},
   methods: {
+    loadCookbooks(page = 1, scroll = true) {
+      this.currentCookbookPage = page;
+      this.$store.dispatch("cookbooks/index", { trashed: true, page });
+
+      this.loadRecipes(this.currentRecipePage);
+
+      if (scroll) {
+        this.$refs.top.scrollIntoView({ behavior: "smooth" });
+      }
+    },
     loadRecipes(page = 1, scroll = true) {
       this.currentRecipePage = page;
       this.$store.dispatch("recipes/index", {
@@ -154,13 +183,30 @@ export default {
         this.$refs.top.scrollIntoView({ behavior: "smooth" });
       }
     },
-    async removeCookbook(id) {
-      await this.$store.dispatch("cookbooks/remove", { id });
+    async removeCookbook(cookbook) {
+      await this.$store.dispatch("cookbooks/remove", { id: cookbook.id });
+      await this.loadRecipes(this.currentRecipePage);
+    },
+    async restoreCookbook(cookbook) {
+      await this.$store.dispatch("cookbooks/restore", { id: cookbook.id });
       this.loadRecipes(this.currentRecipePage);
     },
-    async restoreCookbook(id) {
-      await this.$store.dispatch("cookbooks/restore", { id });
-      this.loadRecipes(this.currentRecipePage);
+    async editCookbook(cookbook) {
+      this.$buefy.modal.open({
+        parent: this,
+        component: EditCookbook,
+        hasModalCard: true,
+        trapFocus: true,
+        props: { cookbook },
+        events: {
+          confirm: () => {
+            this.$store.dispatch("cookbooks/index", {
+              trashed: true,
+              page: cookbooks.current_page
+            });
+          }
+        }
+      });
     }
   }
 };

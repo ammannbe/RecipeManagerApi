@@ -94,7 +94,8 @@ export default {
     },
     submit() {
       this.$store.dispatch("user/password/reset", this.form).then(() => {
-        alert("Ihr Passwort wurde erfolgreich zurück gesetzt.");
+        const message = "Ihr Passwort wurde erfolgreich zurück gesetzt.";
+        this.$buefy.snackbar.open(message);
         this.$router.push({ name: "login" });
       });
     }

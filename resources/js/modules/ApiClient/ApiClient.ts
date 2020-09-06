@@ -46,29 +46,22 @@ export default class ApiClient {
             request = { ...request, responseType };
         }
 
-        return this.axios
-            .request(request)
-            .then(response => {
-                Loading.close();
+        try {
+            let response = await this.axios.request(request);
+            response = this.rawResponse ? response : response.data;
+            Loading.close();
+            return Promise.resolve(response);
+        } catch (error) {
+            Loading.close();
 
-                return Promise.resolve(
-                    this.rawResponse ? response : response.data
-                );
-            })
-            .catch(error => {
-                Loading.close();
+            if (error.response.status !== 401) {
+                const type = "is-danger";
+                const message = error.response.data.message;
+                Snackbar.open({ type, message });
+            }
 
-                if (error.response.status !== 401) {
-                    Snackbar.open({
-                        type: "is-danger",
-                        message: error.response.data.message
-                    });
-                }
-
-                return Promise.reject(
-                    this.rawResponse ? error : error.response
-                );
-            });
+            return Promise.reject(this.rawResponse ? error : error.response);
+        }
     }
 
     public get(
