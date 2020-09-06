@@ -107,12 +107,10 @@ php artisan migrate
 ```
 
 -   Import translations `composer translations:import`
--   Navigate to `<your-domain>/translations` for translation
+-   Open `<your-domain>/translations` in a browser
 -   PHP: short keys within `resources/lang/<lang>/<group>.php`
 -   Vue.js: translation strings within `/resources/lang/<lang>.json` (these files will be imported into the `_json` group)
 -   Export & generate translations `composer translations:export`
-
-Don't forget to run `composer php-cs-fixer`
 
 Other commands:
 

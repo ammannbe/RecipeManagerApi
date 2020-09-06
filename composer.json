@@ -83,7 +83,8 @@
         ],
         "translations:export": [
             "@php artisan translations:export \\*",
-            "@php artisan vue-i18n:generate"
+            "@php artisan vue-i18n:generate",
+            "@php artisan fixer:fix --path resources/lang"
         ]
     }
 }
