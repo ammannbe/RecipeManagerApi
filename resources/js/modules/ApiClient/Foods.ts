@@ -8,8 +8,8 @@ export interface Food {
 export default class Foods extends ApiClient {
     protected url = "/foods";
 
-    public async index(): Promise<Food[]> {
-        return super.index() as Promise<Food[]>;
+    public async index({ trashed = false }): Promise<Food[]> {
+        return super.index({ trashed }) as Promise<Food[]>;
     }
 
     public async show(id: number): Promise<Food> {

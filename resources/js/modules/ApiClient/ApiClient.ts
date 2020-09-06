@@ -76,8 +76,8 @@ export default class ApiClient {
         return this.get(`${this.url}/${id}`);
     }
 
-    public index(filter?: object): Promise<any> {
-        return this.get(`${this.url}`, filter);
+    public index(data?: object): Promise<any> {
+        return this.get(`${this.url}`, data);
     }
 
     public post(

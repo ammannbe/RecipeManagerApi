@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-3">
+    <div class="column">
       <h3 class="title is-4">{{ $t('Users') }}</h3>
       <ul>
         <li :key="u.id" v-for="u in users">
@@ -21,7 +21,7 @@
       </ul>
     </div>
 
-    <div class="column is-3">
+    <div class="column">
       <h3 class="title is-4">{{ $t('Units') }}</h3>
       <ul>
         <li :key="unit.id" v-for="unit in units">
@@ -43,7 +43,7 @@
       </ul>
     </div>
 
-    <div class="column is-3">
+    <div class="column">
       <h3 class="title is-4">{{ $t('Ingredient attributes') }}</h3>
       <ul>
         <li :key="ingredientAttribute.id" v-for="ingredientAttribute in ingredientAttributes">
@@ -69,7 +69,29 @@
       </ul>
     </div>
 
-    <div v-if="!$env.DISABLE_TAGS" class="column is-3">
+    <div class="column">
+      <h3 class="title is-4">{{ $t('Foods') }}</h3>
+      <ul>
+        <li :key="food.id" v-for="food in foods">
+          <span>
+            <button
+              v-if="!food.deleted_at"
+              @click.prevent="removeFood(food.id)"
+              class="button is-white is-small"
+              :disabled="!food.can_delete"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+            <button v-else @click.prevent="restoreFood(food.id)" class="button is-white is-small">
+              <i class="fas fa-redo"></i>
+            </button>
+            {{ food.name }}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div v-if="!$env.DISABLE_TAGS" class="column">
       <h3 class="title is-4">{{ $t('Tags') }}</h3>
       <ul>
         <li :key="tag.id" v-for="tag in tags">
@@ -103,6 +125,7 @@ export default {
       users: state => state.users.data,
       units: state => state.units.data,
       ingredientAttributes: state => state.ingredient_attributes.data,
+      foods: state => state.foods.data,
       tags: state => state.tags.data
     }),
     ...mapGetters({
@@ -125,6 +148,7 @@ export default {
       this.$store.dispatch("users/index", { trashed: true });
       this.$store.dispatch("units/index", { trashed: true });
       this.$store.dispatch("ingredient_attributes/index");
+      this.$store.dispatch("foods/index", { trashed: true });
       if (!this.$env.DISABLE_TAGS && this.loggedIn) {
         this.$store.dispatch("tags/index", { trashed: true });
       }
@@ -141,17 +165,23 @@ export default {
     restoreUnit(id) {
       this.$store.dispatch("units/restore", { id });
     },
-    removeTag(id) {
-      this.$store.dispatch("tags/remove", { id });
-    },
-    restoreTag(id) {
-      this.$store.dispatch("tags/restore", { id });
-    },
     removeIngredientAttribute(id) {
       this.$store.dispatch("ingredient_attributes/remove", { id });
     },
     restoreIngredientAttribute(id) {
       this.$store.dispatch("ingredient_attributes/restore", { id });
+    },
+    removeFood(id) {
+      this.$store.dispatch("foods/remove", { id });
+    },
+    restoreFood(id) {
+      this.$store.dispatch("foods/restore", { id });
+    },
+    removeTag(id) {
+      this.$store.dispatch("tags/remove", { id });
+    },
+    restoreTag(id) {
+      this.$store.dispatch("tags/restore", { id });
     }
   }
 };

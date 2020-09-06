@@ -7,6 +7,7 @@ use App\Models\OrderByNameScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property  string  $name
@@ -34,6 +35,15 @@ class Food extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'can_delete',
+    ];
+
+    /**
      * Relations that cascade or restrict on delete.
      *
      * @var array
@@ -52,5 +62,25 @@ class Food extends Model
         parent::boot();
 
         static::addGlobalScope(new OrderByNameScope);
+    }
+
+    /**
+     * This ressource can be deleted
+     *
+     * @return bool
+     */
+    public function getCanDeleteAttribute(): bool
+    {
+        return !$this->ingredients()->exists();
+    }
+
+    /**
+     * Get the unit's ingredients
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ingredients(): HasMany
+    {
+        return $this->hasMany('\App\Models\Ingredients\Ingredient');
     }
 }
