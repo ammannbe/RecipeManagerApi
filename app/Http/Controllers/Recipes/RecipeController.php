@@ -13,6 +13,16 @@ use App\Http\Controllers\Recipes\CookbookController;
 class RecipeController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Recipe::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Recipes\Recipe\Index  $request
@@ -20,7 +30,6 @@ class RecipeController extends Controller
      */
     public function index(Index $request)
     {
-        $this->authorize(Recipe::class);
 
         $model = Recipe::latest();
         if ($request->trashed && auth()->check()) {
@@ -46,7 +55,6 @@ class RecipeController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Recipe::class);
         $validated = $request->validated();
         $recipe = auth()->user()->recipes()->create($validated);
         if (isset($validated['tags'])) {
@@ -64,7 +72,6 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        $this->authorize($recipe);
         if (TagController::isEnabled()) {
             $recipe->load('tags');
         }
@@ -84,7 +91,6 @@ class RecipeController extends Controller
      */
     public function update(Update $request, Recipe $recipe)
     {
-        $this->authorize($recipe);
         $validated = $request->validated();
         if (TagController::isEnabled() && isset($validated['tags'])) {
             $recipe->tags()->sync($validated['tags']);
@@ -100,7 +106,6 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        $this->authorize($recipe);
         $recipe->delete();
     }
 

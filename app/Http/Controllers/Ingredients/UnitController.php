@@ -11,6 +11,16 @@ use App\Http\Requests\Ingredients\Unit\Update;
 class UnitController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Unit::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Ingredients\Unit\Index  $request
@@ -18,7 +28,6 @@ class UnitController extends Controller
      */
     public function index(Index $request)
     {
-        $this->authorize(Unit::class);
         if ($request->trashed) {
             return Unit::withTrashed()->get();
         }
@@ -33,7 +42,6 @@ class UnitController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Unit::class);
         $unit = Unit::create($request->validated());
         return $this->responseCreated('units.show', $unit->id);
     }
@@ -46,7 +54,6 @@ class UnitController extends Controller
      */
     public function show(Unit $unit)
     {
-        $this->authorize($unit);
         return $unit;
     }
 
@@ -59,7 +66,6 @@ class UnitController extends Controller
      */
     public function update(Update $request, Unit $unit)
     {
-        $this->authorize($unit);
         $unit->update($request->validated());
     }
 
@@ -71,7 +77,6 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        $this->authorize($unit);
         $unit->delete();
     }
 

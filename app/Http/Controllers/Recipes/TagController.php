@@ -10,6 +10,11 @@ use App\Http\Requests\Recipes\Tag\Update;
 
 class TagController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Tag::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +23,6 @@ class TagController extends Controller
      */
     public function index(Index $request)
     {
-        $this->authorize(Tag::class);
         if ($request->trashed) {
             return Tag::withTrashed()->get();
         }
@@ -33,7 +37,6 @@ class TagController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Tag::class);
         $tag = Tag::create($request->validated());
         return $this->responseCreated('tags.show', $tag->id);
     }
@@ -46,7 +49,6 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        $this->authorize($tag);
         return $tag;
     }
 
@@ -59,7 +61,6 @@ class TagController extends Controller
      */
     public function update(Update $request, Tag $tag)
     {
-        $this->authorize($tag);
         $tag->update($request->validated());
     }
 
@@ -71,7 +72,6 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        $this->authorize($tag);
         $tag->delete();
     }
 

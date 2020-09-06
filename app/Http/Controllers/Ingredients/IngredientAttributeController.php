@@ -10,13 +10,22 @@ use App\Http\Requests\Ingredients\IngredientAttribute\Update;
 class IngredientAttributeController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(IngredientAttribute::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Support\Collection
      */
     public function index()
     {
-        $this->authorize(IngredientAttribute::class);
         return IngredientAttribute::get();
     }
 
@@ -28,7 +37,6 @@ class IngredientAttributeController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(IngredientAttribute::class);
         $ingredientAttribute = IngredientAttribute::create($request->validated());
         return $this->responseCreated('ingredient-attributes.show', $ingredientAttribute->id);
     }
@@ -41,7 +49,6 @@ class IngredientAttributeController extends Controller
      */
     public function show(IngredientAttribute $ingredientAttribute)
     {
-        $this->authorize($ingredientAttribute);
         return $ingredientAttribute;
     }
 
@@ -54,7 +61,6 @@ class IngredientAttributeController extends Controller
      */
     public function update(Update $request, IngredientAttribute $ingredientAttribute)
     {
-        $this->authorize($ingredientAttribute);
         $ingredientAttribute->update($request->validated());
     }
 
@@ -66,7 +72,6 @@ class IngredientAttributeController extends Controller
      */
     public function destroy(IngredientAttribute $ingredientAttribute)
     {
-        $this->authorize($ingredientAttribute);
         $ingredientAttribute->delete();
     }
 

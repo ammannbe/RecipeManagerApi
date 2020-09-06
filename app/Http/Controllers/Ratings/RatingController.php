@@ -11,6 +11,16 @@ use App\Http\Requests\Ratings\Rating\Update;
 class RatingController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Rating::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
@@ -18,7 +28,6 @@ class RatingController extends Controller
      */
     public function index(Recipe $recipe)
     {
-        $this->authorize(Rating::class);
         return $recipe->ratings;
     }
 
@@ -30,7 +39,6 @@ class RatingController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Rating::class);
         Rating::create($request->validated());
     }
 
@@ -42,7 +50,6 @@ class RatingController extends Controller
      */
     public function show(Rating $rating)
     {
-        $this->authorize($rating);
         return $rating;
     }
 
@@ -55,7 +62,6 @@ class RatingController extends Controller
      */
     public function update(Update $request, Rating $rating)
     {
-        $this->authorize($rating);
         $rating->update($request->validated());
     }
 
@@ -67,7 +73,6 @@ class RatingController extends Controller
      */
     public function destroy(Rating $rating)
     {
-        $this->authorize($rating);
         $rating->delete();
     }
 }

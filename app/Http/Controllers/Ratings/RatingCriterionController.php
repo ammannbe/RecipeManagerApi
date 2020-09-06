@@ -10,13 +10,22 @@ use App\Http\Requests\Ratings\RatingCriterion\Update;
 class RatingCriterionController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(RatingCriterion::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Support\Collection
      */
     public function index()
     {
-        $this->authorize(RatingCriterion::class);
         return RatingCriterion::get();
     }
 
@@ -28,7 +37,6 @@ class RatingCriterionController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(RatingCriterion::class);
         RatingCriterion::create($request->validated());
     }
 
@@ -40,7 +48,6 @@ class RatingCriterionController extends Controller
      */
     public function show(RatingCriterion $ratingCriterion)
     {
-        $this->authorize($ratingCriterion);
         return $ratingCriterion;
     }
 
@@ -53,7 +60,6 @@ class RatingCriterionController extends Controller
      */
     public function update(Update $request, RatingCriterion $ratingCriterion)
     {
-        $this->authorize($ratingCriterion);
         $ratingCriterion->update($request->validated());
     }
 
@@ -65,7 +71,6 @@ class RatingCriterionController extends Controller
      */
     public function destroy(RatingCriterion $ratingCriterion)
     {
-        $this->authorize($ratingCriterion);
         $ratingCriterion->delete();
     }
 }
