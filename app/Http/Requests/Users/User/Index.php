@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Recipes\Cookbook;
+namespace App\Http\Requests\Users\User;
 
 use App\Http\Requests\FormRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
@@ -16,7 +16,7 @@ class Index extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -27,8 +27,7 @@ class Index extends FormRequest
     public function rules()
     {
         return [
-            'limit'  => $this->getLimitRule(),
-            'page'   => $this->getPageRule(),
+            'trashed' => $this->getTrashedRule(),
         ];
     }
 }

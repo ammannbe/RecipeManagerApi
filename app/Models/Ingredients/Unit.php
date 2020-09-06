@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property  int  $author_id
+ * @property  boolean  $can_delete
  */
 class Unit extends Model
 {
@@ -31,12 +32,12 @@ class Unit extends Model
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $hidden = [
-        'deleted_at',
+    protected $appends = [
+        'can_delete',
     ];
 
     /**
@@ -58,6 +59,16 @@ class Unit extends Model
         parent::boot();
 
         static::addGlobalScope(new OrderByNameScope);
+    }
+
+    /**
+     * This ressource can be deleted
+     *
+     * @return bool
+     */
+    public function getCanDeleteAttribute(): bool
+    {
+        return !$this->ingredients()->exists();
     }
 
     /**

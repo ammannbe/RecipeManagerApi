@@ -1,27 +1,27 @@
-import Tags from "../../modules/ApiClient/Tags";
+import Users from "../../modules/ApiClient/Users";
 
 const state = () => ({
-    data: [],
+    data: { data: [] }
 });
 
 const actions = {
     async index({ commit }, { trashed = false }) {
-        let tags = await new Tags().index({ trashed });
-        commit('set', { tags });
+        let users = await new Users().index({ trashed });
+        commit('set', { users });
     },
     async remove({ commit }, { id }) {
-        await new Tags().remove(id);
+        await new Users().remove(id);
         commit('update', { id, property: 'deleted_at', value: new Date().toJSON() });
     },
     async restore({ commit }, { id }) {
-        await new Tags().restore(id);
+        await new Users().restore(id);
         commit('update', { id, property: 'deleted_at', value: null });
     }
 }
 
 const mutations = {
-    set(state, { tags }) {
-        state.data = tags;
+    set(state, { users }) {
+        state.data = users;
     },
     update(state, { id, property, value }) {
         let index = state.data.findIndex((r => r.id == id));

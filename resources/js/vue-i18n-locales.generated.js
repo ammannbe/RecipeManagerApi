@@ -40,7 +40,6 @@ export default {
         "Ratings": "Bewertungen",
         "Click to add": "Klicken zum Hinzufügen",
         "Search...": "Suchen...",
-        "Unit": "Einheit",
         "Ingredients": "Zutaten",
         "Attributes": "Eigenschaften",
         "Enter yield amount...": "Portionen eingeben...",
@@ -75,6 +74,14 @@ export default {
         "Delete recipe?": "Rezept löschen?",
         "Delete recipe": "Rezept löschen",
         "Please enter...": "Bitte eingeben...",
+        "Users": "Benutzer",
+        "Units": "Einheiten",
+        "Ingredient attributes": "Zutaten Eigenschaften",
+        "Administration": "Administration",
+        "Download this recipe as PDF": "Lade dieses Rezept als PDF herunter",
+        "Password": "Passwort",
+        "Edit ingredient": "Zutat bearbeiten",
+        "Unit": "Einheit",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

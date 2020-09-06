@@ -32,15 +32,6 @@ class Cookbook extends Model
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at',
-    ];
-
-    /**
      * Relations that cascade or restrict on delete.
      *
      * @var array

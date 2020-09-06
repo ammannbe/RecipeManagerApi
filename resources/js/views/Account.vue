@@ -129,25 +129,30 @@ export default {
     }
   },
   created() {
-    if (!this.loggedIn) {
-      this.$router.push({ name: "home" });
-    } else if (!this.user.has_verified_email) {
-      this.$router.push({ name: "verify.email" });
-    }
+    setTimeout(() => {
+      if (!this.loggedIn) {
+        this.$router.push({ name: "home" });
+      } else if (!this.user.has_verified_email) {
+        this.$router.push({ name: "verify.email" });
+      }
+
+      this.loadRecipes(1, false);
+      this.$store.dispatch("cookbooks/index", { trashed: true, page: 1 });
+    }, 1000);
   },
-  mounted() {
-    this.loadRecipes();
-    this.$store.dispatch("cookbooks/index", { trashed: true, page: 1 });
-  },
+  mounted() {},
   methods: {
-    loadRecipes(page = 1) {
+    loadRecipes(page = 1, scroll = true) {
       this.currentRecipePage = page;
       this.$store.dispatch("recipes/index", {
         trashed: true,
         only_own: !this.user.admin,
         page
       });
-      this.$refs.top.scrollIntoView({ behavior: "smooth" });
+
+      if (scroll) {
+        this.$refs.top.scrollIntoView({ behavior: "smooth" });
+      }
     },
     async removeCookbook(id) {
       await this.$store.dispatch("cookbooks/remove", { id });
@@ -169,5 +174,10 @@ th {
 
 .add-cursor {
   cursor: copy;
+}
+
+li > span {
+  display: flex;
+  align-items: center;
 }
 </style>

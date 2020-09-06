@@ -81,8 +81,8 @@
             </router-link>
 
             <div class="navbar-dropdown">
-              <router-link :to="{ name: 'account' }">
-                <span class="navbar-item">{{ $t('My Account') }}</span>
+              <router-link v-if="user.admin" :to="{ name: 'admin' }">
+                <span class="navbar-item">{{ $t('Administration') }}</span>
               </router-link>
               <router-link :to="{ name: 'recipes.add' }">
                 <span class="navbar-item">{{ $t('Add recipe') }}</span>

@@ -160,12 +160,18 @@ export default {
           amount_max: this.ingredient.amount_max,
           unit_id: this.ingredient.unit_id,
           food_id: this.ingredient.food_id,
-          ingredient_attributes: this.ingredient.ingredient_attributes,
+          ingredient_attributes: this.ingredient.ingredient_attributes.map(
+            i => i.id
+          ),
           ingredient_group_id: this.ingredient.ingredient_group_id,
           ingredient_id: this.ingredient.ingredient_id,
           position: this.ingredient.position
         }
       });
+
+      if (this.ingredient_group_id) {
+        this.new_ingredient_group_name = this.ingredient.ingredient_group.name;
+      }
     },
     updateFormProperty(property, value) {
       this.$store.dispatch("ingredients/form/update", { property, value });

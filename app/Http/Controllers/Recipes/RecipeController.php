@@ -23,20 +23,19 @@ class RecipeController extends Controller
         $this->authorize(Recipe::class);
 
         $model = Recipe::latest();
-        if ($request->trashed == 'true' && auth()->check()) {
+        if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
         }
-        if ($request->only_own == 'true' && auth()->check()) {
+        if ($request->only_own && auth()->check()) {
             $model = $model->withoutGlobalScope('isAdminOrOwnOrPublic')->isOwn();
         }
         if (TagController::isEnabled()) {
             $model->with('tags');
         }
-        $paginator = $model
+
+        return $model
             ->filter($request->filter, $request->method)
             ->paginate($request->limit);
-        $paginator->setCollection($paginator->getCollection()->makeVisible('deleted_at'));
-        return $paginator;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingredients;
 
 use App\Models\Ingredients\Unit;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ingredients\Unit\Index;
 use App\Http\Requests\Ingredients\Unit\Store;
 use App\Http\Requests\Ingredients\Unit\Update;
 
@@ -12,11 +13,15 @@ class UnitController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Ingredients\Unit\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
         $this->authorize(Unit::class);
+        if ($request->trashed) {
+            return Unit::withTrashed()->get();
+        }
         return Unit::get();
     }
 

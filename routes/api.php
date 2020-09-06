@@ -75,6 +75,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     ], ['only' => ['update', 'destroy']]);
 
     Route::apiResource('cookbooks', 'Recipes\CookbookController');
+    Route::apiResource('users', 'Users\UserController');
 
 
     Route::post('foods/{id}/restore', 'Ingredients\FoodController@restore')->name('foods.restore');
@@ -88,9 +89,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('recipes/{id}/restore', 'Recipes\RecipeController@restore')->name('recipes.restore');
     Route::post('tags/{id}/restore', 'Recipes\TagController@restore')->name('tags.restore');
     Route::post('units/{id}/restore', 'Ingredients\UnitController@restore')->name('units.restore');
+    Route::post('users/{id}/restore', 'Users\UserController@restore')->name('users.restore');
 
 
-    Route::get('user', 'Users\UserController@show')->name('user.show');
-    Route::patch('user', 'Users\UserController@update')->name('user.update');
-    Route::delete('user', 'Users\UserController@destroy')->name('user.destroy');
+    Route::get('user', 'Users\UserController@show')->name('self.show');
+    Route::patch('user', 'Users\UserController@update')->name('self.update');
+    Route::delete('user', 'Users\UserController@destroy')->name('self.destroy');
 });

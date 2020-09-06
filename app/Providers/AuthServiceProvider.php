@@ -28,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Recipes\Tag' => 'App\Policies\Recipes\TagPolicy',
 
         'App\Models\Users\Author' => 'App\Policies\Users\AuthorPolicy',
+        'App\Models\Users\User' => 'App\Policies\Users\UserPolicy',
     ];
 
     /**

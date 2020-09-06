@@ -43,6 +43,11 @@ let routes = [
         path: '/recipes/add',
         name: 'recipes.add',
         component: require('./views/Recipe/Add/Index').default
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: require('./views/Admin/Index').default
     }
 ];
 

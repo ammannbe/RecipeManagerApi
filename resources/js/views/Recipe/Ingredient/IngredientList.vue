@@ -19,7 +19,7 @@
           <i
             v-if="editmode.editing"
             class="fas fa-edit"
-            @click.prevent="$emit('edit', ingredient.id)"
+            @click.prevent="$emit('edit', ingredient)"
           ></i>
           <ingredient
             :ingredient="ingredient"

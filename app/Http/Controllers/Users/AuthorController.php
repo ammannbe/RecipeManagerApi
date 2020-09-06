@@ -54,7 +54,7 @@ class AuthorController extends Controller
     public function update(Update $request, Author $author)
     {
         $this->authorize($author);
-        $author->update();
+        $author->update($request->validated());
     }
 
     /**

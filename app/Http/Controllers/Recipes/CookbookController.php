@@ -20,13 +20,11 @@ class CookbookController extends Controller
     {
         $this->authorize(Cookbook::class);
         $model = new Cookbook();
-        if ($request->trashed == 'true' && auth()->check()) {
+        if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
         }
 
-        $paginator = $model->paginate($request->limit);
-        $paginator->setCollection($paginator->getCollection()->makeVisible('deleted_at'));
-        return $paginator;
+        return $model->paginate($request->limit);
     }
 
     /**

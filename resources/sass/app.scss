@@ -30,20 +30,21 @@
     text-align: start;
 }
 
-a.disabled {
-    pointer-events: none;
-    cursor: default;
-    color: inherit;
-}
-
 i {
-    &.fas.fa-arrows-alt {
-        cursor: pointer;
-    }
-
+    &.fas.fa-arrows-alt,
     &.fas.fa-trash,
     &.fas.fa-edit {
         cursor: pointer;
+    }
+}
+
+button:disabled {
+    i {
+        &.fas.fa-arrows-alt,
+        &.fas.fa-trash,
+        &.fas.fa-edit {
+            cursor: inherit !important;
+        }
     }
 }
 
@@ -52,8 +53,8 @@ i {
 }
 
 .notices {
-    .is-top,
-    .is-bottom {
+    &.is-top,
+    &.is-bottom {
         z-index: 9999;
     }
 }

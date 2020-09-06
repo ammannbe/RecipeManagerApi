@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Recipes;
 
 use App\Models\Recipes\Tag;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Recipes\Tag\Index;
 use App\Http\Requests\Recipes\Tag\Store;
 use App\Http\Requests\Recipes\Tag\Update;
 
@@ -12,11 +13,15 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Recipes\Tag\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
         $this->authorize(Tag::class);
+        if ($request->trashed) {
+            return Tag::withTrashed()->get();
+        }
         return Tag::get();
     }
 

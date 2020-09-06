@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance } from "axios";
+import { SnackbarProgrammatic as Snackbar } from "buefy";
 import env from "../../env";
 import Locale from "../Locale";
 import Loading from "../Loading";
@@ -24,7 +25,7 @@ export default class ApiClient {
     public async request(
         method: any,
         url: string,
-        data?: object,
+        data?: { [index: string]: any },
         headers?: object,
         responseType?: string
     ): Promise<any> {
@@ -32,6 +33,13 @@ export default class ApiClient {
         let request: {};
         request = { method, url, data, headers };
         if (method === "get") {
+            if (data) {
+                Object.keys(data).map(v => {
+                    if (data[v] === true || data[v] === false) {
+                        data[v] = data[v] ? 1 : 0;
+                    }
+                });
+            }
             request = { method, url, params: data, headers };
         }
         if (responseType) {
@@ -42,12 +50,21 @@ export default class ApiClient {
             .request(request)
             .then(response => {
                 Loading.close();
+
                 return Promise.resolve(
                     this.rawResponse ? response : response.data
                 );
             })
             .catch(error => {
                 Loading.close();
+
+                if (error.response.status !== 401) {
+                    Snackbar.open({
+                        type: "is-danger",
+                        message: error.response.data.message
+                    });
+                }
+
                 return Promise.reject(
                     this.rawResponse ? error : error.response
                 );

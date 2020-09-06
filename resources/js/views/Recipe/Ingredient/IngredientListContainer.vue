@@ -10,7 +10,7 @@
       <ingredient-list
         :ingredients="$store.getters['ingredients/byGroup']()"
         :multiplier="multiplier"
-        :show-add-form="showAddForm"
+        :show-add-form="showAddForm && !showAddFormGroup"
         :ingredient-group-id="null"
         :first-level-list="true"
         @cancelAdd="showAddForm = false"
@@ -22,18 +22,19 @@
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
       <h2
         class="title is-4"
-        :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
+        :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddFormGroup, 'cancel': !!showAddFormGroup}"
         :title="title"
-        @click="showAddForm = !showAddForm"
+        @click="toggleShowAddFormGroup(ingredientGroup.name)"
       >{{ ingredientGroup.name }}</h2>
       <ingredient-list
         v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :ingredients="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :multiplier="multiplier"
-        :show-add-form="showAddForm && !hasIngredientsWithoutGroup"
+        :show-add-form="showAddFormGroup == ingredientGroup.name && !showAddForm"
         :ingredient-group-id="ingredientGroup.id"
         :first-level-list="true"
         @remove="remove"
+        @edit="edit"
       />
       <span v-else>{{ $t('No ingredients available...') }}</span>
     </div>
@@ -65,7 +66,8 @@ export default {
   props: ["id", "multiplier"],
   data() {
     return {
-      showAddForm: false
+      showAddForm: false,
+      showAddFormGroup: false
     };
   },
   computed: {
@@ -104,6 +106,16 @@ export default {
     }, 500);
   },
   methods: {
+    toggleShowAddFormGroup(group) {
+      this.showAddForm = false;
+
+      if (this.showAddFormGroup == group) {
+        this.showAddFormGroup = false;
+        return;
+      }
+
+      this.showAddFormGroup = group;
+    },
     created() {
       this.showAddForm = false;
     },
@@ -111,7 +123,6 @@ export default {
       this.$store.dispatch("ingredients/remove", { id, alternateId });
     },
     edit(ingredient) {
-
       this.$buefy.modal.open({
         parent: this,
         component: IngredientEditForm,
