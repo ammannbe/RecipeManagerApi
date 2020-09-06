@@ -10,11 +10,8 @@
     <b-autocomplete
       v-model="model"
       :data="filteredOptions"
-      :min="min"
-      :max="max"
       :placeholder="placeholder"
       :disabled="disabled"
-      :controls-position="controlsPosition"
       :size="size"
       :required="required"
       :autofocus="autofocus"
@@ -45,11 +42,8 @@ export default {
     "autofocus",
     "required",
 
-    "min",
-    "max",
     "size",
-    "options",
-    "controlsPosition"
+    "options"
   ],
   computed: {
     model: {
