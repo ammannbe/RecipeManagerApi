@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   computed: {
@@ -153,36 +153,18 @@ export default {
         this.$store.dispatch("tags/index", { trashed: true });
       }
     },
-    removeUser(id) {
-      this.$store.dispatch("users/remove", { id });
-    },
-    restoreUser(id) {
-      this.$store.dispatch("users/restore", { id });
-    },
-    removeUnit(id) {
-      this.$store.dispatch("units/remove", { id });
-    },
-    restoreUnit(id) {
-      this.$store.dispatch("units/restore", { id });
-    },
-    removeIngredientAttribute(id) {
-      this.$store.dispatch("ingredient_attributes/remove", { id });
-    },
-    restoreIngredientAttribute(id) {
-      this.$store.dispatch("ingredient_attributes/restore", { id });
-    },
-    removeFood(id) {
-      this.$store.dispatch("foods/remove", { id });
-    },
-    restoreFood(id) {
-      this.$store.dispatch("foods/restore", { id });
-    },
-    removeTag(id) {
-      this.$store.dispatch("tags/remove", { id });
-    },
-    restoreTag(id) {
-      this.$store.dispatch("tags/restore", { id });
-    }
+    ...mapActions({
+      removeUser: "users/remove",
+      restoreUser: "users/restore",
+      removeUnit: "units/remove",
+      restoreUnit: "units/restore",
+      removeIngredientAttribute: "ingredient_attributes/remove",
+      restoreIngredientAttribute: "ingredient_attributes/restore",
+      removeFood: "foods/remove",
+      restoreFood: "foods/restore",
+      removeTag: "tags/remove",
+      restoreTag: "tags/restore"
+    })
   }
 };
 </script>

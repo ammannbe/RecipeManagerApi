@@ -54,70 +54,33 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/register/form/getFormFields",
+  mutationType: "user/register/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.register.form.data,
-      errors: state => state.user.register.form.errors.data
+      errors: state => state.user.register.form.errors
     }),
     ...mapGetters({
       loggedIn: "user/loggedIn"
     }),
-    name: {
-      get() {
-        return this.form.name;
-      },
-      set(value) {
-        this.updateFormProperty("name", value);
-      }
-    },
-    email: {
-      get() {
-        return this.form.email;
-      },
-      set(value) {
-        this.updateFormProperty("email", value);
-      }
-    },
-    password: {
-      get() {
-        return this.form.password;
-      },
-      set(value) {
-        this.updateFormProperty("password", value);
-      }
-    },
-    password_confirmation: {
-      get() {
-        return this.form.password_confirmation;
-      },
-      set(value) {
-        this.updateFormProperty("password_confirmation", value);
-      }
-    }
+    ...mapFields(["name", "email", "password", "password_confirmation"])
   },
   created() {
     if (this.loggedIn) {
       this.$router.push({ name: "home" });
     }
-
-    this.$store.commit("user/register/form/set", {
-      data: {
-        name: null,
-        email: null,
-        password: null,
-        password_confirmation: null
-      }
-    });
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/register/form/update", { property, value });
-    },
     submit() {
       this.$store.dispatch("user/register", { data: this.form }).then(() => {
         this.$router.push({ name: "email.verify" });

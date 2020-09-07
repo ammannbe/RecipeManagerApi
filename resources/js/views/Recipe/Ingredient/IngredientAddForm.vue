@@ -83,6 +83,12 @@
 
 <script>
 import { mapState } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "ingredients/form/getFormFields",
+  mutationType: "ingredients/form/updateFormFields"
+});
 
 export default {
   props: ["ingredientGroupId"],
@@ -101,62 +107,15 @@ export default {
       recipe: state => state.recipe.data,
       form: state => state.ingredients.form.data
     }),
-    ingredient_id: {
-      get() {
-        return this.form.ingredient_id;
-      },
-      set(value) {
-        this.updateFormProperty("ingredient_id", value);
-      }
-    },
-    amount: {
-      get() {
-        return this.form.amount || 0;
-      },
-      set(value) {
-        this.updateFormProperty("amount", value);
-      }
-    },
-    amount_max: {
-      get() {
-        return this.form.amount_max || 0;
-      },
-      set(value) {
-        this.updateFormProperty("amount_max", value);
-      }
-    },
-    unit_id: {
-      get() {
-        return this.form.unit_id;
-      },
-      set(value) {
-        this.updateFormProperty("unit_id", value);
-      }
-    },
-    food_id: {
-      get() {
-        return this.form.food_id;
-      },
-      set(value) {
-        this.updateFormProperty("food_id", value);
-      }
-    },
-    ingredient_attributes: {
-      get() {
-        return this.form.ingredient_attributes;
-      },
-      set(value) {
-        this.updateFormProperty("ingredient_attributes", value);
-      }
-    },
-    ingredient_group_id: {
-      get() {
-        return this.form.ingredient_group_id;
-      },
-      set(value) {
-        this.updateFormProperty("ingredient_group_id", value);
-      }
-    }
+    ...mapFields([
+      "ingredient_id",
+      "amount",
+      "amount_max",
+      "unit_id",
+      "food_id",
+      "ingredient_attributes",
+      "ingredient_group_id"
+    ])
   },
   created() {
     this.initForm();
@@ -166,21 +125,8 @@ export default {
   },
   methods: {
     initForm() {
-      this.$store.commit("ingredients/form/set", {
-        data: {
-          amount: null,
-          amount_max: null,
-          unit_id: null,
-          food_id: null,
-          ingredient_attributes: [],
-          ingredient_group_id: this.ingredientGroupId,
-          ingredient_id: null,
-          position: null
-        }
-      });
-    },
-    updateFormProperty(property, value) {
-      this.$store.dispatch("ingredients/form/update", { property, value });
+      this.ingredient_group_id = this.ingredientGroupId;
+      this.ingredient_attributes = [];
     },
     async submit() {
       const recipeId = this.recipe.id;
@@ -194,7 +140,7 @@ export default {
               name: this.new_ingredient_group_name
             }
           );
-          await this.updateFormProperty("ingredient_group_id", groupId);
+          this.ingredient_group_id = groupId;
         } catch (error) {}
       }
 

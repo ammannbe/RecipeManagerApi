@@ -35,52 +35,38 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/login/form/getFormFields",
+  mutationType: "user/login/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.login.form.data,
-      errors: state => state.user.login.form.errors.data
+      errors: state => state.user.login.form.errors
     }),
     ...mapGetters({
       loggedIn: "user/loggedIn"
     }),
-    email: {
-      get() {
-        return this.form.email;
-      },
-      set(value) {
-        this.updateFormProperty("email", value);
-      }
-    },
-    password: {
-      get() {
-        return this.form.password;
-      },
-      set(value) {
-        this.updateFormProperty("password", value);
-      }
-    }
+    ...mapFields(["email", "password"])
   },
   created() {
     if (this.loggedIn) {
       this.$router.push({ name: "home" });
     }
-
-    this.$store.commit("user/login/form/set", {
-      data: { email: null, password: null }
-    });
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/login/form/update", { property, value });
-    },
     async submit() {
-      await this.$store.dispatch("user/login", { data: this.form });
-      this.$router.go(-1);
+      try {
+        await this.$store.dispatch("user/login", { data: this.form });
+        this.$router.go(-1);
+      } catch (error) {}
     }
   }
 };

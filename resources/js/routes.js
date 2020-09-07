@@ -26,7 +26,7 @@ let routes = [
         path: '/password/reset/:token',
         name: 'password.reset',
         component: require('./views/Auth/ResetPassword').default,
-        props: true
+        props: route => ({ params: { ...route.query, ...route.params } })
     },
     {
         path: '/account',

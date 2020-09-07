@@ -57,7 +57,7 @@
 
       <property-list-item v-if="!$env.DISABLE_TAGS" :label="$t('Tags')">
         <rm-multiselect
-          v-model="tag_ids"
+          v-model="tags"
           size="is-small"
           :placeholder="$t('Choose tags...')"
           :options="tags"
@@ -90,6 +90,12 @@
 <script>
 import { mapState } from "vuex";
 import PropertyListItem from "./PropertyListItem";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
   components: { PropertyListItem },
@@ -108,55 +114,14 @@ export default {
       form: state => state.recipe.form.data,
       editmode: state => state.recipe.editmode.data
     }),
-    cookbook_id: {
-      get() {
-        return this.form.cookbook_id;
-      },
-      set(value) {
-        this.updateFormProperty("cookbook_id", value);
-      }
-    },
-    category_id: {
-      get() {
-        return this.form.category_id;
-      },
-      set(value) {
-        this.updateFormProperty("category_id", value);
-      }
-    },
-    complexity: {
-      get() {
-        return this.form.complexity;
-      },
-      set(value) {
-        this.updateFormProperty("complexity", value);
-      }
-    },
-    yield_amount: {
-      get() {
-        return this.form.yield_amount;
-      },
-      set(value) {
-        this.yieldAmountMultiplier = this.recipe.yield_amount;
-        this.updateFormProperty("yield_amount", value);
-      }
-    },
-    tag_ids: {
-      get() {
-        return this.form.tags;
-      },
-      set(value) {
-        this.updateFormProperty("tags", value);
-      }
-    },
-    preparation_time: {
-      get() {
-        return this.form.preparation_time;
-      },
-      set(value) {
-        this.updateFormProperty("preparation_time", value);
-      }
-    }
+    ...mapFields([
+      "cookbook_id",
+      "category_id",
+      "complexity",
+      "yield_amount",
+      "tags",
+      "preparation_time"
+    ])
   },
   watch: {
     yieldAmountMultiplier(value, oldValue) {
@@ -183,11 +148,6 @@ export default {
       }
       this.yieldAmountMultiplier = yieldAmount;
     }, 1000);
-  },
-  methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("recipe/form/update", { property, value });
-    }
   }
 };
 </script>

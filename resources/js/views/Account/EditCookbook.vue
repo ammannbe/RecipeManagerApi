@@ -12,34 +12,32 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "cookbook/form/getFormFields",
+  mutationType: "cookbook/form/updateFormFields"
+});
+
 export default {
   props: ["cookbook"],
   computed: {
     ...mapState({
       form: state => state.cookbooks.form.data
     }),
-    name: {
-      get() {
-        return this.form.name;
-      },
-      set(value) {
-        this.updateFormProperty("name", value);
-      }
-    }
+    ...mapFields(["name"])
   },
   created() {
     this.initForm();
     this.$autofocus();
   },
   methods: {
+    ...mapActions({
+      updateCookbook: "cookbooks/update"
+    }),
     initForm() {
-      this.$store.commit("cookbooks/form/set", {
-        data: { name: this.cookbook.name }
-      });
-    },
-    updateFormProperty(property, value) {
-      this.$store.dispatch("cookbooks/form/update", { property, value });
+      this.name = this.cookbook.name;
     },
     async submit() {
       Object.keys(this.form).forEach(async property => {
@@ -49,11 +47,8 @@ export default {
           return;
         }
 
-        this.$store.dispatch("cookbooks/update", {
-          id: this.cookbook.id,
-          property,
-          value
-        });
+        const id = this.cookbook.id;
+        this.updateCookbook({ id, property, value });
       });
 
       this.$emit("confirm");

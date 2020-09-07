@@ -63,6 +63,12 @@ import RecipePhoto from "./RecipePhoto";
 import PropertyList from "./PropertyList/PropertyList";
 import IngredientListContainer from "./Ingredient/IngredientListContainer";
 import Instructions from "./Instructions";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
   components: {
@@ -88,6 +94,16 @@ export default {
     ...mapGetters({
       loggedIn: "user/loggedIn"
     }),
+    ...mapFields([
+      "cookbook_id",
+      "tags",
+      "category_id",
+      "yield_amount",
+      "complexity",
+      "preparation_time",
+      "name",
+      "instructions"
+    ]),
     url() {
       const name = "recipes";
       const params = { id: this.recipe.id, slug: this.recipe.slug };
@@ -125,27 +141,22 @@ export default {
       }
     },
     initForm() {
-      let data = {};
-      data.cookbook_id = null;
-      if (!this.$env.DISABLE_COOKBOOKS && this.loggedIn) {
-        data.cookbook_id = this.recipe.cookbook_id;
-      }
-      data.tags = [];
-      if (!this.$env.DISABLE_TAGS && this.loggedIn) {
-        data.tags = this.recipe.tags.map(tag => tag.id);
-      }
+      const recipe = this.recipe;
 
-      this.$store.commit("recipe/form/set", {
-        data: {
-          category_id: this.recipe.category_id,
-          yield_amount: this.recipe.yield_amount,
-          complexity: this.recipe.complexity.id,
-          preparation_time: this.recipe.preparation_time,
-          name: this.recipe.name,
-          instructions: this.recipe.instructions,
-          ...data
-        }
-      });
+      this.cookbook_id = null;
+      if (!this.$env.DISABLE_COOKBOOKS && this.loggedIn) {
+        this.cookbook_id = recipe.cookbook_id;
+      }
+      this.tags = [];
+      if (!this.$env.DISABLE_TAGS && this.loggedIn) {
+        this.tags = recipe.tags.map(tag => tag.id);
+      }
+      this.category_id = recipe.category_id;
+      this.yield_amount = recipe.yield_amount;
+      this.complexity = recipe.complexity.id;
+      this.preparation_time = recipe.preparation_time;
+      this.name = recipe.name;
+      this.instructions = recipe.instructions;
     },
     async update() {
       await this.$store.dispatch("recipe/update", {

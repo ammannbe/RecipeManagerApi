@@ -32,6 +32,12 @@
 
 <script>
 import { mapState } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
   computed: {
@@ -39,17 +45,9 @@ export default {
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data,
       recipe: state => state.recipe.data,
-      errors: state => state.recipe.form.errors.data
+      errors: state => state.recipe.form.errors
     }),
-    name: {
-      get() {
-        return this.form.name;
-      },
-      set(value) {
-        const property = "name";
-        this.$store.dispatch("recipe/form/update", { property, value });
-      }
-    },
+    ...mapFields(["name"]),
     title() {
       if (this.editmode.enabled) {
         return this.$t("Click to edit");

@@ -4,7 +4,7 @@
       <h1 class="title is-3">{{ $t('Reset password') }}</h1>
       <rm-emailinput
         v-model="email"
-        :label="$t('E-Mail') + ':'"
+        :label="$t('Email') + ':'"
         name="email"
         horizontal
         :placeholder="$t('Enter email...')"
@@ -20,45 +20,33 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/password/form/getFormFields",
+  mutationType: "user/password/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.password.form.data,
-      errors: state => state.user.password.form.errors.data
+      errors: state => state.user.password.form.errors
     }),
     ...mapGetters({
       loggedIn: "user/loggedIn"
     }),
-    email: {
-      get() {
-        return this.form.email;
-      },
-      set(value) {
-        this.updateFormProperty("email", value);
-      }
-    }
+    ...mapFields(["email"])
   },
   created() {
     if (this.loggedIn) {
       this.$router.push({ name: "home" });
     }
-
-    this.$store.commit("user/password/form/set", {
-      data: {
-        email: null,
-        password: null,
-        password_confirmation: null
-      }
-    });
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/password/form/update", { property, value });
-    },
     submit() {
       this.$store.dispatch("user/password/forgot", this.form).then(response => {
         this.$buefy.snackbar.open("We've sent you a link per email.");

@@ -26,23 +26,20 @@
 
 <script>
 import { mapState } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
-      recipe: state => state.recipe.data,
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),
-    instructions: {
-      get() {
-        return this.form.instructions;
-      },
-      set(value) {
-        const property = "instructions";
-        this.$store.dispatch("recipe/form/update", { property, value });
-      }
-    },
+    ...mapFields(["instructions"]),
     title() {
       if (this.editmode.enabled) {
         return this.$t("Click to edit");

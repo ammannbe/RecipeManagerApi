@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import IngredientList from "./IngredientList";
 import IngredientEditForm from "./IngredientEditForm";
 
@@ -106,6 +106,9 @@ export default {
     }, 500);
   },
   methods: {
+    ...mapActions({
+      remove: "ingredients/remove"
+    }),
     toggleShowAddFormGroup(group) {
       this.showAddForm = false;
 
@@ -118,9 +121,6 @@ export default {
     },
     created() {
       this.showAddForm = false;
-    },
-    remove({ id, alternateId }) {
-      this.$store.dispatch("ingredients/remove", { id, alternateId });
     },
     edit(ingredient) {
       this.$buefy.modal.open({

@@ -6,7 +6,7 @@
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
       <section class="modal-card-body">
-        <slot></slot>
+        <slot v-bind:errors="errors"></slot>
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="button" @click="$emit('close')">{{ computedCloseText }}</button>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ["title", "closeText", "confirmText"],
+  props: ["title", "closeText", "confirmText", "errors"],
   computed: {
     computedCloseText() {
       if (this.closeText) {
@@ -34,6 +34,9 @@ export default {
 
       return this.$t("Save");
     }
+  },
+  mounted() {
+    this.$autofocus();
   }
 };
 </script>
