@@ -5,7 +5,7 @@
       <i class="fab fa-telegram"></i>
     </a>
 
-    <!-- E-Mail -->
+    <!-- Email -->
     <a :href="email" :title="$t('Share via email')">
       <i class="fas fa-envelope"></i>
     </a>
