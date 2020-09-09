@@ -10,7 +10,29 @@ use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property  string  $name
+ * App\Models\Ingredients\Food
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read bool $can_delete
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\Ingredient[] $ingredients
+ * @method static \Illuminate\Database\Eloquent\Builder|Food newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Food newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Food onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Food query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Food whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Food whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Food whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Food whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Food whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Food whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Food withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Food withoutTrashed()
+ * @mixin \Eloquent
  */
 class Food extends Model
 {

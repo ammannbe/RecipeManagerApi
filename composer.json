@@ -16,7 +16,7 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "grkamil/laravel-telegram-logging": "^1.2",
-        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/guzzle": "^6.5 | ^7.0",
         "laravel/framework": "^7.27",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.4",
@@ -24,6 +24,7 @@
         "rutorika/sortable": "^7.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.8",
         "facade/ignition": "^2.3",
         "friendsofphp/php-cs-fixer": "^2.16",
         "fzaninotto/faker": "^1.9",
@@ -77,6 +78,10 @@
         ],
         "php-cs-fixer": [
             "@php artisan fixer:fix"
+        ],
+        "ide-helper:generate": [
+            "@php artisan ide-helper:generate",
+            "php artisan ide-helper:models -R -W"
         ],
         "translations:import": [
             "@php artisan translations:import"

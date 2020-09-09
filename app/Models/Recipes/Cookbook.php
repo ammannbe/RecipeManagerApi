@@ -11,7 +11,32 @@ use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property  int  $user_id
+ * App\Models\Recipes\Cookbook
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property int $user_id
+ * @property int $author_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Recipe[] $recipes
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Cookbook onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cookbook whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|Cookbook withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Cookbook withoutTrashed()
+ * @mixin \Eloquent
  */
 class Cookbook extends Model
 {

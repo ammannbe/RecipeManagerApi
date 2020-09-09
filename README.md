@@ -118,6 +118,18 @@ Other commands:
 -   Reset translations `php artisan translations:reset`
 -   Generate ES6 file for Vue.js `php artisan vue-i18n:generate`
 
+## IDE helpers
+
+You get better IDE IntelliSense support with the [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) package.
+
+You need to generate the helpers by yourself:
+
+```bash
+composer run ide-helper:generate
+```
+
+After that, you should run the commands from [Testing / Code Quality](#testing-/-code-quality).
+
 ## Testing / Code Quality
 
 -   Run static code analytics `composer phpstan`
@@ -133,6 +145,7 @@ Other commands:
 -   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixe
 -   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [martinlindhe/laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator) - Generates a vue-i18n compatible include file from your Laravel translations
+-   [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js

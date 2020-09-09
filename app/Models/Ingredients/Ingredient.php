@@ -12,7 +12,50 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property  \Illuminate\Support\Collection|null  $ingredient_attributes
+ * App\Models\Ingredients\Ingredient
+ *
+ * @property int $id
+ * @property int $recipe_id
+ * @property float|null $amount
+ * @property float|null $amount_max
+ * @property int|null $unit_id
+ * @property int $food_id
+ * @property int|null $ingredient_group_id
+ * @property int|null $ingredient_id alternate to
+ * @property int|null $position
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Ingredients\Food $food
+ * @property-read string $name
+ * @property-read Ingredient|null $ingredient
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\IngredientAttribute[] $ingredientAttributes
+ * @property-read \App\Models\Ingredients\IngredientGroup|null $ingredientGroup
+ * @property-read \Illuminate\Database\Eloquent\Collection|Ingredient[] $ingredients
+ * @property-read \App\Models\Recipes\Recipe $recipe
+ * @property-read \App\Models\Ingredients\Unit|null $unit
+ * @method static Builder|Ingredient inSameScope(\App\Models\Ingredients\Ingredient $ingredient)
+ * @method static Builder|Ingredient newModelQuery()
+ * @method static Builder|Ingredient newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Ingredient onlyTrashed()
+ * @method static Builder|Ingredient originalOnly()
+ * @method static Builder|Ingredient query()
+ * @method static Builder|Ingredient sorted()
+ * @method static Builder|Ingredient whereAmount($value)
+ * @method static Builder|Ingredient whereAmountMax($value)
+ * @method static Builder|Ingredient whereCreatedAt($value)
+ * @method static Builder|Ingredient whereDeletedAt($value)
+ * @method static Builder|Ingredient whereFoodId($value)
+ * @method static Builder|Ingredient whereId($value)
+ * @method static Builder|Ingredient whereIngredientGroupId($value)
+ * @method static Builder|Ingredient whereIngredientId($value)
+ * @method static Builder|Ingredient wherePosition($value)
+ * @method static Builder|Ingredient whereRecipeId($value)
+ * @method static Builder|Ingredient whereUnitId($value)
+ * @method static Builder|Ingredient whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Ingredient withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Ingredient withoutTrashed()
+ * @mixin \Eloquent
  */
 class Ingredient extends Model
 {
@@ -79,29 +122,42 @@ class Ingredient extends Model
         if ($this->amount !== null) {
             $name .= "{$this->amount}";
         }
+
         if ($this->amount_max !== null) {
             if ($this->amount !== null) {
                 $name .= ' ';
             }
             $name .= "- {$this->amount_max}";
         }
+
         if ($this->unit_id) {
             $name .= " {$this->unit->name}";
         }
+
         if ($this->food_id) {
             $name .= " {$this->food->name}";
         }
-        if ($this->ingredient_attributes) {
-            $this->ingredient_attributes->each(function ($ingredientAttribute, $key) use ($name) {
-                $key === 0 && $name .= " (";
-                $name .= $ingredientAttribute->name;
-                if ($key === $this->ingredient_attributes->count()) {
-                    $name .= ")";
-                } else {
-                    $name .= ", ";
-                }
-            });
+
+        $count = $this->ingredientAttributes()->count();
+        if (!$count) {
+            return $name;
         }
+
+        $this->ingredientAttributes->each(function ($ingredientAttribute, $key) use ($name, $count) {
+            if ($key === 0) {
+                $name .= " (";
+            }
+
+            $name .= $ingredientAttribute->name;
+
+            if ($key === $count) {
+                $name .= ")";
+                return;
+            }
+
+            $name .= ", ";
+        });
+
         return $name;
     }
 
