@@ -28,7 +28,7 @@ class UnitController extends Controller
      */
     public function index(Index $request)
     {
-        if ($request->trashed) {
+        if ($request->trashed && auth()->user()->admin) {
             return Unit::withTrashed()->get();
         }
         return Unit::get();

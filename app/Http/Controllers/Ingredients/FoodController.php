@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingredients;
 
 use App\Models\Ingredients\Food;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ingredients\Food\Index;
 use App\Http\Requests\Ingredients\Food\Store;
 use App\Http\Requests\Ingredients\Food\Update;
 
@@ -22,10 +23,14 @@ class FoodController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Ingredients\Food\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
+        if ($request->trashed && auth()->user()->admin) {
+            return Food::withTrashed()->get();
+        }
         return Food::get();
     }
 

@@ -57,17 +57,17 @@ export default {
       this.$router.push({ name: "verify.email" });
     }
 
-    this.$store.dispatch("categories/index");
-    this.$store.dispatch("units/index");
-    this.$store.dispatch("foods/index");
-    this.$store.dispatch("ingredient_attributes/index");
+    this.$store.dispatch("categories/index", {});
+    this.$store.dispatch("units/index", {});
+    this.$store.dispatch("foods/index", {});
+    this.$store.dispatch("ingredient_attributes/index", {});
 
     if (!this.$env.DISABLE_COOKBOOKS) {
       this.$store.dispatch("cookbooks/index", { limit: 1000 });
     }
 
     if (!this.$env.DISABLE_TAGS) {
-      this.$store.dispatch("tags/index");
+      this.$store.dispatch("tags/index", {});
     }
   },
   methods: {

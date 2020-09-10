@@ -23,7 +23,7 @@ class TagController extends Controller
      */
     public function index(Index $request)
     {
-        if ($request->trashed) {
+        if ($request->trashed && auth()->user()->admin) {
             return Tag::withTrashed()->get();
         }
         return Tag::get();

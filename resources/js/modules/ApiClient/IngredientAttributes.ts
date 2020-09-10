@@ -8,7 +8,7 @@ export interface IngredientAttribute {
 export default class IngredientAttributes extends ApiClient {
     protected url = "/ingredient-attributes";
 
-    public async index(): Promise<IngredientAttribute[]> {
-        return super.index() as Promise<IngredientAttribute[]>;
+    public async index({ trashed = false }): Promise<IngredientAttribute[]> {
+        return super.index({ trashed }) as Promise<IngredientAttribute[]>;
     }
 }

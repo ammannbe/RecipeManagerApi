@@ -6,8 +6,8 @@ const state = () => ({
 });
 
 const actions = {
-    async index({ commit }) {
-        let ingredientAttributes = await new IngredientAttributes().index();
+    async index({ commit }, { trashed = false }) {
+        let ingredientAttributes = await new IngredientAttributes().index({ trashed });
         commit('set', { ingredientAttributes });
     },
     async store({ dispatch }, { data }) {

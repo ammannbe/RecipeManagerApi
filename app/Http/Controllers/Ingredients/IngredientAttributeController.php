@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingredients;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ingredients\IngredientAttribute;
+use App\Http\Requests\Ingredients\IngredientAttribute\Index;
 use App\Http\Requests\Ingredients\IngredientAttribute\Store;
 use App\Http\Requests\Ingredients\IngredientAttribute\Update;
 
@@ -22,10 +23,14 @@ class IngredientAttributeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Ingredients\IngredientAttribute\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
+        if ($request->trashed && auth()->user()->admin) {
+            return IngredientAttribute::withTrashed()->get();
+        }
         return IngredientAttribute::get();
     }
 

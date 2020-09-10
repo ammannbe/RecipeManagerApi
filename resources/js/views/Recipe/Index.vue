@@ -82,7 +82,8 @@ export default {
   props: ["id", "slug"],
   data() {
     return {
-      multiplier: 1
+      multiplier: 1,
+      loaded: false
     };
   },
   computed: {
@@ -108,16 +109,11 @@ export default {
       const name = "recipes";
       const params = { id: this.recipe.id, slug: this.recipe.slug };
       return this.$env.APP_URL + this.$router.resolve({ name, params }).href;
-    },
-    loaded() {
-      return Object.keys(this.recipe).length && this.form;
     }
   },
   created() {
     setTimeout(() => {
       this.load().then(() => {
-        this.initForm();
-
         if (!this.recipe.can_edit) {
           this.$store.dispatch("recipe/editmode/enable", { enable: false });
         }
@@ -126,10 +122,11 @@ export default {
   },
   methods: {
     async load() {
-      await this.$store.dispatch("recipe/show", { id: this.id });
+      (this.loaded = false),
+        await this.$store.dispatch("recipe/show", { id: this.id });
 
       if (this.loggedIn) {
-        this.$store.dispatch("categories/index");
+        this.$store.dispatch("categories/index", {});
       }
 
       if (!this.$env.DISABLE_COOKBOOKS && this.loggedIn) {
@@ -137,8 +134,12 @@ export default {
       }
 
       if (!this.$env.DISABLE_TAGS && this.loggedIn) {
-        this.$store.dispatch("tags/index");
+        this.$store.dispatch("tags/index", {});
       }
+
+      this.initForm();
+
+      this.loaded = true;
     },
     initForm() {
       const recipe = this.recipe;

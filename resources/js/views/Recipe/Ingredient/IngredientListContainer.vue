@@ -99,9 +99,9 @@ export default {
 
     setTimeout(() => {
       if (this.loggedIn) {
-        this.$store.dispatch("units/index");
-        this.$store.dispatch("foods/index");
-        this.$store.dispatch("ingredient_attributes/index");
+        this.$store.dispatch("units/index", {});
+        this.$store.dispatch("foods/index", {});
+        this.$store.dispatch("ingredient_attributes/index", {});
       }
     }, 500);
   },
