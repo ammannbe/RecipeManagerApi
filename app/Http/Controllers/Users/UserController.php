@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Models\Users\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\Users\User\Index;
 use App\Http\Requests\Users\User\Store;
 use App\Http\Requests\Users\User\Update;
@@ -34,7 +35,14 @@ class UserController extends Controller
     public function store(Store $request)
     {
         $this->authorize(User::class);
-        User::create($request->validated());
+        $data = $request->validated();
+        $user = User::make($data);
+
+        event(new Registered($user));
+
+        $user->author()->create([
+            'name' => $data['name'],
+        ]);
     }
 
     /**

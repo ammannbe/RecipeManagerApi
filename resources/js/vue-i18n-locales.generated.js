@@ -90,6 +90,12 @@ export default {
         "Reset Password": "Passwort zurücksetzen",
         "This password reset link will expire in {count} minutes.": "Dieser Link zum Zurücksetzen des Passworts läuft in {count} Minuten ab.",
         "If you did not request a password reset, no further action is required.": "Wenn Sie keine Kennwortzurücksetzung beantragt haben, ist keine weitere Aktion erforderlich.",
+        "Add user": "Benutzer hinzufügen",
+        "Please enter email...": "Bitte E-Mail eingeben...",
+        "Account created": "Konto erstellt",
+        "A new account was created for you.": "Es wurde ein neues Konto für Dich erstellt.",
+        "You should change your password after the first login.": "Du solltest das Passwort nach dem ersten Login ändern.",
+        "Use the following password to login: {password}": "Verwende das folgende Passwort um dich anzumelden: {password}",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

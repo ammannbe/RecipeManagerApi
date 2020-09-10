@@ -10,10 +10,10 @@ use App\Models\Ingredients\Unit;
 use App\Models\Recipes\Category;
 use App\Models\Recipes\Cookbook;
 use App\Models\Ingredients\Ingredient;
-use App\Models\Ingredients\IngredientAttribute;
 use App\Models\Ratings\RatingCriterion;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Ingredients\IngredientGroup;
+use App\Models\Ingredients\IngredientAttribute;
 
 class ObserverServiceProvider extends ServiceProvider
 {

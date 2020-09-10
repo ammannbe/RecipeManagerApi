@@ -15,7 +15,7 @@
       />
 
       <rm-select
-        :label="$t('Kochbuch') + ':'"
+        :label="$t('Cookbook') + ':'"
         :label-tooltip="$t('Recipes in a cookbook are not public visible.')"
         horizontal
         v-model="form.cookbook_id"
