@@ -96,6 +96,14 @@ export default {
         "A new account was created for you.": "Es wurde ein neues Konto für Dich erstellt.",
         "You should change your password after the first login.": "Du solltest das Passwort nach dem ersten Login ändern.",
         "Use the following password to login: {password}": "Verwende das folgende Passwort um dich anzumelden: {password}",
+        "Add unit": "Einheit hinzufügen",
+        "Shortcut": "Abkürzung",
+        "Please enter shortcut...": "Bitte Abkürzung eingeben...",
+        "Plural": "Plural",
+        "Please enter plural...": "Bitte Plural eingeben...",
+        "Plural shortcut": "Plural-Abkürzung",
+        "Please enter plural shortcut...": "Bitte Plural-Abkürzung eingeben...",
+        "Add ingredient attribute": "Zutaten-Eigenschaft hinzufügen",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

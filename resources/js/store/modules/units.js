@@ -1,4 +1,5 @@
 import Units from "../../modules/ApiClient/Units";
+import form from './form';
 
 const state = () => ({
     data: []
@@ -8,6 +9,15 @@ const actions = {
     async index({ commit }, { trashed = false }) {
         let units = await new Units().index({ trashed });
         commit('set', { units });
+    },
+    async store({ dispatch }, { data }) {
+        try {
+            const response = await new Units().store(data);
+            await dispatch('index');
+            return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error.data });
+        }
     },
     async remove({ commit }, { id }) {
         await new Units().remove(id);
@@ -33,5 +43,6 @@ export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    modules: { form }
 }

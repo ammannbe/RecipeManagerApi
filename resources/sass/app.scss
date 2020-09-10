@@ -58,3 +58,7 @@ button:disabled {
         z-index: 9999;
     }
 }
+
+.loading-overlay.is-active.is-full-page {
+    z-index: 99999;
+}

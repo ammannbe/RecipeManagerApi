@@ -1,4 +1,5 @@
 import IngredientAttributes from "../../modules/ApiClient/IngredientAttributes";
+import form from './form';
 
 const state = () => ({
     data: []
@@ -42,5 +43,6 @@ export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    modules: { form }
 }

@@ -1,4 +1,5 @@
 import Tags from "../../modules/ApiClient/Tags";
+import form from './form';
 
 const state = () => ({
     data: [],
@@ -8,6 +9,15 @@ const actions = {
     async index({ commit }, { trashed = false }) {
         let tags = await new Tags().index({ trashed });
         commit('set', { tags });
+    },
+    async store({ dispatch }, { data }) {
+        try {
+            const response = await new Tags().store(data);
+            await dispatch('index');
+            return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error.data });
+        }
     },
     async remove({ commit }, { id }) {
         await new Tags().remove(id);
@@ -33,5 +43,6 @@ export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    modules: { form }
 }
