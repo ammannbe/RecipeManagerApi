@@ -148,7 +148,7 @@ export default {
       );
     }
   },
-  created() {
+  mounted() {
     setTimeout(() => {
       if (!this.loggedIn) {
         this.$router.push({ name: "home" });
@@ -158,7 +158,7 @@ export default {
 
       this.loadRecipes(1, false);
       this.$store.dispatch("cookbooks/index", { trashed: true, page: 1 });
-    }, 1000);
+    }, 500);
   },
   methods: {
     loadCookbooks(page = 1, scroll = true) {
@@ -225,5 +225,10 @@ th {
 li > span {
   display: flex;
   align-items: center;
+}
+
+.button.is-small {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 </style>

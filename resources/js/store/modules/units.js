@@ -19,6 +19,15 @@ const actions = {
             return dispatch('form/onFail', { response: error.data });
         }
     },
+    async update({ dispatch }, { id, data }) {
+        try {
+            await new Units().bulkUpdate(id, data);
+            await dispatch('index', {});
+            return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error.data });
+        }
+    },
     async remove({ commit }, { id }) {
         await new Units().remove(id);
         commit('update', { id, property: 'deleted_at', value: new Date().toJSON() });

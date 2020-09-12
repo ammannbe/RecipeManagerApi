@@ -23,11 +23,11 @@ class Update extends FormRequest
      */
     public function rules()
     {
-        $userId = auth()->user()->id;
-        $name = auth()->user()->author->name;
+        $user = $this->user ?? auth()->user();
+
         return [
-            'name'  => ['string', 'max:255', "unique:users,name,{$name}"],
-            'email' => ['email', 'max:255', "unique:users,email,{$userId}"],
+            'name'  => ['string', 'max:255', "unique:authors,name,{$user->author->id}"],
+            'email' => ['email', 'max:255', "unique:users,email,{$user->id}"],
         ];
     }
 }

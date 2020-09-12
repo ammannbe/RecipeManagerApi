@@ -24,10 +24,10 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name'                 => ['required', 'string', 'max:20', "unique:units,name,{$this->unit->id}"],
-            'name_shortcut'        => ['required', 'nullable', 'string', 'max:20'],
-            'name_plural'          => ['required', 'nullable', 'string', 'max:20'],
-            'name_plural_shortcut' => ['required', 'nullable', 'string', 'max:20'],
+            'name'                 => ['string', 'max:20', "unique:units,name,{$this->unit->id}"],
+            'name_shortcut'        => ['nullable', 'string', 'max:20'],
+            'name_plural'          => ['nullable', 'string', 'max:20'],
+            'name_plural_shortcut' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

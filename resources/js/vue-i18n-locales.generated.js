@@ -104,6 +104,15 @@ export default {
         "Plural shortcut": "Plural-Abkürzung",
         "Please enter plural shortcut...": "Bitte Plural-Abkürzung eingeben...",
         "Add ingredient attribute": "Zutaten-Eigenschaft hinzufügen",
+        "Add tag": "Tag hinzufügen",
+        "Simple": "Einfach",
+        "Normal": "Normal",
+        "Difficult": "Schwierig",
+        "Edit user": "Benutzer bearbeiten",
+        "Edit unit": "Einheit bearbeiten",
+        "Edit ingredient attribute": "Zutaten-Eigenschaft bearbeiten",
+        "Edit food": "Lebensmittel bearbeiten",
+        "Edit tag": "Tag bearbeiten",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

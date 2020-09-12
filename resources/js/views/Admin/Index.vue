@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div class="column">
-      <h3 class="title is-4 creating" @click="addUser">{{ $t('Users') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditUser()">{{ $t('Users') }}</h3>
       <ul>
         <li :key="u.id" v-for="u in users">
           <span v-if="u.name != user.name">
@@ -19,6 +19,13 @@
             >
               <i class="fas fa-redo"></i>
             </button>
+            <button
+              :disabled="u.deleted_at"
+              @click.prevent="addOrEditUser(u)"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
             {{ u.name }}
           </span>
         </li>
@@ -26,7 +33,7 @@
     </div>
 
     <div class="column">
-      <h3 class="title is-4 creating" @click="addUnit">{{ $t('Units') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditUnit()">{{ $t('Units') }}</h3>
       <ul>
         <li :key="unit.id" v-for="unit in units">
           <span>
@@ -45,6 +52,13 @@
             >
               <i class="fas fa-redo"></i>
             </button>
+            <button
+              :disabled="unit.deleted_at"
+              @click.prevent="addOrEditUnit(unit)"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
             {{ unit.name }}
           </span>
         </li>
@@ -54,7 +68,7 @@
     <div class="column">
       <h3
         class="title is-4 creating"
-        @click="addIngredientAttribute"
+        @click="addOrEditIngredientAttribute()"
       >{{ $t('Ingredient attributes') }}</h3>
       <ul>
         <li :key="ingredientAttribute.id" v-for="ingredientAttribute in ingredientAttributes">
@@ -74,6 +88,13 @@
             >
               <i class="fas fa-redo"></i>
             </button>
+            <button
+              :disabled="ingredientAttribute.deleted_at"
+              @click.prevent="addOrEditIngredientAttribute(ingredientAttribute)"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
             {{ ingredientAttribute.name }}
           </span>
         </li>
@@ -81,7 +102,7 @@
     </div>
 
     <div class="column">
-      <h3 class="title is-4 creating" @click="addFood">{{ $t('Foods') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditFood()">{{ $t('Foods') }}</h3>
       <ul>
         <li :key="food.id" v-for="food in foods">
           <span>
@@ -100,6 +121,13 @@
             >
               <i class="fas fa-redo"></i>
             </button>
+            <button
+              :disabled="food.deleted_at"
+              @click.prevent="addOrEditFood(food)"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
             {{ food.name }}
           </span>
         </li>
@@ -107,7 +135,7 @@
     </div>
 
     <div v-if="!$env.DISABLE_TAGS" class="column">
-      <h3 class="title is-4 creating" @click="addTag">{{ $t('Tags') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditTag()">{{ $t('Tags') }}</h3>
       <ul>
         <li :key="tag.id" v-for="tag in tags">
           <span>
@@ -126,6 +154,13 @@
             >
               <i class="fas fa-redo"></i>
             </button>
+            <button
+              :disabled="tag.deleted_at"
+              @click.prevent="addOrEditTag(tag)"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
             {{ tag.name }}
           </span>
         </li>
@@ -136,11 +171,11 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import AddFood from "./AddFood";
-import AddIngredientAttribute from "./AddIngredientAttribute";
-import AddTag from "./AddTag";
-import AddUnit from "./AddUnit";
-import AddUser from "./AddUser";
+import User from "./User";
+import Unit from "./Unit";
+import IngredientAttribute from "./IngredientAttribute";
+import Food from "./Food";
+import Tag from "./Tag";
 
 export default {
   data() {
@@ -165,7 +200,7 @@ export default {
       loggedIn: "user/loggedIn"
     })
   },
-  created() {
+  mounted() {
     setTimeout(() => {
       if (!this.loggedIn || !this.user.admin) {
         this.$router.push({ name: "home" });
@@ -174,7 +209,7 @@ export default {
       }
 
       this.load();
-    }, 1000);
+    }, 500);
   },
   methods: {
     async load(type = null) {
@@ -185,46 +220,11 @@ export default {
 
       this.$store.dispatch("users/index", { trashed: true });
       this.$store.dispatch("units/index", { trashed: true });
-      this.$store.dispatch("ingredient_attributes/index");
+      this.$store.dispatch("ingredient_attributes/index", { trashed: true });
       this.$store.dispatch("foods/index", { trashed: true });
       if (!this.$env.DISABLE_TAGS && this.loggedIn) {
         this.$store.dispatch("tags/index", { trashed: true });
       }
-    },
-    addFood() {
-      this.$buefy.modal.open({
-        ...this.modalOptions,
-        component: AddFood,
-        events: { confirm: () => this.load("foods") }
-      });
-    },
-    addIngredientAttribute() {
-      this.$buefy.modal.open({
-        ...this.modalOptions,
-        component: AddIngredientAttribute,
-        events: { confirm: () => this.load("ingredient_attributes") }
-      });
-    },
-    addTag() {
-      this.$buefy.modal.open({
-        ...this.modalOptions,
-        component: AddTag,
-        events: { confirm: () => this.load("tags") }
-      });
-    },
-    addUnit() {
-      this.$buefy.modal.open({
-        ...this.modalOptions,
-        component: AddUnit,
-        events: { confirm: () => this.load("units") }
-      });
-    },
-    addUser() {
-      this.$buefy.modal.open({
-        ...this.modalOptions,
-        component: AddUser,
-        events: { confirm: () => this.load("users") }
-      });
     },
     ...mapActions({
       removeUser: "users/remove",
@@ -237,7 +237,48 @@ export default {
       restoreFood: "foods/restore",
       removeTag: "tags/remove",
       restoreTag: "tags/restore"
-    })
+    }),
+    addOrEditUser(data) {
+      this.$buefy.modal.open({
+        ...this.modalOptions,
+        component: User,
+        props: { params: data },
+        events: { confirm: () => this.load("users") }
+      });
+    },
+    addOrEditUnit(data) {
+      this.$buefy.modal.open({
+        ...this.modalOptions,
+        component: Unit,
+        props: { params: data },
+        events: { confirm: () => this.load("units") }
+      });
+    },
+    addOrEditIngredientAttribute(data) {
+      this.$buefy.modal.open({
+        ...this.modalOptions,
+        component: IngredientAttribute,
+        props: { params: data },
+        events: { confirm: () => this.load("ingredient_attributes") }
+      });
+    },
+
+    addOrEditFood(data) {
+      this.$buefy.modal.open({
+        ...this.modalOptions,
+        component: Food,
+        props: { params: data },
+        events: { confirm: () => this.load("foods") }
+      });
+    },
+    addOrEditTag(data) {
+      this.$buefy.modal.open({
+        ...this.modalOptions,
+        component: Tag,
+        props: { params: data },
+        events: { confirm: () => this.load("tags") }
+      });
+    }
   }
 };
 </script>
@@ -250,5 +291,10 @@ li > span {
 
 .creating {
   cursor: copy;
+}
+
+.button.is-small {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 </style>

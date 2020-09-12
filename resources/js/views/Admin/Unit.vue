@@ -1,6 +1,6 @@
 <template>
   <rm-modal-form
-    :title="$t('Add unit')"
+    :title="title"
     :errors="errors"
     @close="$emit('close')"
     @confirm="submit"
@@ -52,19 +52,75 @@ const { mapFields } = createHelpers({
 });
 
 export default {
+  props: ["params"],
   computed: {
     ...mapState({
       form: state => state.units.form.data,
       errors: state => state.units.form.errors
     }),
-    ...mapFields(["name", "name_shortcut", "name_plural", "name_plural_shortcut"])
+    ...mapFields([
+      "id",
+      "name",
+      "name_shortcut",
+      "name_plural",
+      "name_plural_shortcut"
+    ]),
+    title() {
+      if (this.id) {
+        return this.$t("Edit unit");
+      }
+
+      return this.$t("Add unit");
+    }
+  },
+  created() {
+    if (this.params) {
+      ({
+        id: this.id,
+        name: this.name,
+        name_shortcut: this.name_shortcut,
+        name_plural: this.name_plural,
+        name_plural_shortcut: this.name_plural_shortcut
+      } = this.params);
+    }
+  },
+  destroyed() {
+    this.id = null;
+    this.name = null;
+    this.name_shortcut = null;
+    this.name_plural = null;
+    this.name_plural_shortcut = null;
   },
   methods: {
     async submit() {
-      await this.$store.dispatch("units/store", { data: this.form });
+      const data = this.form;
+
+      if (this.id) {
+        await this.update(this.id, data);
+      } else {
+        await this.store(data);
+      }
 
       this.$emit("confirm");
       this.$emit("close");
+    },
+    async update(id, data) {
+      let changed = {};
+      Object.keys(data).forEach(property => {
+        if (this.params[property] != data[property]) {
+          changed[property] = data[property];
+        }
+      });
+
+      if (Object.keys(changed).length) {
+        await this.$store.dispatch("units/update", {
+          id: this.id,
+          data: changed
+        });
+      }
+    },
+    async store(data) {
+      await this.$store.dispatch("units/store", { data });
     }
   }
 };

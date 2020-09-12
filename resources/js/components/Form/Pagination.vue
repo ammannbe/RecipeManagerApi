@@ -2,13 +2,11 @@
   <div class="pagination" :class="position">
     <div v-if="last != 1">
       <div>
-        <a
-          :class="{'disabled': !previous}"
-          @click="load(previous)"
-          v-html="$t('pagination.previous')"
-        ></a>
+        <a v-if="previous" @click="load(previous)" v-html="$t('pagination.previous')"></a>
+        <span v-else v-html="$t('pagination.previous')"></span>
         |
-        <a :class="{'disabled': !next}" @click="load(next)" v-html="$t('pagination.next')"></a>
+        <a v-if="next" @click="load(next)" v-html="$t('pagination.next')"></a>
+        <span v-else v-html="$t('pagination.next')"></span>
       </div>
 
       <span class="pages">
