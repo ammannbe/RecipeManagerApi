@@ -2,27 +2,56 @@
   <div class="column is-full-tablet">
     <h1 class="title has-text-centered">{{ $t('Ingredients') }}</h1>
 
-    <b-button class="add" @click="add()">+</b-button>
-
     <form @submit.prevent="$emit('input', forms); $emit('next')">
-      <div class="ingredient" v-for="(form, index) in forms" :key="index">
-        <rm-numberinput v-model="form.amount" :placeholder="$t('Amount')" :min="0" :max="999998" autofocus />
+      <draggable handle=".handle" v-model="forms">
+        <div class="ingredient" v-for="(form, index) in forms" :key="index">
+          <div class="field handle-container">
+            <i class="fas fa-arrows-alt handle"></i>
+          </div>
 
-        <rm-numberinput v-model="form.amount_max" :placeholder="$t('Max. amount')" :min="0" :max="999999" />
+          <rm-numberinput
+            v-model="form.amount"
+            :placeholder="$t('Amount')"
+            :min="0"
+            :max="999998"
+            autofocus
+          />
 
-        <rm-select v-model="form.unit_id" :placeholder="$t('Unit')" :options="units" />
+          <rm-numberinput
+            v-model="form.amount_max"
+            :placeholder="$t('Max. amount')"
+            :min="0"
+            :max="999999"
+          />
 
-        <rm-select v-model="form.food_id" :placeholder="$t('Ingredient')" :options="foods" required />
+          <rm-select v-model="form.unit_id" :placeholder="$t('Unit')" :options="units" />
 
-        <rm-multiselect
-          v-model="form.ingredient_attributes"
-          :placeholder="$t('Attributes')"
-          :options="ingredientAttributes"
-        />
+          <rm-select
+            v-model="form.food_id"
+            :placeholder="$t('Ingredient')"
+            :options="foods"
+            required
+          />
 
-        <rm-button @click="remove(index)" type="is-danger">
-          <i class="fas fa-trash"></i>
-        </rm-button>
+          <rm-multiselect
+            v-model="form.ingredient_attributes"
+            :placeholder="$t('Attributes')"
+            :options="ingredientAttributes"
+          />
+
+          <rm-button @click="remove(index)" type="is-danger">
+            <i class="fas fa-trash"></i>
+          </rm-button>
+        </div>
+      </draggable>
+
+      <div class="add-button">
+        <b-button @click="add()">
+          <span>
+            <i class="fas fa-plus"></i>
+            {{ $t('Add more ingredients') }}
+          </span>
+        </b-button>
       </div>
 
       <rm-submit-button>
@@ -36,6 +65,7 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
 import { mapState } from "vuex";
 
 export default {
@@ -81,7 +111,20 @@ export default {
   margin-left: 5px;
 }
 
-form > div {
+div.add-button {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0;
+}
+
+div.handle-container {
+  display: flex;
+  align-items: center;
+  font-size: 1.4em;
+  padding-bottom: 5px;
+}
+
+form .ingredient {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;

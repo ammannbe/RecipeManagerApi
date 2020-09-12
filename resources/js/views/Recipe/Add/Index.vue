@@ -50,12 +50,14 @@ export default {
       photos: []
     };
   },
-  created() {
-    if (!this.loggedIn) {
-      this.$router.push({ name: "home" });
-    } else if (!this.user.has_verified_email) {
-      this.$router.push({ name: "verify.email" });
-    }
+  mounted() {
+    setTimeout(() => {
+      if (!this.loggedIn) {
+        this.$router.push({ name: "home" });
+      } else if (!this.user.has_verified_email) {
+        this.$router.push({ name: "verify.email" });
+      }
+    }, 1000);
 
     this.$store.dispatch("categories/index", {});
     this.$store.dispatch("units/index", {});

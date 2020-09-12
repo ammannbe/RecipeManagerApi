@@ -113,6 +113,7 @@ export default {
         "Edit ingredient attribute": "Zutaten-Eigenschaft bearbeiten",
         "Edit food": "Lebensmittel bearbeiten",
         "Edit tag": "Tag bearbeiten",
+        "Add more ingredients": "Weitere Zutaten hinzufügen",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."
