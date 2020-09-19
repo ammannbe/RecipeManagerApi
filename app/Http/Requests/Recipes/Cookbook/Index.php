@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Recipes\Cookbook;
 
+use App\Http\Requests\FormRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class Index extends FormRequest
 {
+    use FormRequestRules;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,8 +27,8 @@ class Index extends FormRequest
     public function rules()
     {
         return [
-            'limit'  => ['integer', 'max:1000'],
-            'page'   => ['integer'],
+            'limit'  => $this->getLimitRule(),
+            'page'   => $this->getPageRule(),
         ];
     }
 }

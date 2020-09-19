@@ -29,7 +29,7 @@ class RecipeObserver
     {
         $recipe->slugifyName();
 
-        if ($recipe->yield_amount === 0) {
+        if ($recipe->yield_amount == 0) {
             $recipe->yield_amount = null;
         }
     }

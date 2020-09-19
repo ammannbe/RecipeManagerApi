@@ -4,9 +4,22 @@ const state = () => ({
     data: { enabled: false, editing: false, ...LocalStorage.get('edit-mode') || {} }
 });
 
+const actions = {
+    enable({ commit, dispatch }, { enable }) {
+        if (!enable) {
+            dispatch('edit', { editing: false });
+        }
+
+        commit('enable', { enable })
+    },
+    edit({ commit }, { editing }) {
+        commit('edit', { editing })
+    }
+}
+
 const mutations = {
     enable(state, { enable }) {
-        if (!Laravel.isLoggedIn) {
+        if (!this.getters['user/loggedIn']) {
             enable = false;
         }
 
@@ -30,5 +43,6 @@ const mutations = {
 export default {
     namespaced: true,
     state,
+    actions,
     mutations
 }

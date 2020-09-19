@@ -4,7 +4,7 @@
       <h1 class="title is-3">{{ $t('Reset password') }}</h1>
       <rm-emailinput
         v-model="email"
-        :label="$t('E-Mail') + ':'"
+        :label="$t('Email') + ':'"
         name="email"
         horizontal
         :placeholder="$t('Enter email...')"
@@ -19,47 +19,37 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/password/form/getFormFields",
+  mutationType: "user/password/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.password.form.data,
-      errors: state => state.user.password.form.errors.data
+      errors: state => state.user.password.form.errors
     }),
-    email: {
-      get() {
-        return this.form.email;
-      },
-      set(value) {
-        this.updateFormProperty("email", value);
-      }
-    }
-  },
-  beforeCreate() {
-    if (this.$Laravel.isLoggedIn) {
-      this.$router.push({ name: "home" });
-    }
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    }),
+    ...mapFields(["email"])
   },
   created() {
-    this.$store.commit("user/password/form/set", {
-      data: {
-        email: null,
-        password: null,
-        password_confirmation: null
-      }
-    });
+    if (this.loggedIn) {
+      this.$router.push({ name: "home" });
+    }
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/password/form/update", { property, value });
-    },
     submit() {
       this.$store.dispatch("user/password/forgot", this.form).then(response => {
-        alert(this.$t("We've sent you a link per email."));
+        this.$buefy.snackbar.open("We've sent you a link per email.");
         this.$router.push({ name: "login" });
       });
     }

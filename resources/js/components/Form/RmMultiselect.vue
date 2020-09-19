@@ -16,6 +16,7 @@
       field="name"
       :placeholder="placeholder"
       attached
+      :size="size"
       @typing="filter = $event"
       style="max-width: 300px"
     ></b-taginput>
@@ -40,6 +41,7 @@ export default {
 
     "min",
     "max",
+    "size",
     "controlsPosition",
     "options"
   ],

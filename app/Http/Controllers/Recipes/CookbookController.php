@@ -11,6 +11,16 @@ use App\Http\Requests\Recipes\Cookbook\Update;
 class CookbookController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Cookbook::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Recipes\Cookbook\Index  $request
@@ -18,15 +28,12 @@ class CookbookController extends Controller
      */
     public function index(Index $request)
     {
-        $this->authorize(Cookbook::class);
         $model = new Cookbook();
-        if ($request->trashed == 'true' && auth()->check()) {
+        if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
         }
 
-        $paginator = $model->paginate($request->limit);
-        $paginator->setCollection($paginator->getCollection()->makeVisible('deleted_at'));
-        return $paginator;
+        return $model->paginate($request->limit);
     }
 
     /**
@@ -37,7 +44,6 @@ class CookbookController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Cookbook::class);
         $cookbook = auth()->user()->cookbooks()->create($request->validated());
         return $this->responseCreated('cookbooks.show', $cookbook->id);
     }
@@ -50,7 +56,6 @@ class CookbookController extends Controller
      */
     public function show(Cookbook $cookbook)
     {
-        $this->authorize($cookbook);
         return $cookbook;
     }
 
@@ -63,7 +68,6 @@ class CookbookController extends Controller
      */
     public function update(Update $request, Cookbook $cookbook)
     {
-        $this->authorize($cookbook);
         $cookbook->update($request->validated());
     }
 
@@ -75,7 +79,6 @@ class CookbookController extends Controller
      */
     public function destroy(Cookbook $cookbook)
     {
-        $this->authorize($cookbook);
         $cookbook->delete();
     }
 

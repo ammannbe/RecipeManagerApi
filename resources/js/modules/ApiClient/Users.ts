@@ -10,9 +10,14 @@ export interface User {
 }
 
 export default class Users extends ApiClient {
-    protected url = "/user";
+    protected url = "/users";
 
     public show(): Promise<User> {
-        return this.get(this.url) as Promise<User>;
+        const url = "/user";
+        return this.get(url) as Promise<User>;
+    }
+
+    public patch(key: string, value: string | number | boolean): Promise<User> {
+        return this.patch(key, value);
     }
 }

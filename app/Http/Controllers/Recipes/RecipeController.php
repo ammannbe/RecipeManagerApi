@@ -13,6 +13,16 @@ use App\Http\Controllers\Recipes\CookbookController;
 class RecipeController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Recipe::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Recipes\Recipe\Index  $request
@@ -20,23 +30,20 @@ class RecipeController extends Controller
      */
     public function index(Index $request)
     {
-        $this->authorize(Recipe::class);
-
         $model = Recipe::latest();
-        if ($request->trashed == 'true' && auth()->check()) {
+        if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
         }
-        if ($request->only_own == 'true' && auth()->check()) {
+        if ($request->only_own && auth()->check()) {
             $model = $model->withoutGlobalScope('isAdminOrOwnOrPublic')->isOwn();
         }
         if (TagController::isEnabled()) {
             $model->with('tags');
         }
-        $paginator = $model
+
+        return $model
             ->filter($request->filter, $request->method)
             ->paginate($request->limit);
-        $paginator->setCollection($paginator->getCollection()->makeVisible('deleted_at'));
-        return $paginator;
     }
 
     /**
@@ -47,13 +54,15 @@ class RecipeController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Recipe::class);
         $validated = $request->validated();
+        /** @var \App\Models\Recipes\Recipe $recipe */
         $recipe = auth()->user()->recipes()->create($validated);
         if (isset($validated['tags'])) {
             $recipe->tags()->sync($validated['tags']);
         }
-        $recipe->savePhotos($validated['photos'] ?? null);
+        foreach ($validated['photos'] ?? [] as $photo) {
+            $recipe->addPhoto($photo);
+        }
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 
@@ -65,7 +74,6 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        $this->authorize($recipe);
         if (TagController::isEnabled()) {
             $recipe->load('tags');
         }
@@ -85,7 +93,6 @@ class RecipeController extends Controller
      */
     public function update(Update $request, Recipe $recipe)
     {
-        $this->authorize($recipe);
         $validated = $request->validated();
         if (TagController::isEnabled() && isset($validated['tags'])) {
             $recipe->tags()->sync($validated['tags']);
@@ -101,7 +108,6 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        $this->authorize($recipe);
         $recipe->delete();
     }
 
@@ -119,20 +125,15 @@ class RecipeController extends Controller
     }
 
     /**
-     * Show the recipe image
+     * Stream the specified resource as PDF.
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
-     * @param  string  $name
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return \Illuminate\Http\Response
      */
-    public function image(Recipe $recipe, string $name)
+    public function pdf(Recipe $recipe)
     {
         $this->authorize('view', $recipe);
 
-        if (!\Storage::disk('recipe_images')->exists("{$recipe->id}/{$name}")) {
-            abort(404);
-        }
-
-        return \Storage::disk('recipe_images')->download("{$recipe->id}/{$name}", null, ['Content-Disposition' => 'inline']);
+        return \PDF::loadView('pdf.recipe', ['recipe' => $recipe])->stream("{$recipe->name}.pdf");
     }
 }

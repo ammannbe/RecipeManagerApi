@@ -39,60 +39,42 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/password/form/getFormFields",
+  mutationType: "user/password/form/updateFormFields"
+});
 
 export default {
-  props: ["token"],
+  props: ["params"],
   computed: {
     ...mapState({
       form: state => state.user.password.form.data,
-      errors: state => state.user.password.form.errors.data
+      errors: state => state.user.password.form.errors
     }),
-    email() {
-      return this.$route.query.email;
-    },
-    password: {
-      get() {
-        return this.form.password;
-      },
-      set(value) {
-        this.updateFormProperty("password", value);
-      }
-    },
-    password_confirmation: {
-      get() {
-        return this.form.password_confirmation;
-      },
-      set(value) {
-        this.updateFormProperty("password_confirmation", value);
-      }
-    }
-  },
-  beforeCreate() {
-    if (this.$Laravel.isLoggedIn) {
-      this.$router.push({ name: "home" });
-    }
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    }),
+    ...mapFields(["token", "email", "password", "password_confirmation"])
   },
   created() {
-    this.$store.commit("user/password/form/set", {
-      data: {
-        token: this.token,
-        email: this.$route.query.email,
-        password: null,
-        password_confirmation: null
-      }
-    });
+    if (this.loggedIn) {
+      this.$router.push({ name: "home" });
+    }
+
+    this.token = this.params.token;
+    this.email = this.params.email;
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/password/form/update", { property, value });
-    },
     submit() {
       this.$store.dispatch("user/password/reset", this.form).then(() => {
-        alert("Ihr Passwort wurde erfolgreich zurück gesetzt.");
+        const message = "Ihr Passwort wurde erfolgreich zurück gesetzt.";
+        this.$buefy.snackbar.open(message);
         this.$router.push({ name: "login" });
       });
     }

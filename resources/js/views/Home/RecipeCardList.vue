@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div ref="top" class="columns">
+    <div ref="top" class="columns is-centered">
       <recipe-card
         v-for="recipe in recipes.data"
         :key="recipe.id"
         :recipe="recipe"
-        class="column is-one-fifth"
+        class="column is-5-tablet is-one-fifth-fullhd"
       ></recipe-card>
     </div>
 
@@ -66,7 +66,7 @@ export default {
           page: this.page,
           filter: this.filter,
           limit: this.limit,
-          push: true
+          push: this.page !== 1
         })
         .then(() => {
           $state.loaded();

@@ -10,13 +10,22 @@ use App\Http\Requests\Users\Author\Update;
 class AuthorController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Author::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Support\Collection
      */
     public function index()
     {
-        $this->authorize(Author::class);
         return Author::get();
     }
 
@@ -28,7 +37,6 @@ class AuthorController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Author::class);
         Author::create($request->validated());
     }
 
@@ -40,7 +48,6 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        $this->authorize($author);
         return $author;
     }
 
@@ -53,8 +60,7 @@ class AuthorController extends Controller
      */
     public function update(Update $request, Author $author)
     {
-        $this->authorize($author);
-        $author->update();
+        $author->update($request->validated());
     }
 
     /**
@@ -65,7 +71,6 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        $this->authorize($author);
         $author->delete();
     }
 }

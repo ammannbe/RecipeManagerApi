@@ -79,7 +79,8 @@ class UnitPolicy
      */
     public function delete(User $user, Unit $unit): bool
     {
-        return $user->admin;
+        return $user->admin
+            && $unit->can_delete;
     }
 
     /**

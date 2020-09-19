@@ -4,12 +4,15 @@ namespace App\Http\Requests\Recipes\Recipe;
 
 use App\Models\Recipes\Recipe;
 use Illuminate\Validation\Rule;
+use App\Http\Requests\FormRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Controllers\Recipes\TagController;
 use App\Http\Controllers\Recipes\CookbookController;
 
 class Index extends FormRequest
 {
+    use FormRequestRules;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -35,8 +38,8 @@ class Index extends FormRequest
             'filter.complexity'       => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'filter.instructions'     => ['string', 'max:16000000'],
             'filter.preparation_time' => ['string', 'date_format:H:i'],
-            'limit'  => ['integer', 'max:1000'],
-            'page'   => ['integer'],
+            'limit' => $this->getLimitRule(),
+            'page'  => $this->getPageRule(),
         ];
 
         if (CookbookController::isEnabled()) {

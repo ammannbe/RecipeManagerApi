@@ -4,19 +4,33 @@ namespace App\Http\Controllers\Ingredients;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ingredients\IngredientAttribute;
+use App\Http\Requests\Ingredients\IngredientAttribute\Index;
 use App\Http\Requests\Ingredients\IngredientAttribute\Store;
 use App\Http\Requests\Ingredients\IngredientAttribute\Update;
 
 class IngredientAttributeController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(IngredientAttribute::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Ingredients\IngredientAttribute\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
-        $this->authorize(IngredientAttribute::class);
+        if ($request->trashed && auth()->user()->admin) {
+            return IngredientAttribute::withTrashed()->get();
+        }
         return IngredientAttribute::get();
     }
 
@@ -28,7 +42,6 @@ class IngredientAttributeController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(IngredientAttribute::class);
         $ingredientAttribute = IngredientAttribute::create($request->validated());
         return $this->responseCreated('ingredient-attributes.show', $ingredientAttribute->id);
     }
@@ -41,7 +54,6 @@ class IngredientAttributeController extends Controller
      */
     public function show(IngredientAttribute $ingredientAttribute)
     {
-        $this->authorize($ingredientAttribute);
         return $ingredientAttribute;
     }
 
@@ -54,7 +66,6 @@ class IngredientAttributeController extends Controller
      */
     public function update(Update $request, IngredientAttribute $ingredientAttribute)
     {
-        $this->authorize($ingredientAttribute);
         $ingredientAttribute->update($request->validated());
     }
 
@@ -66,7 +77,6 @@ class IngredientAttributeController extends Controller
      */
     public function destroy(IngredientAttribute $ingredientAttribute)
     {
-        $this->authorize($ingredientAttribute);
         $ingredientAttribute->delete();
     }
 

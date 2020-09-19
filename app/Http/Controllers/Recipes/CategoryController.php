@@ -10,13 +10,22 @@ use App\Http\Requests\Recipes\Category\Update;
 class CategoryController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Category::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Support\Collection
      */
     public function index()
     {
-        $this->authorize(Category::class);
         return Category::get();
     }
 
@@ -28,7 +37,6 @@ class CategoryController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Category::class);
         $category = Category::create($request->validated());
         return $this->responseCreated('categories.show', $category->id);
     }
@@ -41,7 +49,6 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $this->authorize($category);
         return $category;
     }
 
@@ -54,7 +61,6 @@ class CategoryController extends Controller
      */
     public function update(Update $request, Category $category)
     {
-        $this->authorize($category);
         $category->update($request->validated());
     }
 
@@ -66,7 +72,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $this->authorize($category);
         $category->delete();
     }
 

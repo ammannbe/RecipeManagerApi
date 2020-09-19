@@ -34,52 +34,39 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/login/form/getFormFields",
+  mutationType: "user/login/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.login.form.data,
-      errors: state => state.user.login.form.errors.data
+      errors: state => state.user.login.form.errors
     }),
-    email: {
-      get() {
-        return this.form.email;
-      },
-      set(value) {
-        this.updateFormProperty("email", value);
-      }
-    },
-    password: {
-      get() {
-        return this.form.password;
-      },
-      set(value) {
-        this.updateFormProperty("password", value);
-      }
-    }
-  },
-  beforeCreate() {
-    if (this.$Laravel.isLoggedIn) {
-      this.$router.push({ name: "home" });
-    }
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    }),
+    ...mapFields(["email", "password"])
   },
   created() {
-    this.$store.commit("user/login/form/set", {
-      data: { email: null, password: null }
-    });
+    if (this.loggedIn) {
+      this.$router.push({ name: "home" });
+    }
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/login/form/update", { property, value });
-    },
-    submit() {
-      this.$store.dispatch("user/login", { data: this.form }).then(() => {
-        this.$router.push({ name: "home" });
-      });
+    async submit() {
+      try {
+        await this.$store.dispatch("user/login", { data: this.form });
+        this.$router.go(-1);
+      } catch (error) {}
     }
   }
 };

@@ -9,7 +9,7 @@ export default interface Tag {
 export default class Tags extends ApiClient {
     protected url = "/tags";
 
-    public async index(): Promise<Tag[]> {
-        return super.index() as Promise<Tag[]>;
+    public async index({ trashed = false }): Promise<Tag[]> {
+        return super.index({ trashed }) as Promise<Tag[]>;
     }
 }

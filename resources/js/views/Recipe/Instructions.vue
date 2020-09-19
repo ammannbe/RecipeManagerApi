@@ -1,8 +1,8 @@
 <template>
-  <div :class="{'add-padding': !editmode.editing}">
+  <div class="add-padding">
     <h2
       :class="{'title is-4': true, 'can-edit': editmode.enabled}"
-      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
+      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
       :title="title"
     >{{ $t('Instructions') }}</h2>
 
@@ -19,30 +19,27 @@
       class="content"
       :title="title"
       v-html="$markdownIt.render(instructions)"
-      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
+      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
     ></div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
-      recipe: state => state.recipe.data,
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),
-    instructions: {
-      get() {
-        return this.form.instructions;
-      },
-      set(value) {
-        const property = "instructions";
-        this.$store.dispatch("recipe/form/update", { property, value });
-      }
-    },
+    ...mapFields(["instructions"]),
     title() {
       if (this.editmode.enabled) {
         return this.$t("Click to edit");
@@ -56,6 +53,10 @@ export default {
 <style lang="scss" scoped>
 div.add-padding {
   padding: 0 30px;
+
+  @media screen and (max-width: 1024px) {
+    padding: 0;
+  }
 }
 
 .can-edit {

@@ -10,16 +10,22 @@
     <draggable handle=".handle" :value="ingredients" @end="endDrag($event)">
       <div v-for="ingredient in ingredients" :key="ingredient.position">
         <div class="item">
-          <i class="fas fa-arrows-alt handle"></i>
+          <i v-if="editmode.enabled" class="fas fa-arrows-alt handle"></i>
           <i
             v-if="editmode.editing"
             class="fas fa-trash"
             @click.prevent="$emit('remove', { id: ingredient.id, alternateId })"
           ></i>
+          <i
+            v-if="editmode.editing"
+            class="fas fa-edit"
+            @click.prevent="$emit('edit', ingredient)"
+          ></i>
           <ingredient
             :ingredient="ingredient"
             :multiplier="multiplier"
             :alternate-id="alternateId || null"
+            @click.prevent="$emit('edit', ingredient)"
           ></ingredient>
         </div>
 
@@ -95,7 +101,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~bulma/sass/utilities/_all";
-@import "/resources/sass/variables";
+@import "resources/sass/variables";
 
 .ingredients {
   list-style-type: disc;
@@ -109,7 +115,8 @@ export default {
     margin-left: 20px;
   }
 
-  > .fa-arrows-alt {
+  > .fa-arrows-alt,
+  > .fas.fa-trash {
     margin-right: 7px;
   }
 

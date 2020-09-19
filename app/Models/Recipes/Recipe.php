@@ -14,6 +14,61 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * App\Models\Recipes\Recipe
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int|null $cookbook_id
+ * @property int $category_id
+ * @property int $author_id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $yield_amount
+ * @property string $complexity
+ * @property string $instructions
+ * @property array|null $photos
+ * @property string|null $preparation_time
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Users\Author $author
+ * @property-read \App\Models\Recipes\Category $category
+ * @property-read \App\Models\Recipes\Cookbook|null $cookbook
+ * @property-read bool $can_edit
+ * @property-read string $complexity_text
+ * @property-read \App\Models\Recipes\array<string> $photo_paths
+ * @property-read \App\Models\Recipes\array<string> $photo_urls
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\IngredientGroup[] $ingredientGroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\Ingredient[] $ingredients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ratings\Rating[] $ratings
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Tag[] $tags
+ * @method static Builder|Recipe filter($filter, $method = 'and')
+ * @method static Builder|Recipe isOwn()
+ * @method static Builder|Recipe isPublic()
+ * @method static Builder|Recipe newModelQuery()
+ * @method static Builder|Recipe newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Recipe onlyTrashed()
+ * @method static Builder|Recipe query()
+ * @method static Builder|Recipe whereAuthorId($value)
+ * @method static Builder|Recipe whereCategoryId($value)
+ * @method static Builder|Recipe whereComplexity($value)
+ * @method static Builder|Recipe whereCookbookId($value)
+ * @method static Builder|Recipe whereCreatedAt($value)
+ * @method static Builder|Recipe whereDeletedAt($value)
+ * @method static Builder|Recipe whereId($value)
+ * @method static Builder|Recipe whereInstructions($value)
+ * @method static Builder|Recipe whereName($value)
+ * @method static Builder|Recipe wherePhotos($value)
+ * @method static Builder|Recipe wherePreparationTime($value)
+ * @method static Builder|Recipe whereSlug($value)
+ * @method static Builder|Recipe whereUpdatedAt($value)
+ * @method static Builder|Recipe whereUserId($value)
+ * @method static Builder|Recipe whereYieldAmount($value)
+ * @method static \Illuminate\Database\Query\Builder|Recipe withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Recipe withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Recipe extends Model
 {
     use FilterScope;
@@ -38,21 +93,12 @@ class Recipe extends Model
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
-        'photos' => 'array'
+        'photos' => 'array',
     ];
 
     /**
@@ -132,6 +178,49 @@ class Recipe extends Model
     }
 
     /**
+     * Get translated text of complexities
+     *
+     * @return string
+     */
+    public function getComplexityTextAttribute(): string
+    {
+        $text = '';
+
+        switch ($this->attributes['complexity']) {
+            case 'simple':
+                $text = __('Simple');
+                break;
+
+            case 'normal':
+                $text = __('Normal');
+                break;
+
+            case 'difficult':
+                $text = __('Difficult');
+                break;
+        }
+
+        /** @var string */
+        return $text;
+    }
+
+    /**
+     * Get the preparation time
+     *
+     * Return NULL, if the time is 00:00:00
+     *
+     * @return string|null
+     */
+    public function getPreparationTimeAttribute(): ?string
+    {
+        if ($this->attributes['preparation_time'] == '00:00:00') {
+            return null;
+        }
+
+        return $this->attributes['preparation_time'];
+    }
+
+    /**
      * Get the full URLs of the photos
      *
      * @return array<string>
@@ -151,6 +240,25 @@ class Recipe extends Model
     }
 
     /**
+     * Get the full paths of the photos
+     *
+     * @return array<string>
+     */
+    public function getPhotoPathsAttribute(): array
+    {
+        if (!$this->photos) {
+            return [];
+        }
+
+        $paths = [];
+        foreach ($this->photos as $name) {
+            $paths[] = \Storage::disk('recipe_images')->path("{$this->id}/{$name}");
+        }
+
+        return $paths;
+    }
+
+    /**
      * Evaluate if the user can edit this recipe
      *
      * @return bool
@@ -165,44 +273,48 @@ class Recipe extends Model
     }
 
     /**
-     * Save photos to disk
+     * Add a newly uploaded photo
      *
-     * If null given, nothing is done
-     *
-     * @param  array  $photos  Instances of \Illuminate\Http\UploadedFile
+     * @param  \Illuminate\Http\UploadedFile  $photo
      * @return void
      */
-    public function savePhotos(?array $photos): void
+    public function addPhoto(UploadedFile $photo): void
     {
-        if (!$photos) {
-            return;
+        if (!($photo instanceof UploadedFile)) {
+            throw new FileNotFoundException('The photo must be an uploaded file.');
         }
 
-        if (!\Storage::disk('recipe_images')->exists("{$this->id}")) {
-            \Storage::disk('recipe_images')->makeDirectory("{$this->id}");
+        $extension = $photo->getClientOriginalExtension();
+        $uuid = \Str::uuid()->toString();
+        $name = "{$uuid}-{$this->slug}.{$extension}";
+
+        $photo->storeAs("{$this->id}", $name, 'recipe_images');
+
+        $photos = array_filter($this->photos);
+        if (empty($photos)) {
+            $photos = [];
+        }
+        $photos[] = $name;
+
+        $this->update(['photos' => $photos]);
+    }
+
+    /**
+     * Remove an existing photo
+     *
+     * @param  string  $photo
+     * @return void
+     */
+    public function removePhoto(string $photo): void
+    {
+        $photos = collect($this->photos);
+        $index = $photos->search($photo);
+        if ($index >= 0) {
+            unset($photos[$index]);
+            $this->update(['photos' => $photos->toArray()]);
         }
 
-        $original = $this->photos ?? [];
-        foreach ($photos as $key => $photo) {
-            if ($photo === null) {
-                unset($original[$key]);
-                continue;
-            }
-
-            if ($photo instanceof UploadedFile) {
-                $extension = $photo->getClientOriginalExtension();
-                $uuid = \Str::uuid()->toString();
-                $name = "{$uuid}-{$this->slug}.{$extension}";
-
-                $photo->storeAs("{$this->id}", $name, 'recipe_images');
-                $original[$key] = $name;
-                continue;
-            }
-
-            throw new FileNotFoundException('Photos have to be uploaded files.');
-        }
-
-        $this->update(['photos' => $original ?? null]);
+        \Storage::disk('recipe_images')->delete("{$this->id}/{$photo}");
     }
 
     /**

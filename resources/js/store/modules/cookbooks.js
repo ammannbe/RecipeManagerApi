@@ -1,4 +1,5 @@
 import Cookbooks from "../../modules/ApiClient/Cookbooks";
+import form from './form';
 
 const state = () => ({
     data: { data: [] }
@@ -8,6 +9,10 @@ const actions = {
     async index({ commit }, { trashed = false, page = null, limit = 15 }) {
         let cookbooks = await new Cookbooks().index({ trashed, page, limit });
         commit('set', { cookbooks });
+    },
+    async update({ dispatch }, { id, property, value }) {
+        await new Cookbooks().update(id, property, value);
+        await dispatch('index');
     },
     async remove({ commit }, { id }) {
         await new Cookbooks().remove(id);
@@ -33,5 +38,6 @@ export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    modules: { form }
 }

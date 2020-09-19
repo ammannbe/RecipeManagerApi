@@ -9,6 +9,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * App\Models\Recipes\Tag
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read bool $can_delete
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Recipe[] $recipes
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Tag onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Tag withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Tag withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Tag extends Model
 {
     use SoftDeletes;
@@ -25,12 +50,12 @@ class Tag extends Model
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $hidden = [
-        'deleted_at',
+    protected $appends = [
+        'can_delete',
     ];
 
     /**
@@ -52,6 +77,16 @@ class Tag extends Model
         parent::boot();
 
         static::addGlobalScope(new OrderByNameScope);
+    }
+
+    /**
+     * This ressource can be deleted
+     *
+     * @return bool
+     */
+    public function getCanDeleteAttribute(): bool
+    {
+        return !$this->recipes()->exists();
     }
 
     /**

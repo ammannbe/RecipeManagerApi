@@ -4,19 +4,33 @@ namespace App\Http\Controllers\Ingredients;
 
 use App\Models\Ingredients\Food;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ingredients\Food\Index;
 use App\Http\Requests\Ingredients\Food\Store;
 use App\Http\Requests\Ingredients\Food\Update;
 
 class FoodController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Food::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Ingredients\Food\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
-        $this->authorize(Food::class);
+        if ($request->trashed && auth()->user()->admin) {
+            return Food::withTrashed()->get();
+        }
         return Food::get();
     }
 
@@ -28,7 +42,6 @@ class FoodController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Food::class);
         $food = Food::create($request->validated());
         return $this->responseCreated('foods.show', $food->id);
     }
@@ -41,7 +54,6 @@ class FoodController extends Controller
      */
     public function show(Food $food)
     {
-        $this->authorize($food);
         return $food;
     }
 
@@ -54,7 +66,6 @@ class FoodController extends Controller
      */
     public function update(Update $request, Food $food)
     {
-        $this->authorize($food);
         $food->update($request->validated());
     }
 
@@ -66,7 +77,6 @@ class FoodController extends Controller
      */
     public function destroy(Food $food)
     {
-        $this->authorize($food);
         $food->delete();
     }
 

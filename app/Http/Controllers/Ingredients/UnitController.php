@@ -4,19 +4,33 @@ namespace App\Http\Controllers\Ingredients;
 
 use App\Models\Ingredients\Unit;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ingredients\Unit\Index;
 use App\Http\Requests\Ingredients\Unit\Store;
 use App\Http\Requests\Ingredients\Unit\Update;
 
 class UnitController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Unit::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Ingredients\Unit\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
-        $this->authorize(Unit::class);
+        if ($request->trashed && auth()->user()->admin) {
+            return Unit::withTrashed()->get();
+        }
         return Unit::get();
     }
 
@@ -28,7 +42,6 @@ class UnitController extends Controller
      */
     public function store(Store $request)
     {
-        $this->authorize(Unit::class);
         $unit = Unit::create($request->validated());
         return $this->responseCreated('units.show', $unit->id);
     }
@@ -41,7 +54,6 @@ class UnitController extends Controller
      */
     public function show(Unit $unit)
     {
-        $this->authorize($unit);
         return $unit;
     }
 
@@ -54,7 +66,6 @@ class UnitController extends Controller
      */
     public function update(Update $request, Unit $unit)
     {
-        $this->authorize($unit);
         $unit->update($request->validated());
     }
 
@@ -66,7 +77,6 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        $this->authorize($unit);
         $unit->delete();
     }
 

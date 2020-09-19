@@ -10,6 +10,7 @@
         horizontal
         v-model="name"
         :placeholder="$t('Please enter name...')"
+        :message="errors.name"
         maxlength="100"
         required
         autofocus
@@ -26,39 +27,39 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "cookbook/form/getFormFields",
+  mutationType: "cookbook/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
-      form: state => state.cookbook.form.data
+      user: state => state.user.data,
+      form: state => state.cookbook.form.data,
+      errors: state => state.cookbook.form.errors
     }),
-    name: {
-      get() {
-        return this.form.name;
-      },
-      set(value) {
-        this.updateFormProperty("name", value);
-      }
-    }
-  },
-  beforeCreate() {
-    if (!this.$Laravel.isLoggedIn) {
-      this.$router.push({ name: "home" });
-    } else if (!this.$Laravel.hasVerifiedEmail) {
-      this.$router.push({ name: "verify.email" });
-    }
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    }),
+    ...mapFields(["name"])
   },
   created() {
-    this.$store.commit("cookbook/form/set", { data: { name: null } });
+    setTimeout(() => {
+      if (!this.loggedIn) {
+        this.$router.push({ name: "home" });
+      } else if (!this.user.has_verified_email) {
+        this.$router.push({ name: "verify.email" });
+      }
+    }, 1000);
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("cookbook/form/update", { property, value });
-    },
     submit() {
       this.$store
         .dispatch("cookbook/store", { data: this.form })
