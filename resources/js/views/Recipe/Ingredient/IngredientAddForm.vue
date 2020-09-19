@@ -28,16 +28,17 @@
         v-model="amount"
         :min="0"
         :max="999998"
+        :message="errors.amount"
         autofocus
       />
 
       <rm-numberinput
-        v-if="amount"
         :label="$t('Max. amount')"
         label-position="on-border"
         v-model="amount_max"
         :min="0"
         :max="999999"
+        :message="errors.amount_max"
       />
 
       <rm-select
@@ -45,6 +46,7 @@
         v-model="unit_id"
         :placeholder="$t('Unit')"
         :options="units"
+        :message="errors.unit_id"
       />
 
       <rm-select
@@ -52,6 +54,7 @@
         v-model="food_id"
         :placeholder="$t('Ingredient')"
         :options="foods"
+        :message="errors.food_id"
         required
       />
 
@@ -60,6 +63,7 @@
         v-model="ingredient_attributes"
         :placeholder="$t('Attributes')"
         :options="ingredientAttributes"
+        :message="errors.ingredient_attributes"
       />
 
       <rm-autocomplete
@@ -69,6 +73,7 @@
         @select="ingredient_group_id = $event"
         :placeholder="$t('Group')"
         :options="ingredientGroups"
+        :message="errors.new_ingredient_group_name"
       />
 
       <rm-submit-button>
@@ -105,7 +110,8 @@ export default {
       units: state => state.units.data,
       ingredientAttributes: state => state.ingredient_attributes.data,
       recipe: state => state.recipe.data,
-      form: state => state.ingredients.form.data
+      form: state => state.ingredients.form.data,
+      errors: state => state.ingredients.form.errors
     }),
     ...mapFields([
       "ingredient_id",

@@ -30,7 +30,6 @@
     />
 
     <rm-numberinput
-      v-if="amount"
       :label="$t('Max. amount')"
       label-position="on-border"
       v-model="amount_max"
