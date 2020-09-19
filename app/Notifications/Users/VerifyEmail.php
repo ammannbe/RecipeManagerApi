@@ -10,7 +10,7 @@ class VerifyEmail extends BaseVerifyEmail
     /**
      * Build the mail representation of the notification.
      *
-     * @param  \App\Models\Users\User  $user
+     * @param  \App\Models\Users\User  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
@@ -26,11 +26,15 @@ class VerifyEmail extends BaseVerifyEmail
 
         $loginUrl = route('login');
 
+        // This is mainly a phpstan fix
+        $subject = !is_array(\Lang::get('Account created')) ? \Lang::get('Account created') : 'Account created';
+        $action = !is_array(\Lang::get('Login')) ? \Lang::get('Login') : 'Login';
+
         return (new MailMessage)
-            ->subject(\Lang::get('Account created'))
+            ->subject($subject)
             ->line(\Lang::get('A new account was created for you.'))
             ->line(\Lang::get('Use the following password to login: :password', ['password' => $password]))
-            ->action(\Lang::get('Login'), $loginUrl)
+            ->action($action, $loginUrl)
             ->line(\Lang::get('You should change your password after the first login.'));
     }
 }

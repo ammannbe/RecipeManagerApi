@@ -12,7 +12,7 @@ class RecipePhotoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Recipes\RecipePhoto\Store  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function store(Store $request, Recipe $recipe)
     {
@@ -47,7 +47,7 @@ class RecipePhotoController extends Controller
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
      * @param  string  $photo
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Recipe $recipe, string $photo)
     {
