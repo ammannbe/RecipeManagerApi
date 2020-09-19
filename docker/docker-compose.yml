@@ -1,0 +1,35 @@
+version: '3'
+
+networks:
+  recipe-manager:
+  nginx-proxy:
+    external:
+      name: nginx-proxy
+
+services:
+  app:
+    image: suhype/recipe-manager:${APP_VERSION}
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/www/html/storage/app
+      - ./.env:/var/www/html/.env
+    networks:
+      - recipe-manager
+      - nginx-proxy
+    expose:
+      - 80
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+    networks:
+      - recipe-manager
+    volumes:
+      - ./mysql:/var/lib/mysql

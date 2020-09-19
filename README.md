@@ -52,6 +52,13 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 ### Installation
 
+It's recommended to install and update this software with docker/docker-compose.
+See [here](docker/README.md) for more information.
+
+Alternatively or for development purposes you can make a manual installation on any linux/unix machine:
+
+#### Manual installation
+
 -   Install composer packages `composer install`
 -   Install NPM packages `npm install`
 -   Copy .env.example to .env and modify it to your needs
@@ -65,13 +72,13 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 -   Run the server `php artisan serve`
 
-### Development deployment
+#### Manual development deployment
 
 -   If not already done, [install](#installation) everything
 -   Run the server `php artisan serve`
 -   Watch for style and js changes: `npm run watch`
 
-### Production Deployment
+#### Manual production deployment
 
 -   If not already done, [install](#installation) everything
 -   Optimize composer autoload `composer install --optimize-autoloader --no-dev`

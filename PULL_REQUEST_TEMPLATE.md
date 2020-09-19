@@ -16,6 +16,7 @@ Contributors guide: ./CONTRIBUTING.md
 -   [ ] `composer phpstan` passes
 -   [ ] `composer php-cs-fixer` passes
 -   [ ] documentation is changed or added
+-   [ ] translations are changed, added or removed
 -   [ ] commit message follows [commit guidelines](CONTRIBUTING.md#submitting-changes)
 
 <!-- _NOTE: these things are not required to open a PR and can be done afterwards / while the PR is open._ -->
