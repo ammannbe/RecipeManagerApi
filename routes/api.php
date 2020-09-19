@@ -82,6 +82,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('ingredient-attributes/{id}/restore', 'Ingredients\IngredientAttributeController@restore')->name('ingredient-attributes.restore');
     Route::post('ingredients/{id}/restore', 'Ingredients\IngredientController@restore')->name('ingredients.restore');
     Route::post('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@store')->name('ingredients.store');
+    Route::post('recipes/{recipe}/photos', 'Recipes\RecipePhotoController@store');
+    Route::delete('recipes/{recipe}/photos/{photo}', 'Recipes\RecipePhotoController@destroy');
     Route::post('ingredient-groups/{id}/restore', 'Ingredients\IngredientGroupController@restore')->name('ingredient-groups.restore');
     Route::post('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@store')->name('ingredient-groups.store');
     Route::post('categories/{id}/restore', 'Recipes\CategoryController@restore')->name('categories.restore');

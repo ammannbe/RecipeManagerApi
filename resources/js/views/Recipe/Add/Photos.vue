@@ -8,6 +8,7 @@
         :placeholder="$t('Please choose...')"
         accept="image/*"
         :preview="true"
+        :can-crop="true"
         multiple
         drag-drop
         required

@@ -11,7 +11,7 @@
     </a>
 
     <!-- PDF Download -->
-    <a @click="downloadPdf()" :title="$t('Download this recipe as PDF')">
+    <a @click="downloadPdf()" :title="$t('Download as PDF')">
       <i class="fas fa-print"></i>
     </a>
 

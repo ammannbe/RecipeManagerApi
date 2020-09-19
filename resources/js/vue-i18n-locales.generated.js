@@ -78,7 +78,6 @@ export default {
         "Units": "Einheiten",
         "Ingredient attributes": "Zutaten Eigenschaften",
         "Administration": "Administration",
-        "Download this recipe as PDF": "Lade dieses Rezept als PDF herunter",
         "Password": "Passwort",
         "Edit ingredient": "Zutat bearbeiten",
         "Unit": "Einheit",
@@ -114,6 +113,12 @@ export default {
         "Edit food": "Lebensmittel bearbeiten",
         "Edit tag": "Tag bearbeiten",
         "Add more ingredients": "Weitere Zutaten hinzufügen",
+        "Crop photo": "Foto zuschneiden",
+        "Crop": "Zuschneiden",
+        "No photo": "Kein Foto",
+        "Download as PDF": "Als PDF herunterladen",
+        "Add photos": "Fotos hinzufügen",
+        "Delete this photo?": "Dieses Foto löschen?",
         "auth": {
             "failed": "Die Anmeldedaten sind nicht korrekt.",
             "throttle": "Zu viele Anmelde-Versuche. Bitte versuche es in {seconds} Sekunden noch einmal."

@@ -4,6 +4,8 @@ import MavonEditor from 'mavon-editor';
 import Vuex from 'vuex'
 import Buefy from 'buefy'
 import VueInternationalization from 'vue-i18n';
+import VueRx from 'vue-rx'
+import VuejsClipper from 'vuejs-clipper'
 
 import './nav';
 import env from './env';
@@ -22,6 +24,14 @@ Vue.use(MavonEditor);
 Vue.use(Vuex);
 Vue.use(Buefy, { defaultIconPack: 'fas' });
 Vue.use(VueInternationalization);
+Vue.use(VueRx);
+Vue.use(VuejsClipper, {
+    components: {
+        clipperBasic: true,
+        clipperPreview: true,
+        clipperUpload: true
+    }
+});
 
 Vue.prototype.$env = env;
 Vue.prototype.$markdownIt = MavonEditor.markdownIt;

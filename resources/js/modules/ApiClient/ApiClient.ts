@@ -142,7 +142,7 @@ export default class ApiClient {
         return this.request("delete", url, data);
     }
 
-    public remove(id?: number): Promise<any> {
+    public remove(id?: number | string): Promise<any> {
         return this.delete(`${this.url}/${id}`);
     }
 

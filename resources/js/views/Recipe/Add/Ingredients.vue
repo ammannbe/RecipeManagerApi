@@ -121,13 +121,13 @@ div.handle-container {
   display: flex;
   align-items: center;
   font-size: 1.4em;
-  padding-bottom: 5px;
 }
 
 form .ingredient {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
+  align-items: center;
   margin-top: 5px;
 
   @media screen and (max-width: 1580px) {

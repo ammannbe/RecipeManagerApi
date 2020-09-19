@@ -273,44 +273,48 @@ class Recipe extends Model
     }
 
     /**
-     * Save photos to disk
+     * Add a newly uploaded photo
      *
-     * If null given, nothing is done
-     *
-     * @param  array  $photos  Instances of \Illuminate\Http\UploadedFile
+     * @param  \Illuminate\Http\UploadedFile  $photo
      * @return void
      */
-    public function savePhotos(?array $photos): void
+    public function addPhoto(UploadedFile $photo): void
     {
-        if (!$photos) {
-            return;
+        if (!($photo instanceof UploadedFile)) {
+            throw new FileNotFoundException('The photo must be an uploaded file.');
         }
 
-        if (!\Storage::disk('recipe_images')->exists("{$this->id}")) {
-            \Storage::disk('recipe_images')->makeDirectory("{$this->id}");
+        $extension = $photo->getClientOriginalExtension();
+        $uuid = \Str::uuid()->toString();
+        $name = "{$uuid}-{$this->slug}.{$extension}";
+
+        $photo->storeAs("{$this->id}", $name, 'recipe_images');
+
+        $photos = array_filter($this->photos);
+        if (empty($photos)) {
+            $photos = [];
+        }
+        $photos[] = $name;
+
+        $this->update(['photos' => $photos]);
+    }
+
+    /**
+     * Remove an existing photo
+     *
+     * @param  string  $photo
+     * @return void
+     */
+    public function removePhoto(string $photo): void
+    {
+        $photos = collect($this->photos);
+        $index = $photos->search($photo);
+        if ($index >= 0) {
+            unset($photos[$index]);
+            $this->update(['photos' => $photos->toArray()]);
         }
 
-        $original = $this->photos ?? [];
-        foreach ($photos as $key => $photo) {
-            if ($photo === null) {
-                unset($original[$key]);
-                continue;
-            }
-
-            if ($photo instanceof UploadedFile) {
-                $extension = $photo->getClientOriginalExtension();
-                $uuid = \Str::uuid()->toString();
-                $name = "{$uuid}-{$this->slug}.{$extension}";
-
-                $photo->storeAs("{$this->id}", $name, 'recipe_images');
-                $original[$key] = $name;
-                continue;
-            }
-
-            throw new FileNotFoundException('Photos have to be uploaded files.');
-        }
-
-        $this->update(['photos' => $original ?? null]);
+        \Storage::disk('recipe_images')->delete("{$this->id}/{$photo}");
     }
 
     /**

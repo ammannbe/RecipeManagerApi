@@ -151,6 +151,8 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
 -   [SortableJS/Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) - Vue drag-and-drop component based on Sortable.js
 -   [PeachScript/vue-infinite-loading](https://github.com/PeachScript/vue-infinite-loading) - An infinite scroll plugin for Vue.js.
+-   [timtnleeProject/vuejs-clipper](https://github.com/timtnleeProject/vuejs-clipper) - Vue.js image clipping components using Vue-Rx.
+-   [vuejs/vue-rx](https://github.com/vuejs/vue-rx) - RxJS integration for Vue.js.
 
 ## Contributing
 

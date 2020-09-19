@@ -30,7 +30,6 @@ class RecipeController extends Controller
      */
     public function index(Index $request)
     {
-
         $model = Recipe::latest();
         if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
@@ -56,11 +55,14 @@ class RecipeController extends Controller
     public function store(Store $request)
     {
         $validated = $request->validated();
+        /** @var \App\Models\Recipes\Recipe $recipe */
         $recipe = auth()->user()->recipes()->create($validated);
         if (isset($validated['tags'])) {
             $recipe->tags()->sync($validated['tags']);
         }
-        $recipe->savePhotos($validated['photos'] ?? null);
+        foreach ($validated['photos'] ?? [] as $photo) {
+            $recipe->addPhoto($photo);
+        }
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 
@@ -123,7 +125,7 @@ class RecipeController extends Controller
     }
 
     /**
-     * Stream PDF
+     * Stream the specified resource as PDF.
      *
      * @param  \App\Models\Recipes\Recipe  $recipe
      * @return \Illuminate\Http\Response
@@ -133,23 +135,5 @@ class RecipeController extends Controller
         $this->authorize('view', $recipe);
 
         return \PDF::loadView('pdf.recipe', ['recipe' => $recipe])->stream("{$recipe->name}.pdf");
-    }
-
-    /**
-     * Show the recipe image
-     *
-     * @param  \App\Models\Recipes\Recipe  $recipe
-     * @param  string  $name
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
-     */
-    public function image(Recipe $recipe, string $name)
-    {
-        $this->authorize('view', $recipe);
-
-        if (!\Storage::disk('recipe_images')->exists("{$recipe->id}/{$name}")) {
-            abort(404);
-        }
-
-        return \Storage::disk('recipe_images')->download("{$recipe->id}/{$name}", null, ['Content-Disposition' => 'inline']);
     }
 }

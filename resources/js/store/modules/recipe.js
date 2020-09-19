@@ -35,6 +35,24 @@ const actions = {
             return dispatch('form/onFail', { response: error });
         }
     },
+    async addPhotos({ dispatch }, { id, photos }) {
+        try {
+            const response = await new Recipes().addPhotos(id, photos);
+            dispatch('show', { id });
+            return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error });
+        }
+    },
+    async removePhoto({ dispatch }, { id, photo }) {
+        try {
+            const response = await new Recipes().removePhoto(id, photo);
+            dispatch('show', { id });
+            return dispatch('form/onSuccess', { response });
+        } catch (error) {
+            return dispatch('form/onFail', { response: error });
+        }
+    },
     async store({ dispatch }, { data }) {
         try {
             const response = await new Recipes(true).store(data);

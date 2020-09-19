@@ -51,12 +51,15 @@
       <property-list-item :label="$t('Preparation time')" :value="recipe.preparation_time">
         <rm-timepicker v-model="preparation_time" size="is-small"></rm-timepicker>
         <template v-slot:fallback>
-          <span>{{ preparation_time | humanReadablePreparationTime | hyphenate }}</span>
+          <span
+            style="margin-bottom: 0.5em"
+          >{{ preparation_time | humanReadablePreparationTime | hyphenate }}</span>
         </template>
       </property-list-item>
 
       <property-list-item v-if="!$env.DISABLE_TAGS" :label="$t('Tags')">
         <rm-multiselect
+          style="margin-bottom: 0.5em;"
           v-model="tags"
           size="is-small"
           :placeholder="$t('Choose tags...')"
@@ -64,6 +67,7 @@
         />
         <template v-if="recipe.tags && recipe.tags.length" v-slot:fallback>
           <router-link
+            style="margin-bottom: 0.5em;"
             :key="tag.id"
             v-for="tag in recipe.tags"
             class="tag is-success"
@@ -71,7 +75,9 @@
             :to="{ name: 'home', query: { 'search[tag]': tag.slug } }"
           >{{ tag.name }}</router-link>
         </template>
-        <template v-else v-slot:fallback>-</template>
+        <template v-else v-slot:fallback>
+          <span style="margin-bottom: 0.5em;">-</span>
+        </template>
       </property-list-item>
     </ul>
 

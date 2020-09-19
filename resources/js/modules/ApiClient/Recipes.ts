@@ -59,6 +59,39 @@ export default class Recipes extends ApiClient {
         return super.store(formData || data, !!data.photos.length);
     }
 
+    public bulkUpdate(id: number, data: any): Promise<any> {
+        let formData: any;
+        if (data.photos && data.photos.length) {
+            formData = new FormData();
+            Object.keys(data).forEach(key => {
+                const value: string | null | [] = (<any>data)[key];
+
+                if (value instanceof Array && value.length > 0) {
+                    value.forEach((v: any, i: number) => {
+                        formData.append(`${key}[${i}]`, v);
+                    });
+                    return;
+                }
+
+                formData.append(key, value);
+                return;
+            });
+        }
+        return super.bulkUpdate(id, formData || data, !!data.photos.length);
+    }
+
+    public addPhotos(id: number, photos: Array<File>): Promise<any> {
+        let formData = new FormData();
+        photos.forEach(file => formData.append("photos[]", file));
+        const url = `${this.url}/${id}/photos`;
+        return this.post(url, formData, true);
+    }
+
+    public removePhoto(id: number, photo: string): Promise<any> {
+        const url = `${this.url}/${id}/photos/${photo}`;
+        return this.delete(url);
+    }
+
     public async pdf(id: number): Promise<any> {
         const data = await super.get(
             `${this.url}/${id}/pdf`,
