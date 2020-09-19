@@ -11,10 +11,8 @@ const actions = {
         commit('set', { ingredients });
     },
     async update({ dispatch }, { id, recipeId, property, value }) {
-        try {
-            await new Ingredients().update(id, property, value);
-            await dispatch('index', { recipeId });
-        } catch (error) { }
+        await new Ingredients().update(id, property, value);
+        await dispatch('index', { recipeId });
     },
     async store({ dispatch }, { recipeId, data }) {
         try {

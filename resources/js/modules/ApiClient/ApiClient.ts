@@ -1,6 +1,8 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance } from "axios";
+import { SnackbarProgrammatic as Snackbar } from "buefy";
 import env from "../../env";
 import Locale from "../Locale";
+import Loading from "../Loading";
 
 export default class ApiClient {
     private axios: AxiosInstance;
@@ -23,44 +25,59 @@ export default class ApiClient {
     public async request(
         method: any,
         url: string,
-        data?: object,
-        headers?: object
+        data?: { [index: string]: any },
+        headers?: object,
+        responseType?: string
     ): Promise<any> {
+        Loading.open();
         let request: {};
+        request = { method, url, data, headers };
         if (method === "get") {
-            const params = data;
-            request = { method, url, params, headers };
-        } else {
-            request = { method, url, data, headers };
+            if (data) {
+                Object.keys(data).map(v => {
+                    if (data[v] === true || data[v] === false) {
+                        data[v] = data[v] ? 1 : 0;
+                    }
+                });
+            }
+            request = { method, url, params: data, headers };
         }
-        return this.axios
-            .request(request)
-            .then(response =>
-                Promise.resolve(this.rawResponse ? response : response.data)
-            )
-            .catch(error => {
-                if (
-                    error.response.status == 403 ||
-                    error.response.status == 401
-                ) {
-                    alert("Oopsii.. Diese Aktion ist leider nicht erlaubt :-(");
-                }
-                return Promise.reject(
-                    this.rawResponse ? error : error.response
-                );
-            });
+        if (responseType) {
+            request = { ...request, responseType };
+        }
+
+        try {
+            let response = await this.axios.request(request);
+            response = this.rawResponse ? response : response.data;
+            Loading.close();
+            return Promise.resolve(response);
+        } catch (error) {
+            Loading.close();
+
+            if (error.response.status !== 401) {
+                const type = "is-danger";
+                const message = error.response.data.message;
+                Snackbar.open({ type, message });
+            }
+
+            return Promise.reject(this.rawResponse ? error : error.response);
+        }
     }
 
-    public get(url: string, data?: object): Promise<any> {
-        return this.request("get", url, data);
+    public get(
+        url: string,
+        data?: object,
+        responseType?: string
+    ): Promise<any> {
+        return this.request("get", url, data, undefined, responseType);
     }
 
     public show(id?: number): Promise<any> {
         return this.get(`${this.url}/${id}`);
     }
 
-    public index(filter?: object): Promise<any> {
-        return this.get(`${this.url}`, filter);
+    public index(data?: object): Promise<any> {
+        return this.get(`${this.url}`, data);
     }
 
     public post(
@@ -125,7 +142,7 @@ export default class ApiClient {
         return this.request("delete", url, data);
     }
 
-    public remove(id?: number): Promise<any> {
+    public remove(id?: number | string): Promise<any> {
         return this.delete(`${this.url}/${id}`);
     }
 

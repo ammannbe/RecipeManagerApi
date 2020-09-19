@@ -4,40 +4,35 @@ import MavonEditor from 'mavon-editor';
 import Vuex from 'vuex'
 import Buefy from 'buefy'
 import VueInternationalization from 'vue-i18n';
+import VueRx from 'vue-rx'
+import VuejsClipper from 'vuejs-clipper'
 
 import './nav';
 import env from './env';
 import moment from 'moment';
+import Loading from './modules/Loading';
 import Locale from './modules/Locale';
 
 Locale.init();
 
 window.Vue = Vue;
 window.moment = moment;
-window.Loading = {
-    loader: null,
-    open(container = null) {
-        if (this.loader) {
-            return;
-        }
-        this.loader = Vue.prototype.$buefy.loading.open({ container });
-    },
-    close() {
-        if (!this.loader) {
-            return;
-        }
-        this.loader.close();
-        this.loader = null;
-    }
-}
+window.Loading = Loading;
 
 Vue.use(VueRouter);
 Vue.use(MavonEditor);
 Vue.use(Vuex);
 Vue.use(Buefy, { defaultIconPack: 'fas' });
 Vue.use(VueInternationalization);
+Vue.use(VueRx);
+Vue.use(VuejsClipper, {
+    components: {
+        clipperBasic: true,
+        clipperPreview: true,
+        clipperUpload: true
+    }
+});
 
-Vue.prototype.$Laravel = Laravel;
 Vue.prototype.$env = env;
 Vue.prototype.$markdownIt = MavonEditor.markdownIt;
 Vue.prototype.$moment = moment;

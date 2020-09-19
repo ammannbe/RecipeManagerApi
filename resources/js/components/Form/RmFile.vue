@@ -1,5 +1,11 @@
 <template>
-  <b-field class="container" :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
+  <b-field
+    class="container"
+    :label-position="labelPosition"
+    :horizontal="horizontal"
+    :message="message"
+    :type="type"
+  >
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -18,8 +24,9 @@
       </section>
     </b-upload>
 
-    <div class="tags" v-if="preview !== undefined">
+    <div class="tags" v-if="preview">
       <div v-for="(file, index) in model" :key="index">
+        <i v-if="canCrop" class="fas fa-crop" @click="crop(file, index)"></i>
         <img :src="url(file)" />
         <span class="tag is-primary">
           {{ file.name }}
@@ -31,6 +38,8 @@
 </template>
 
 <script>
+import RmImageCropModal from "./RmImageCropModal";
+
 export default {
   props: [
     "value",
@@ -46,11 +55,11 @@ export default {
     "autofocus",
     "required",
 
-    "maxlength",
     "accept",
     "multiple",
     "dragDrop",
-    "preview"
+    "preview",
+    "canCrop"
   ],
   computed: {
     model: {
@@ -58,6 +67,11 @@ export default {
         return this.value;
       },
       set(value) {
+        if (!Array.isArray(value)) {
+          this.$emit("input", [value]);
+          return;
+        }
+
         this.$emit("input", value);
       }
     },
@@ -79,6 +93,22 @@ export default {
     },
     url(file) {
       return URL.createObjectURL(file);
+    },
+    crop(file, index) {
+      this.$buefy.modal.open({
+        parent: this,
+        component: RmImageCropModal,
+        hasModalCard: true,
+        trapFocus: true,
+        props: { url: this.url(file), filename: file.name },
+        events: {
+          confirm: file => {
+            let files = this.model;
+            files[index] = file;
+            this.model = files;
+          }
+        }
+      });
     }
   }
 };
@@ -102,6 +132,14 @@ export default {
     border-radius: 4px;
     margin: 10px;
     padding: 0 10px;
+    position: relative;
+
+    > i {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      cursor: pointer;
+    }
 
     > img {
       max-width: 80%;
@@ -113,5 +151,16 @@ export default {
 
 .required {
   color: red;
+}
+</style>
+
+<style lang="scss">
+.field.container {
+  > .field-body {
+    > .field.has-addons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 }
 </style>

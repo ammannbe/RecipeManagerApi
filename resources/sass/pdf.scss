@@ -1,0 +1,47 @@
+@page {
+    font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+h2 {
+    margin: 20px 0 10px 0;
+}
+
+h3 {
+    margin: 20px 0 10px 5px;
+}
+
+ul {
+    margin: 0;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+
+    /** Extra personal styles **/
+    text-align: center;
+    line-height: 10px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    font-size: 13px;
+
+    /** Extra personal styles **/
+    border-top: 1px solid black;
+    text-align: center;
+    line-height: 10px;
+}
+
+table th {
+    text-align: right;
+}

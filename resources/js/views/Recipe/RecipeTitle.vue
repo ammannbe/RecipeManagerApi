@@ -14,7 +14,7 @@
         {{ $t('Save') }}
         <template v-slot:buttons>
           <b-button
-            @click="$store.commit('recipe/editmode/edit', { editing: false })"
+            @click="$store.dispatch('recipe/editmode/edit', { editing: false })"
             type="is-danger"
           >{{ $t('Cancel') }}</b-button>
         </template>
@@ -23,7 +23,7 @@
 
     <h1
       v-else
-      @click="$store.commit('recipe/editmode/edit', { editing: !editmode.editing })"
+      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
       :class="{'title has-text-centered': true, 'can-edit': editmode.enabled}"
       :title="title"
     >{{ recipe | name }}</h1>
@@ -32,6 +32,12 @@
 
 <script>
 import { mapState } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
   computed: {
@@ -39,17 +45,9 @@ export default {
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data,
       recipe: state => state.recipe.data,
-      errors: state => state.recipe.form.errors.data
+      errors: state => state.recipe.form.errors
     }),
-    name: {
-      get() {
-        return this.form.name;
-      },
-      set(value) {
-        const property = "name";
-        this.$store.dispatch("recipe/form/update", { property, value });
-      }
-    },
+    ...mapFields(["name"]),
     title() {
       if (this.editmode.enabled) {
         return this.$t("Click to edit");
@@ -61,6 +59,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h1 {
+  margin-bottom: 4px;
+}
+
 form {
   display: flex;
   justify-content: center;

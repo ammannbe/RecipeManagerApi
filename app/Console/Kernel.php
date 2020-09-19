@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('cleanup:images', [
             '--database',
-            '--direcotires',
+            '--directories',
             '--files',
             '--fix'
         ])->daily();

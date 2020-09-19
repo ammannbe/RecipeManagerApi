@@ -11,7 +11,7 @@ export interface Unit {
 export default class Units extends ApiClient {
     protected url = "/units";
 
-    public async index(): Promise<Unit[]> {
-        return super.index() as Promise<Unit[]>;
+    public async index({ trashed = false }): Promise<Unit[]> {
+        return super.index({ trashed }) as Promise<Unit[]>;
     }
 }

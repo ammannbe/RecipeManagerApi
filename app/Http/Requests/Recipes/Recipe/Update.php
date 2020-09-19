@@ -33,8 +33,6 @@ class Update extends FormRequest
             'yield_amount'     => ['nullable', 'numeric', 'max:999'],
             'complexity'       => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'instructions'     => ['string', 'max:16000000'],
-            'photos'           => ['nullable', 'array', 'max:20'],
-            'photos.*'         => ['nullable', 'image'],
             'preparation_time' => ['nullable', 'string', 'date_format:H:i'],
         ];
 

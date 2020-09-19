@@ -39,7 +39,7 @@
           </form>
         </div>
 
-        <div v-if="!$Laravel.isLoggedIn" class="navbar-end">
+        <div v-if="!loggedIn" class="navbar-end">
           <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
             <a
               :class="{'disabled': $i18n.locale == locale}"
@@ -81,8 +81,8 @@
             </router-link>
 
             <div class="navbar-dropdown">
-              <router-link :to="{ name: 'account' }">
-                <span class="navbar-item">{{ $t('My Account') }}</span>
+              <router-link v-if="user.admin" :to="{ name: 'admin' }">
+                <span class="navbar-item">{{ $t('Administration') }}</span>
               </router-link>
               <router-link :to="{ name: 'recipes.add' }">
                 <span class="navbar-item">{{ $t('Add recipe') }}</span>
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Locale from "../../modules/Locale";
 
 export default {
@@ -112,10 +112,14 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user.user
+      user: state => state.user.data
+    }),
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
     })
   },
   mounted() {
+    this.$store.dispatch("user/show");
     this.search = this.$route.query.search;
   },
   methods: {
@@ -126,11 +130,9 @@ export default {
       this.$i18n.locale = locale;
       Locale.set(locale);
     },
-    logout() {
-      this.$store.dispatch("user/logout").then(() => {
-        this.$router.push({ name: "home" });
-        this.$forceUpdate();
-      });
+    async logout() {
+      await this.$store.dispatch("user/logout");
+      this.$router.push({ name: "home" });
     }
   }
 };

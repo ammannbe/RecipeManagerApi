@@ -28,6 +28,7 @@
         v-model="amount"
         :min="0"
         :max="999998"
+        :message="errors.amount"
         autofocus
       />
 
@@ -37,6 +38,7 @@
         v-model="amount_max"
         :min="0"
         :max="999999"
+        :message="errors.amount_max"
       />
 
       <rm-select
@@ -44,6 +46,7 @@
         v-model="unit_id"
         :placeholder="$t('Unit')"
         :options="units"
+        :message="errors.unit_id"
       />
 
       <rm-select
@@ -51,6 +54,7 @@
         v-model="food_id"
         :placeholder="$t('Ingredient')"
         :options="foods"
+        :message="errors.food_id"
         required
       />
 
@@ -59,26 +63,18 @@
         v-model="ingredient_attributes"
         :placeholder="$t('Attributes')"
         :options="ingredientAttributes"
+        :message="errors.ingredient_attributes"
       />
 
-      <rm-switch
+      <rm-autocomplete
         label-position="on-border"
-        v-if="!ingredient_id && ingredientGroups.length"
-        v-model="showNewIngredientGroup"
-      >{{ $t('New group') }}</rm-switch>
-      <rm-select
-        label-position="on-border"
-        v-if="ingredientGroups.length && !showNewIngredientGroup && !ingredient_id"
-        v-model="ingredient_group_id"
+        v-if="!ingredient_id"
+        v-model="new_ingredient_group_name"
+        @select="ingredient_group_id = $event"
         :placeholder="$t('Group')"
         :options="ingredientGroups"
-      ></rm-select>
-      <rm-textinput
-        label-position="on-border"
-        v-if="(!ingredientGroups.length || showNewIngredientGroup) && !ingredient_id"
-        v-model="newIngredientGroupName"
-        :placeholder="$t('Group name')"
-      ></rm-textinput>
+        :message="errors.new_ingredient_group_name"
+      />
 
       <rm-submit-button>
         {{ $t('Add') }}
@@ -92,13 +88,18 @@
 
 <script>
 import { mapState } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "ingredients/form/getFormFields",
+  mutationType: "ingredients/form/updateFormFields"
+});
 
 export default {
   props: ["ingredientGroupId"],
   data() {
     return {
-      showNewIngredientGroup: false,
-      newIngredientGroupName: null
+      new_ingredient_group_name: null
     };
   },
   computed: {
@@ -109,64 +110,18 @@ export default {
       units: state => state.units.data,
       ingredientAttributes: state => state.ingredient_attributes.data,
       recipe: state => state.recipe.data,
-      form: state => state.ingredients.form.data
+      form: state => state.ingredients.form.data,
+      errors: state => state.ingredients.form.errors
     }),
-    ingredient_id: {
-      get() {
-        return this.form.ingredient_id;
-      },
-      set(value) {
-        this.updateFormProperty("ingredient_id", value);
-      }
-    },
-    amount: {
-      get() {
-        return this.form.amount;
-      },
-      set(value) {
-        this.updateFormProperty("amount", value);
-      }
-    },
-    amount_max: {
-      get() {
-        return this.form.amount_max;
-      },
-      set(value) {
-        this.updateFormProperty("amount_max", value);
-      }
-    },
-    unit_id: {
-      get() {
-        return this.form.unit_id;
-      },
-      set(value) {
-        this.updateFormProperty("unit_id", value);
-      }
-    },
-    food_id: {
-      get() {
-        return this.form.food_id;
-      },
-      set(value) {
-        this.updateFormProperty("food_id", value);
-      }
-    },
-    ingredient_attributes: {
-      get() {
-        return this.form.ingredient_attributes;
-      },
-      set(value) {
-        this.updateFormProperty("ingredient_attributes", value);
-      }
-    },
-    ingredient_group_id: {
-      get() {
-        return this.form.ingredient_group_id;
-      },
-      set(value) {
-        this.updateFormProperty("ingredient_group_id", value);
-      }
-    }
+    ...mapFields([
+      "ingredient_id",
+      "amount",
+      "amount_max",
+      "unit_id",
+      "food_id",
+      "ingredient_attributes",
+      "ingredient_group_id"
+    ])
   },
   created() {
     this.initForm();
@@ -176,31 +131,23 @@ export default {
   },
   methods: {
     initForm() {
-      this.$store.commit("ingredients/form/set", {
-        data: {
-          amount: null,
-          amount_max: null,
-          unit_id: null,
-          food_id: null,
-          ingredient_attributes: [],
-          ingredient_group_id: this.ingredientGroupId,
-          ingredient_id: null,
-          position: null
-        }
-      });
-    },
-    updateFormProperty(property, value) {
-      this.$store.dispatch("ingredients/form/update", { property, value });
+      this.ingredient_group_id = this.ingredientGroupId;
+      this.ingredient_attributes = [];
     },
     async submit() {
       const recipeId = this.recipe.id;
 
-      if (this.showNewIngredientGroup == true) {
-        const groupId = await this.$store.dispatch("ingredient_groups/store", {
-          recipeId,
-          name: this.newIngredientGroupName
-        });
-        await this.updateFormProperty("ingredient_group_id", groupId);
+      if (!this.ingredient_group_id && this.new_ingredient_group_name) {
+        try {
+          const groupId = await this.$store.dispatch(
+            "ingredient_groups/store",
+            {
+              recipeId,
+              name: this.new_ingredient_group_name
+            }
+          );
+          this.ingredient_group_id = groupId;
+        } catch (error) {}
       }
 
       await this.$store.dispatch("ingredients/store", {

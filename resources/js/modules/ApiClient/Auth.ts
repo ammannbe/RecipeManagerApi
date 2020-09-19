@@ -7,13 +7,8 @@ export default class Auth extends ApiClient {
         email: string;
         password: string;
     }): Promise<any> {
-        try {
-            await this.get("/airlock/csrf-cookie");
-            await this.post(`${this.url}/login`, data);
-            return Promise.resolve();
-        } catch (error) {
-            return Promise.reject(error);
-        }
+        await this.get("/airlock/csrf-cookie");
+        await this.post(`${this.url}/login`, data);
     }
 
     public async logout(): Promise<void> {

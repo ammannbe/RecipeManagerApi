@@ -24,7 +24,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string', 'max:50', "unique:ingredients,name,{$this->ingredient->id}"],
+            'name' => ['string', 'max:50', "unique:foods,name,{$this->food->id}"],
         ];
     }
 }

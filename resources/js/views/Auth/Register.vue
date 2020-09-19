@@ -53,69 +53,34 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "user/register/form/getFormFields",
+  mutationType: "user/register/form/updateFormFields"
+});
 
 export default {
   computed: {
     ...mapState({
       form: state => state.user.register.form.data,
-      errors: state => state.user.register.form.errors.data
+      errors: state => state.user.register.form.errors
     }),
-    name: {
-      get() {
-        return this.form.name;
-      },
-      set(value) {
-        this.updateFormProperty("name", value);
-      }
-    },
-    email: {
-      get() {
-        return this.form.email;
-      },
-      set(value) {
-        this.updateFormProperty("email", value);
-      }
-    },
-    password: {
-      get() {
-        return this.form.password;
-      },
-      set(value) {
-        this.updateFormProperty("password", value);
-      }
-    },
-    password_confirmation: {
-      get() {
-        return this.form.password_confirmation;
-      },
-      set(value) {
-        this.updateFormProperty("password_confirmation", value);
-      }
-    }
-  },
-  beforeCreate() {
-    if (this.$Laravel.isLoggedIn) {
-      this.$router.push({ name: "home" });
-    }
+    ...mapGetters({
+      loggedIn: "user/loggedIn"
+    }),
+    ...mapFields(["name", "email", "password", "password_confirmation"])
   },
   created() {
-    this.$store.commit("user/register/form/set", {
-      data: {
-        name: null,
-        email: null,
-        password: null,
-        password_confirmation: null
-      }
-    });
+    if (this.loggedIn) {
+      this.$router.push({ name: "home" });
+    }
   },
   mounted() {
     this.$autofocus();
   },
   methods: {
-    updateFormProperty(property, value) {
-      this.$store.dispatch("user/register/form/update", { property, value });
-    },
     submit() {
       this.$store.dispatch("user/register", { data: this.form }).then(() => {
         this.$router.push({ name: "email.verify" });

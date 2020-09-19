@@ -52,6 +52,13 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 ### Installation
 
+It's recommended to install and update this software with docker/docker-compose.
+See [here](docker/README.md) for more information.
+
+Alternatively or for development purposes you can make a manual installation on any linux/unix machine:
+
+#### Manual installation
+
 -   Install composer packages `composer install`
 -   Install NPM packages `npm install`
 -   Copy .env.example to .env and modify it to your needs
@@ -65,13 +72,13 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 -   Run the server `php artisan serve`
 
-### Development deployment
+#### Manual development deployment
 
 -   If not already done, [install](#installation) everything
 -   Run the server `php artisan serve`
 -   Watch for style and js changes: `npm run watch`
 
-### Production Deployment
+#### Manual production deployment
 
 -   If not already done, [install](#installation) everything
 -   Optimize composer autoload `composer install --optimize-autoloader --no-dev`
@@ -107,18 +114,28 @@ php artisan migrate
 ```
 
 -   Import translations `composer translations:import`
--   Navigate to `<your-domain>/translations` for translation
+-   Open `<your-domain>/translations` in a browser
 -   PHP: short keys within `resources/lang/<lang>/<group>.php`
 -   Vue.js: translation strings within `/resources/lang/<lang>.json` (these files will be imported into the `_json` group)
 -   Export & generate translations `composer translations:export`
-
-Don't forget to run `composer php-cs-fixer`
 
 Other commands:
 
 -   Export translations `php artisan translations:export \*`
 -   Reset translations `php artisan translations:reset`
 -   Generate ES6 file for Vue.js `php artisan vue-i18n:generate`
+
+## IDE helpers
+
+You get better IDE IntelliSense support with the [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) package.
+
+You need to generate the helpers by yourself:
+
+```bash
+composer run ide-helper:generate
+```
+
+After that, you should run the commands from [Testing / Code Quality](#testing-/-code-quality).
 
 ## Testing / Code Quality
 
@@ -135,11 +152,14 @@ Other commands:
 -   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixe
 -   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [martinlindhe/laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator) - Generates a vue-i18n compatible include file from your Laravel translations
+-   [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
 -   [SortableJS/Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) - Vue drag-and-drop component based on Sortable.js
 -   [PeachScript/vue-infinite-loading](https://github.com/PeachScript/vue-infinite-loading) - An infinite scroll plugin for Vue.js.
+-   [timtnleeProject/vuejs-clipper](https://github.com/timtnleeProject/vuejs-clipper) - Vue.js image clipping components using Vue-Rx.
+-   [vuejs/vue-rx](https://github.com/vuejs/vue-rx) - RxJS integration for Vue.js.
 
 ## Contributing
 
