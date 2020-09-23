@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Auth\LoginController@login');
-    Route::post('status', 'Auth\LoginController@status');
 
     Route::middleware(['auth'])->group(function () {
         Route::post('logout', 'Auth\LoginController@logout');
-        Route::post('refresh', 'Auth\LoginController@refresh')->name('refresh');
     });
 
     if (!config('app.disable_registration')) {

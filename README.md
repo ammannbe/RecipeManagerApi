@@ -24,13 +24,11 @@ Manage your families and friends recipes like a chef.
 ## What features are planned?
 
 -   Unit and feature tests
--   Better support for editing and deleting cookbooks, recipes, ingredients, etc.
--   Better support for photos (creating thumbnails, convert them to WEBP, allow cropping)
+-   Better support for photos (creating thumbnails, convert them to WEBP)
 -   Improve and add advanced searching and filtering
 -   An installer
 -   An advanced User-Role-System
--   WebSockets
--   Import & Export of recipes
+-   Import & more export types of recipes
 -   Nutrition informations
 -   Rating system (the API code is already written ;-) )
 -   And a lot more...
@@ -139,8 +137,8 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 
 ## Testing / Code Quality
 
--   Run static code analytics `composer phpstan`
--   Run PHP Coding Standards Fixer `composer php-cs-fixer`
+-   Run static code analytics `composer run phpstan`
+-   Run PHP Coding Standards Fixer `composer run php-cs-fixer`
 
 ## Built With
 
@@ -149,7 +147,7 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 -   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
 -   [GrKamil/laravel-telegram-logging](https://github.com/GrKamil/laravel-telegram-logging) - Send logs to Telegram chat via Telegram bot
 -   [nunomaduro/larastan](https://github.com/nunomaduro/larastan) - Adds static analysis to Laravel improving developer productivity and code quality
--   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixe
+-   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixer
 -   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [martinlindhe/laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator) - Generates a vue-i18n compatible include file from your Laravel translations
 -   [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
