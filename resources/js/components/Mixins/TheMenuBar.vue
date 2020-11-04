@@ -29,7 +29,7 @@
             <input
               type="text"
               class="input is-rounded"
-              minlength="5"
+              minlength="2"
               :placeholder="$t('Search...')"
               v-model="search"
             />

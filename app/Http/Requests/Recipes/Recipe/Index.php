@@ -33,7 +33,7 @@ class Index extends FormRequest
         $rules = [
             'filter' => ['array'],
             'filter.category_id'      => ['exists:categories,id'],
-            'filter.name'             => ['string', 'min:5', 'max:100'],
+            'filter.name'             => ['string', 'min:2', 'max:100'],
             'filter.yield_amount'     => ['numeric', 'max:999'],
             'filter.complexity'       => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'filter.instructions'     => ['string', 'max:16000000'],
