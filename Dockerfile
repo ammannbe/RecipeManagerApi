@@ -1,18 +1,16 @@
 FROM php:7.4-apache
 
+# set the application folder as env variable
+ENV APP_HOME /var/www/html
+
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl gnupg ca-certificates \
+RUN curl -L https://deb.nodesource.com/setup_14.x | bash
+RUN apt-get update
+RUN apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    && curl -L https://deb.nodesource.com/setup_12.x | bash \
-    && apt-get update -yq \
-    && apt-get install -yq \
-        dh-autoreconf=19 \
-        ruby=1:2.5.* \
-        ruby-dev=1:2.5.* \
-        nodejs
+    nodejs
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -30,13 +28,10 @@ RUN docker-php-ext-install \
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# set our application folder as an environment variable
-ENV APP_HOME /var/www/html
-
-# change uid and gid of apache to docker user uid/gid
+# change uid/gid of apache to docker user
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
-# change the web_root to laravel /var/www/html/public folder
+# change the web_root to /var/www/html/public
 RUN sed -i -e "s/html/html\/public/g" /etc/apache2/sites-enabled/000-default.conf
 
 # enable apache module rewrite
