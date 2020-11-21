@@ -10,7 +10,7 @@
         :label="$t('Name') + ':'"
         name="name"
         horizontal
-        placeholder="eingeben..."
+        :placeholder="$t('Enter name...')"
         :message="errors.name"
         required
         autofocus
