@@ -63,7 +63,7 @@
           v-model="tags"
           size="is-small"
           :placeholder="$t('Choose tags...')"
-          :options="tags"
+          :options="tagData"
         />
         <template v-if="recipe.tags && recipe.tags.length" v-slot:fallback>
           <router-link
@@ -112,7 +112,7 @@ export default {
   },
   computed: {
     ...mapState({
-      tags: state => state.tags.data,
+      tagData: state => state.tags.data,
       categories: state => state.categories.data,
       cookbooks: state => state.cookbooks.data.data,
       complexities: state => state.recipe.complexities,
