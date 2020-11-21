@@ -43,7 +43,7 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 
 ### Prerequisites
 
--   LAMP Stack (only on production)
+-   LAMP Stack/Docker (only for production)
 -   Requirements for [laravel](https://laravel.com/docs)
 -   Composer
 -   NPM
@@ -121,7 +121,6 @@ Other commands:
 
 -   Export translations `php artisan translations:export \*`
 -   Reset translations `php artisan translations:reset`
--   Generate ES6 file for Vue.js `php artisan vue-i18n:generate`
 
 ## IDE helpers
 
