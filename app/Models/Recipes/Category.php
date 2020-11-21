@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Recipes\Category
@@ -35,9 +36,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Category extends Model
 {
-    use SoftDeletes;
-    use SoftCascadeTrait;
-    use SlugifyTrait;
+    use SoftDeletes, SoftCascadeTrait, SlugifyTrait, HasFactory;
 
     /**
      * The attributes that are mass assignable.

@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Recipes\Category;
 use Illuminate\Database\Seeder;
+use App\Models\Recipes\Category;
 
 class CategorySeeder extends Seeder
 {
@@ -12,6 +12,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        factory(Category::class, 15)->create();
+        Category::factory()->times(15)->create();
     }
 }

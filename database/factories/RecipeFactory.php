@@ -1,40 +1,49 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Users\User;
-use Faker\Generator as Faker;
 use App\Models\Recipes\Recipe;
 use App\Models\Recipes\Category;
 use App\Models\Recipes\Cookbook;
 use App\Models\Users\AdminOrOwnerScope;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
-}
+class RecipeFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Recipe::class;
 
-$factory->define(Recipe::class, function (Faker $faker) {
-    $cookbookIds = Cookbook::withoutGlobalScope(AdminOrOwnerScope::class)->pluck('id')->toArray();
-    $cookbookId = (int) $faker->randomElement([null, ...$cookbookIds]);
-    if ($cookbookId) {
-        $cookbook = Cookbook::withoutGlobalScope(AdminOrOwnerScope::class)->find($cookbookId);
-        $user = User::find($cookbook->user_id);
-    } else {
-        $cookbookId = null;
-        $userId = (int) $faker->randomElement(User::pluck('id')->toArray());
-        $user = User::find($userId);
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $cookbook = $this->faker->randomElement([null, Cookbook::withoutGlobalScope(AdminOrOwnerScope::class)->inRandomOrder()->first()]);
+
+        $user = User::inRandomOrder()->first();
+        if ($cookbook) {
+            /** @var \App\Models\Users\User $user */
+            $user = User::find($cookbook->user_id);
+        }
+
+        return [
+            'user_id' => $user->id,
+            'cookbook_id' => $cookbook->id,
+            'category_id' => Category::inRandomOrder()->first()->id,
+            'author_id' => $user->author->id,
+            'name' => $this->faker->unique(true)->name . ' ' . $this->faker->foodName(),
+            'yield_amount' => $this->faker->randomElement([null, $this->faker->numberBetween(0, 30)]),
+            'complexity' => $this->faker->randomElement(Recipe::COMPLEXITY_TYPES),
+            'instructions' => $this->faker->unique(true)->text,
+            'photos' => null,
+            'preparation_time' => $this->faker->randomElement([null, $this->faker->time('H:i:00', '24:59')]),
+        ];
     }
-
-    return [
-        'user_id' => $user->id,
-        'cookbook_id' => $cookbookId,
-        'category_id' => $faker->randomElement(Category::pluck('id')->toArray()),
-        'author_id' => $user->author->id,
-        'name' => $faker->unique(true)->name . ' ' . $faker->foodName(),
-        'yield_amount' => $faker->randomElement([null, $faker->numberBetween(0, 30)]),
-        'complexity' => $faker->randomElement(Recipe::COMPLEXITY_TYPES),
-        'instructions' => $faker->unique(true)->text,
-        'photos' => null,
-        'preparation_time' => $faker->randomElement([null, $faker->time('H:i:00', '24:59')]),
-    ];
-});
+}

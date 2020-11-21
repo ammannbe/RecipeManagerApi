@@ -1,18 +1,31 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
 use App\Models\Ingredients\Food;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use \FakerRestaurant\Provider\de_AT\Restaurant as FakerRestaurant;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
+class FoodFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Food::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $this->faker->addProvider(new FakerRestaurant(($this->faker)));
+
+        return [
+            'name' => $this->faker->unique()->foodName(),
+        ];
+    }
 }
-
-$factory->define(Food::class, function (Faker $faker) {
-    $faker->addProvider(new \FakerRestaurant\Provider\de_AT\Restaurant(($faker)));
-
-    return [
-        'name' => $faker->unique()->foodName(),
-    ];
-});

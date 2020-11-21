@@ -1,22 +1,33 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Users\User;
-use App\Models\Users\Author;
-use Faker\Generator as Faker;
 use App\Models\Recipes\Cookbook;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
+class CookbookFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Cookbook::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::inRandomOrder()->first();
+
+        return [
+            'name' => $this->faker->unique(true)->word,
+            'user_id' => $user->id,
+            'author_id' => $user->author->id,
+        ];
+    }
 }
-
-$factory->define(Cookbook::class, function (Faker $faker) {
-    $userId = $faker->randomElement(User::pluck('id')->toArray());
-
-    return [
-        'name' => $faker->unique(true)->word,
-        'user_id' => $userId,
-        'author_id' => Author::firstWhere('user_id', $userId),
-    ];
-});

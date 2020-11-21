@@ -13,11 +13,8 @@ class RecipeSeeder extends Seeder
      */
     public function run()
     {
-        factory(Recipe::class, 100)->create();
-
         $tags = Tag::get();
-
-        Recipe::get()->each(function ($recipe) use ($tags) {
+        Recipe::factory()->times(100)->create()->each(function ($recipe) use ($tags) {
             $random = $tags->random(rand(0, 3))->pluck('id');
             $recipe->tags()->attach($random);
         });
