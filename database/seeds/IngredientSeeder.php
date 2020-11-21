@@ -13,11 +13,8 @@ class IngredientSeeder extends Seeder
      */
     public function run()
     {
-        factory(Ingredient::class, 500)->create();
-
         $ingredientAttributes = IngredientAttribute::get();
-
-        Ingredient::get()->each(function ($ingredient) use ($ingredientAttributes) {
+        Ingredient::factory()->times(500)->create()->each(function ($ingredient) use ($ingredientAttributes) {
             $random = $ingredientAttributes->random(rand(0, 3))->pluck('id');
             $ingredient->ingredientAttributes()->attach($random);
         });

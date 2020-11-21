@@ -1,25 +1,35 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Users\User;
-use Faker\Generator as Faker;
 use App\Models\Ratings\Rating;
 use App\Models\Recipes\Recipe;
 use App\Models\Ratings\RatingCriterion;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
+class RatingFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Rating::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'recipe_id' => Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->inRandomOrder()->first()->id,
+            'user_id' => $this->faker->randomElement([null, User::inRandomOrder()->first()->id]),
+            'rating_criterion_id' => RatingCriterion::inRandomOrder()->first()->id,
+            'comment' => $this->faker->text,
+            'stars' => $this->faker->randomElement([null, $this->faker->randomDigit()]),
+        ];
+    }
 }
-
-$factory->define(Rating::class, function (Faker $faker) {
-    $recipeIds = Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->pluck('id')->toArray();
-
-    return [
-        'recipe_id' => $faker->randomElement($recipeIds),
-        'user_id' => $faker->randomElement([null, ...User::pluck('id')->toArray()]),
-        'rating_criterion_id' => $faker->randomElement(RatingCriterion::pluck('id')->toArray()),
-        'comment' => $faker->text,
-        'stars' => $faker->randomElement([null, $faker->randomDigit()]),
-    ];
-});

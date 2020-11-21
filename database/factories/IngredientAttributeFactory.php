@@ -1,16 +1,25 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
 use App\Models\Ingredients\IngredientAttribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
-}
+class IngredientAttributeFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = IngredientAttribute::class;
 
-$factory->define(IngredientAttribute::class, function (Faker $faker) {
-    $ingredientAttributes = [
+    /**
+     * Some example category names.
+     *
+     * @var array
+     */
+    protected $ingredientAttributes = [
         'gerieben',
         'schwarz',
         'gehackt',
@@ -51,7 +60,15 @@ $factory->define(IngredientAttribute::class, function (Faker $faker) {
         'zum Bestäuben',
     ];
 
-    return [
-        'name' => $faker->unique()->randomElement($ingredientAttributes),
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->unique()->randomElement($this->ingredientAttributes),
+        ];
+    }
+}

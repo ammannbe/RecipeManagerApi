@@ -7,16 +7,6 @@ use Illuminate\Support\ServiceProvider;
 class QueryLogServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * Bootstrap services.
      *
      * @return void

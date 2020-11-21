@@ -1,16 +1,28 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
 use App\Models\Ratings\RatingCriterion;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
+class RatingCriterionFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = RatingCriterion::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->unique()->word,
+        ];
+    }
 }
-
-$factory->define(RatingCriterion::class, function (Faker $faker) {
-    return [
-        'name' => $faker->unique()->word,
-    ];
-});

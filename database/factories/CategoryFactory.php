@@ -1,18 +1,26 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
 use App\Models\Recipes\Category;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use \FakerRestaurant\Provider\de_AT\Restaurant as FakerRestaurant;
 
-if (!isset($factory)) {
-    throw new \Exception('Factory is not defined');
-}
+class CategoryFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Category::class;
 
-$factory->define(Category::class, function (Faker $faker) {
-    $faker->addProvider(new \FakerRestaurant\Provider\de_AT\Restaurant(($faker)));
-
-    $categories = [
+    /**
+     * Some example category names.
+     *
+     * @var array
+     */
+    protected $categories = [
         'Apéros',
         'Brotaufstrich',
         'Brote',
@@ -32,7 +40,17 @@ $factory->define(Category::class, function (Faker $faker) {
         'Vegetarisch',
     ];
 
-    return [
-        'name' => $faker->unique()->randomElement($categories),
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $this->faker->addProvider(new FakerRestaurant(($this->faker)));
+
+        return [
+            'name' => $this->faker->unique()->randomElement($this->categories),
+        ];
+    }
+}

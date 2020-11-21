@@ -1,6 +1,6 @@
 # Quick reference
 
--   Issues: https://github.com/ammannbe/cookbook
+-   Issues: https://github.com/ammannbe/RecipeManager
 -   Supported architectures: amd64
 
 # Available tags
@@ -9,5 +9,5 @@
 
 # Installation
 
-It's recommendet to install this software with docker-compose
-An example is [here](docker-compose.yml) provided.
+It's recommended to install this software with docker-compose
+An example is [here](https://github.com/ammannbe/RecipeManager/blob/master/docker/docker-compose.yml) provided.

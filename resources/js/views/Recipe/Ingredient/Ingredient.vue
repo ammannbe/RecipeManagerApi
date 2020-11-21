@@ -1,7 +1,7 @@
 <template>
   <div>
     <li>
-      <span @click.prevent="$emit('click', $event)">
+      <span @click.prevent="$emit('click', $event)" :class="{'can-edit': editmode.enabled}">
         <span v-if="alternateId">{{ $t('Or') }}:</span>
         {{ ingredient | textify(multiply) }}
       </span>
@@ -10,9 +10,14 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: ["ingredient", "multiplier", "alternateId"],
   computed: {
+    ...mapState({
+      editmode: state => state.recipe.editmode.data,
+    }),
     multiply() {
       if (
         this.multiplier == null ||
@@ -65,7 +70,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li > span {
+.can-edit {
   cursor: pointer;
 }
 </style>

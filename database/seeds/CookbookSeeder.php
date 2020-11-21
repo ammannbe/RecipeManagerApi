@@ -12,6 +12,6 @@ class CookbookSeeder extends Seeder
      */
     public function run()
     {
-        factory(Cookbook::class, 20)->create();
+        Cookbook::factory()->times(20)->create();
     }
 }

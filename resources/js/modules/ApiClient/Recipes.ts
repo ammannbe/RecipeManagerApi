@@ -40,7 +40,12 @@ export default class Recipes extends ApiClient {
 
     public async store(data: Recipe): Promise<any> {
         let formData: any;
-        if (data.photos) {
+
+        if (!data.photos) {
+            data.photos = [];
+        }
+
+        if (data.photos.length) {
             formData = new FormData();
             Object.keys(data).forEach(key => {
                 const value: string | null | [] = (<any>data)[key];
@@ -61,7 +66,12 @@ export default class Recipes extends ApiClient {
 
     public bulkUpdate(id: number, data: any): Promise<any> {
         let formData: any;
-        if (data.photos && data.photos.length) {
+
+        if (!data.photos) {
+            data.photos = [];
+        }
+
+        if (data.photos.length) {
             formData = new FormData();
             Object.keys(data).forEach(key => {
                 const value: string | null | [] = (<any>data)[key];
