@@ -16,7 +16,7 @@
           class="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
-          @click="expandMobileMenu()"
+          @click="toggleMobileMenu()"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -110,6 +110,11 @@ export default {
       search: null
     };
   },
+  watch: {
+    '$route' () {
+      this.isMobileMenuExpanded = false;
+    }
+  },
   computed: {
     ...mapState({
       user: state => state.user.data
@@ -123,10 +128,11 @@ export default {
     this.search = this.$route.query.search;
   },
   methods: {
-    expandMobileMenu() {
+    toggleMobileMenu() {
       this.isMobileMenuExpanded = !this.isMobileMenuExpanded;
     },
     switchLanguage(locale) {
+      this.isMobileMenuExpanded = false;
       this.$i18n.locale = locale;
       Locale.set(locale);
     },
