@@ -7,6 +7,7 @@ use App\Models\OrderByNameScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Ratings\RatingCriterion
@@ -33,9 +34,7 @@ use Askedio\SoftCascade\Traits\SoftCascadeTrait;
  */
 class RatingCriterion extends Model
 {
-    use SoftDeletes;
-    use SoftCascadeTrait;
-    use SlugifyTrait;
+    use SoftDeletes, SoftCascadeTrait, SlugifyTrait, HasFactory;
 
     /**
      * The "booting" method of the model.

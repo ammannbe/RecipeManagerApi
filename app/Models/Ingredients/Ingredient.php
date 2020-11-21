@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -59,9 +60,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Ingredient extends Model
 {
-    use SoftDeletes;
-    use SoftCascadeTrait;
-    use SortableTrait;
+    use SoftDeletes, SoftCascadeTrait, SortableTrait, HasFactory;
 
     /**
      * The attributes that are mass assignable.

@@ -12,6 +12,6 @@ class IngredientGroupSeeder extends Seeder
      */
     public function run()
     {
-        factory(IngredientGroup::class, 40)->create();
+        IngredientGroup::factory()->times(40)->create();
     }
 }

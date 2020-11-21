@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -71,10 +72,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Recipe extends Model
 {
-    use FilterScope;
-    use SoftDeletes;
-    use SoftCascadeTrait;
-    use SlugifyTrait;
+    use FilterScope, SoftDeletes, SoftCascadeTrait, SlugifyTrait, HasFactory;
 
     /**
      * The attributes that are mass assignable.

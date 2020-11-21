@@ -5,6 +5,7 @@ namespace App\Models\Ratings;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -39,8 +40,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Rating extends Model
 {
-    use SoftDeletes;
-    use SoftCascadeTrait;
+    use SoftDeletes, SoftCascadeTrait, HasFactory;
 
     /**
      * The relationships that should always be loaded.
