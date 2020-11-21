@@ -96,7 +96,7 @@ class CleanupImagesCommand extends Command
             if ($count = $orphaned->count()) {
                 $this->line("  ID {$recipe->id}: found {$count} orphaned " . \Str::plural('entry', $count));
 
-                if ($count && $this->option('fix')) {
+                if ($this->option('fix')) {
                     $this->info("Imported orphaned photos in recipe {$recipe->id}");
                     $recipe->update(['photos' => $update]);
                 }
@@ -123,7 +123,7 @@ class CleanupImagesCommand extends Command
         if ($count = $orphaned->count()) {
             $this->line("  Found {$count} orphaned " . \Str::plural('entry', $count));
 
-            if ($count && $this->option('fix')) {
+            if ($this->option('fix')) {
                 $this->info("Delete orphaned directories");
 
                 $orphaned->each(function ($directory) {
@@ -157,7 +157,7 @@ class CleanupImagesCommand extends Command
             if ($count = $diff->count()) {
                 $this->line("  ID {$recipe->id}: found {$count} orphaned " . \Str::plural('entry', $count));
 
-                if ($count && $this->option('fix')) {
+                if ($this->option('fix')) {
                     $this->info("Delete orphaned photos in recipe {$recipe->id}");
                     $recipe->update(['photos' => $photos->toArray()]);
                 }
