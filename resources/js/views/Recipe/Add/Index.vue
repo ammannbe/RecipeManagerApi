@@ -1,54 +1,114 @@
 <template>
-  <b-steps v-model="step" :has-navigation="false">
-    <b-step-item :step="0" :label="$t('Infos')" :type="{'is-success': success.informations}">
-      <infos @input="recipe = $event" @next="step++" />
-    </b-step-item>
+  <div
+    class="column is-full-mobile is-full-tablet is-three-fifths-desktop is-offset-one-fifth-desktop"
+  >
+    <h1 class="title has-text-centered">{{ $t('Infos') }}</h1>
 
-    <b-step-item :step="1" :label="$t('Ingredients')" :type="{'is-success': success.ingredients}">
-      <ingredients @input="ingredients = $event" @next="step++" @back="step--" />
-    </b-step-item>
+    <form @submit.prevent="submit">
+      <rm-textinput
+        :label="$t('Name') + ':'"
+        horizontal
+        v-model="name"
+        :placeholder="$t('Please enter...')"
+        required
+        autofocus
+      />
 
-    <b-step-item :step="2" :label="$t('Instructions')" :type="{'is-success': success.instructions}">
-      <instructions @input="instructions = $event" @next="step++" @back="step--" />
-    </b-step-item>
+      <rm-select
+        :label="$t('Cookbook') + ':'"
+        :label-tooltip="$t('Recipes in a cookbook are not public visible.')"
+        horizontal
+        v-model="cookbook_id"
+        :options="[{ id: null, name: 'Öffentlich' }, ...cookbooks]"
+      />
 
-    <b-step-item :step="3" :label="$t('Photos')" :type="{'is-success': success.photos}">
-      <photos @input="photos = $event" @next="submit" @back="step--" />
-    </b-step-item>
-  </b-steps>
+      <rm-select
+        :label="$t('Category') + ':'"
+        horizontal
+        v-model="category_id"
+        :placeholder="$t('Please choose...')"
+        :options="categories"
+        required
+      />
+
+      <rm-numberinput
+        :label="$t('Yield amount') + ':'"
+        horizontal
+        v-model="yield_amount"
+        :min="0"
+        :max="999"
+        :step="1"
+      />
+
+      <rm-select
+        :label="$t('Complexity') + ':'"
+        horizontal
+        v-model="complexity"
+        :placeholder="$t('Please choose...')"
+        :options="complexities"
+        required
+      />
+
+      <rm-timepicker
+        :label="$t('Preparation time') + ':'"
+        horizontal
+        v-model="preparation_time"
+        :placeholder="$t('Please choose...')"
+      />
+
+      <rm-multiselect
+        v-if="!$env.DISABLE_TAGS && tagData && tagData.length"
+        :label="$t('Tags') + ':'"
+        horizontal
+        v-model="tags"
+        :placeholder="$t('Please choose...')"
+        :options="tagData"
+      />
+
+      <rm-submit-button>
+        Speichern
+        <template v-slot:buttons>
+          <b-button @click="$emit('back')" type="is-danger">{{ $t('Back') }}</b-button>
+        </template>
+      </rm-submit-button>
+    </form>
+  </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import Infos from "./Infos";
-import Ingredients from "./Ingredients";
-import Instructions from "./Instructions";
-import Photos from "./Photos";
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "recipe/form/getFormFields",
+  mutationType: "recipe/form/updateFormFields"
+});
 
 export default {
-  components: { Infos, Ingredients, Instructions, Photos },
   computed: {
     ...mapState({
-      user: state => state.user.data
+      form: state => state.recipe.form.data,
+      errors: state => state.recipe.form.errors,
+      editmode: state => state.recipe.editmode.data,
+      user: state => state.user.data,
+      cookbooks: state => state.cookbooks.data.data,
+      categories: state => state.categories.data,
+      complexities: state => state.recipe.complexities,
+      tagData: state => state.tags.data
     }),
     ...mapGetters({
       loggedIn: "user/loggedIn"
-    })
-  },
-  data() {
-    return {
-      step: 0,
-      success: {
-        informations: false,
-        ingredients: false,
-        instructions: false,
-        photos: false
-      },
-      recipe: {},
-      ingredients: [],
-      instructions: null,
-      photos: []
-    };
+    }),
+    ...mapFields([
+      "name",
+      "cookbook_id",
+      "category_id",
+      "yield_amount",
+      "complexity",
+      "preparation_time",
+      "tags",
+      "instructions"
+    ])
   },
   mounted() {
     setTimeout(() => {
@@ -59,10 +119,11 @@ export default {
       }
     }, 1000);
 
+    this.instructions = this.$t('Click to edit') + '...';
+    this.yield_amount = 4;
+    this.complexity = this.complexities[1].id;
+
     this.$store.dispatch("categories/index", {});
-    this.$store.dispatch("units/index", {});
-    this.$store.dispatch("foods/index", {});
-    this.$store.dispatch("ingredient_attributes/index", {});
 
     if (!this.$env.DISABLE_COOKBOOKS) {
       this.$store.dispatch("cookbooks/index", { limit: 1000 });
@@ -73,20 +134,13 @@ export default {
     }
   },
   methods: {
-    async submit() {
-      const data = { ...this.recipe, ...this.instructions, ...this.photos };
-      const recipe = await this.$store.dispatch("recipe/store", { data });
-
-      this.ingredients.forEach(ingredient => {
-        this.$store.dispatch("ingredients/store", {
-          recipeId: recipe.id,
-          data: ingredient
+    submit() {
+      this.$store.dispatch("recipe/store", { data: this.form }).then((recipe) => {
+        this.edit
+        this.$router.push({
+          name: "recipes",
+          params: { id: recipe.id, slug: recipe.slug }
         });
-      });
-
-      this.$router.push({
-        name: "recipes",
-        params: { id: recipe.id, slug: recipe.slug }
       });
     }
   }

@@ -47,7 +47,8 @@
         @click="$store.dispatch('recipe/editmode/enable', { enable: !editmode.enabled })"
         class="button is-rounded is-primary enable"
       >
-        <i class="fas fa-edit"></i>
+        <i v-if="editmode.enabled" class="fas fa-chevron-up" style="padding-top: 9px; padding-bottom: 12px;"></i>
+        <i v-else class="fas fa-chevron-down"></i>
       </button>
     </div>
   </div>
@@ -211,10 +212,10 @@ export default {
   }
 
   > .enable {
-    padding-top: 10px;
+    padding-top: 14px;
     padding-bottom: 11px;
-    padding-left: 17px;
-    padding-right: 13px;
+    padding-left: 18px;
+    padding-right: 18px;
     font-size: 23px;
   }
 }

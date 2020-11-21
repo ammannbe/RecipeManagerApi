@@ -123,6 +123,10 @@ export default {
       this.showAddForm = false;
     },
     edit(ingredient) {
+      if (!this.editmode.enabled) {
+        return;
+      }
+
       this.$buefy.modal.open({
         parent: this,
         component: IngredientEditForm,

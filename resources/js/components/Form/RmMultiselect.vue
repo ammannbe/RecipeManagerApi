@@ -51,7 +51,7 @@ export default {
   computed: {
     model: {
       get() {
-        if (this.value === null) {
+        if (this.value === null || this.value === undefined) {
           return [];
         }
 
@@ -80,6 +80,10 @@ export default {
   },
   filters: {
     search(options, filter) {
+      if (options === null || options === undefined) {
+        return [];
+      }
+
       return options.filter(
         el =>
           el.name

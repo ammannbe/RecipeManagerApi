@@ -290,7 +290,7 @@ class Recipe extends Model
 
         $photo->storeAs("{$this->id}", $name, 'recipe_images');
 
-        $photos = array_filter($this->photos);
+        $photos = array_filter($this->photos ?? []);
         if (empty($photos)) {
             $photos = [];
         }

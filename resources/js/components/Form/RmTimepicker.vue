@@ -40,7 +40,7 @@ export default {
   computed: {
     model: {
       get() {
-        if (this.value === null) {
+        if (this.value === null || this.value === undefined) {
           return;
         }
 
