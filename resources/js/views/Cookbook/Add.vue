@@ -1,7 +1,9 @@
 <template>
   <form class="columns" @submit.prevent="submit">
-    <div class="column is-one-third is-offset-3">
-      <h1 class="title has-text-centered">{{ $t('Add cookbook') }}</h1>
+    <div
+      class="column is-full-mobile is-full-tablet is-three-fifths-desktop is-offset-one-fifth-desktop"
+    >
+      <h1 class="title has-text-centered">{{ $t("Add cookbook") }}</h1>
 
       <br />
 
@@ -17,9 +19,11 @@
       />
 
       <rm-submit-button>
-        {{ $t('Add') }}
+        {{ $t("Add") }}
         <template v-slot:buttons>
-          <b-button @click="$router.go(-1)" type="is-danger">{{ $t('Cancel') }}</b-button>
+          <b-button @click="$router.go(-1)" type="is-danger">
+            {{ $t("Cancel") }}
+          </b-button>
         </template>
       </rm-submit-button>
     </div>
@@ -52,7 +56,7 @@ export default {
       if (!this.loggedIn) {
         this.$router.push({ name: "home" });
       } else if (!this.user.has_verified_email) {
-        this.$router.push({ name: "verify.email" });
+        this.$router.push({ name: "email.verify" });
       }
     }, 1000);
   },

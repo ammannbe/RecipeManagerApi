@@ -15,7 +15,13 @@ class CheckIfControllerIsEnabled
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->route()->controller::isEnabled()) {
+        $controller = $request->route()->controller;
+
+        if (!method_exists($controller, 'isEnabled')) {
+            return $next($request);
+        }
+
+        if (!$controller::isEnabled()) {
             abort(404);
         }
 

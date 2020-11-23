@@ -4,7 +4,6 @@
     @include('layouts.head')
 
     <body>
-
         <the-app id="app"></the-app>
 
         @include('layouts.footer')
