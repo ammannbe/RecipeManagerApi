@@ -116,5 +116,9 @@
     "No photo": "Kein Foto",
     "Download as PDF": "Als PDF herunterladen",
     "Add photos": "Fotos hinzufügen",
-    "Delete this photo?": "Dieses Foto löschen?"
+    "Delete this photo?": "Dieses Foto löschen?",
+    "Seems a bit empty here...": "Schaut hier ein wenig leer aus...",
+    "Click here to create a recipe": "Klicke hier um ein Rezept zu erstellen",
+    "Click here to create a cookbook": "Klicke hier um ein Kochbuch zu erstellen",
+    "Your email address is already verified.": "Deine E-Mail-Adresse ist bereits verifiziert."
 }

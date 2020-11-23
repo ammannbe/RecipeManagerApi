@@ -11,7 +11,7 @@ export default class Auth extends ApiClient {
         await this.post(`${this.url}/login`, data);
     }
 
-    public async logout(): Promise<void> {
+    public logout(): Promise<void> {
         return this.post(`${this.url}/logout`);
     }
 
