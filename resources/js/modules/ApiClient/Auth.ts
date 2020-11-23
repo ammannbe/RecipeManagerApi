@@ -25,7 +25,7 @@ export default class Auth extends ApiClient {
     }
 
     public forgotPassword(data: { email: string }): Promise<void> {
-        return this.post(`${this.url}/password/email`, data);
+        return this.post(`${this.url}/forgot-password`, data);
     }
 
     public resetPassword(data: {
@@ -34,6 +34,18 @@ export default class Auth extends ApiClient {
         password: string;
         password_confirmation: string;
     }): Promise<void> {
-        return this.post(`${this.url}/password/reset`, data);
+        return this.post(`${this.url}/reset-password`, data);
+    }
+
+    public resendVerificationEmail(): Promise<void> {
+        return this.post(`${this.url}/email/verification-notification`);
+    }
+
+    public verifyEmail(url: string): Promise<void> {
+        const segments = url.split('/');
+        const hash = segments.pop();
+        const id = segments.pop();
+
+        return this.get(`${this.url}/email/verify/${id}/${hash}`);
     }
 }

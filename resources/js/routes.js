@@ -15,7 +15,8 @@ let routes = [
     {
         path: '/email/verify',
         name: 'email.verify',
-        component: require('./views/Auth/VerifyEmail').default
+        component: require('./views/Auth/VerifyEmail').default,
+        props: route => ({ url: route.query.url })
     },
     {
         path: '/password/reset',
@@ -42,7 +43,7 @@ let routes = [
     {
         path: '/recipes/add',
         name: 'recipes.add',
-        component: require('./views/Recipe/Add/Index').default
+        component: require('./views/Recipe/Add').default
     },
     {
         path: '/admin',

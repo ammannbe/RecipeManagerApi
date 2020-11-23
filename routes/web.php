@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +15,7 @@
 
 Route::fallback('VueController');
 
-Auth::routes(['verify' => true]);
 Route::get('login', 'VueController')->name('login');
 Route::get('register', 'VueController')->name('register');
+Route::get('password/reset/{token}', 'VueController')->name('password.reset');
 Route::get('images/recipes/{recipe}/{name}', 'Recipes\RecipePhotoController@show');

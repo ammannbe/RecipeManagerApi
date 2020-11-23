@@ -13,24 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', 'Auth\LoginController@login');
-
-    Route::middleware(['auth'])->group(function () {
-        Route::post('logout', 'Auth\LoginController@logout');
-    });
-
-    if (!config('app.disable_registration')) {
-        Route::post('register', 'Auth\RegisterController@register');
-    }
-
-    Route::post('confirm', 'Auth\ConfirmPasswordController@confirm');
-
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-});
-
-
 Route::apiResources([
     'foods' => 'Ingredients\FoodController',
     'ingredient-attributes' => 'Ingredients\IngredientAttributeController',
@@ -51,6 +33,11 @@ Route::apiResource('ingredient-groups', 'Ingredients\IngredientGroupController')
 Route::get('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@index')->name('ingredient-groups.index');
 
 Route::get('recipes/{recipe}/pdf', 'Recipes\RecipeController@pdf');
+
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('user', 'Users\UserController@show')->name('self.show');
+});
 
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
@@ -92,7 +79,6 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('users/{id}/restore', 'Users\UserController@restore')->name('users.restore');
 
 
-    Route::get('user', 'Users\UserController@show')->name('self.show');
     Route::patch('user', 'Users\UserController@update')->name('self.update');
     Route::delete('user', 'Users\UserController@destroy')->name('self.destroy');
 });
