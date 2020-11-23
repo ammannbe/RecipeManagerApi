@@ -42,7 +42,7 @@ let routes = [
     {
         path: '/recipes/add',
         name: 'recipes.add',
-        component: require('./views/Recipe/Add/Index').default
+        component: require('./views/Recipe/Add').default
     },
     {
         path: '/admin',
