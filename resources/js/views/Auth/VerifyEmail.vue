@@ -19,9 +19,14 @@ export default {
     })
   },
   created() {
+    setTimeout(() => {
+      if (this.user.has_verified_email) {
+        this.$buefy.snackbar.open("Your email address is already verified.");
+        this.$router.push({ name: "home" });
+      }
+    }, 200);
+
     if (!this.loggedIn) {
-      this.$router.push({ name: "home" });
-    } else if (this.user.has_verified_email) {
       this.$router.push({ name: "home" });
     }
   }

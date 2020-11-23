@@ -31,12 +31,9 @@ const actions = {
     async show({ state }, { id }) {
         return state.data.filter(recipe => recipe.id === id)[0];
     },
-    async remove({ state, commit }, { id, alreadyDeleted = false }) {
+    async remove({ commit }, { id }) {
         await new Recipes().remove(id);
-
-        if (state.data && state.data.length) {
-            commit('changeValue', { id, property: 'deleted_at', value: new Date().toJSON() });
-        }
+        commit('changeValue', { id, property: 'deleted_at', value: new Date().toJSON() });
     },
     async restore({ commit }, { id }) {
         await new Recipes().restore(id);

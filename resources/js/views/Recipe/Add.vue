@@ -115,7 +115,7 @@ export default {
       if (!this.loggedIn) {
         this.$router.push({ name: "home" });
       } else if (!this.user.has_verified_email) {
-        this.$router.push({ name: "verify.email" });
+        this.$router.push({ name: "email.verify" });
       }
     }, 1000);
 

@@ -1,26 +1,32 @@
 <template>
   <div class="columns">
     <div class="column is-one-third">
-      <h3 class="title">{{ $t('Details') }}</h3>
+      <h3 class="title">{{ $t("Details") }}</h3>
       <table>
         <tr>
-          <th>{{ $t('Name') }}:</th>
+          <th>{{ $t("Name") }}:</th>
           <td>{{ user.name }}</td>
         </tr>
         <tr>
-          <th>{{ $t('Email') }}:</th>
+          <th>{{ $t("Email") }}:</th>
           <td>{{ user.email }}</td>
         </tr>
         <tr>
-          <th>{{ $t('Signed Up') }}:</th>
-          <td :title="$moment(user.created_at)">{{ $moment(user.created_at).from() }}</td>
+          <th>{{ $t("Signed Up") }}:</th>
+          <td :title="$moment(user.created_at)">
+            {{ $moment(user.created_at).from() }}
+          </td>
         </tr>
         <tr>
-          <th>{{ $t('Last change') }}:</th>
-          <td :title="$moment(user.updated_at)">{{ $moment(user.updated_at).from() }}</td>
+          <th>{{ $t("Last change") }}:</th>
+          <td :title="$moment(user.updated_at)">
+            {{ $moment(user.updated_at).from() }}
+          </td>
         </tr>
         <tr>
-          <span v-if="user.admin" class="tag is-info">{{ $t('You\'re admin') }}</span>
+          <span v-if="user.admin" class="tag is-info">
+            {{ $t("You're admin") }}
+          </span>
         </tr>
       </table>
     </div>
@@ -29,24 +35,40 @@
       <h3
         @click.prevent="$router.push({ name: 'recipes.add' })"
         class="title add-cursor"
-      >{{ user.admin ? $t('All recipes') : $t('Your recipes') }}</h3>
-      <ul>
+      >
+        {{ user.admin ? $t("All recipes") : $t("Your recipes") }}
+      </h3>
+      <p v-if="!this.sortedRecipes.length">
+        <span>{{ $t("Seems a bit empty here...") }}</span>
+        <router-link :to="{ name: 'recipes.add' }">
+          {{ $t("Click here to create a recipe") }}
+        </router-link>
+      </p>
+      <ul v-else>
         <li :key="recipe.id" v-for="recipe in sortedRecipes">
           <span v-if="!recipe.deleted_at">
             <button
-              @click.prevent="$store.dispatch('recipes/remove', { id: recipe.id })"
+              @click.prevent="
+                $store.dispatch('recipes/remove', { id: recipe.id })
+              "
               class="button is-white is-small"
             >
               <i class="fas fa-trash"></i>
             </button>
             <router-link
               tag="a"
-              :to="{ name:'recipes', params: {id: recipe.id, slug: recipe.slug} }"
-            >{{ recipe.name }}</router-link>
+              :to="{
+                name: 'recipes',
+                params: { id: recipe.id, slug: recipe.slug }
+              }"
+              >{{ recipe.name }}</router-link
+            >
           </span>
           <span v-else>
             <button
-              @click.prevent="$store.dispatch('recipes/restore', { id: recipe.id })"
+              @click.prevent="
+                $store.dispatch('recipes/restore', { id: recipe.id })
+              "
               class="button is-white is-small"
             >
               <i class="fas fa-redo"></i>
@@ -70,8 +92,16 @@
       <h3
         @click.prevent="$router.push({ name: 'cookbooks.add' })"
         class="title add-cursor"
-      >{{ user.admin ? $t('All cookbooks') : $t('Your cookbooks') }}</h3>
-      <ul>
+      >
+        {{ user.admin ? $t("All cookbooks") : $t("Your cookbooks") }}
+      </h3>
+      <p v-if="!this.sortedCookbooks.length">
+        <span>{{ $t("Seems a bit empty here...") }}</span>
+        <router-link :to="{ name: 'cookbooks.add' }">
+          {{ $t("Click here to create a cookbook") }}
+        </router-link>
+      </p>
+      <ul v-else>
         <li :key="cookbook.id" v-for="cookbook in sortedCookbooks">
           <span>
             <button
@@ -88,7 +118,10 @@
             >
               <i class="fas fa-redo"></i>
             </button>
-            <button @click.prevent="editCookbook(cookbook)" class="button is-white is-small">
+            <button
+              @click.prevent="editCookbook(cookbook)"
+              class="button is-white is-small"
+            >
               <i class="fas fa-edit"></i>
             </button>
             {{ cookbook.name }}
@@ -153,7 +186,7 @@ export default {
       if (!this.loggedIn) {
         this.$router.push({ name: "home" });
       } else if (!this.user.has_verified_email) {
-        this.$router.push({ name: "verify.email" });
+        this.$router.push({ name: "email.verify" });
       }
 
       this.loadRecipes(1, false);
