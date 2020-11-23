@@ -2,7 +2,7 @@
 
 Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
 
-Manage your families and friends recipes like a chef.
+A tool to manage your families and friends recipes like a chef.
 
 ---
 
@@ -51,7 +51,7 @@ git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
 ### Installation
 
 It's recommended to install and update this software with docker/docker-compose.
-See [here](docker/README.md) for more information.
+See [here](storage/docker/README.md) for more information.
 
 Alternatively or for development purposes you can make a manual installation on any linux/unix machine:
 
