@@ -44,10 +44,11 @@ return [
     |
     | Set to true to generate factory generators for better factory()
     | method auto-completion.
+    | Disabled as per https://github.com/barryvdh/laravel-ide-helper#auto-completion-for-factory-builders
     |
     */
 
-    'include_factory_builders' => true,
+    'include_factory_builders' => false,
 
     /*
     |--------------------------------------------------------------------------
