@@ -4,7 +4,7 @@ FROM php:7.4-apache
 ENV APP_HOME /var/www/html
 
 # Install system dependencies
-RUN curl -L https://deb.nodesource.com/setup_14.x | bash
+RUN curl -L https://deb.nodesource.com/setup_15.x | bash
 RUN apt-get update
 RUN apt-get install -y \
     libpng-dev \

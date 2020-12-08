@@ -74,7 +74,7 @@ return [
     |
     */
 
-    'path' => 'api/auth',
+    'prefix' => 'api/auth',
 
     'domain' => null,
 
