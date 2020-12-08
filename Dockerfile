@@ -42,7 +42,7 @@ RUN a2enmod rewrite
 COPY . $APP_HOME
 
 # Get init data
-COPY docker/root /
+COPY storage/docker/root /
 RUN chmod a+x /usr/local/bin/init-recipe-manager.sh
 
 # Install dependencies

@@ -46,6 +46,8 @@ return [
     | method auto-completion.
     | Disabled as per https://github.com/barryvdh/laravel-ide-helper#auto-completion-for-factory-builders
     |
+    | Deprecated for Laravel 8 or latest.
+    |
     */
 
     'include_factory_builders' => false,
@@ -248,4 +250,17 @@ return [
     |
     */
     'force_fqn' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Additional relation types
+    |--------------------------------------------------------------------------
+    |
+    | Sometimes it's needed to create custom relation types. The key of the array
+    | is the Relationship Method name. The value of the array is the canonical class
+    | name of the Relationship, e.g. `'relationName' => RelationShipClass::class`.
+    |
+    */
+    'additional_relation_types' => [],
+
 ];

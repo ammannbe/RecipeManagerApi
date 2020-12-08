@@ -1,12 +1,12 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "A tool to manage your families and friends recipes like a chef.",
     "keywords": [
-        "framework",
-        "laravel"
+        "cookbook",
+        "recipes"
     ],
-    "license": "MIT",
+    "license": "AGPLv3",
     "require": {
         "php": "^7.3",
         "askedio/laravel-soft-cascade": "^8.0",
