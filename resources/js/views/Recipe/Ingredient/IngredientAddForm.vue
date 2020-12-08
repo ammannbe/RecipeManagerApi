@@ -1,89 +1,104 @@
 <template>
-  <div class="wrapper">
-    <form class="add-ingredient" @submit.prevent="submit">
-      <rm-select
-        v-model="ingredient_id"
-        :disabled="!ingredients.length"
-        :placeholder="$t('Alternate of...')"
+  <rm-modal-form
+    :title="$t('Add ingredient')"
+    @close="$emit('close')"
+    @confirm="submit"
+  >
+    <rm-select
+      v-model="ingredient_id"
+      :disabled="!ingredients.length"
+      :placeholder="$t('Alternate of...')"
+    >
+      <option
+        v-for="ingredient in $store.getters['ingredients/byGroup']()"
+        :value="ingredient.id"
+        :key="ingredient.id"
+        >{{ ingredient.name }}</option
+      >
+
+      <optgroup
+        :key="key"
+        v-for="(group, key) in ingredientGroups"
+        :label="group.name"
       >
         <option
-          v-for="ingredient in $store.getters['ingredients/byGroup']()"
+          v-for="ingredient in $store.getters['ingredients/byGroup'](group.id)"
           :value="ingredient.id"
           :key="ingredient.id"
-        >{{ ingredient.name }}</option>
+          >{{ ingredient.name }}</option
+        >
+      </optgroup>
+    </rm-select>
 
-        <optgroup :key="key" v-for="(group, key) in ingredientGroups" :label="group.name">
-          <option
-            v-for="ingredient in $store.getters['ingredients/byGroup'](group.id)"
-            :value="ingredient.id"
-            :key="ingredient.id"
-          >{{ ingredient.name }}</option>
-        </optgroup>
-      </rm-select>
+    <div class="field or" v-if="ingredient_id">| {{ $t("Or") }}:</div>
+    <rm-numberinput
+      :label="$t('Amount')"
+      label-position="on-border"
+      v-model="amount"
+      :min="0"
+      :max="999998"
+      :step="0.01"
+      :message="errors.amount"
+      autofocus
+    />
 
-      <div class="field or" v-if="ingredient_id">| {{ $t('Or') }}:</div>
-      <rm-numberinput
-        :label="$t('Amount')"
-        label-position="on-border"
-        v-model="amount"
-        :min="0"
-        :max="999998"
-        :message="errors.amount"
-        autofocus
-      />
+    <rm-numberinput
+      :label="$t('Max. amount')"
+      label-position="on-border"
+      v-model="amount_max"
+      :min="0"
+      :max="999999"
+      :step="0.01"
+      :message="errors.amount_max"
+    />
 
-      <rm-numberinput
-        :label="$t('Max. amount')"
-        label-position="on-border"
-        v-model="amount_max"
-        :min="0"
-        :max="999999"
-        :message="errors.amount_max"
-      />
+    <rm-select
+      label-position="on-border"
+      v-model="unit_id"
+      :placeholder="$t('Unit')"
+      :options="units"
+      :message="errors.unit_id"
+    />
 
-      <rm-select
-        label-position="on-border"
-        v-model="unit_id"
-        :placeholder="$t('Unit')"
-        :options="units"
-        :message="errors.unit_id"
-      />
+    <rm-select
+      label-position="on-border"
+      v-model="food_id"
+      :placeholder="$t('Ingredient')"
+      :options="foods"
+      :message="errors.food_id"
+      required
+    />
 
-      <rm-select
-        label-position="on-border"
-        v-model="food_id"
-        :placeholder="$t('Ingredient')"
-        :options="foods"
-        :message="errors.food_id"
-        required
-      />
+    <rm-multiselect
+      label-position="on-border"
+      v-model="ingredient_attributes"
+      :placeholder="$t('Attributes')"
+      :options="ingredientAttributes"
+      :message="errors.ingredient_attributes"
+    />
 
-      <rm-multiselect
-        label-position="on-border"
-        v-model="ingredient_attributes"
-        :placeholder="$t('Attributes')"
-        :options="ingredientAttributes"
-        :message="errors.ingredient_attributes"
-      />
+    <rm-autocomplete
+      label-position="on-border"
+      v-if="!ingredient_id"
+      v-model="new_ingredient_group_name"
+      @select="ingredient_group_id = $event"
+      :placeholder="$t('Group')"
+      :options="ingredientGroups"
+      :message="errors.new_ingredient_group_name"
+    />
 
-      <rm-autocomplete
-        label-position="on-border"
-        v-if="!ingredient_id"
-        v-model="new_ingredient_group_name"
-        @select="ingredient_group_id = $event"
-        :placeholder="$t('Group')"
-        :options="ingredientGroups"
-        :message="errors.new_ingredient_group_name"
-      />
-
-      <rm-submit-button>
-        {{ $t('Add') }}
-        <template v-slot:buttons>
-          <b-button @click="initForm && $emit('cancel')" type="is-danger">{{ $t('Cancel') }}</b-button>
-        </template>
-      </rm-submit-button>
-    </form>
-  </div>
+    <template slot="buttons">
+      <button class="button" type="button" @click="$emit('close')">
+        {{ $t("Cancel") }}
+      </button>
+      <button class="button is-primary" @click="$emit('confirm')">
+        {{ $t("Save") }}
+      </button>
+      <button class="button is-primary" @click="confirmAndNext">
+        {{ $t("Save and next") }}
+      </button>
+    </template>
+  </rm-modal-form>
 </template>
 
 <script>
@@ -125,14 +140,23 @@ export default {
   },
   created() {
     this.initForm();
-  },
-  mounted() {
     this.$autofocus();
   },
   methods: {
     initForm() {
-      this.ingredient_group_id = this.ingredientGroupId;
+      this.amount = null;
+      this.amount_max = null;
+      this.unit_id = null;
+      this.food_id = null;
       this.ingredient_attributes = [];
+      this.ingredient_group_id = this.ingredientGroupId;
+      this.ingredient_id = null;
+    },
+    async confirmAndNext() {
+      await this.$emit("confirm");
+      setTimeout(() => {
+        this.$emit("next");
+      }, 500);
     },
     async submit() {
       const recipeId = this.recipe.id;
@@ -141,10 +165,7 @@ export default {
         try {
           const groupId = await this.$store.dispatch(
             "ingredient_groups/store",
-            {
-              recipeId,
-              name: this.new_ingredient_group_name
-            }
+            { recipeId, name: this.new_ingredient_group_name }
           );
           this.ingredient_group_id = groupId;
         } catch (error) {}
@@ -154,7 +175,8 @@ export default {
         recipeId,
         data: this.form
       });
-      this.initForm();
+
+      this.$emit("close");
     }
   }
 };

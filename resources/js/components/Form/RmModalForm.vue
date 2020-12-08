@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('submit')">
+  <form @submit.prevent="$emit('confirm')">
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ title }}</p>
@@ -9,8 +9,14 @@
         <slot v-bind:errors="errors"></slot>
       </section>
       <footer class="modal-card-foot">
-        <button class="button" type="button" @click="$emit('close')">{{ computedCloseText }}</button>
-        <button class="button is-primary" @click="$emit('confirm')">{{ computedConfirmText }}</button>
+        <slot name="buttons">
+          <button class="button" type="button" @click="$emit('close')">
+            {{ computedCloseText }}
+          </button>
+          <button class="button is-primary" @click="$emit('confirm')">
+            {{ computedConfirmText }}
+          </button>
+        </slot>
       </footer>
     </div>
   </form>
@@ -41,5 +47,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

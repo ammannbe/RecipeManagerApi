@@ -1,5 +1,9 @@
 <template>
-  <rm-modal-form :title="$t('Edit ingredient')" @close="$emit('close')" @confirm="submit">
+  <rm-modal-form
+    :title="$t('Edit ingredient')"
+    @close="$emit('close')"
+    @confirm="submit"
+  >
     <rm-select
       v-model="ingredient_id"
       :disabled="!ingredients.length"
@@ -9,14 +13,20 @@
         v-for="ingredient in $store.getters['ingredients/byGroup']()"
         :value="ingredient.id"
         :key="ingredient.id"
-      >{{ ingredient.name }}</option>
+        >{{ ingredient.name }}</option
+      >
 
-      <optgroup :key="key" v-for="(group, key) in ingredientGroups" :label="group.name">
+      <optgroup
+        :key="key"
+        v-for="(group, key) in ingredientGroups"
+        :label="group.name"
+      >
         <option
           v-for="ingredient in $store.getters['ingredients/byGroup'](group.id)"
           :value="ingredient.id"
           :key="ingredient.id"
-        >{{ ingredient.name }}</option>
+          >{{ ingredient.name }}</option
+        >
       </optgroup>
     </rm-select>
 
@@ -26,6 +36,7 @@
       v-model="amount"
       :min="0"
       :max="999998"
+      :step="0.01"
       autofocus
     />
 
@@ -35,6 +46,7 @@
       v-model="amount_max"
       :min="0"
       :max="999999"
+      :step="0.01"
     />
 
     <rm-select
@@ -147,24 +159,23 @@ export default {
         }
       }
 
+      let values = {};
       Object.keys(this.form).forEach(async property => {
         const value = this.form[property];
 
-        if (this.ingredient[property] == value) {
-          return;
+        if (this.ingredient[property] != value) {
+          values[property] = value;
         }
-
-        await this.$store.dispatch("ingredients/update", {
-          id: this.ingredient.id,
-          recipeId: this.ingredient.recipe_id,
-          property,
-          value
-        });
       });
+
+      await this.$store.dispatch("ingredients/update", {
+        id: this.ingredient.id,
+        recipeId: this.ingredient.recipe_id,
+        data: values
+      });
+
+      this.$emit("close");
     }
   }
 };
 </script>
-
-<style>
-</style>
