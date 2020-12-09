@@ -31,6 +31,8 @@ class Kernel extends ConsoleKernel
             '--fix'
         ])->daily();
 
+        $schedule->command('ingredients:sort')->daily();
+
         $schedule->command('integrity:check', ['--fix'])->daily();
     }
 

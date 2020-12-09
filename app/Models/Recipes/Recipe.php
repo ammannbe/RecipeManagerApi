@@ -145,9 +145,9 @@ class Recipe extends Model
                 return $query;
             }
 
-            return $query->where(function (Recipe $q) {
+            return $query->where(function (Builder $q) {
                 return $q->isOwn();
-            })->orWhere(function (Recipe $q) {
+            })->orWhere(function (Builder $q) {
                 return $q->isPublic();
             });
         });
