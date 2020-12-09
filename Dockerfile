@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 # set the application folder as env variable
 ENV APP_HOME /var/www/html
