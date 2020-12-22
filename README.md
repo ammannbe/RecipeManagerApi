@@ -4,17 +4,11 @@ Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
 
 A tool to manage your families and friends recipes like a chef.
 
----
-
-### **_Comming from an older version? Check out the migration guide from the 5.x branch._**
-
----
-
 ![Recipes Overview](https://klaud.narrenhaus.ch/index.php/s/MRNc7KsMbcAFnkn/preview)
 
 ## Why is this so awesome?
 
--   **Manager your recipes** You and your friends can save, edit and delete recipes.
+-   **Manage your recipes** You and your friends can save, edit and delete recipes.
 -   **Share recipes** You can share recipes by one click via Telegram or E-Mail.
 -   **Calculate yield amounts** Calculate yield amounts directly in the recipe on the fly.
 -   **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
@@ -24,26 +18,25 @@ A tool to manage your families and friends recipes like a chef.
 ## What features are planned?
 
 -   Unit and feature tests
--   Better support for photos (creating thumbnails, convert them to WEBP)
+-   Better support for photos (create thumbnails, optimize file size, etc.)
 -   Improve and add advanced searching and filtering
--   An installer
 -   An advanced User-Role-System
 -   Import & more export types of recipes
 -   Nutrition informations
 -   Rating system (the API code is already written ;-) )
--   And a lot more...
+-   A feature you think is missing...
 
 ## Getting Started
 
-Get the latest [release](https://git.narrenhaus.ch/Narrenhaus/Cookbook/releases) or clone the repo with
+Get the latest [release](https://github.com/ammannbe/RecipeManager) or clone the repo with
 
 ```bash
-git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
+git clone https://github.com/ammannbe/RecipeManager.git
 ```
 
 ### Prerequisites
 
--   LAMP Stack/Docker (only for production)
+-   LAMP Stack or Docker for production use
 -   Requirements for [laravel](https://laravel.com/docs)
 -   Composer
 -   NPM
@@ -136,6 +129,7 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 
 ## Testing / Code Quality
 
+-   Optional: seed the database with test data `php artisan db:seed`
 -   Run static code analytics `composer run phpstan`
 -   Run PHP Coding Standards Fixer `composer run php-cs-fixer`
 

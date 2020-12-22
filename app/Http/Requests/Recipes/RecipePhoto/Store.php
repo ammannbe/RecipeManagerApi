@@ -25,7 +25,7 @@ class Store extends FormRequest
     {
         return [
             'photos'   => ['required', 'array', 'max:20'],
-            'photos.*' => ['required', 'image'],
+            'photos.*' => ['required', 'image', 'max:2048'],
         ];
     }
 }

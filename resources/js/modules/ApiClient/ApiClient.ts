@@ -56,8 +56,17 @@ export default class ApiClient {
 
             if (error.response.status !== 401) {
                 const type = "is-danger";
-                const message = error.response.data.message;
-                Snackbar.open({ type, message });
+                let message = error.response.data.message;
+                if (error.response.data.errors) {
+                    for (const errors in error.response.data.errors) {
+                        if (Object.prototype.hasOwnProperty.call(error.response.data.errors, errors)) {
+                            const message: string = error.response.data.errors[errors];
+                            Snackbar.open({ type, message });
+                        }
+                    }
+                } else {
+                    Snackbar.open({ type, message });
+                }
             }
 
             return Promise.reject(this.rawResponse ? error : error.response);

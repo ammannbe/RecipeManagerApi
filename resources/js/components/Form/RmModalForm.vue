@@ -13,7 +13,7 @@
           <button class="button" type="button" @click="$emit('close')">
             {{ computedCloseText }}
           </button>
-          <button class="button is-primary" @click="$emit('confirm')">
+          <button type="submit" class="button is-primary">
             {{ computedConfirmText }}
           </button>
         </slot>

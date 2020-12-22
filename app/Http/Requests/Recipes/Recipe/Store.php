@@ -34,7 +34,7 @@ class Store extends FormRequest
             'complexity'       => ['required', 'string', Rule::in(Recipe::COMPLEXITY_TYPES)],
             'instructions'     => ['required', 'string', 'max:16000000'],
             'photos'           => ['nullable', 'array', 'max:20'],
-            'photos.*'         => ['nullable', 'image'],
+            'photos.*'         => ['nullable', 'image', 'max:2048'],
             'preparation_time' => ['nullable', 'string', 'date_format:H:i'],
         ];
 

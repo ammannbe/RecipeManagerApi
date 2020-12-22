@@ -5,6 +5,8 @@
     @close="$emit('close')"
     @confirm="submit"
   >
+    <span>Max file size is 2MB</span>
+    <br><br>
     <rm-file
       v-model="photos"
       :placeholder="$t('Please choose...')"
