@@ -10,6 +10,12 @@
 
 <script>
 export default {
+  metaInfo() {
+    return {
+      title: "Home",
+      titleTemplate: "%s | " + this.$env.APP_NAME
+    };
+  },
   methods: {
     searchRecipes(search) {
       const name = "home";

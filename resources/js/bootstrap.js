@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueMeta from 'vue-meta'
 import MavonEditor from 'mavon-editor';
 import Vuex from 'vuex'
 import Buefy from 'buefy'
@@ -20,6 +21,7 @@ window.moment = moment;
 window.Loading = Loading;
 
 Vue.use(VueRouter);
+Vue.use(VueMeta);
 Vue.use(MavonEditor);
 Vue.use(Vuex);
 Vue.use(Buefy, { defaultIconPack: 'fas' });

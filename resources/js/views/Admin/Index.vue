@@ -178,6 +178,11 @@ import Food from "./Food";
 import Tag from "./Tag";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$t('Administration')
+    }
+  },
   data() {
     return {
       modalOptions: {

@@ -146,6 +146,11 @@ import { mapState, mapGetters } from "vuex";
 import EditCookbook from "./EditCookbook";
 
 export default {
+  metaInfo() {
+    return {
+      title: 'Account'
+    }
+  },
   data() {
     return {
       showAddCookbook: false,

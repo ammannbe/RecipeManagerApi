@@ -51,6 +51,11 @@ export default {
     }),
     ...mapFields(["name"])
   },
+  metaInfo() {
+    return {
+      title: this.$t('Add cookbook')
+    }
+  },
   created() {
     setTimeout(() => {
       if (!this.loggedIn) {

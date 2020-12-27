@@ -72,6 +72,11 @@ export default {
     }),
     ...mapFields(["name", "email", "password", "password_confirmation"])
   },
+  metaInfo() {
+    return {
+      title: this.$t('Signup')
+    }
+  },
   created() {
     if (this.loggedIn) {
       this.$router.push({ name: "home" });

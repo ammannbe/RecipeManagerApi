@@ -81,6 +81,36 @@ export default {
     Instructions
   },
   props: ["id", "slug"],
+  metaInfo() {
+    const meta = [];
+    this.$env.LOCALES.forEach(locale => meta.push({ property: 'og:locale:alternate', content: locale }));
+    if (this.recipe.photo_urls && this.recipe.photo_urls.length) {
+      meta.push({ property: 'og:image', content: this.recipe.photo_urls[0] });
+    }
+    let author = {};
+    if (this.recipe.author) {
+      author = this.recipe.author;
+    }
+    let category = {};
+    if (this.recipe.category) {
+      category = this.recipe.category;
+    }
+
+    return {
+      title: this.recipe.name,
+      meta: [
+        { name: 'description', content: this.$t(`${this.recipe.name} from ${author.name} in category ${category.name}`) },
+        { name: 'robots', content: 'index,follow' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:locale', content: this.$env.LOCALE },
+        { property: 'og:site_name', content: this.recipe.name },
+        { property: 'og:title', content: `${this.recipe.name} - ${category.name}` },
+        { property: 'og:description', content: this.$t(`${this.recipe.name} from ${author.name} in category ${category.name}`) },
+        { property: 'og:url', content: window.location.href },
+        ...meta
+      ]
+    };
+  },
   data() {
     return {
       multiplier: 1,
