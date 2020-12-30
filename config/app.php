@@ -85,7 +85,7 @@ return [
 
     'disable_registration' => env('DISABLE_REGISTRATION', false),
 
-    'trusted_proxies' => explode(',', env('TRUSTED_PROXIES', '')),
+    'trusted_proxies' => explode(',', env('TRUSTED_PROXIES')),
 
     /*
     |--------------------------------------------------------------------------

@@ -8,7 +8,7 @@
     ],
     "license": "AGPLv3",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4|^8.0",
         "askedio/laravel-soft-cascade": "^8.0",
         "barryvdh/laravel-dompdf": "^0.8",
         "barryvdh/laravel-translation-manager": "^0.5",
@@ -26,9 +26,9 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
         "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^2.17",
-        "fzaninotto/faker": "^1.9.1",
-        "jzonta/faker-restaurant": "^1.1",
+        "laravel/sail": "^1.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5.1",
         "nunomaduro/larastan": "^0.6",

@@ -38,7 +38,7 @@ class RecipeFactory extends Factory
             'cookbook_id' => $cookbook->id,
             'category_id' => Category::inRandomOrder()->first()->id,
             'author_id' => $user->author->id,
-            'name' => $this->faker->unique(true)->name . ' ' . $this->faker->foodName(),
+            'name' => $this->faker->unique(true)->name,
             'yield_amount' => $this->faker->randomElement([null, $this->faker->numberBetween(0, 30)]),
             'complexity' => $this->faker->randomElement(Recipe::COMPLEXITY_TYPES),
             'instructions' => $this->faker->unique(true)->text,

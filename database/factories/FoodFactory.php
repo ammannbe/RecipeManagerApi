@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Ingredients\Food;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use \FakerRestaurant\Provider\de_AT\Restaurant as FakerRestaurant;
 
 class FoodFactory extends Factory
 {
@@ -22,10 +21,8 @@ class FoodFactory extends Factory
      */
     public function definition()
     {
-        $this->faker->addProvider(new FakerRestaurant(($this->faker)));
-
         return [
-            'name' => $this->faker->unique()->foodName(),
+            'name' => $this->faker->unique()->name,
         ];
     }
 }
