@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ratings;
 
 use App\Models\Users\User;
 use App\Models\Ratings\Rating;

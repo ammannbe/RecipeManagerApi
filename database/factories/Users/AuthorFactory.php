@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Users;
 
-use App\Models\Ingredients\Food;
+use App\Models\Users\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FoodFactory extends Factory
+class AuthorFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Food::class;
+    protected $model = Author::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,8 @@ class FoodFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->name,
+            // The user_id will be set through the UserSeeder
+            'name' => $this->faker->name,
         ];
     }
 }

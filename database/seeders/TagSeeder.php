@@ -1,9 +1,11 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\Ingredients\Unit;
+namespace Database\Seeders;
 
-class UnitSeeder extends Seeder
+use App\Models\Recipes\Tag;
+use Illuminate\Database\Seeder;
+
+class TagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,6 @@ class UnitSeeder extends Seeder
      */
     public function run()
     {
-        Unit::factory()->times(20)->create();
+        Tag::factory()->times(50)->create();
     }
 }

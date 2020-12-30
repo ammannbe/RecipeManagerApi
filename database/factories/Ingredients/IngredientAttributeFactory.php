@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ingredients;
 
 use App\Models\Ingredients\IngredientAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;

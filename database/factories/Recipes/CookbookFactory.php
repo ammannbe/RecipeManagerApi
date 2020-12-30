@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Recipes;
 
 use App\Models\Users\User;
 use App\Models\Recipes\Cookbook;

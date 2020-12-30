@@ -1,9 +1,11 @@
 <?php
 
-use App\Models\Recipes\Tag;
+namespace Database\Seeders;
+
+use App\Models\Ratings\Rating;
 use Illuminate\Database\Seeder;
 
-class TagSeeder extends Seeder
+class RatingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,6 @@ class TagSeeder extends Seeder
      */
     public function run()
     {
-        Tag::factory()->times(50)->create();
+        Rating::factory()->times(50)->create();
     }
 }

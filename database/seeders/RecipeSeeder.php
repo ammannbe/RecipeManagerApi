@@ -1,7 +1,9 @@
 <?php
 
-use App\Models\Recipes\Recipe;
+namespace Database\Seeders;
+
 use App\Models\Recipes\Tag;
+use App\Models\Recipes\Recipe;
 use Illuminate\Database\Seeder;
 
 class RecipeSeeder extends Seeder

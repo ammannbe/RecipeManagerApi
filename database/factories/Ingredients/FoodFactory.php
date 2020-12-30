@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ingredients;
 
-use App\Models\Ratings\RatingCriterion;
+use App\Models\Ingredients\Food;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RatingCriterionFactory extends Factory
+class FoodFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = RatingCriterion::class;
+    protected $model = Food::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class RatingCriterionFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->word,
+            'name' => $this->faker->unique()->name,
         ];
     }
 }

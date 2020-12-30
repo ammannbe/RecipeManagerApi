@@ -1,9 +1,11 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\Ratings\RatingCriterion;
+namespace Database\Seeders;
 
-class RatingCriterionSeeder extends Seeder
+use Illuminate\Database\Seeder;
+use App\Models\Recipes\Cookbook;
+
+class CookbookSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,6 @@ class RatingCriterionSeeder extends Seeder
      */
     public function run()
     {
-        RatingCriterion::factory()->times(50)->create();
+        Cookbook::factory()->times(20)->create();
     }
 }

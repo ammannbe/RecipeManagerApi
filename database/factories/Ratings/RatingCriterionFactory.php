@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ratings;
 
-use App\Models\Users\Author;
+use App\Models\Ratings\RatingCriterion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AuthorFactory extends Factory
+class RatingCriterionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Author::class;
+    protected $model = RatingCriterion::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,7 @@ class AuthorFactory extends Factory
     public function definition()
     {
         return [
-            // The user_id will be set through the UserSeeder
-            'name' => $this->faker->name,
+            'name' => $this->faker->unique()->word,
         ];
     }
 }

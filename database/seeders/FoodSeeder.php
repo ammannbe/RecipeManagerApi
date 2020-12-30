@@ -1,9 +1,11 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\Recipes\Category;
+namespace Database\Seeders;
 
-class CategorySeeder extends Seeder
+use Illuminate\Database\Seeder;
+use App\Models\Ingredients\Food;
+
+class FoodSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::factory()->times(15)->create();
+        Food::factory()->times(20)->create();
     }
 }

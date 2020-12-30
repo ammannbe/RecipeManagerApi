@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Recipes;
 
 use App\Models\Users\User;
 use App\Models\Recipes\Recipe;
@@ -35,7 +35,7 @@ class RecipeFactory extends Factory
 
         return [
             'user_id' => $user->id,
-            'cookbook_id' => $cookbook->id,
+            'cookbook_id' => $cookbook->id ?? null,
             'category_id' => Category::inRandomOrder()->first()->id,
             'author_id' => $user->author->id,
             'name' => $this->faker->unique(true)->name,

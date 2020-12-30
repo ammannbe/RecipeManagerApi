@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
 use App\Models\Ingredients\Ingredient;
 use App\Models\Ingredients\IngredientAttribute;
-use Illuminate\Database\Seeder;
 
 class IngredientSeeder extends Seeder
 {
