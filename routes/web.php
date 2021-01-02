@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Recipes\RecipePhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,4 @@ Route::fallback('VueController');
 Route::get('login', 'VueController')->name('login');
 Route::get('register', 'VueController')->name('register');
 Route::get('password/reset/{token}', 'VueController')->name('password.reset');
-Route::get('images/recipes/{recipe}/{name}', 'Recipes\RecipePhotoController@show');
+Route::get('images/recipes/{photo}/{name}', [RecipePhotoController::class, 'show']);

@@ -8,8 +8,13 @@
 
     <div class="card-content">
       <div v-if="recipe.photos" class="media is-centered">
-        <figure>
-          <img :src="recipe.photo_urls[0]" :alt="recipe.name" />
+        <figure class="image">
+          <b-image
+            v-if="recipe.photos.length"
+            :src="recipe.photos[0].url + '?thumbnails'"
+            :src-fallback="$env.NOT_FOUND_IMAGE"
+            :alt="recipe.name"
+          />
         </figure>
       </div>
       <div class="content" v-html="instructions"></div>
@@ -17,7 +22,9 @@
 
     <footer class="card-footer">
       <div>
-        <span class="time">{{ recipe.preparation_time | humanReadablePreparationTime }}</span>
+        <span class="time">
+          {{ recipe.preparation_time | humanReadablePreparationTime }}
+        </span>
       </div>
       <div>
         <span class="stars" v-for="star in recipe.stars" :key="star">*</span>

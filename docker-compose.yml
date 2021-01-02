@@ -18,17 +18,10 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
-            # - redis
-            # - selenium
-    # selenium:
-    #     image: 'selenium/standalone-chrome'
-    #     volumes:
-    #         - '/dev/shm:/dev/shm'
-    #     networks:
-    #         - sail
-    mysql:
-        image: 'mysql:8.0'
+            - mariadb
+            - redis
+    mariadb:
+        image: 'mariadb:latest'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -38,35 +31,22 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'sailmysql:/var/lib/mysql'
+            - 'sailmariadb:/var/lib/mysql'
         networks:
             - sail
-    # redis:
-    #     image: 'redis:alpine'
-    #     ports:
-    #         - '${FORWARD_REDIS_PORT:-6379}:6379'
-    #     volumes:
-    #         - 'sailredis:/data'
-    #     networks:
-    #         - sail
-    # memcached:
-    #     image: 'memcached:alpine'
-    #     ports:
-    #         - '11211:11211'
-    #     networks:
-    #         - sail
-    # mailhog:
-    #     image: 'mailhog/mailhog:latest'
-    #     ports:
-    #         - 1025:1025
-    #         - 8025:8025
-    #     networks:
-    #         - sail
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'sailredis:/data'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
 volumes:
-    sailmysql:
+    sailmariadb:
         driver: local
-    # sailredis:
-    #     driver: local
+    sailredis:
+        driver: local

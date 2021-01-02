@@ -8,6 +8,7 @@ use App\Http\Requests\Recipes\Recipe\Index;
 use App\Http\Requests\Recipes\Recipe\Store;
 use App\Http\Requests\Recipes\Recipe\Update;
 use App\Http\Controllers\Recipes\TagController;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use App\Http\Controllers\Recipes\CookbookController;
 
 class RecipeController extends Controller
@@ -30,6 +31,7 @@ class RecipeController extends Controller
      */
     public function index(Index $request)
     {
+        /** @var \App\Models\Recipes\Recipe $model */
         $model = Recipe::latest();
         if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
@@ -60,9 +62,10 @@ class RecipeController extends Controller
         if (isset($validated['tags'])) {
             $recipe->tags()->sync($validated['tags']);
         }
-        foreach ($validated['photos'] ?? [] as $photo) {
-            $recipe->addPhoto($photo);
-        }
+
+        foreach ($recipe->addMultipleMediaFromRequest(['photos']) as $fileAdder) {
+            $fileAdder->toMediaCollection('recipe_photos');
+        };
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 

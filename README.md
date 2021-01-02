@@ -18,12 +18,12 @@ A tool to manage your families and friends recipes like a chef.
 ## What features are planned?
 
 -   Unit and feature tests
--   Better support for photos (create thumbnails, optimize file size, etc.)
 -   Improve and add advanced searching and filtering
 -   An advanced User-Role-System
 -   Import & more export types of recipes
 -   Nutrition informations
 -   Rating system (the API code is already written ;-) )
+-   Social login with Socialite
 -   A feature you think is missing...
 
 ## Getting Started
@@ -40,6 +40,7 @@ git clone https://github.com/ammannbe/RecipeManager.git
 -   Requirements for [laravel](https://laravel.com/docs)
 -   Composer
 -   NPM
+-   Redis
 
 ### Installation
 
@@ -67,6 +68,7 @@ Alternatively or for development purposes you can make a manual installation on 
 
 -   If not already done, [install](#installation) everything
 -   Run the server `php artisan serve`
+-   Run the queue worker `php artisan queue:work`
 -   Watch for style and js changes: `npm run watch`
 
 #### Manual production deployment
@@ -81,6 +83,7 @@ php artisan route:cache
 php artisan view:cache
 ```
 
+-   Run the queue worker `php artisan queue:work` (or setup via e.g. systemd)
 -   Optimize npm packages: `npm run prod`
 
 ## Update
@@ -94,8 +97,9 @@ php artisan view:cache
 
 ## Translations
 
-All application related files are translated with [laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) and [laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator).
-Translations should only be done on development.
+All application related files are translated with [laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) and [laravel-translations-loader](https://github.com/kirschbaum-development/laravel-translations-loader).
+
+You should run these commands only on a development machine.
 
 You need to run the migrations for this package:
 
@@ -104,11 +108,11 @@ php artisan vendor:publish --provider="Barryvdh\TranslationManager\ManagerServic
 php artisan migrate
 ```
 
--   Import translations `composer translations:import`
+-   Import translations `composer run translations:import`
 -   Open `<your-domain>/translations` in a browser
 -   PHP: short keys within `resources/lang/<lang>/<group>.php`
 -   Vue.js: translation strings within `/resources/lang/<lang>.json` (these files will be imported into the `_json` group)
--   Export & generate translations `composer translations:export`
+-   Export & generate translations `composer run translations:export`
 
 Other commands:
 
@@ -129,7 +133,18 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 
 ## Testing / Code Quality
 
--   Optional: seed the database with test data `php artisan db:seed`
+-   Optional: seed the database with test data
+
+```bash
+# Seed the database with test data
+php artisan db:seed
+
+# Freshly migrate and seed the database
+php artisan migrate:fresh --seed
+
+# The secret of the seeded users is 'password'
+```
+
 -   Run static code analytics `composer run phpstan`
 -   Run PHP Coding Standards Fixer `composer run php-cs-fixer`
 
@@ -143,6 +158,7 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 -   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixer
 -   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
+-   [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) - Associate files with Eloquent models
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js

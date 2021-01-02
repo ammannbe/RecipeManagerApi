@@ -29,7 +29,7 @@ class RatingFactory extends Factory
             'user_id' => $this->faker->randomElement([null, User::inRandomOrder()->first()->id]),
             'rating_criterion_id' => RatingCriterion::inRandomOrder()->first()->id,
             'comment' => $this->faker->text,
-            'stars' => $this->faker->randomElement([null, $this->faker->randomDigit()]),
+            'stars' => $this->faker->randomElement([null, $this->faker->randomDigit]),
         ];
     }
 }

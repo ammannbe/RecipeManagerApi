@@ -18,8 +18,12 @@ use \Illuminate\Mail\Markdown;
     <body>
 
         <main>
-            @if ($recipe->photo_paths)
-            <img src="{{ $recipe->photo_paths[0] }}" alt="{{ $recipe->name }}">
+            @if ($recipe->photos->isNotEmpty())
+            <img
+                src="{{ $recipe->getMedia('recipe_photos')->first()->getPath() }}"
+                alt="{{ $recipe->name }}"
+                style="max-width: 100%;"
+            />
             @endif
 
             <h1 class="title is-1">{{ $recipe->name }}</h1>

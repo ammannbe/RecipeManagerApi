@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Recipes;
 
+use Illuminate\Http\Request;
 use App\Models\Recipes\Recipe;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recipes\RecipePhoto\Store;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RecipePhotoController extends Controller
 {
@@ -17,41 +20,41 @@ class RecipePhotoController extends Controller
     public function store(Store $request, Recipe $recipe)
     {
         $this->authorize('update', $recipe);
-        $validated = $request->validated();
-        foreach ($validated['photos'] ?? [] as $photo) {
-            $recipe->addPhoto($photo);
-        }
+        $recipe->addAllMediaFromRequest()->each(function (FileAdder $fileAdder) {
+            $fileAdder->toMediaCollection('recipe_photos');
+        });
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Recipes\Recipe  $recipe
-     * @param  string  $photo
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media  $photo
+     * @param  string  $name
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function show(Recipe $recipe, string $photo)
+    public function show(Request $request, Media $photo, string $name)
     {
-        $this->authorize('view', $recipe);
+        $this->authorize('view', $photo->model);
 
-        if (!\Storage::disk('recipe_images')->exists("{$recipe->id}/{$photo}")) {
-            abort(404);
+        foreach (['thumbnail', 'webp'] as $conversion) {
+            if ($request->has($conversion) && $photo->hasGeneratedConversion($conversion)) {
+                return response()->file($photo->getPath($conversion));
+            }
         }
 
-        return \Storage::disk('recipe_images')
-            ->download("{$recipe->id}/{$photo}", null, ['Content-Disposition' => 'inline']);
+        return response()->file($photo->getPath());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Recipes\Recipe  $recipe
-     * @param  string  $photo
+     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media  $photo
      * @return void
      */
-    public function destroy(Recipe $recipe, string $photo)
+    public function destroy(Media $photo)
     {
-        $this->authorize('update', $recipe);
-        $recipe->removePhoto($photo);
+        $this->authorize('update', $photo->model);
+        $photo->delete();
     }
 }

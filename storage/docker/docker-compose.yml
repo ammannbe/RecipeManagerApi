@@ -1,28 +1,56 @@
-version: '3'
+version: "3"
 
 networks:
   recipe-manager:
-  nginx-proxy:
-    external:
-      name: nginx-proxy
 
 services:
   app:
     image: suhype/recipe-manager:${APP_VERSION}
     restart: unless-stopped
+    environment:
+      - CONTAINER_ROLE=app
     volumes:
+      - html:/var/www/html
       - ./data:/var/www/html/storage/app
       - ./.env:/var/www/html/.env
     networks:
       - recipe-manager
-      - nginx-proxy
     expose:
       - 80
     depends_on:
       - db
+      - redis
+
+  queue:
+    image: suhype/recipe-manager:${APP_VERSION}
+    restart: unless-stopped
+    environment:
+      - CONTAINER_ROLE=queue
+    volumes:
+      - html:/var/www/html
+      - ./data:/var/www/html/storage/app
+      - ./.env:/var/www/html/.env
+    networks:
+      - recipe-manager
+    depends_on:
+      - app
+
+  scheduler:
+    image: suhype/recipe-manager:${APP_VERSION}
+    restart: unless-stopped
+    environment:
+      - CONTAINER_ROLE=scheduler
+    volumes:
+      - html:/var/www/html
+      - ./data:/var/www/html/storage/app
+      - ./.env:/var/www/html/.env
+    networks:
+      - recipe-manager
+    depends_on:
+      - app
 
   db:
-    image: mariadb:latest
+    image: mariadb:${MARIADB_VERSION}
     restart: always
     environment:
       - MYSQL_DATABASE=${DB_DATABASE}
@@ -33,3 +61,10 @@ services:
       - recipe-manager
     volumes:
       - ./mysql:/var/lib/mysql
+
+  redis:
+    image: redis:${REDIS_VERSION}
+    restart: always
+    networks:
+      - recipe-manager
+    command: redis-server --requirepass ${REDIS_PASSWORD}

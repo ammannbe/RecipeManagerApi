@@ -21,7 +21,8 @@
         "laravel/framework": "^8.17",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
-        "rutorika/sortable": "^8.0"
+        "rutorika/sortable": "^8.0",
+        "spatie/laravel-medialibrary": "^9.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",

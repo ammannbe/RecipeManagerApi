@@ -39,6 +39,8 @@
       :message="errors.name_plural_shortcut"
       maxlength="20"
     />
+
+    <br />
   </rm-modal-form>
 </template>
 

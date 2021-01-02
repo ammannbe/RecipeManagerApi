@@ -42,7 +42,6 @@ class RecipeFactory extends Factory
             'yield_amount' => $this->faker->randomElement([null, $this->faker->numberBetween(0, 30)]),
             'complexity' => $this->faker->randomElement(Recipe::COMPLEXITY_TYPES),
             'instructions' => $this->faker->unique(true)->text,
-            'photos' => null,
             'preparation_time' => $this->faker->randomElement([null, $this->faker->time('H:i:00', '24:59')]),
         ];
     }

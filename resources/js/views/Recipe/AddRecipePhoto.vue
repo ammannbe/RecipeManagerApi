@@ -5,7 +5,8 @@
     @close="$emit('close')"
     @confirm="submit"
   >
-    <span>Max file size is 2MB</span>
+    <span>{{ $t('Max file size: 2MB') }}</span><br>
+    <span>{{ $t('Optimal ratio: 1x1') }}</span>
     <br><br>
     <rm-file
       v-model="photos"
@@ -32,7 +33,7 @@ export default {
   methods: {
     async submit() {
       await this.$store.dispatch("recipe/addPhotos", {
-        id: this.id,
+        recipeId: this.id,
         photos: this.photos
       });
 

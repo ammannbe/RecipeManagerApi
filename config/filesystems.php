@@ -55,7 +55,7 @@ return [
             'visibility' => 'public',
         ],
 
-        'recipe_images' => [
+        'recipe_photos' => [
             'driver' => 'local',
             'root' => storage_path('app/images/recipes'),
             'url' => config('app.url') . '/images/recipes',

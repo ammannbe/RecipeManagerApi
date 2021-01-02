@@ -35,19 +35,19 @@ const actions = {
             return dispatch('form/onFail', { response: error });
         }
     },
-    async addPhotos({ dispatch }, { id, photos }) {
+    async addPhotos({ dispatch }, { recipeId, photos }) {
         try {
-            const response = await new Recipes().addPhotos(id, photos);
-            dispatch('show', { id });
+            const response = await new Recipes().addPhotos(recipeId, photos);
+            dispatch('show', { id: recipeId });
             return dispatch('form/onSuccess', { response });
         } catch (error) {
             return dispatch('form/onFail', { response: error });
         }
     },
-    async removePhoto({ dispatch }, { id, photo }) {
+    async removePhoto({ dispatch }, { recipeId, id }) {
         try {
-            const response = await new Recipes().removePhoto(id, photo);
-            dispatch('show', { id });
+            const response = await new Recipes().removePhoto(id);
+            dispatch('show', { id: recipeId });
             return dispatch('form/onSuccess', { response });
         } catch (error) {
             return dispatch('form/onFail', { response: error });

@@ -7,6 +7,7 @@ ENV APP_HOME /var/www/html
 RUN curl -L https://deb.nodesource.com/setup_15.x | bash
 RUN apt-get update
 RUN apt-get install -y \
+    jpegoptim optipng pngquant gifsicle \
     libpng-dev \
     libonig-dev \
     libxml2-dev \

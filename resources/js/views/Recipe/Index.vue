@@ -15,7 +15,11 @@
     <div class="container">
       <breadcrumb-trail :category="recipe.category" />
       <div class="meta columns">
-        <recipe-photo class="column is-one-fifth" :urls="recipe.photo_urls" :alt="recipe.name" />
+        <recipe-photo
+          class="column is-one-fifth"
+          :urls="recipe.photos.map(p => p.url)"
+          :alt="recipe.name"
+        />
         <property-list @update="update" @multiply="multiplier = $event" />
       </div>
 
@@ -30,25 +34,42 @@
       <hr />
 
       <div v-if="false" class="ratings">
-        <h2 class="title is-4">{{ $t('Ratings') }}</h2>
+        <h2 class="title is-4">{{ $t("Ratings") }}</h2>
         <!-- TODO: -->
         <rating-card-list :id="id" />
       </div>
     </div>
 
     <div class="edit-buttons" v-if="this.loggedIn && recipe.can_edit">
-      <button class="button is-rounded is-danger" v-if="editmode.enabled" @click="remove">Löschen</button>
+      <button
+        class="button is-rounded is-danger"
+        v-if="editmode.enabled"
+        @click="remove"
+      >
+        Löschen
+      </button>
       <button
         class="button is-rounded"
         v-if="editmode.enabled"
-        @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
-      >Bearbeiten</button>
-      <button
-        @click="$store.dispatch('recipe/editmode/enable', { enable: !editmode.enabled })"
-        class="button is-rounded is-primary enable"
+        @click="
+          $store.dispatch('recipe/editmode/edit', {
+            editing: !editmode.editing
+          })
+        "
       >
-        <i v-if="editmode.enabled" class="fas fa-chevron-down" style="padding-top: 15px; padding-bottom: 11px;"></i>
-        <i v-else class="fas fa-chevron-up"></i>
+        Bearbeiten
+      </button>
+      <button
+        @click="
+          $store.dispatch('recipe/editmode/enable', {
+            enable: !editmode.enabled
+          })
+        "
+        class="button is-rounded is-primary enable"
+        :class="{ 'is-open': editmode.enabled }"
+      >
+        <i v-if="editmode.enabled" class="fas fa-times"></i>
+        <i v-else class="fas fa-bars"></i>
       </button>
     </div>
   </div>
@@ -83,9 +104,14 @@ export default {
   props: ["id", "slug"],
   metaInfo() {
     const meta = [];
-    this.$env.LOCALES.forEach(locale => meta.push({ property: 'og:locale:alternate', content: locale }));
-    if (this.recipe.photo_urls && this.recipe.photo_urls.length) {
-      meta.push({ property: 'og:image', content: this.recipe.photo_urls[0] });
+    this.$env.LOCALES.forEach(locale =>
+      meta.push({ property: "og:locale:alternate", content: locale })
+    );
+    if (this.recipe.photos && this.recipe.photos.length) {
+      meta.push({
+        property: "og:image",
+        content: this.recipe.photos[0].url + "?thumbnail"
+      });
     }
     let author = {};
     if (this.recipe.author) {
@@ -99,14 +125,27 @@ export default {
     return {
       title: this.recipe.name,
       meta: [
-        { name: 'description', content: this.$t(`${this.recipe.name} from ${author.name} in category ${category.name}`) },
-        { name: 'robots', content: 'index,follow' },
-        { property: 'og:type', content: 'website' },
-        { property: 'og:locale', content: this.$env.LOCALE },
-        { property: 'og:site_name', content: this.recipe.name },
-        { property: 'og:title', content: `${this.recipe.name} - ${category.name}` },
-        { property: 'og:description', content: this.$t(`${this.recipe.name} from ${author.name} in category ${category.name}`) },
-        { property: 'og:url', content: window.location.href },
+        {
+          name: "description",
+          content: this.$t(
+            `${this.recipe.name} from ${author.name} in category ${category.name}`
+          )
+        },
+        { name: "robots", content: "index,follow" },
+        { property: "og:type", content: "website" },
+        { property: "og:locale", content: this.$env.LOCALE },
+        { property: "og:site_name", content: this.recipe.name },
+        {
+          property: "og:title",
+          content: `${this.recipe.name} - ${category.name}`
+        },
+        {
+          property: "og:description",
+          content: this.$t(
+            `${this.recipe.name} from ${author.name} in category ${category.name}`
+          )
+        },
+        { property: "og:url", content: window.location.href },
         ...meta
       ]
     };
@@ -247,6 +286,15 @@ export default {
     padding-left: 18px;
     padding-right: 18px;
     font-size: 23px;
+
+    &.is-open {
+      > i {
+        padding-top: 13px;
+        padding-bottom: 13px;
+        padding-right: 2px;
+        padding-left: 2px;
+      }
+    }
   }
 }
 </style>

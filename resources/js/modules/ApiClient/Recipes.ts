@@ -18,7 +18,6 @@ export interface Recipe {
     instructions: string;
     preparation_time: string;
     photos: File[];
-    photo_urls: string[];
 }
 
 export default class Recipes extends ApiClient {
@@ -90,15 +89,15 @@ export default class Recipes extends ApiClient {
         return super.bulkUpdate(id, formData || data, !!data.photos.length);
     }
 
-    public addPhotos(id: number, photos: Array<File>): Promise<any> {
+    public addPhotos(recipeId: number, photos: Array<File>): Promise<any> {
         let formData = new FormData();
         photos.forEach(file => formData.append("photos[]", file));
-        const url = `${this.url}/${id}/photos`;
+        const url = `${this.url}/${recipeId}/photos`;
         return this.post(url, formData, true);
     }
 
-    public removePhoto(id: number, photo: string): Promise<any> {
-        const url = `${this.url}/${id}/photos/${photo}`;
+    public removePhoto(id: number): Promise<any> {
+        const url = `/photos/${id}`;
         return this.delete(url);
     }
 
