@@ -24,6 +24,7 @@
     </div>
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
       <h2
+        v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         class="title is-4"
         :class="{ 'add-ingredient-form': editmode.enabled }"
         :title="title"
@@ -40,11 +41,23 @@
         @edit="edit"
         @add="add"
       />
-      <span v-else>{{ $t("No ingredients available...") }}</span>
     </div>
   </div>
-  <div v-else>
-    <span>{{ $t("No ingredients available...") }}</span>
+  <div v-else class="ingredients">
+    <div>
+      <h2
+        class="title is-4"
+        :class="{
+          'add-ingredient-form': editmode.enabled,
+          show: editmode.enabled
+        }"
+        :title="title"
+        @click="add"
+      >
+        {{ $t("Ingredients") }}
+      </h2>
+      <span>{{ $t("No ingredients available...") }}</span>
+    </div>
   </div>
 </template>
 

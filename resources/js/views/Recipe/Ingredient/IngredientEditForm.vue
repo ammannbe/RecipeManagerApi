@@ -144,6 +144,10 @@ export default {
     async submit() {
       const recipeId = this.recipe.id;
 
+      if (!this.new_ingredient_group_name) {
+        this.ingredient_group_id = null;
+      }
+
       if (!this.ingredient_group_id && this.new_ingredient_group_name) {
         try {
           const groupId = await this.$store.dispatch(

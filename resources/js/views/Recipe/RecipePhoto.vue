@@ -4,14 +4,15 @@
       <b-carousel
         @click="switchGallery(true)"
         v-model="active"
-        :indicator="true"
+        :indicator="recipe.photos.length > 1"
         :indicator-background="false"
         :indicator-inside="true"
         indicator-mode="click"
         indicator-position="is-bottom"
         indicator-style="is-boxes"
         :overlay="gallery"
-        :pause-hover="!gallery"
+        :pause-hover="!gallery && recipe.photos.length > 1"
+        :arrow="recipe.photos.length > 1"
       >
         <b-carousel-item
           id="carousel"
@@ -36,7 +37,7 @@
 
     <div v-else-if="placeholder">
       <b-carousel :indicator="false" :arrow="false" :pause-hover="false">
-        <b-carousel-item id="carousel">
+        <b-carousel-item id="carousel" class="placeholder">
           <span class="image">
             <b-image :src="placeholder" :placeholder="placeholder" />
           </span>
@@ -162,11 +163,11 @@ export default {
   height: 250px;
 
   @media screen and (max-width: 768px) {
-    height: 400px;
+    height: 312px;
   }
 
-  @media screen and (max-width: 360px) {
-    height: 350px;
+  &.placeholder {
+    cursor: initial;
   }
 
   > span.image {

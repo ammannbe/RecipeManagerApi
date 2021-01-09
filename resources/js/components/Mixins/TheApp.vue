@@ -36,5 +36,9 @@ export default {
 <style lang="scss" scoped>
 header {
   height: 88px;
+
+  @media screen and (max-width: 1024px) {
+    height: 44px;
+  }
 }
 </style>

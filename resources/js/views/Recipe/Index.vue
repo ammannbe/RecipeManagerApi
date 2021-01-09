@@ -255,6 +255,7 @@ export default {
 .headline {
   display: flex;
   justify-content: space-between;
+  padding: 0px 10px 20px 10px;
 }
 
 .meta {

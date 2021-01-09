@@ -240,7 +240,7 @@ export default {
           confirm: () => {
             this.$store.dispatch("cookbooks/index", {
               trashed: true,
-              page: cookbooks.current_page
+              page: this.cookbooks.current_page
             });
           }
         }
