@@ -67,7 +67,7 @@ class DatabaseIntegrityCommand extends Command
         $ids = $query->pluck('id')->implode(', ');
         $this->error("Problems found: {$count} (ID's: {$ids})");
 
-        return (bool) $count;
+        return true;
     }
 
     /**

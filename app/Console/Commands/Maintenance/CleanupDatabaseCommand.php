@@ -122,7 +122,7 @@ class CleanupDatabaseCommand extends Command
 
         $response = null;
         while (!$response) {
-            $response = $this->ask('Which table(s) you would you like to cleanup? (comma separated list)');
+            $response = $this->ask('Which table(s) would you like to cleanup? (comma separated list)');
         }
         return explode(',', $response);
     }
