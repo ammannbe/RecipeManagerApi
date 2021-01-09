@@ -63,9 +63,6 @@ class RecipeController extends Controller
             $recipe->tags()->sync($validated['tags']);
         }
 
-        foreach ($recipe->addMultipleMediaFromRequest(['photos']) as $fileAdder) {
-            $fileAdder->toMediaCollection('recipe_photos');
-        };
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 
