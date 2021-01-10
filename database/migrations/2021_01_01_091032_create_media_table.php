@@ -35,24 +35,45 @@ class CreateMediaTable extends Migration
             $table->nullableTimestamps();
         });
 
-        \File::moveDirectory(storage_path('app/images/recipes'), storage_path('app/images/recipes.old'));
-        \Storage::disk('recipe_photos')->makeDirectory('');
-        \File::copy(storage_path('app/images/recipes.old/.gitignore'), storage_path('app/images/recipes/.gitignore'));
-        Recipe::withoutGlobalScopes()->whereNotNull('photos')->each(function (Recipe $recipe) {
-            if (!\File::exists(storage_path("app/images/recipes.old/{$recipe->id}"))) {
-                return;
-            }
-
-            $files = \File::files(storage_path("app/images/recipes.old/{$recipe->id}"));
-
-            foreach ($files as $file) {
-                $recipe->addMedia($file->getPathname())->toMediaCollection('recipe_photos');
-            }
-        });
+        $this->migratePhotos();
 
         Schema::table('recipes', function (Blueprint $table) {
             $table->dropColumn('photos');
         });
+    }
+
+    /**
+     * Migrate existing photos to new database schema
+     *
+     * @return void
+     */
+    private function migratePhotos(): void
+    {
+        if (empty(\Storage::disk('recipe_photos')->directories())) {
+            return;
+        }
+
+        $path = storage_path('app/images/recipes');
+        $pathOld = storage_path('app/images/recipes.old');
+
+        \File::moveDirectory($path, $pathOld);
+        \Storage::disk('recipe_photos')->makeDirectory('');
+        if (\File::exists("{$pathOld}/.gitignore")) {
+            \File::copy("{$pathOld}/.gitignore", "{$path}/.gitignore");
+        }
+        $recipes = Recipe::withoutGlobalScopes()->whereNotNull('photos')->get();
+        foreach ($recipes as $recipe) {
+            if (!\File::exists("{$pathOld}/{$recipe->id}")) {
+                return;
+            }
+
+            $files = \File::files("{$pathOld}/{$recipe->id}");
+
+            foreach ($files as $file) {
+                $path = $file->getPathname();
+                $recipe->addMedia($path)->toMediaCollection('recipe_photos');
+            }
+        }
     }
 
     /**

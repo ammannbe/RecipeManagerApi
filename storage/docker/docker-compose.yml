@@ -2,6 +2,13 @@ version: "3"
 
 networks:
   recipe-manager:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+
+volumes:
+  html:
 
 services:
   app:
@@ -11,12 +18,12 @@ services:
       - CONTAINER_ROLE=app
     volumes:
       - html:/var/www/html
-      - ./data:/var/www/html/storage/app
+      - ./data/app:/var/www/html/storage/app
       - ./.env:/var/www/html/.env
     networks:
       - recipe-manager
-    expose:
-      - 80
+    ports:
+      - 80:8080
     depends_on:
       - db
       - redis
@@ -28,7 +35,7 @@ services:
       - CONTAINER_ROLE=queue
     volumes:
       - html:/var/www/html
-      - ./data:/var/www/html/storage/app
+      - ./data/app:/var/www/html/storage/app
       - ./.env:/var/www/html/.env
     networks:
       - recipe-manager
@@ -42,7 +49,7 @@ services:
       - CONTAINER_ROLE=scheduler
     volumes:
       - html:/var/www/html
-      - ./data:/var/www/html/storage/app
+      - ./data/app:/var/www/html/storage/app
       - ./.env:/var/www/html/.env
     networks:
       - recipe-manager
@@ -60,7 +67,7 @@ services:
     networks:
       - recipe-manager
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
 
   redis:
     image: redis:${REDIS_VERSION}
