@@ -52,18 +52,23 @@ export default {
 
   header {
     align-items: flex-start;
+    flex-grow: unset;
   }
 
-  .media {
-    justify-content: center;
+  div.card-content {
+    flex-grow: 1;
 
-    img {
-      max-height: 170px;
+    .media {
+      justify-content: center;
+
+      img {
+        max-height: 170px;
+      }
     }
-  }
 
-  .content {
-    font-size: 90%;
+    .content {
+      font-size: 90%;
+    }
   }
 
   footer {
