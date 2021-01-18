@@ -13,7 +13,7 @@ if [[ "$role" == "app" ]]; then
     sleep 60
 
     # Generate the app key (if not already done)
-    sudo -u www-data php artisan key:generate --verbose --no-interaction
+    sudo -u www-data php artisan key:generate --no-interaction
 
     # Cache config, routes and views
     sudo -u www-data php artisan config:cache
@@ -32,13 +32,13 @@ elif [[ "$role" == "scheduler" ]]; then
     sleep 300
     echo "Running the scheduler..."
     while [ true ]; do
-        sudo -u www-data php /var/www/html/artisan schedule:run --verbose --no-interaction &
+        sudo -u www-data php /var/www/html/artisan schedule:run --no-interaction &
         sleep 60
     done
 elif [[ "$role" == "queue" ]]; then
     sleep 300
     echo "Running the queue..."
-    sudo -u www-data php /var/www/html/artisan queue:work --verbose
+    sudo -u www-data php /var/www/html/artisan queue:work
 else
     echo "Could not match the container role \"$role\""
     exit 1

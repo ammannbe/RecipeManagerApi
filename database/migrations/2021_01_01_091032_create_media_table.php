@@ -64,14 +64,13 @@ class CreateMediaTable extends Migration
         $recipes = Recipe::withoutGlobalScopes()->whereNotNull('photos')->get();
         foreach ($recipes as $recipe) {
             if (!\File::exists("{$pathOld}/{$recipe->id}")) {
-                return;
+                continue;
             }
 
             $files = \File::files("{$pathOld}/{$recipe->id}");
 
             foreach ($files as $file) {
-                $path = $file->getPathname();
-                $recipe->addMedia($path)->toMediaCollection('recipe_photos');
+                $recipe->addMedia($file->getPathname())->toMediaCollection('recipe_photos');
             }
         }
     }
