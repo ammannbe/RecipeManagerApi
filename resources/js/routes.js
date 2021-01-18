@@ -49,6 +49,11 @@ let routes = [
         path: '/admin',
         name: 'admin',
         component: require('./views/Admin/Index').default
+    },
+    {
+        path: '*',
+        name: 'NotFound',
+        component: require('./components/NotFound.vue').default
     }
 ];
 

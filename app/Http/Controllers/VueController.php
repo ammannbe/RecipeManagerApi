@@ -20,4 +20,14 @@ class VueController extends Controller
     {
         return view('app');
     }
+
+    /**
+     * Show the NOT FOUND page
+     *
+     * @return void
+     */
+    public function notFound(): void
+    {
+        abort(404);
+    }
 }
