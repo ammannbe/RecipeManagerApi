@@ -1,5 +1,10 @@
 <template>
-  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
+  <b-field
+    :label-position="labelPosition"
+    :horizontal="horizontal"
+    :message="message"
+    :type="type"
+  >
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -7,21 +12,13 @@
         <b-icon size="is-small" icon="question-circle" />
       </b-tooltip>
     </template>
-    <mavon-editor
-      class="mavon-editor"
-      :class="{'is-danger border': !!message}"
-      v-model="model"
-      :language="$i18n.locale"
-      :toolbars="toolbars"
-      :placeholder="placeholder"
-      :autofocus="autofocus"
-      @save="$emit('save')"
-    ></mavon-editor>
+    <textarea id="markdown" :value="model" />
   </b-field>
 </template>
 
 <script>
-import "mavon-editor/dist/css/index.css";
+import SimpleMDE from "simplemde";
+import "simplemde/dist/simplemde.min.css";
 
 export default {
   props: [
@@ -40,41 +37,7 @@ export default {
   ],
   data() {
     return {
-      toolbars: {
-        bold: true,
-        italic: true,
-        header: true,
-        underline: true,
-        strikethrough: true,
-        mark: true,
-        superscript: true,
-        subscript: true,
-        quote: true,
-        ol: true,
-        ul: true,
-        link: true,
-        imagelink: false,
-        code: true,
-        table: true,
-        fullscreen: true,
-        readmodel: true,
-        htmlcode: true,
-        help: true,
-        /* 1.3.5 */
-        undo: true,
-        redo: true,
-        trash: true,
-        save: true,
-        /* 1.4.2 */
-        navigation: false,
-        /* 2.1.8 */
-        alignleft: true,
-        aligncenter: true,
-        alignright: true,
-        /* 2.2.1 */
-        subfield: true,
-        preview: true
-      }
+      simplemde: null
     };
   },
   computed: {
@@ -97,6 +60,15 @@ export default {
 
       return "is-danger";
     }
+  },
+  mounted() {
+    this.simplemde = new SimpleMDE({
+      element: document.getElementById("markdown"),
+      spellChecker: false
+    });
+    this.simplemde.codemirror.on("change", () => {
+      this.model = this.simplemde.value();
+    });
   }
 };
 </script>
@@ -105,8 +77,11 @@ export default {
 .is-danger.border {
   border: 1px solid red;
 }
+</style>
 
-.mavon-editor {
-  z-index: 99999 !important;
+<style lang="scss">
+.editor-toolbar.fullscreen,
+.CodeMirror-fullscreen {
+  z-index: 9999;
 }
 </style>

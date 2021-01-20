@@ -38,7 +38,7 @@ export default {
   props: ["recipe"],
   computed: {
     instructions() {
-      return this.$markdownIt.render(this.recipe.instructions.substr(0, 100));
+      return this.$remarkable.render(this.recipe.instructions.substr(0, 100));
     }
   }
 };

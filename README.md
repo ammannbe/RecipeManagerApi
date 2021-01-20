@@ -168,6 +168,8 @@ php artisan migrate:fresh --seed
 -   [timtnleeProject/vuejs-clipper](https://github.com/timtnleeProject/vuejs-clipper) - Vue.js image clipping components using Vue-Rx.
 -   [vuejs/vue-rx](https://github.com/vuejs/vue-rx) - RxJS integration for Vue.js.
 -   [kirschbaum-development/laravel-translations-loader](https://github.com/kirschbaum-development/laravel-translations-loader) - Webpack loader to import Laravel translation files (PHP or JSON) into your JS bundle as JSON.
+-   [sparksuite/simplemde-markdown-editor](https://github.com/sparksuite/simplemde-markdown-editor) - A simple, beautiful, and embeddable JavaScript Markdown editor.
+-   [jonschlinkert/remarkable](https://github.com/jonschlinkert/remarkable) - Markdown parser, done right.
 
 ## Contributing
 

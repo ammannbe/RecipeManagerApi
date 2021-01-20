@@ -1,25 +1,26 @@
 <template>
   <div class="add-padding">
     <h2
-      :class="{'title is-4': true, 'can-edit': editmode.enabled}"
-      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
+      :class="{ 'title is-4': true, 'can-edit': editmode.enabled }"
+      @click="
+        $store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })
+      "
       :title="title"
-    >{{ $t('Instructions') }}</h2>
+    >
+      {{ $t("Instructions") }}
+    </h2>
 
-    <rm-markdown
-      v-if="editmode.editing"
-      v-model="instructions"
-      @save="$emit('update')"
-      :autofocus="false"
-    ></rm-markdown>
+    <rm-markdown v-if="editmode.editing" v-model="instructions" />
 
     <div
       v-else
-      :class="{'can-edit': editmode.enabled}"
+      :class="{ 'can-edit': editmode.enabled }"
       class="content"
       :title="title"
-      v-html="$markdownIt.render(instructions)"
-      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
+      v-html="$remarkable.render(instructions)"
+      @click="
+        $store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })
+      "
     ></div>
   </div>
 </template>
@@ -45,6 +46,16 @@ export default {
         return this.$t("Click to edit");
       }
       return "";
+    }
+  },
+  data() {
+    return {
+      activeTab: 1
+    };
+  },
+  watch: {
+    activeTab(value) {
+      this.$forceUpdate();
     }
   }
 };
