@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Ingredients\Unit;
+namespace App\Http\Requests\Recipes\Category;
 
 use App\Http\Requests\FormRequestRules;
 use Illuminate\Foundation\Http\FormRequest;

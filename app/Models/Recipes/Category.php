@@ -48,6 +48,15 @@ class Category extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'can_delete',
+    ];
+
+    /**
      * Relations that cascade or restrict on delete.
      *
      * @var array
@@ -66,6 +75,16 @@ class Category extends Model
         parent::boot();
 
         static::addGlobalScope(new OrderByNameScope);
+    }
+
+    /**
+     * This ressource can be deleted
+     *
+     * @return bool
+     */
+    public function getCanDeleteAttribute(): bool
+    {
+        return !$this->recipes()->exists();
     }
 
     /**

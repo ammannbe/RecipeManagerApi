@@ -1,7 +1,9 @@
 <template>
   <div class="columns">
     <div class="column">
-      <h3 class="title is-4 creating" @click="addOrEditUser()">{{ $t('Users') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditUser()">
+        {{ $t("Users") }}
+      </h3>
       <ul>
         <li :key="u.id" v-for="u in users">
           <span v-if="u.name != user.name">
@@ -33,7 +35,44 @@
     </div>
 
     <div class="column">
-      <h3 class="title is-4 creating" @click="addOrEditUnit()">{{ $t('Units') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditCategory()">
+        {{ $t("Categories") }}
+      </h3>
+      <ul>
+        <li :key="category.id" v-for="category in categories">
+          <span>
+            <button
+              v-if="!category.deleted_at"
+              @click.prevent="removeCategory({ id: category.id })"
+              class="button is-white is-small"
+              :disabled="!category.can_delete"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+            <button
+              v-else
+              @click.prevent="restoreCategory({ id: category.id })"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-redo"></i>
+            </button>
+            <button
+              :disabled="category.deleted_at"
+              @click.prevent="addOrEditCategory(category)"
+              class="button is-white is-small"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+            {{ category.name }}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="column">
+      <h3 class="title is-4 creating" @click="addOrEditUnit()">
+        {{ $t("Units") }}
+      </h3>
       <ul>
         <li :key="unit.id" v-for="unit in units">
           <span>
@@ -66,16 +105,20 @@
     </div>
 
     <div class="column">
-      <h3
-        class="title is-4 creating"
-        @click="addOrEditIngredientAttribute()"
-      >{{ $t('Ingredient attributes') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditIngredientAttribute()">
+        {{ $t("Ingredient attributes") }}
+      </h3>
       <ul>
-        <li :key="ingredientAttribute.id" v-for="ingredientAttribute in ingredientAttributes">
+        <li
+          :key="ingredientAttribute.id"
+          v-for="ingredientAttribute in ingredientAttributes"
+        >
           <span>
             <button
               v-if="!ingredientAttribute.deleted_at"
-              @click.prevent="removeIngredientAttribute({ id: ingredientAttribute.id })"
+              @click.prevent="
+                removeIngredientAttribute({ id: ingredientAttribute.id })
+              "
               class="button is-white is-small"
               :disabled="!ingredientAttribute.can_delete"
             >
@@ -83,7 +126,9 @@
             </button>
             <button
               v-else
-              @click.prevent="restoreIngredientAttribute({ id: ingredientAttribute.id })"
+              @click.prevent="
+                restoreIngredientAttribute({ id: ingredientAttribute.id })
+              "
               class="button is-white is-small"
             >
               <i class="fas fa-redo"></i>
@@ -102,7 +147,9 @@
     </div>
 
     <div class="column">
-      <h3 class="title is-4 creating" @click="addOrEditFood()">{{ $t('Foods') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditFood()">
+        {{ $t("Foods") }}
+      </h3>
       <ul>
         <li :key="food.id" v-for="food in foods">
           <span>
@@ -135,7 +182,9 @@
     </div>
 
     <div v-if="!$env.DISABLE_TAGS" class="column">
-      <h3 class="title is-4 creating" @click="addOrEditTag()">{{ $t('Tags') }}</h3>
+      <h3 class="title is-4 creating" @click="addOrEditTag()">
+        {{ $t("Tags") }}
+      </h3>
       <ul>
         <li :key="tag.id" v-for="tag in tags">
           <span>
@@ -176,12 +225,13 @@ import Unit from "./Unit";
 import IngredientAttribute from "./IngredientAttribute";
 import Food from "./Food";
 import Tag from "./Tag";
+import Category from "./Category";
 
 export default {
   metaInfo() {
     return {
-      title: this.$t('Administration')
-    }
+      title: this.$t("Administration")
+    };
   },
   data() {
     return {
@@ -196,6 +246,7 @@ export default {
     ...mapState({
       user: state => state.user.data,
       users: state => state.users.data,
+      categories: state => state.categories.data,
       units: state => state.units.data,
       ingredientAttributes: state => state.ingredient_attributes.data,
       foods: state => state.foods.data,
@@ -224,6 +275,7 @@ export default {
       }
 
       this.$store.dispatch("users/index", { trashed: true });
+      this.$store.dispatch("categories/index", { trashed: true });
       this.$store.dispatch("units/index", { trashed: true });
       this.$store.dispatch("ingredient_attributes/index", { trashed: true });
       this.$store.dispatch("foods/index", { trashed: true });
@@ -236,6 +288,8 @@ export default {
       restoreUser: "users/restore",
       removeUnit: "units/remove",
       restoreUnit: "units/restore",
+      removeCategory: "categories/remove",
+      restoreCategory: "categories/restore",
       removeIngredientAttribute: "ingredient_attributes/remove",
       restoreIngredientAttribute: "ingredient_attributes/restore",
       removeFood: "foods/remove",
@@ -249,6 +303,14 @@ export default {
         component: User,
         props: { params: data },
         events: { confirm: () => this.load("users") }
+      });
+    },
+    addOrEditCategory(data) {
+      this.$buefy.modal.open({
+        ...this.modalOptions,
+        component: Category,
+        props: { params: data },
+        events: { confirm: () => this.load("categories") }
       });
     },
     addOrEditUnit(data) {
@@ -301,5 +363,11 @@ li > span {
 .button.is-small {
   padding-left: 0.5em;
   padding-right: 0.5em;
+}
+</style>
+
+<style lang="scss">
+html {
+  overflow-x: auto;
 }
 </style>

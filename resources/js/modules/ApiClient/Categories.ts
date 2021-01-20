@@ -9,7 +9,7 @@ export interface Category {
 export default class Categories extends ApiClient {
     protected url = "/categories";
 
-    public async index(): Promise<Category[]> {
-        return super.index();
+    public async index({ trashed = false }): Promise<Category[]> {
+        return super.index({ trashed });
     }
 }
