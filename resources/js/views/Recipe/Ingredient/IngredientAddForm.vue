@@ -1,8 +1,9 @@
 <template>
   <rm-modal-form
     :title="$t('Add ingredient')"
-    @close="$emit('close')"
-    @confirm="submit"
+    :next-button="true"
+    @close="close"
+    @submit.prevent="submit"
   >
     <rm-select
       v-model="ingredient_id"
@@ -86,18 +87,6 @@
       :options="ingredientGroups"
       :message="errors.new_ingredient_group_name"
     />
-
-    <template slot="buttons">
-      <button class="button" type="button" @click="$emit('close')">
-        {{ $t("Cancel") }}
-      </button>
-      <button class="button is-primary" @click="$emit('confirm')">
-        {{ $t("Save") }}
-      </button>
-      <button class="button is-primary" @click="confirmAndNext">
-        {{ $t("Save and next") }}
-      </button>
-    </template>
   </rm-modal-form>
 </template>
 
@@ -152,13 +141,11 @@ export default {
       this.ingredient_group_id = this.ingredientGroupId;
       this.ingredient_id = null;
     },
-    async confirmAndNext() {
-      await this.$emit("confirm");
-      setTimeout(() => {
-        this.$emit("next");
-      }, 500);
+    close() {
+      this.initForm();
+      this.$emit("close");
     },
-    async submit() {
+    async submit($event) {
       const recipeId = this.recipe.id;
 
       const ingredientGroup = this.ingredientGroups.find(
@@ -184,7 +171,11 @@ export default {
         data: this.form
       });
 
-      this.$emit("close");
+      if ($event.submitter.hasAttribute("next")) {
+        this.$emit("next");
+      }
+      this.$emit("confirm");
+      this.close();
     }
   }
 };

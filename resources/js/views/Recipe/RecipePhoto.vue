@@ -14,11 +14,7 @@
         :pause-hover="!gallery && recipe.photos.length > 1"
         :arrow="recipe.photos.length > 1"
       >
-        <b-carousel-item
-          id="carousel"
-          v-for="photos in recipe.photos"
-          :key="photos.id"
-        >
+        <b-carousel-item v-for="photos in recipe.photos" :key="photos.id">
           <span class="image">
             <b-image
               :src="gallery !== true ? photos.url + '?thumbnail' : photos.url"
@@ -159,26 +155,40 @@ export default {
 </style>
 
 <style lang="scss">
-#carousel {
-  height: 250px;
+.carousel {
+  &.is-overlay {
+    > .carousel-items {
+      height: 80%;
 
-  @media screen and (max-width: 768px) {
-    height: 312px;
-  }
-
-  &.placeholder {
-    cursor: initial;
-  }
-
-  > span.image {
-    height: 100%;
-
-    > figure.image {
-      height: 100%;
-
-      > img {
+      > .carousel-item {
         height: 100%;
-        object-fit: contain;
+      }
+    }
+  }
+
+  > .carousel-items {
+    > .carousel-item {
+      height: 250px;
+
+      @media screen and (max-width: 768px) {
+        height: 312px;
+      }
+
+      &.placeholder {
+        cursor: initial;
+      }
+
+      > span.image {
+        height: 100%;
+
+        > figure.image {
+          height: 100%;
+
+          > img {
+            height: 100%;
+            object-fit: contain;
+          }
+        }
       }
     }
   }

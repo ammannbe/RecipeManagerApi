@@ -3,7 +3,7 @@
     :title="$t('Crop photo')"
     :confirm-text="$t('Crop')"
     @close="$emit('close')"
-    @confirm="crop"
+    @submit.prevent="crop"
     class="rm-image-crop-modal"
   >
     <div class="controls">

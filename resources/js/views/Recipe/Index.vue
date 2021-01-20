@@ -42,34 +42,42 @@
 
     <div class="edit-buttons" v-if="this.loggedIn && recipe.can_edit">
       <button
-        class="button is-rounded is-danger"
         v-if="editmode.enabled"
+        class="button is-rounded is-danger"
         @click="remove"
       >
-        Löschen
+        {{ $t("Delete recipe") }}
       </button>
       <button
+        v-if="editmode.enabled && !editmode.editing"
         class="button is-rounded"
-        v-if="editmode.enabled"
-        @click="
-          $store.dispatch('recipe/editmode/edit', {
-            editing: !editmode.editing
-          })
-        "
+        @click="$store.dispatch('recipe/editmode/edit', { editing: true })"
       >
-        Bearbeiten
+        {{ $t("Edit recipe") }}
       </button>
       <button
-        @click="
-          $store.dispatch('recipe/editmode/enable', {
-            enable: !editmode.enabled
-          })
-        "
-        class="button is-rounded is-primary enable"
-        :class="{ 'is-open': editmode.enabled }"
+        v-if="editmode.enabled && editmode.editing"
+        class="button is-rounded"
+        @click="update"
       >
-        <i v-if="editmode.enabled" class="fas fa-times"></i>
-        <i v-else class="fas fa-bars"></i>
+        {{ $t("Save") }}
+      </button>
+      <button
+        v-if="editmode.enabled"
+        class="button is-rounded is-primary enable is-open"
+        @click="
+          initForm();
+          $store.dispatch('recipe/editmode/enable', { enable: false });
+        "
+      >
+        <i class="fas fa-times"></i>
+      </button>
+      <button
+        v-if="!editmode.enabled"
+        class="button is-rounded is-primary enable"
+        @click="$store.dispatch('recipe/editmode/enable', { enable: true })"
+      >
+        <i class="fas fa-bars"></i>
       </button>
     </div>
   </div>

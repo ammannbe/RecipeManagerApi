@@ -1,4 +1,4 @@
-import languageBundle from '@kirschbaum-development/laravel-translations-loader!@kirschbaum-development/laravel-translations-loader';
+import languageBundle from '@kirschbaum-development/laravel-translations-loader?parameters={$1}!@kirschbaum-development/laravel-translations-loader';
 import VueI18n from 'vue-i18n';
 import Locale from './modules/Locale';
 

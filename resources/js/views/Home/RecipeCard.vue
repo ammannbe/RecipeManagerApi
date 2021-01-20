@@ -62,7 +62,8 @@ export default {
       justify-content: center;
 
       img {
-        max-height: 170px;
+        height: 300px;
+        object-fit: contain;
       }
     }
 

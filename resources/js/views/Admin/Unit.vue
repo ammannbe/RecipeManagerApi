@@ -3,7 +3,7 @@
     :title="title"
     :errors="errors"
     @close="$emit('close')"
-    @confirm="submit"
+    @submit.prevent="submit"
     v-slot="{ errors }"
   >
     <rm-textinput

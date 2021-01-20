@@ -2,7 +2,7 @@
   <rm-modal-form
     :title="$t('Edit ingredient')"
     @close="$emit('close')"
-    @confirm="submit"
+    @submit.prevent="submit"
   >
     <rm-select
       v-model="ingredient_id"

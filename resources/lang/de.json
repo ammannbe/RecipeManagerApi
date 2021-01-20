@@ -125,5 +125,9 @@
     "Save and next": "Speichern und nächstes",
     "Max file size: 2MB": "Max. Dateigrösse: 2MB",
     "Optimal ratio: 1x1": "Optimales Verhältnis: 1x1",
-    "Delete the current photo": "Das aktuelle Foto löschen"
+    "Delete the current photo": "Das aktuelle Foto löschen",
+    "Hours": "Stunden",
+    "Minutes": "Minuten",
+    "Edit recipe": "Rezept bearbeiten",
+    "Search for :search": "Suche für :search"
 }

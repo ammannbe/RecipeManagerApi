@@ -23,7 +23,7 @@
       :controls-position="controlsPosition || 'compact'"
       :size="size"
       :autofocus="autofocus"
-    ></b-numberinput>
+    />
   </b-field>
 </template>
 

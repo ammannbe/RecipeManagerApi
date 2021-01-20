@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('confirm')">
+  <form @submit.prevent="$emit('submit', $event)">
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ title }}</p>
@@ -10,11 +10,23 @@
       </section>
       <footer class="modal-card-foot">
         <slot name="buttons">
-          <button class="button" type="button" @click="$emit('close')">
+          <button
+            class="button"
+            type="button"
+            @click.prevent="$emit('close', $event)"
+          >
             {{ computedCloseText }}
           </button>
-          <button type="submit" class="button is-primary">
+          <button class="button is-primary" type="submit">
             {{ computedConfirmText }}
+          </button>
+          <button
+            v-if="nextButton === true"
+            class="button is-primary"
+            type="submit"
+            next
+          >
+            {{ computedConfirmAndNextText }}
           </button>
         </slot>
       </footer>
@@ -24,7 +36,14 @@
 
 <script>
 export default {
-  props: ["title", "closeText", "confirmText", "errors"],
+  props: [
+    "title",
+    "closeText",
+    "confirmText",
+    "confirmAndNextText",
+    "errors",
+    "nextButton"
+  ],
   computed: {
     computedCloseText() {
       if (this.closeText) {
@@ -39,6 +58,13 @@ export default {
       }
 
       return this.$t("Save");
+    },
+    computedConfirmAndNextText() {
+      if (this.confirmAndNextText) {
+        return this.confirmAndNextText;
+      }
+
+      return this.$t("Save and next");
     }
   },
   mounted() {
@@ -46,5 +72,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
