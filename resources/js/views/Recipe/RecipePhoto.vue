@@ -13,6 +13,7 @@
         :overlay="gallery"
         :pause-hover="!gallery && recipe.photos.length > 1"
         :arrow="recipe.photos.length > 1"
+        :autoplay="!gallery"
       >
         <b-carousel-item v-for="photos in recipe.photos" :key="photos.id">
           <span class="image">

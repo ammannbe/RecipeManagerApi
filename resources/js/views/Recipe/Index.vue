@@ -135,9 +135,11 @@ export default {
       meta: [
         {
           name: "description",
-          content: this.$t(
-            `${this.recipe.name} from ${author.name} in category ${category.name}`
-          )
+          content: this.$t("{recipe} from {author} in category {category}", {
+            recipe: this.recipe.name,
+            author: author.name,
+            category: category.name
+          })
         },
         { name: "robots", content: "index,follow" },
         { property: "og:type", content: "website" },
@@ -149,9 +151,11 @@ export default {
         },
         {
           property: "og:description",
-          content: this.$t(
-            `${this.recipe.name} from ${author.name} in category ${category.name}`
-          )
+          content: this.$t("{recipe} from {author} in category {category}", {
+            recipe: this.recipe.name,
+            author: author.name,
+            category: category.name
+          })
         },
         { property: "og:url", content: window.location.href },
         ...meta

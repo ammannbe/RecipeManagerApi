@@ -129,5 +129,6 @@
     "Hours": "Stunden",
     "Minutes": "Minuten",
     "Edit recipe": "Rezept bearbeiten",
-    "Search for :search": "Suche für :search"
+    "Search for :search": "Suche für :search",
+    ":recipe from :author in category :category": ":recipe von :author in der Kategorie :category"
 }

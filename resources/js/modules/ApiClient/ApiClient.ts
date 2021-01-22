@@ -54,19 +54,21 @@ export default class ApiClient {
         } catch (error) {
             Loading.close();
 
-            if (error.response.status !== 401) {
-                const type = "is-danger";
-                let message = error.response.data.message;
-                if (error.response.data.errors) {
-                    for (const errors in error.response.data.errors) {
-                        if (Object.prototype.hasOwnProperty.call(error.response.data.errors, errors)) {
-                            const message: string = error.response.data.errors[errors];
-                            Snackbar.open({ type, message });
-                        }
+            if (error.response.status === 401) {
+                return Promise.reject(this.rawResponse ? error : error.response);
+            }
+
+            const type = "is-danger";
+            let message = error.response.data.message;
+            if (error.response.data.errors) {
+                for (const errors in error.response.data.errors) {
+                    if (Object.prototype.hasOwnProperty.call(error.response.data.errors, errors)) {
+                        const message: string = error.response.data.errors[errors];
+                        Snackbar.open({ type, message });
                     }
-                } else {
-                    Snackbar.open({ type, message });
                 }
+            } else {
+                Snackbar.open({ type, message });
             }
 
             return Promise.reject(this.rawResponse ? error : error.response);
