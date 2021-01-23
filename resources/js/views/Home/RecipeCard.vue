@@ -60,11 +60,6 @@ export default {
 
     .media {
       justify-content: center;
-
-      img {
-        height: 300px;
-        object-fit: contain;
-      }
     }
 
     .content {
@@ -83,5 +78,10 @@ export default {
 .content > * {
   margin-top: 0 !important;
   margin-bottom: 0.4em !important;
+}
+
+div.card-content .media img {
+  height: 300px;
+  object-fit: contain;
 }
 </style>
