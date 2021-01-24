@@ -11,22 +11,28 @@
       ></rm-textinput>
 
       <rm-submit-button>
-        {{ $t('Save') }}
+        {{ $t("Save") }}
         <template v-slot:buttons>
           <b-button
             @click="$store.dispatch('recipe/editmode/edit', { editing: false })"
             type="is-danger"
-          >{{ $t('Cancel') }}</b-button>
+          >
+            {{ $t("Cancel") }}
+          </b-button>
         </template>
       </rm-submit-button>
     </form>
 
     <h1
       v-else
-      @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
-      :class="{'title has-text-centered': true, 'can-edit': editmode.enabled}"
+      @click="
+        $store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })
+      "
+      :class="{ 'title has-text-centered': true, 'can-edit': editmode.enabled }"
       :title="title"
-    >{{ recipe | name }}</h1>
+    >
+      {{ recipe | name }}
+    </h1>
   </div>
 </template>
 

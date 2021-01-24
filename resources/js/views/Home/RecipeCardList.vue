@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div v-if="!loaded" ref="top" class="columns is-centered">
+      <recipe-card-skeleton
+        v-for="i in limit"
+        :key="i"
+        class="column is-5-tablet is-one-fifth-fullhd"
+      />
+    </div>
+
     <div ref="top" class="columns is-centered">
       <recipe-card
         v-for="recipe in recipes.data"
@@ -18,7 +26,7 @@
       @load="loadPagination"
     ></pagination>
     <infinite-loading v-else @infinite="load">
-      <template slot="no-more">{{ $t('No more data :)') }}</template>
+      <template slot="no-more">{{ $t("No more data :)") }}</template>
     </infinite-loading>
   </div>
 </template>
@@ -27,9 +35,10 @@
 import { mapState } from "vuex";
 import InfiniteLoading from "vue-infinite-loading";
 import RecipeCard from "./RecipeCard";
+import RecipeCardSkeleton from "./RecipeCardSkeleton";
 
 export default {
-  components: { RecipeCard, InfiniteLoading },
+  components: { RecipeCard, RecipeCardSkeleton, InfiniteLoading },
   props: ["filterByName"],
   data() {
     return {
@@ -41,6 +50,9 @@ export default {
     ...mapState({
       recipes: state => state.recipes.data
     }),
+    loaded() {
+      return !!this.recipes.data;
+    },
     filter() {
       if (this.filterByName) {
         return { "filter[name]": this.filterByName };
@@ -49,12 +61,10 @@ export default {
     }
   },
   created() {
-    if (this.$env.PREFER_PAGINATION) {
-      this.$store.dispatch("recipes/index", {
-        filter: this.filter,
-        limit: this.limit
-      });
-    }
+    this.$store.dispatch("recipes/index", {
+      filter: this.filter,
+      limit: this.limit
+    });
   },
   methods: {
     load($state) {

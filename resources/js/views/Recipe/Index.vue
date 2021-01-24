@@ -118,7 +118,7 @@ export default {
     if (this.recipe.photos && this.recipe.photos.length) {
       meta.push({
         property: "og:image",
-        content: this.recipe.photos[0].url + "?thumbnail"
+        content: this.recipe.photos[0].url
       });
     }
     let author = {};
@@ -204,8 +204,8 @@ export default {
   },
   methods: {
     async load() {
-      (this.loaded = false),
-        await this.$store.dispatch("recipe/show", { id: this.id });
+      this.loaded = false;
+      await this.$store.dispatch("recipe/show", { id: this.id });
 
       if (this.loggedIn) {
         this.$store.dispatch("categories/index", {});
