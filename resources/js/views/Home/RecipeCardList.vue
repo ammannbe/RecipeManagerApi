@@ -26,7 +26,7 @@
       @load="loadPagination"
     ></pagination>
     <infinite-loading v-else @infinite="load">
-      <template slot="no-more">{{ $t("No more data :)") }}</template>
+      <template slot="no-more">&nbsp;</template>
     </infinite-loading>
   </div>
 </template>
@@ -39,7 +39,7 @@ import RecipeCardSkeleton from "./RecipeCardSkeleton";
 
 export default {
   components: { RecipeCard, RecipeCardSkeleton, InfiniteLoading },
-  props: ["filterByName"],
+  props: ["search"],
   data() {
     return {
       limit: 16,
@@ -52,36 +52,47 @@ export default {
     }),
     loaded() {
       return !!this.recipes.data;
-    },
-    filter() {
-      if (this.filterByName) {
-        return { "filter[name]": this.filterByName };
-      }
-      return null;
     }
   },
   created() {
-    this.$store.dispatch("recipes/index", {
-      filter: this.filter,
-      limit: this.limit
-    });
+    if (this.search) {
+      this.$store.dispatch("recipes/search", {
+        limit: this.limit,
+        search: this.search
+      });
+    } else {
+      this.$store.dispatch("recipes/index", { limit: this.limit });
+    }
   },
   methods: {
     load($state) {
       if (this.page >= this.recipes.last_page) {
         $state.complete();
       }
-      this.$store
-        .dispatch("recipes/index", {
-          page: this.page,
-          filter: this.filter,
-          limit: this.limit,
-          push: this.page !== 1
-        })
-        .then(() => {
-          $state.loaded();
-          this.page++;
-        });
+      if (this.search) {
+        this.$store
+          .dispatch("recipes/search", {
+            page: this.page,
+            search: this.search,
+            limit: this.limit,
+            push: this.page !== 1
+          })
+          .then(() => {
+            $state.loaded();
+            this.page++;
+          });
+      } else {
+        this.$store
+          .dispatch("recipes/index", {
+            page: this.page,
+            limit: this.limit,
+            push: this.page !== 1
+          })
+          .then(() => {
+            $state.loaded();
+            this.page++;
+          });
+      }
     },
     loadPagination(page) {
       this.$store.dispatch("recipes/index", {
@@ -102,5 +113,11 @@ div.columns {
   > .column {
     margin: 10px;
   }
+}
+</style>
+
+<style lang="scss">
+.infinite-status-prompt {
+  display: none;
 }
 </style>

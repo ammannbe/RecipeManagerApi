@@ -46,7 +46,7 @@ export default {
     "options"
   ],
   data() {
-    return { filter: "" };
+    return { search: "" };
   },
   computed: {
     model: {

@@ -104,7 +104,7 @@ See also [Laravel Logging](https://laravel.com/docs/8.x/logging)
 See also [Laravel Database](https://laravel.com/docs/8.x/database#configuration)
 
 -   **DB_CONNECTION:** Change the DBMS. _Default: mysql_
--   **DB_HOST:** Database host address. For docker-compose: "db". _Default: 127.0.0.1_
+-   **DB_HOST:** Database host address. _Default: db_
 -   **DB_PORT:** Database host port _Default: 3306_
 -   **DB_DATABASE:** Table name _Default: recipe_manager_
 -   **DB_USERNAME:** Username _Default: recipe_manager_
@@ -114,9 +114,17 @@ See also [Laravel Database](https://laravel.com/docs/8.x/database#configuration)
 
 See also [Laravel Redis](https://laravel.com/docs/8.x/redis)
 
--   **REDIS_HOST:** Redis host address. For docker-compose: "redis" _Default: 127.0.0.1_
+-   **REDIS_HOST:** Redis host address. _Default: redis_
 -   **REDIS_PORT:** Redis host port _Default: 6379_
 -   **REDIS_PASSWORD:** Provide a random string
+
+## Full-text search
+
+See also [Laravel Scout](https://laravel.com/docs/8.x/scout) and [Meilisearch](https://github.com/meilisearch/meilisearch-laravel-scout)
+
+-   **SCOUT_DRIVER:** Scout Driver. _Default: meilisearch_
+-   **MEILISEARCH_HOST:** MeiliSearch Host. _Default: http://meilisearch:7700_
+-   **MEILISEARCH_KEY:** MeiliSearch Master Key
 
 ## Mail
 

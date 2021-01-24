@@ -38,10 +38,11 @@ git clone https://github.com/ammannbe/RecipeManager.git
 
 -   LAMP Stack or Docker for production use
 -   Requirements for [laravel](https://laravel.com/docs)
+-   GD and WebP for image manipulation
 -   Composer
 -   NPM
+-   MeiliSearch
 -   Redis (optional but not recommended)
--   GD and WebP for image manipulation
 
 ### Installation
 
@@ -160,6 +161,7 @@ php artisan migrate:fresh --seed
 -   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [barryvdh/laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
 -   [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) - Associate files with Eloquent models
+-   [meilisearch/meilisearch-laravel-scout](https://github.com/meilisearch/meilisearch-laravel-scout) - Laravel Scout Engine for Meilisearch
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js

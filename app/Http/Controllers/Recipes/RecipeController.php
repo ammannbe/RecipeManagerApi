@@ -6,9 +6,9 @@ use App\Models\Recipes\Recipe;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recipes\Recipe\Index;
 use App\Http\Requests\Recipes\Recipe\Store;
+use App\Http\Requests\Recipes\Recipe\Search;
 use App\Http\Requests\Recipes\Recipe\Update;
 use App\Http\Controllers\Recipes\TagController;
-use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use App\Http\Controllers\Recipes\CookbookController;
 
 class RecipeController extends Controller
@@ -46,6 +46,17 @@ class RecipeController extends Controller
         return $model
             ->filter($request->filter, $request->method)
             ->paginate($request->limit);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \App\Http\Requests\Recipes\Recipe\Search  $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function search(Search $request)
+    {
+        return Recipe::search($request->search)->paginate($request->limit);
     }
 
     /**

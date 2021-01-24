@@ -33,6 +33,10 @@ export default class Recipes extends ApiClient {
         return super.index(filter) as Promise<Recipe[]>;
     }
 
+    public async search(search: string, filter?: object): Promise<Recipe[]> {
+        return this.get(`${this.url}/search`, { search, ...filter });
+    }
+
     public async show(id: number): Promise<any> {
         return super.show(id) as Promise<any>;
     }

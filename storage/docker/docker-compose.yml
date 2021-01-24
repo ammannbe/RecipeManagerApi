@@ -75,3 +75,11 @@ services:
     networks:
       - recipe-manager
     command: redis-server --requirepass ${REDIS_PASSWORD}
+
+  meilisearch:
+    image: getmeili/meilisearch:${MEILISEARCH_VERSION}
+    restart: always
+    environment:
+      - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+    networks:
+      - recipe-manager

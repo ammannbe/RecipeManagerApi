@@ -5,7 +5,7 @@
       {{ $t("Search for {search}", { search: $route.query.search }) }}
     </p>
     <hr />
-    <recipe-card-list :filter-by-name="$route.query.search"></recipe-card-list>
+    <recipe-card-list :search="$route.query.search"></recipe-card-list>
   </div>
 </template>
 

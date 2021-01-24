@@ -24,6 +24,8 @@ use App\Http\Controllers\Ingredients\IngredientAttributeController;
 |
 */
 
+Route::get('recipes/search', [RecipeController::class, 'search']);
+
 Route::apiResources([
     'foods' => 'Ingredients\FoodController',
     'ingredient-attributes' => 'Ingredients\IngredientAttributeController',

@@ -19,7 +19,9 @@
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.21",
         "laravel/sanctum": "^2.8",
+        "laravel/scout": "^8.6",
         "laravel/tinker": "^2.5",
+        "meilisearch/meilisearch-laravel-scout": "^0.12.1",
         "rutorika/sortable": "^8.0",
         "spatie/laravel-medialibrary": "^9.4"
     },

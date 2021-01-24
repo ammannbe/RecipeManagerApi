@@ -4,6 +4,7 @@ namespace App\Models\Recipes;
 
 use App\Models\FilterScope;
 use App\Models\SlugifyTrait;
+use Laravel\Scout\Searchable;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Collection;
@@ -73,7 +74,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Recipe extends Model implements HasMedia
 {
-    use FilterScope, SoftDeletes, SoftCascadeTrait, SlugifyTrait, HasFactory, InteractsWithMedia;
+    use FilterScope,
+        SoftDeletes,
+        SoftCascadeTrait,
+        SlugifyTrait,
+        HasFactory,
+        InteractsWithMedia,
+        Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -144,6 +151,40 @@ class Recipe extends Model implements HasMedia
                 return $q->isPublic();
             });
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id'                => $this->id,
+            'name'              => $this->name,
+            'instructions'      => $this->instructions,
+            'preparation_time'  => $this->preparation_time,
+        ];
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with([
+            'author',
+            'category',
+            'cookbook',
+            'tags',
+            'ingredients',
+            'ingredientGroups',
+            'ratings',
+        ]);
     }
 
     /**
