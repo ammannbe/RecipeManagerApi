@@ -33,11 +33,7 @@
 
       <hr />
 
-      <div v-if="false" class="ratings">
-        <h2 class="title is-4">{{ $t("Ratings") }}</h2>
-        <!-- TODO: -->
-        <rating-card-list :id="id" />
-      </div>
+      <rating-card-list />
     </div>
 
     <div class="edit-buttons" v-if="this.loggedIn && recipe.can_edit">
@@ -49,18 +45,25 @@
         {{ $t("Delete recipe") }}
       </button>
       <button
+        v-if="editmode.enabled"
+        class="button is-rounded"
+        @click="addIngredient"
+      >
+        <i class="fas fa-plus"></i> {{ $t("Add ingredient") }}
+      </button>
+      <button
         v-if="editmode.enabled && !editmode.editing"
         class="button is-rounded"
         @click="$store.dispatch('recipe/editmode/edit', { editing: true })"
       >
-        {{ $t("Edit recipe") }}
+        <i class="fas fa-edit"></i> {{ $t("Edit recipe") }}
       </button>
       <button
         v-if="editmode.enabled && editmode.editing"
         class="button is-rounded"
         @click="update"
       >
-        {{ $t("Save") }}
+        <i class="fas fa-save"></i> {{ $t("Save") }}
       </button>
       <button
         v-if="editmode.enabled"
@@ -92,7 +95,9 @@ import RecipeTitle from "./RecipeTitle";
 import RecipePhoto from "./RecipePhoto";
 import PropertyList from "./PropertyList/PropertyList";
 import IngredientListContainer from "./Ingredient/IngredientListContainer";
+import IngredientAddForm from "./Ingredient/IngredientAddForm";
 import Instructions from "./Instructions";
+import RatingCardList from "./Rating/RatingCardList";
 import { createHelpers } from "vuex-map-fields";
 
 const { mapFields } = createHelpers({
@@ -107,7 +112,8 @@ export default {
     RecipePhoto,
     PropertyList,
     IngredientListContainer,
-    Instructions
+    Instructions,
+    RatingCardList
   },
   props: ["id", "slug"],
   metaInfo() {
@@ -171,6 +177,7 @@ export default {
   computed: {
     ...mapState({
       recipe: state => state.recipe.data,
+      ratings: state => state.ratings.data,
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),
@@ -258,6 +265,21 @@ export default {
           this.$router.push({ name: "home" });
         }
       });
+    },
+    addIngredient() {
+      if (!this.editmode.enabled) {
+        return;
+      }
+
+      this.$buefy.modal.open({
+        parent: this,
+        component: IngredientAddForm,
+        hasModalCard: true,
+        trapFocus: true,
+        events: {
+          next: () => this.addIngredient()
+        }
+      });
     }
   }
 };
@@ -291,6 +313,10 @@ export default {
 
   > button {
     margin-top: 5px;
+  }
+
+  > button:not(.is-primary) > i {
+    margin-right: 7px;
   }
 
   > .enable {

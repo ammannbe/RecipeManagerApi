@@ -132,9 +132,8 @@ export default {
         component: IngredientAddForm,
         hasModalCard: true,
         trapFocus: true,
-        props: { ingredient_group_id },
         events: {
-          next: () => this.add(ingredient_group_id)
+          next: () => this.add()
         }
       });
     }

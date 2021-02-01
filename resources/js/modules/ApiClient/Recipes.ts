@@ -29,12 +29,12 @@ export default class Recipes extends ApiClient {
         this.rawResponse = rawResponse;
     }
 
-    public async index(filter?: object): Promise<Recipe[]> {
-        return super.index(filter) as Promise<Recipe[]>;
+    public async index(data?: object): Promise<Recipe[]> {
+        return super.index(data) as Promise<Recipe[]>;
     }
 
-    public async search(search: string, filter?: object): Promise<Recipe[]> {
-        return this.get(`${this.url}/search`, { search, ...filter });
+    public async search(data?: object): Promise<Recipe[]> {
+        return this.get(`${this.url}/search`, data);
     }
 
     public async show(id: number): Promise<any> {

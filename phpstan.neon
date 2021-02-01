@@ -14,7 +14,7 @@ parameters:
     # The level 8 is the highest level
     level: 7
 
-    excludes_analyse:
+    excludePaths:
         - routes/console.php
         - database/migrations/2014_04_02_193005_create_translations_table.php
 

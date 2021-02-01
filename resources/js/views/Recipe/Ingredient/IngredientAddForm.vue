@@ -100,7 +100,6 @@ const { mapFields } = createHelpers({
 });
 
 export default {
-  props: ["ingredientGroupId"],
   data() {
     return {
       new_ingredient_group_name: null
@@ -138,7 +137,7 @@ export default {
       this.unit_id = null;
       this.food_id = null;
       this.ingredient_attributes = [];
-      this.ingredient_group_id = this.ingredientGroupId;
+      this.ingredient_group_id = null;
       this.ingredient_id = null;
     },
     close() {

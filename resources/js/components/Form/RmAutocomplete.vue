@@ -17,7 +17,7 @@
       :autofocus="autofocus"
       field="name"
       :open-on-focus="true"
-      @select="option => $emit('select', option.id)"
+      @select="option => $emit('select', option.id || null)"
     >
       <slot></slot>
     </b-autocomplete>

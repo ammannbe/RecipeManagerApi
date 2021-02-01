@@ -20,7 +20,7 @@ const state = () => ({
 
 const actions = {
     async index({ commit }, { trashed = false, only_own = false, page = 1, filter = null, limit = 15, push = false }) {
-        const recipes = await new Recipes().index({ trashed, only_own, page, limit, ...filter });
+        const recipes = await new Recipes().index({ trashed, only_own, page, limit, filter });
         if (push) {
             commit('pushRecipes', { recipes });
         } else {
@@ -29,7 +29,7 @@ const actions = {
         return recipes;
     },
     async search({ commit }, { page = 1, search = null, limit = 15, push = false }) {
-        const recipes = await new Recipes().search(search, { page, limit });
+        const recipes = await new Recipes().search({ search, page, limit });
         if (push) {
             commit('pushRecipes', { recipes });
         } else {

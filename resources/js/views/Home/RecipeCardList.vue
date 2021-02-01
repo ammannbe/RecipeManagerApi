@@ -95,11 +95,7 @@ export default {
       }
     },
     loadPagination(page) {
-      this.$store.dispatch("recipes/index", {
-        page,
-        filter: this.filter,
-        limit: this.limit
-      });
+      this.$store.dispatch("recipes/index", { page, limit: this.limit });
       document.getElementById("app").scrollIntoView({ behavior: "smooth" });
     }
   }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Recipes\Tag;
 use App\Models\Users\Author;
+use App\Models\Ratings\Rating;
 use App\Models\Recipes\Recipe;
 use App\Models\Ingredients\Food;
 use App\Models\Ingredients\Unit;
@@ -40,6 +41,7 @@ class ObserverServiceProvider extends ServiceProvider
         Ingredient::observe('App\Observers\Ingredients\IngredientObserver');
         Unit::observe('App\Observers\Ingredients\UnitObserver');
 
+        Rating::observe('App\Observers\Ratings\RatingObserver');
         RatingCriterion::observe('App\Observers\Ratings\RatingCriterionObserver');
 
         Category::observe('App\Observers\Recipes\CategoryObserver');

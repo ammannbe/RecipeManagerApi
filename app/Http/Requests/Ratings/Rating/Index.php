@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Ratings\Rating;
 
+use App\Http\Requests\FormRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class Store extends FormRequest
+class Index extends FormRequest
 {
+    use FormRequestRules;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +16,7 @@ class Store extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -24,10 +27,11 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'recipe_id'    => ['required', 'exists:recipes,id'],
-            'criterion_id' => ['required', 'exists:rating_criteria'],
-            'comment'      => ['required', 'string', 'max:60000'],
-            'stars'        => ['required', 'integer', 'min:0', 'max:5'],
+            'filter' => ['array'],
+            'filter.recipe_id'  => ['exists:recipes,id'],
+            'filter.user_id'    => ['exists:users,id'],
+            'limit' => $this->getLimitRule(),
+            'page'  => $this->getPageRule(),
         ];
     }
 }

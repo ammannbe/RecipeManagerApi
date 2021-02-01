@@ -2,8 +2,8 @@
 
 namespace App\Policies\Ratings;
 
-use App\Models\Ratings\Rating;
 use App\Models\Users\User;
+use App\Models\Ratings\Rating;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RatingPolicy
@@ -30,7 +30,7 @@ class RatingPolicy
      * @param  \App\Models\Users\User  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
         return true;
     }
@@ -42,7 +42,7 @@ class RatingPolicy
      * @param  \App\Models\Ratings\Rating  $rating
      * @return bool
      */
-    public function view(User $user, Rating $rating): bool
+    public function view(?User $user, Rating $rating): bool
     {
         return true;
     }

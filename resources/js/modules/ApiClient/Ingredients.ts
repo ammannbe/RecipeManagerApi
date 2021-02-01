@@ -30,8 +30,8 @@ export default class Ingredients extends ApiClient {
         this.recipeId = recipeId;
     }
 
-    public async index(filter?: object): Promise<Ingredient[]> {
-        return super.get(`/recipes/${this.recipeId}${this.url}`, filter);
+    public async index(data?: object): Promise<Ingredient[]> {
+        return super.get(`/recipes/${this.recipeId}${this.url}`, data);
     }
 
     public async store(data: Ingredient): Promise<any> {

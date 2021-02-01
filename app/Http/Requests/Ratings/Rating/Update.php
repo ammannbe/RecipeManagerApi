@@ -26,7 +26,7 @@ class Update extends FormRequest
         return [
             'criterion_id' => ['exists:rating_criteria'],
             'comment'      => ['string', 'max:60000'],
-            'stars'        => ['nullable', 'integer', 'max:5'],
+            'stars'        => ['integer', 'min:0', 'max:5'],
         ];
     }
 }

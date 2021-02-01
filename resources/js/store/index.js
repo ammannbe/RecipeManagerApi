@@ -13,6 +13,7 @@ import units from './modules/units'
 import foods from './modules/foods'
 import user from './modules/user'
 import users from './modules/users'
+import ratings from './modules/ratings';
 import editmode from './modules/editmode'
 import socialsharing from './modules/socialsharing'
 import form from './modules/form'
@@ -35,6 +36,7 @@ export default new Vuex.Store({
         ingredient_attributes,
         user,
         users,
+        ratings,
         editmode,
         socialsharing,
         form

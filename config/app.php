@@ -72,6 +72,7 @@ return [
     'disabled_controllers' => [
         \App\Http\Controllers\Recipes\CookbookController::class => env('DISABLE_COOKBOOKS', false),
         \App\Http\Controllers\Recipes\TagController::class => env('DISABLE_TAGS', false),
+        \App\Http\Controllers\Ratings\RatingController::class => env('DISABLE_RATINGS', false),
     ],
 
     /*
@@ -86,6 +87,18 @@ return [
     'disable_registration' => env('DISABLE_REGISTRATION', false),
 
     'trusted_proxies' => explode(',', env('TRUSTED_PROXIES')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Maxmimum amount of stars per rating
+    |--------------------------------------------------------------------------
+    |
+    | Set the maximum amount of stars per rating.
+    | The default is 5.
+    |
+    */
+
+    'max_rating_stars' => env('MAX_RATING_STARS', 5),
 
     /*
     |--------------------------------------------------------------------------

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Ratings;
 
 use App\Models\Ratings\Rating;
-use App\Models\Recipes\Recipe;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ratings\Rating\Index;
 use App\Http\Requests\Ratings\Rating\Store;
 use App\Http\Requests\Ratings\Rating\Update;
 
@@ -23,12 +23,14 @@ class RatingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Models\Recipes\Recipe  $recipe
-     * @return \Illuminate\Support\Collection
+     * @param  \App\Http\Requests\Ratings\Rating\Index  $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index(Recipe $recipe)
+    public function index(Index $request)
     {
-        return $recipe->ratings;
+        return Rating::latest()
+            ->filter($request->filter, $request->method)
+            ->paginate($request->limit);
     }
 
     /**
