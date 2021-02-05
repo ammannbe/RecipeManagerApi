@@ -40,6 +40,7 @@
       </h3>
       <p v-if="!this.sortedRecipes.length">
         <span>{{ $t("Seems a bit empty here...") }}</span>
+        <br />
         <router-link :to="{ name: 'recipes.add' }">
           {{ $t("Click here to create a recipe") }}
         </router-link>
@@ -97,6 +98,7 @@
       </h3>
       <p v-if="!this.sortedCookbooks.length">
         <span>{{ $t("Seems a bit empty here...") }}</span>
+        <br />
         <router-link :to="{ name: 'cookbooks.add' }">
           {{ $t("Click here to create a cookbook") }}
         </router-link>
@@ -148,8 +150,8 @@ import EditCookbook from "./EditCookbook";
 export default {
   metaInfo() {
     return {
-      title: 'Account'
-    }
+      title: "Account"
+    };
   },
   data() {
     return {

@@ -2,14 +2,12 @@
   <div class="ingredients" v-if="ingredients.length">
     <div v-if="hasIngredientsWithoutGroup">
       <h2
-        class="title is-4"
-        :class="{
-          'add-ingredient-form': editmode.enabled,
-          show: editmode.enabled
-        }"
+        class="main title is-4"
+        :class="{ 'add-ingredient-form show': editmode.enabled }"
         :title="title"
         @click="add"
       >
+        <span v-if="editmode.editing"><i class="fas fa-plus"></i></span>
         {{ $t("Ingredients") }}
       </h2>
       <ingredient-list
@@ -27,7 +25,6 @@
         v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         class="title is-4"
         :class="{ 'add-ingredient-form': editmode.enabled }"
-        :title="title"
       >
         {{ ingredientGroup.name }}
       </h2>
@@ -46,14 +43,12 @@
   <div v-else class="ingredients">
     <div>
       <h2
-        class="title is-4"
-        :class="{
-          'add-ingredient-form': editmode.enabled,
-          show: editmode.enabled
-        }"
+        class="main title is-4"
+        :class="{ 'add-ingredient-form': editmode.enabled }"
         :title="title"
         @click="add"
       >
+        <span v-if="editmode.editing"><i class="fas fa-plus"></i></span>
         {{ $t("Ingredients") }}
       </h2>
       <span>{{ $t("No ingredients available...") }}</span>
@@ -149,6 +144,16 @@ div.ingredients {
 
   .title.is-4 {
     margin-top: 20px;
+
+    > span {
+      margin-right: 8px;
+      font-size: 0.8em;
+    }
+  }
+
+  .title.main.is-4 {
+    display: flex;
+    align-items: center;
   }
 
   > div {
