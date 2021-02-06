@@ -90,7 +90,6 @@ See also: [Laravel Configuration](https://laravel.com/docs/8.x/configuration)
 See also [Laravel Logging](https://laravel.com/docs/8.x/logging)
 
 -   **LOG_CHANNEL:** Where should logs go. Possible values: stack, telegram, stderr _Default: stack_
--   **LOG_LEVEL:** The log level _Default: debug_
 -   **LOG_QUERIES:** Write every database query to the log file. This option enabled can blow up your log channel. _Default: false_
 -   **TELEGRAM_LOGGER_BOT_TOKEN:** Only for **LOG_CHANNEL=telegram**. Also see [Telegram BotFather](https://core.telegram.org/bots#6-botfather).
 -   **TELEGRAM_LOGGER_CHAT_ID:** Only for **LOG_CHANNEL=telegram**. Also see [Telegram BotFather](https://core.telegram.org/bots#6-botfather).

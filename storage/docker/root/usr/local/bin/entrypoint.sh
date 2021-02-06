@@ -9,9 +9,6 @@ role=${CONTAINER_ROLE:-app}
 chown -R www-data:www-data /var/www/html/storage/app
 
 if [[ "$role" == "app" ]]; then
-    echo "Wait 60s until MariaDB is up and running"
-    sleep 60
-
     # Generate the app key (if not already done)
     sudo -u www-data php artisan key:generate --no-interaction
 
@@ -22,6 +19,9 @@ if [[ "$role" == "app" ]]; then
 
     # Compile JS/CSS
     sudo -u www-data npm run prod
+
+    echo "Wait 30s until MariaDB is up and running"
+    sleep 30
 
     # Migrate Database
     sudo -u www-data php artisan migrate --force
