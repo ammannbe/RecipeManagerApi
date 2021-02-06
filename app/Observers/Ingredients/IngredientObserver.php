@@ -25,6 +25,10 @@ class IngredientObserver
         if ($ingredient->amount == 0 && !$ingredient->amount_max) {
             $ingredient->amount = null;
         }
+
+        if ($ingredient->amount_max <= $ingredient->amount) {
+            $ingredient->amount_max = null;
+        }
     }
 
     /**

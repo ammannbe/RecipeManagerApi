@@ -2,7 +2,7 @@
   <div
     class="column is-full-mobile is-full-tablet is-three-fifths-desktop is-offset-one-fifth-desktop"
   >
-    <h1 class="title has-text-centered">{{ $t('Infos') }}</h1>
+    <h1 class="title has-text-centered">{{ $t("Infos") }}</h1>
 
     <form @submit.prevent="submit">
       <rm-textinput
@@ -54,6 +54,7 @@
         horizontal
         v-model="preparation_time"
         :placeholder="$t('Please choose...')"
+        class="preparation_time"
       />
 
       <rm-multiselect
@@ -68,7 +69,9 @@
       <rm-submit-button>
         Speichern
         <template v-slot:buttons>
-          <b-button @click="$emit('back')" type="is-danger">{{ $t('Back') }}</b-button>
+          <b-button @click="$emit('back')" type="is-danger">{{
+            $t("Back")
+          }}</b-button>
         </template>
       </rm-submit-button>
     </form>
@@ -119,7 +122,7 @@ export default {
       }
     }, 1000);
 
-    this.instructions = this.$t('Click to edit') + '...';
+    this.instructions = this.$t("Click to edit") + "...";
     this.yield_amount = 4;
     this.complexity = this.complexities[1].id;
 
@@ -135,8 +138,8 @@ export default {
   },
   methods: {
     submit() {
-      this.$store.dispatch("recipe/store", { data: this.form }).then((recipe) => {
-        this.edit
+      this.$store.dispatch("recipe/store", { data: this.form }).then(recipe => {
+        this.edit;
         this.$router.push({
           name: "recipes",
           params: { id: recipe.id, slug: recipe.slug }
@@ -146,3 +149,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.preparation_time {
+  > div.field-label > .label {
+    margin-top: 20px;
+  }
+
+  > div.field-body .label {
+    margin-bottom: 0;
+  }
+}
+</style>

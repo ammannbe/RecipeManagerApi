@@ -87,7 +87,7 @@ form {
   > div > input {
     text-align: center;
     color: #363636;
-    font-size: 1rem;
+    font-size: 1em;
     font-weight: 600;
     line-height: 1.125;
   }

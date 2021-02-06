@@ -44,7 +44,7 @@
 
     .media {
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2em;
     }
 
     .content {

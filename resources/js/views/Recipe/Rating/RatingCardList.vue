@@ -62,6 +62,6 @@ export default {
 <style lang="scss" scoped>
 .hide-ratings {
   display: block;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5em;
 }
 </style>

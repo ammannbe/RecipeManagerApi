@@ -17,6 +17,12 @@
     padding: 30px;
 }
 
+@media screen and (max-width: 768px) {
+    #app {
+        font-size: 1.3em;
+    }
+}
+
 /* Markdown */
 .hljs-right {
     text-align: end;

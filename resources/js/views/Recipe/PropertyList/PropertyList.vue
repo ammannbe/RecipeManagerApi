@@ -67,6 +67,7 @@
       <property-list-item
         :label="$t('Preparation time')"
         :value="recipe.preparation_time"
+        :class="{ preparation_time: editmode.editing }"
       >
         <rm-timepicker
           v-model="preparation_time"
@@ -192,5 +193,21 @@ export default {
 ul {
   margin-top: 12px;
   margin-bottom: 5px;
+}
+</style>
+
+<style lang="scss">
+.preparation_time {
+  > span {
+    margin-bottom: -20px !important;
+  }
+
+  > div.field .label {
+    margin-bottom: 0;
+  }
+
+  .field {
+    margin-right: 4px;
+  }
 }
 </style>

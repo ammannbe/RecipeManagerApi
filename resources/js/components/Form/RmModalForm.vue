@@ -72,3 +72,13 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+form {
+  margin: 0 5px;
+}
+
+footer > .button {
+  margin-bottom: 5px;
+}
+</style>

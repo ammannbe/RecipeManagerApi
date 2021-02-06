@@ -62,7 +62,7 @@ div.social-sharing {
   position: relative;
 
   > a > i {
-    font-size: 2.5rem;
+    font-size: 2.5em;
     margin-right: 10px;
 
     &.fa-telegram {

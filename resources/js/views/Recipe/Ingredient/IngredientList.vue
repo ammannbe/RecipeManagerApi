@@ -100,8 +100,13 @@ export default {
   }
 
   > .fa-arrows-alt,
-  > .fas.fa-trash {
-    margin-right: 7px;
+  > .fas.fa-trash,
+  > .fas.fa-edit {
+    margin-right: 10px;
+
+    @media screen and (max-width: 768px) {
+      margin-right: 15px;
+    }
   }
 
   > .fa-trash {

@@ -144,6 +144,7 @@ div.ingredients {
 
   .title.is-4 {
     margin-top: 20px;
+    font-size: 1.5em;
 
     > span {
       margin-right: 8px;
@@ -160,7 +161,7 @@ div.ingredients {
     padding: 0 35px 30px 30px;
 
     @media screen and (max-width: 1024px) {
-      padding: 0;
+      padding: 0 20px 10px 0;
     }
 
     &.multiple-lists {
