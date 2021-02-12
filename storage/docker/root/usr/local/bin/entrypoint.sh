@@ -9,6 +9,9 @@ role=${CONTAINER_ROLE:-app}
 chown -R www-data:www-data /var/www/html/storage/app
 
 if [[ "$role" == "app" ]]; then
+    # Generate required symlink
+    sudo -u www-data php artisan storage:link
+
     # Generate the app key (if not already done)
     sudo -u www-data php artisan key:generate --no-interaction
 

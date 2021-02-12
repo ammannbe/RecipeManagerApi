@@ -56,6 +56,7 @@ Alternatively or for development purposes you can make a manual installation on 
 -   Install composer packages `composer install`
 -   Install NPM packages `npm install`
 -   Copy .env.example to .env and modify it to your needs
+-   Generate storage symlink `php artisan storage:link`
 -   Generate an app key `php artisan key:generate`
 -   Migrate the database `php artisan migrate`
 -   Add following to your crontab:
