@@ -4,15 +4,19 @@ namespace App\Models\Recipes;
 
 use App\Models\FilterScope;
 use App\Models\SlugifyTrait;
-use Illuminate\Http\UploadedFile;
+use Laravel\Scout\Searchable;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use League\Flysystem\FileNotFoundException;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -28,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string|null $yield_amount
  * @property string $complexity
  * @property string $instructions
- * @property array|null $photos
  * @property string|null $preparation_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -38,13 +41,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \App\Models\Recipes\Cookbook|null $cookbook
  * @property-read bool $can_edit
  * @property-read string $complexity_text
- * @property-read \App\Models\Recipes\array<string> $photo_paths
- * @property-read \App\Models\Recipes\array<string> $photo_urls
+ * @property-read Collection $photos
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\IngredientGroup[] $ingredientGroups
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\Ingredient[] $ingredients
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ratings\Rating[] $ratings
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Tag[] $tags
- * @method static Builder|Recipe filter($filter, $method = 'and')
+ * @method static Builder|Recipe filter(?array $filter, ?string $method = 'and')
  * @method static Builder|Recipe isOwn()
  * @method static Builder|Recipe isPublic()
  * @method static Builder|Recipe newModelQuery()
@@ -60,7 +63,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static Builder|Recipe whereId($value)
  * @method static Builder|Recipe whereInstructions($value)
  * @method static Builder|Recipe whereName($value)
- * @method static Builder|Recipe wherePhotos($value)
  * @method static Builder|Recipe wherePreparationTime($value)
  * @method static Builder|Recipe whereSlug($value)
  * @method static Builder|Recipe whereUpdatedAt($value)
@@ -70,9 +72,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Query\Builder|Recipe withoutTrashed()
  * @mixin \Eloquent
  */
-class Recipe extends Model
+class Recipe extends Model implements HasMedia
 {
-    use FilterScope, SoftDeletes, SoftCascadeTrait, SlugifyTrait, HasFactory;
+    use FilterScope,
+        SoftDeletes,
+        SoftCascadeTrait,
+        SlugifyTrait,
+        HasFactory,
+        InteractsWithMedia,
+        Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -86,17 +94,7 @@ class Recipe extends Model
         'yield_amount',
         'complexity',
         'instructions',
-        'photos',
         'preparation_time',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'photos' => 'array',
     ];
 
     /**
@@ -105,7 +103,7 @@ class Recipe extends Model
      * @var array
      */
     protected $appends = [
-        'photo_urls',
+        'photos',
         'can_edit',
     ];
 
@@ -146,11 +144,65 @@ class Recipe extends Model
             }
 
             return $query->where(function (Builder $q) {
+                /** @var Recipe $q */
                 return $q->isOwn();
             })->orWhere(function (Builder $q) {
+                /** @var Recipe $q */
                 return $q->isPublic();
             });
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id'                => $this->id,
+            'name'              => $this->name,
+            'instructions'      => $this->instructions,
+            'preparation_time'  => $this->preparation_time,
+        ];
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with([
+            'author',
+            'category',
+            'cookbook',
+            'tags',
+            'ingredients',
+            'ingredientGroups',
+            'ratings',
+        ]);
+    }
+
+    /**
+     * Register new media conversions
+     *
+     * This method is used by the  spatie/laravel-medialibrary package
+     *
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media|null $media
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumbnail')
+            ->width(200)
+            ->height(200)
+            ->sharpen(10);
+
+        $this->addMediaConversion('webp')
+            ->format(Manipulations::FORMAT_WEBP);
     }
 
     /**
@@ -219,41 +271,19 @@ class Recipe extends Model
     }
 
     /**
-     * Get the full URLs of the photos
+     * Get the related photos
      *
-     * @return array<string>
+     * @return \Illuminate\Support\Collection
      */
-    public function getPhotoUrlsAttribute(): array
+    public function getPhotosAttribute(): Collection
     {
-        if (!$this->photos) {
-            return [];
-        }
-
-        $urls = [];
-        foreach ($this->photos as $name) {
-            $urls[] = \Storage::disk('recipe_images')->url("{$this->id}/{$name}");
-        }
-
-        return $urls;
-    }
-
-    /**
-     * Get the full paths of the photos
-     *
-     * @return array<string>
-     */
-    public function getPhotoPathsAttribute(): array
-    {
-        if (!$this->photos) {
-            return [];
-        }
-
-        $paths = [];
-        foreach ($this->photos as $name) {
-            $paths[] = \Storage::disk('recipe_images')->path("{$this->id}/{$name}");
-        }
-
-        return $paths;
+        return $this->getMedia('recipe_photos')->map(function (Media $media) {
+            return collect([
+                'id'    => $media->id,
+                'name'  => $media->name,
+                'url'   => $media->getUrl(),
+            ]);
+        });
     }
 
     /**
@@ -268,51 +298,6 @@ class Recipe extends Model
         }
 
         return auth()->user()->can('update', $this);
-    }
-
-    /**
-     * Add a newly uploaded photo
-     *
-     * @param  \Illuminate\Http\UploadedFile  $photo
-     * @return void
-     */
-    public function addPhoto(UploadedFile $photo): void
-    {
-        if (!($photo instanceof UploadedFile)) {
-            throw new FileNotFoundException('The photo must be an uploaded file.');
-        }
-
-        $extension = $photo->getClientOriginalExtension();
-        $uuid = \Str::uuid()->toString();
-        $name = "{$uuid}-{$this->slug}.{$extension}";
-
-        $photo->storeAs("{$this->id}", $name, 'recipe_images');
-
-        $photos = array_filter($this->photos ?? []);
-        if (empty($photos)) {
-            $photos = [];
-        }
-        $photos[] = $name;
-
-        $this->update(['photos' => $photos]);
-    }
-
-    /**
-     * Remove an existing photo
-     *
-     * @param  string  $photo
-     * @return void
-     */
-    public function removePhoto(string $photo): void
-    {
-        $photos = collect($this->photos);
-        $index = $photos->search($photo);
-        if ($index >= 0) {
-            unset($photos[$index]);
-            $this->update(['photos' => $photos->toArray()]);
-        }
-
-        \Storage::disk('recipe_images')->delete("{$this->id}/{$photo}");
     }
 
     /**

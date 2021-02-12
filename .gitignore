@@ -16,8 +16,10 @@
 /storage/*.key
 /vendor
 .env
+.env.backup
 .phpunit.result.cache
 _ide_helper.php
+docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log

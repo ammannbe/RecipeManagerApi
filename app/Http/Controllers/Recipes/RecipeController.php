@@ -6,6 +6,7 @@ use App\Models\Recipes\Recipe;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recipes\Recipe\Index;
 use App\Http\Requests\Recipes\Recipe\Store;
+use App\Http\Requests\Recipes\Recipe\Search;
 use App\Http\Requests\Recipes\Recipe\Update;
 use App\Http\Controllers\Recipes\TagController;
 use App\Http\Controllers\Recipes\CookbookController;
@@ -30,6 +31,7 @@ class RecipeController extends Controller
      */
     public function index(Index $request)
     {
+        /** @var \App\Models\Recipes\Recipe $model */
         $model = Recipe::latest();
         if ($request->trashed && auth()->check()) {
             $model = $model->withTrashed();
@@ -47,6 +49,17 @@ class RecipeController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param  \App\Http\Requests\Recipes\Recipe\Search  $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function search(Search $request)
+    {
+        return Recipe::search($request->search)->paginate($request->limit);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Recipes\Recipe\Store  $request
@@ -60,9 +73,7 @@ class RecipeController extends Controller
         if (isset($validated['tags'])) {
             $recipe->tags()->sync($validated['tags']);
         }
-        foreach ($validated['photos'] ?? [] as $photo) {
-            $recipe->addPhoto($photo);
-        }
+
         return $this->responseCreated('recipes.show', $recipe->id);
     }
 

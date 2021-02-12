@@ -15,7 +15,11 @@
     <div class="container">
       <breadcrumb-trail :category="recipe.category" />
       <div class="meta columns">
-        <recipe-photo class="column is-one-fifth" :urls="recipe.photo_urls" :alt="recipe.name" />
+        <recipe-photo
+          class="column is-one-fifth"
+          :urls="recipe.photos.map(p => p.url)"
+          :alt="recipe.name"
+        />
         <property-list @update="update" @multiply="multiplier = $event" />
       </div>
 
@@ -29,26 +33,54 @@
 
       <hr />
 
-      <div v-if="false" class="ratings">
-        <h2 class="title is-4">{{ $t('Ratings') }}</h2>
-        <!-- TODO: -->
-        <rating-card-list :id="id" />
-      </div>
+      <rating-card-list />
     </div>
 
     <div class="edit-buttons" v-if="this.loggedIn && recipe.can_edit">
-      <button class="button is-rounded is-danger" v-if="editmode.enabled" @click="remove">Löschen</button>
       <button
-        class="button is-rounded"
         v-if="editmode.enabled"
-        @click="$store.dispatch('recipe/editmode/edit', { editing: !editmode.editing })"
-      >Bearbeiten</button>
-      <button
-        @click="$store.dispatch('recipe/editmode/enable', { enable: !editmode.enabled })"
-        class="button is-rounded is-primary enable"
+        class="button is-rounded is-danger"
+        @click="remove"
       >
-        <i v-if="editmode.enabled" class="fas fa-chevron-up" style="padding-top: 9px; padding-bottom: 12px;"></i>
-        <i v-else class="fas fa-chevron-down"></i>
+        {{ $t("Delete recipe") }}
+      </button>
+      <button
+        v-if="editmode.enabled"
+        class="button is-rounded"
+        @click="addIngredient"
+      >
+        <i class="fas fa-plus"></i> {{ $t("Add ingredient") }}
+      </button>
+      <button
+        v-if="editmode.enabled && !editmode.editing"
+        class="button is-rounded"
+        @click="$store.dispatch('recipe/editmode/edit', { editing: true })"
+      >
+        <i class="fas fa-edit"></i> {{ $t("Edit recipe") }}
+      </button>
+      <button
+        v-if="editmode.enabled && editmode.editing"
+        class="button is-rounded"
+        @click="update"
+      >
+        <i class="fas fa-save"></i> {{ $t("Save") }}
+      </button>
+      <button
+        v-if="editmode.enabled"
+        class="button is-rounded is-primary enable is-open"
+        @click="
+          initForm();
+          $store.dispatch('recipe/editmode/enable', { enable: false });
+        "
+      >
+        <i class="fas fa-times"></i>
+      </button>
+      <button
+        v-if="!editmode.enabled"
+        class="button is-rounded is-primary enable"
+        @click="$store.dispatch('recipe/editmode/enable', { enable: true })"
+      >
+        <i class="fas fa-bars"></i>
       </button>
     </div>
   </div>
@@ -63,7 +95,9 @@ import RecipeTitle from "./RecipeTitle";
 import RecipePhoto from "./RecipePhoto";
 import PropertyList from "./PropertyList/PropertyList";
 import IngredientListContainer from "./Ingredient/IngredientListContainer";
+import IngredientAddForm from "./Ingredient/IngredientAddForm";
 import Instructions from "./Instructions";
+import RatingCardList from "./Rating/RatingCardList";
 import { createHelpers } from "vuex-map-fields";
 
 const { mapFields } = createHelpers({
@@ -78,9 +112,62 @@ export default {
     RecipePhoto,
     PropertyList,
     IngredientListContainer,
-    Instructions
+    Instructions,
+    RatingCardList
   },
   props: ["id", "slug"],
+  metaInfo() {
+    const meta = [];
+    this.$env.LOCALES.forEach(locale =>
+      meta.push({ property: "og:locale:alternate", content: locale })
+    );
+    if (this.recipe.photos && this.recipe.photos.length) {
+      meta.push({
+        property: "og:image",
+        content: this.recipe.photos[0].url
+      });
+    }
+    let author = {};
+    if (this.recipe.author) {
+      author = this.recipe.author;
+    }
+    let category = {};
+    if (this.recipe.category) {
+      category = this.recipe.category;
+    }
+
+    return {
+      title: this.recipe.name,
+      meta: [
+        {
+          name: "description",
+          content: this.$t("{recipe} from {author} in category {category}", {
+            recipe: this.recipe.name,
+            author: author.name,
+            category: category.name
+          })
+        },
+        { name: "robots", content: "index,follow" },
+        { property: "og:type", content: "website" },
+        { property: "og:locale", content: this.$env.LOCALE },
+        { property: "og:site_name", content: this.recipe.name },
+        {
+          property: "og:title",
+          content: `${this.recipe.name} - ${category.name}`
+        },
+        {
+          property: "og:description",
+          content: this.$t("{recipe} from {author} in category {category}", {
+            recipe: this.recipe.name,
+            author: author.name,
+            category: category.name
+          })
+        },
+        { property: "og:url", content: window.location.href },
+        ...meta
+      ]
+    };
+  },
   data() {
     return {
       multiplier: 1,
@@ -90,6 +177,7 @@ export default {
   computed: {
     ...mapState({
       recipe: state => state.recipe.data,
+      ratings: state => state.ratings.data,
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),
@@ -123,8 +211,8 @@ export default {
   },
   methods: {
     async load() {
-      (this.loaded = false),
-        await this.$store.dispatch("recipe/show", { id: this.id });
+      this.loaded = false;
+      await this.$store.dispatch("recipe/show", { id: this.id });
 
       if (this.loggedIn) {
         this.$store.dispatch("categories/index", {});
@@ -177,6 +265,21 @@ export default {
           this.$router.push({ name: "home" });
         }
       });
+    },
+    addIngredient() {
+      if (!this.editmode.enabled) {
+        return;
+      }
+
+      this.$buefy.modal.open({
+        parent: this,
+        component: IngredientAddForm,
+        hasModalCard: true,
+        trapFocus: true,
+        events: {
+          next: () => this.addIngredient()
+        }
+      });
     }
   }
 };
@@ -186,6 +289,7 @@ export default {
 .headline {
   display: flex;
   justify-content: space-between;
+  padding: 0px 10px 20px 10px;
 }
 
 .meta {
@@ -211,12 +315,25 @@ export default {
     margin-top: 5px;
   }
 
+  > button:not(.is-primary) > i {
+    margin-right: 7px;
+  }
+
   > .enable {
-    padding-top: 14px;
+    padding-top: 11px;
     padding-bottom: 11px;
     padding-left: 18px;
     padding-right: 18px;
     font-size: 23px;
+
+    &.is-open {
+      > i {
+        padding-top: 13px;
+        padding-bottom: 13px;
+        padding-right: 2px;
+        padding-left: 2px;
+      }
+    }
   }
 }
 </style>

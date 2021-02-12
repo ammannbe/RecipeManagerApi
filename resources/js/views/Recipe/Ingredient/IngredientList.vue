@@ -1,12 +1,5 @@
 <template>
   <ul class="ingredients" :class="customClass">
-    <li class="add-ingredient" v-if="firstLevelList && editmode.enabled && showAddForm">
-      <ingredient-add-form
-        @cancel="$emit('cancelAdd')"
-        @created="$emit('created')"
-        :ingredient-group-id="ingredientGroupId"
-      ></ingredient-add-form>
-    </li>
     <draggable handle=".handle" :value="ingredients" @end="endDrag($event)">
       <div v-for="ingredient in ingredients" :key="ingredient.position">
         <div class="item">
@@ -31,7 +24,6 @@
 
         <ingredient-list
           v-if="ingredient.ingredients && ingredient.ingredients.length"
-          :show-add-form="false"
           :alternate-id="ingredient.id || null"
           :ingredients="ingredient.ingredients"
           :multiplier="multiplier"
@@ -49,22 +41,15 @@
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
 import Ingredient from "./Ingredient";
-import IngredientAddForm from "./IngredientAddForm";
 
 export default {
   name: "IngredientList", // For recursive components, make sure to provide the "name" option.
-  components: {
-    draggable,
-    Ingredient,
-    IngredientAddForm,
-    IngredientList: this
-  },
+  components: { draggable, Ingredient, IngredientList: this },
   props: [
     "ingredientGroupId",
     "ingredients",
     "multiplier",
     "firstLevelList",
-    "showAddForm",
     "alternateId",
     "customClass"
   ],
@@ -91,8 +76,7 @@ export default {
       this.$store.dispatch("ingredients/update", {
         id: ingredient.id,
         recipeId: ingredient.recipe_id,
-        property: "position",
-        value: newIndex + 1
+        data: { position: newIndex + 1 }
       });
     }
   }
@@ -116,8 +100,13 @@ export default {
   }
 
   > .fa-arrows-alt,
-  > .fas.fa-trash {
-    margin-right: 7px;
+  > .fas.fa-trash,
+  > .fas.fa-edit {
+    margin-right: 10px;
+
+    @media screen and (max-width: 768px) {
+      margin-right: 15px;
+    }
   }
 
   > .fa-trash {

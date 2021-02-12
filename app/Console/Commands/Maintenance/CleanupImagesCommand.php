@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands\Maintenance;
 
-use App\Models\Recipes\Recipe;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CleanupImagesCommand extends Command
 {
@@ -13,10 +14,9 @@ class CleanupImagesCommand extends Command
      * @var string
      */
     protected $signature = 'cleanup:images
-        {--files : Scan filesystem and get orphaned images ; With --fix, orphaned images will be imported}
-        {--directories : Scan filesystem and get orphaned directories ; With --fix, orphaned directories will be deleted}
-        {--database : Scan database and get orphaned entries ; With --fix, orphaned entries will be deleted}
-        {--fix : Fix all issues}
+        {--filesystem : Scan the filesystem. Delete orphaned files with --fix}
+        {--database : Scan database. Delete orphaned entries with --fix}
+        {--fix : Fix all issues. You should create a backup first.}
     ';
 
     /**
@@ -24,7 +24,7 @@ class CleanupImagesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Import orphaned images and/or delete orphaned directories/database entries';
+    protected $description = 'Find and/or delete orphaned files and db entries';
 
     /**
      * Minimum one command is executed
@@ -40,97 +40,71 @@ class CleanupImagesCommand extends Command
      */
     public function handle()
     {
-        if ($this->option('files')) {
+        if ($this->option('filesystem')) {
             $this->scanAndFixFiles();
-            $this->info('Done');
-            $this->executed = true;
-        }
-
-        if ($this->option('directories')) {
-            $this->line('');
-            $this->scanAndFixDirectories();
-            $this->info('Done');
             $this->executed = true;
         }
 
         if ($this->option('database')) {
-            $this->line('');
+            $this->newLine();
             $this->scanAndFixDatabase();
-            $this->info('Done');
             $this->executed = true;
+        }
+
+        if (!$this->executed) {
+            $this->error('No option specified!');
+            return 1;
         }
 
         return 0;
     }
 
     /**
-     * Loop through directories and import orphaned files
+     * Storage disk where the photos are saved
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    private static function disk(): Filesystem
+    {
+        return \Storage::disk('recipe_photos');
+    }
+
+    /**
+     * Loop through directories and delete orphaned files
      *
      * @return void
      */
     private function scanAndFixFiles(): void
     {
-        $this->line('Scan files');
+        $this->line('Scan files...');
 
-        $directories = collect(\Storage::disk('recipe_images')->directories());
-        $recipes = Recipe::get();
+        $directories = collect(self::disk()->directories());
+        $media = Media::get();
 
-        $directories->each(function ($id) use ($recipes) {
-            /** @var \App\Models\Recipes\Recipe|null $recipe */
-            $recipe = $recipes->find($id);
-            if (!$recipe) {
-                return;
-            }
-
-            $photos = collect($recipe->photos);
-
-            $files = \Storage::disk('recipe_images')->files($id);
-            $orphaned = collect($files)->map(function ($file) use ($id) {
-                return \Str::after($file, "{$id}/");
-            })->filter(function ($file) use ($photos) {
-                return $photos->search($file) === false;
-            });
-
-            $update = $orphaned->merge($photos);
-
-            if ($count = $orphaned->count()) {
-                $this->line("  ID {$recipe->id}: found {$count} orphaned " . \Str::plural('entry', $count));
-
-                if ($this->option('fix')) {
-                    $this->info("Imported orphaned photos in recipe {$recipe->id}");
-                    $recipe->update(['photos' => $update]);
-                }
-            }
-        });
-    }
-
-    /**
-     * Loop through directories and delete orphaned entries
-     *
-     * @return void
-     */
-    private function scanAndFixDirectories(): void
-    {
-        $this->line('Scan directories');
-
-        $directories = collect(\Storage::disk('recipe_images')->directories());
-        $recipeIds = Recipe::pluck('id');
-
-        $orphaned = $directories->filter(function ($id) use ($recipeIds) {
-            return $recipeIds->search($id) === false;
+        $toDelete = $directories->filter(function ($directory) use ($media) {
+            return $media->find($directory) === null;
         });
 
-        if ($count = $orphaned->count()) {
-            $this->line("  Found {$count} orphaned " . \Str::plural('entry', $count));
+        $count = $toDelete->count();
 
-            if ($this->option('fix')) {
-                $this->info("Delete orphaned directories");
-
-                $orphaned->each(function ($directory) {
-                    \Storage::disk('recipe_images')->deleteDirectory($directory);
-                });
-            }
+        if (!$count) {
+            $this->info('No orphaned folders found');
+            return;
         }
+
+        $textFolders = \Str::plural('folder', $count);
+        $this->line("Found {$count} orphaned {$textFolders}");
+
+        if (!$this->option('fix')) {
+            $this->info('(provide --fix to delete folders)');
+            return;
+        }
+
+        $this->info("Delete orphaned {$textFolders}...");
+        $this->withProgressBar($toDelete, function ($directory) {
+            self::disk()->deleteDirectory($directory);
+        });
+        $this->newLine();
     }
 
     /**
@@ -140,28 +114,34 @@ class CleanupImagesCommand extends Command
      */
     public function scanAndFixDatabase(): void
     {
-        $this->line('Scan database');
+        $this->line('Scan database...');
 
-        Recipe::whereNotNull('photos')->each(function ($recipe) {
-            $files = \Storage::disk('recipe_images')->files($recipe->id);
-            $files = collect($files)->map(function ($file) use ($recipe) {
-                return \Str::after($file, "{$recipe->id}/");
-            });
+        $directories = collect(self::disk()->directories());
+        $media = Media::get();
 
-            $photos = collect($recipe->photos)->filter(function ($photo) use ($files) {
-                return $files->search($photo) !== false;
-            });
-
-            $diff = collect($recipe->photos)->diff($photos);
-
-            if ($count = $diff->count()) {
-                $this->line("  ID {$recipe->id}: found {$count} orphaned " . \Str::plural('entry', $count));
-
-                if ($this->option('fix')) {
-                    $this->info("Delete orphaned photos in recipe {$recipe->id}");
-                    $recipe->update(['photos' => $photos->toArray()]);
-                }
-            }
+        $toDelete = $media->filter(function ($media) use ($directories) {
+            return $directories->search($media->id) === false;
         });
+
+        $count = $toDelete->count();
+
+        if (!$count) {
+            $this->info('No orphaned entries found');
+            return;
+        }
+
+        $textEntries = \Str::plural('entry', $count);
+        $this->line("Found {$count} orphaned {$textEntries}");
+
+        if (!$this->option('fix')) {
+            $this->info('(provide --fix to delete entries)');
+            return;
+        }
+
+        $this->info("Delete orphaned {$textEntries}...");
+        $this->withProgressBar($toDelete, function ($media) {
+            $media->delete();
+        });
+        $this->newLine();
     }
 }

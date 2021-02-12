@@ -1,58 +1,58 @@
 <template>
-  <div class="ingredients" v-if="ingredients.length || (showAddForm && editmode.enabled)">
-    <div v-if="hasIngredientsWithoutGroup || showAddForm">
+  <div class="ingredients" v-if="ingredients.length">
+    <div v-if="hasIngredientsWithoutGroup">
       <h2
-        class="title is-4"
-        :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
+        class="main title is-4"
+        :class="{ 'add-ingredient-form show': editmode.enabled }"
         :title="title"
-        @click="showAddForm = !showAddForm"
-      >{{ $t('Ingredients') }}</h2>
+        @click="add"
+      >
+        <span v-if="editmode.editing"><i class="fas fa-plus"></i></span>
+        {{ $t("Ingredients") }}
+      </h2>
       <ingredient-list
         :ingredients="$store.getters['ingredients/byGroup']()"
         :multiplier="multiplier"
-        :show-add-form="showAddForm && !showAddFormGroup"
         :ingredient-group-id="null"
         :first-level-list="true"
-        @cancelAdd="showAddForm = false"
-        @created="created"
         @remove="remove"
         @edit="edit"
+        @add="add"
       />
     </div>
     <div :key="key" v-for="(ingredientGroup, key) in ingredientGroups">
       <h2
+        v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         class="title is-4"
-        :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddFormGroup, 'cancel': !!showAddFormGroup}"
-        :title="title"
-        @click="toggleShowAddFormGroup(ingredientGroup.name)"
-      >{{ ingredientGroup.name }}</h2>
+        :class="{ 'add-ingredient-form': editmode.enabled }"
+      >
+        {{ ingredientGroup.name }}
+      </h2>
       <ingredient-list
         v-if="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :ingredients="$store.getters['ingredients/byGroup'](ingredientGroup.id)"
         :multiplier="multiplier"
-        :show-add-form="showAddFormGroup == ingredientGroup.name && !showAddForm"
         :ingredient-group-id="ingredientGroup.id"
         :first-level-list="true"
         @remove="remove"
         @edit="edit"
+        @add="add"
       />
-      <span v-else>{{ $t('No ingredients available...') }}</span>
     </div>
   </div>
-
-  <div v-else>
-    <h2
-      class="title is-4"
-      :class="{'add-ingredient-form': editmode.enabled, 'show': !showAddForm, 'cancel': showAddForm}"
-      :title="title"
-      @click="showAddForm = !showAddForm"
-    >{{ $t('Ingredients') }}</h2>
-    <ingredient-add-form
-      v-if="showAddForm && editmode.enabled"
-      @cancel="showAddForm = false"
-      @created="created"
-    ></ingredient-add-form>
-    <span v-else>{{ $t('No ingredients available...') }}</span>
+  <div v-else class="ingredients">
+    <div>
+      <h2
+        class="main title is-4"
+        :class="{ 'add-ingredient-form': editmode.enabled }"
+        :title="title"
+        @click="add"
+      >
+        <span v-if="editmode.editing"><i class="fas fa-plus"></i></span>
+        {{ $t("Ingredients") }}
+      </h2>
+      <span>{{ $t("No ingredients available...") }}</span>
+    </div>
   </div>
 </template>
 
@@ -60,16 +60,11 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 import IngredientList from "./IngredientList";
 import IngredientEditForm from "./IngredientEditForm";
+import IngredientAddForm from "./IngredientAddForm";
 
 export default {
   components: { IngredientList },
   props: ["id", "multiplier"],
-  data() {
-    return {
-      showAddForm: false,
-      showAddFormGroup: false
-    };
-  },
   computed: {
     ...mapState({
       ingredientGroups: state => state.ingredient_groups.data,
@@ -109,19 +104,6 @@ export default {
     ...mapActions({
       remove: "ingredients/remove"
     }),
-    toggleShowAddFormGroup(group) {
-      this.showAddForm = false;
-
-      if (this.showAddFormGroup == group) {
-        this.showAddFormGroup = false;
-        return;
-      }
-
-      this.showAddFormGroup = group;
-    },
-    created() {
-      this.showAddForm = false;
-    },
     edit(ingredient) {
       if (!this.editmode.enabled) {
         return;
@@ -133,6 +115,21 @@ export default {
         hasModalCard: true,
         trapFocus: true,
         props: { ingredient }
+      });
+    },
+    add(ingredient_group_id) {
+      if (!this.editmode.enabled) {
+        return;
+      }
+
+      this.$buefy.modal.open({
+        parent: this,
+        component: IngredientAddForm,
+        hasModalCard: true,
+        trapFocus: true,
+        events: {
+          next: () => this.add()
+        }
       });
     }
   }
@@ -147,13 +144,24 @@ div.ingredients {
 
   .title.is-4 {
     margin-top: 20px;
+    font-size: 1.5em;
+
+    > span {
+      margin-right: 8px;
+      font-size: 0.8em;
+    }
+  }
+
+  .title.main.is-4 {
+    display: flex;
+    align-items: center;
   }
 
   > div {
     padding: 0 35px 30px 30px;
 
     @media screen and (max-width: 1024px) {
-      padding: 0;
+      padding: 0 20px 10px 0;
     }
 
     &.multiple-lists {

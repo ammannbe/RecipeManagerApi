@@ -1,5 +1,10 @@
 <template>
-  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
+  <b-field
+    :label-position="labelPosition"
+    :horizontal="horizontal"
+    :message="message"
+    :type="type"
+  >
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -14,10 +19,11 @@
       :step="step"
       :placeholder="placeholder"
       :disabled="disabled"
+      :controls="controls"
       :controls-position="controlsPosition || 'compact'"
       :size="size"
       :autofocus="autofocus"
-    ></b-numberinput>
+    />
   </b-field>
 </template>
 
@@ -43,7 +49,8 @@ export default {
     "max",
     "step",
     "size",
-    "controlsPosition"
+    "controlsPosition",
+    "controls"
   ],
   computed: {
     model: {
@@ -68,3 +75,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.required {
+  color: red;
+}
+</style>

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import MavonEditor from 'mavon-editor';
+import VueMeta from 'vue-meta'
 import Vuex from 'vuex'
 import Buefy from 'buefy'
 import VueInternationalization from 'vue-i18n';
@@ -12,6 +12,7 @@ import env from './env';
 import moment from 'moment';
 import Loading from './modules/Loading';
 import Locale from './modules/Locale';
+import { Remarkable } from 'remarkable';
 
 Locale.init();
 
@@ -20,7 +21,7 @@ window.moment = moment;
 window.Loading = Loading;
 
 Vue.use(VueRouter);
-Vue.use(MavonEditor);
+Vue.use(VueMeta);
 Vue.use(Vuex);
 Vue.use(Buefy, { defaultIconPack: 'fas' });
 Vue.use(VueInternationalization);
@@ -34,7 +35,7 @@ Vue.use(VuejsClipper, {
 });
 
 Vue.prototype.$env = env;
-Vue.prototype.$markdownIt = MavonEditor.markdownIt;
+Vue.prototype.$remarkable = new Remarkable();
 Vue.prototype.$moment = moment;
 Vue.prototype.$loading = Loading;
 

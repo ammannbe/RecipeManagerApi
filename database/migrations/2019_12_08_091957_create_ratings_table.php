@@ -19,7 +19,7 @@ class CreateRatingsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('rating_criterion_id');
             $table->text('comment');
-            $table->unsignedTinyInteger('stars')->nullable()->default(null);
+            $table->unsignedTinyInteger('stars')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

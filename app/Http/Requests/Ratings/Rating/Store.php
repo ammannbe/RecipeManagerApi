@@ -27,7 +27,7 @@ class Store extends FormRequest
             'recipe_id'    => ['required', 'exists:recipes,id'],
             'criterion_id' => ['required', 'exists:rating_criteria'],
             'comment'      => ['required', 'string', 'max:60000'],
-            'stars'        => ['required', 'nullable', 'integer', 'max:5'],
+            'stars'        => ['required', 'integer', 'min:0', 'max:5'],
         ];
     }
 }

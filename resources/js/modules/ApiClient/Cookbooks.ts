@@ -14,8 +14,8 @@ export default class Cookbooks extends ApiClient {
         this.rawResponse = rawResponse;
     }
 
-    public async index(filter?: object): Promise<Cookbook[]> {
-        return super.index(filter);
+    public async index(data?: object): Promise<Cookbook[]> {
+        return super.index(data);
     }
 
     public async show(id: number): Promise<Cookbook> {

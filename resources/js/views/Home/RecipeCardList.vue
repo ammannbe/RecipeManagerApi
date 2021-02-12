@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div v-if="!loaded" ref="top" class="columns is-centered">
+      <recipe-card-skeleton
+        v-for="i in limit"
+        :key="i"
+        class="column is-5-tablet is-one-fifth-fullhd"
+      />
+    </div>
+
     <div ref="top" class="columns is-centered">
       <recipe-card
         v-for="recipe in recipes.data"
@@ -18,7 +26,7 @@
       @load="loadPagination"
     ></pagination>
     <infinite-loading v-else @infinite="load">
-      <template slot="no-more">{{ $t('No more data :)') }}</template>
+      <template slot="no-more">&nbsp;</template>
     </infinite-loading>
   </div>
 </template>
@@ -27,10 +35,11 @@
 import { mapState } from "vuex";
 import InfiniteLoading from "vue-infinite-loading";
 import RecipeCard from "./RecipeCard";
+import RecipeCardSkeleton from "./RecipeCardSkeleton";
 
 export default {
-  components: { RecipeCard, InfiniteLoading },
-  props: ["filterByName"],
+  components: { RecipeCard, RecipeCardSkeleton, InfiniteLoading },
+  props: ["search"],
   data() {
     return {
       limit: 16,
@@ -41,19 +50,18 @@ export default {
     ...mapState({
       recipes: state => state.recipes.data
     }),
-    filter() {
-      if (this.filterByName) {
-        return { "filter[name]": this.filterByName };
-      }
-      return null;
+    loaded() {
+      return !!this.recipes.data;
     }
   },
   created() {
-    if (this.$env.PREFER_PAGINATION) {
-      this.$store.dispatch("recipes/index", {
-        filter: this.filter,
-        limit: this.limit
+    if (this.search) {
+      this.$store.dispatch("recipes/search", {
+        limit: this.limit,
+        search: this.search
       });
+    } else {
+      this.$store.dispatch("recipes/index", { limit: this.limit });
     }
   },
   methods: {
@@ -61,24 +69,33 @@ export default {
       if (this.page >= this.recipes.last_page) {
         $state.complete();
       }
-      this.$store
-        .dispatch("recipes/index", {
-          page: this.page,
-          filter: this.filter,
-          limit: this.limit,
-          push: this.page !== 1
-        })
-        .then(() => {
-          $state.loaded();
-          this.page++;
-        });
+      if (this.search) {
+        this.$store
+          .dispatch("recipes/search", {
+            page: this.page,
+            search: this.search,
+            limit: this.limit,
+            push: this.page !== 1
+          })
+          .then(() => {
+            $state.loaded();
+            this.page++;
+          });
+      } else {
+        this.$store
+          .dispatch("recipes/index", {
+            page: this.page,
+            limit: this.limit,
+            push: this.page !== 1
+          })
+          .then(() => {
+            $state.loaded();
+            this.page++;
+          });
+      }
     },
     loadPagination(page) {
-      this.$store.dispatch("recipes/index", {
-        page,
-        filter: this.filter,
-        limit: this.limit
-      });
+      this.$store.dispatch("recipes/index", { page, limit: this.limit });
       document.getElementById("app").scrollIntoView({ behavior: "smooth" });
     }
   }
@@ -92,5 +109,11 @@ div.columns {
   > .column {
     margin: 10px;
   }
+}
+</style>
+
+<style lang="scss">
+.infinite-status-prompt {
+  display: none;
 }
 </style>

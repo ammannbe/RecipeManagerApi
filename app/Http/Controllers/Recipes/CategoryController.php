@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Recipes;
 
 use App\Models\Recipes\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Recipes\Category\Index;
 use App\Http\Requests\Recipes\Category\Store;
 use App\Http\Requests\Recipes\Category\Update;
 
@@ -22,10 +23,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Recipes\Category\Index  $request
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Index $request)
     {
+        if ($request->trashed && auth()->user()->admin) {
+            return Category::withTrashed()->get();
+        }
         return Category::get();
     }
 

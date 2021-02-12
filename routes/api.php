@@ -1,6 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\Recipes\TagController;
+use App\Http\Controllers\Recipes\RecipeController;
+use App\Http\Controllers\Ingredients\FoodController;
+use App\Http\Controllers\Ingredients\UnitController;
+use App\Http\Controllers\Recipes\CategoryController;
+use App\Http\Controllers\Recipes\CookbookController;
+use App\Http\Controllers\Recipes\RecipePhotoController;
+use App\Http\Controllers\Ingredients\IngredientController;
+use App\Http\Controllers\Ingredients\IngredientGroupController;
+use App\Http\Controllers\Ingredients\IngredientAttributeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,23 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', 'Auth\LoginController@login');
-
-    Route::middleware(['auth'])->group(function () {
-        Route::post('logout', 'Auth\LoginController@logout');
-    });
-
-    if (!config('app.disable_registration')) {
-        Route::post('register', 'Auth\RegisterController@register');
-    }
-
-    Route::post('confirm', 'Auth\ConfirmPasswordController@confirm');
-
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-});
-
+Route::get('recipes/search', [RecipeController::class, 'search']);
 
 Route::apiResources([
     'foods' => 'Ingredients\FoodController',
@@ -45,12 +40,17 @@ Route::apiResources([
 ], ['only' => ['index', 'show']]);
 
 Route::apiResource('ingredients', 'Ingredients\IngredientController')->only(['show']);
-Route::get('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@index')->name('ingredients.index');
+Route::get('recipes/{recipe}/ingredients', [IngredientController::class, 'index'])->name('ingredients.index');
 
 Route::apiResource('ingredient-groups', 'Ingredients\IngredientGroupController')->only(['show']);
-Route::get('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@index')->name('ingredient-groups.index');
+Route::get('recipes/{recipe}/ingredient-groups', [IngredientGroupController::class, 'index'])->name('ingredient-groups.index');
 
-Route::get('recipes/{recipe}/pdf', 'Recipes\RecipeController@pdf');
+Route::get('recipes/{recipe}/pdf', [RecipeController::class, 'pdf']);
+
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('user', [UserController::class, 'show'])->name('self.show');
+});
 
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
@@ -76,23 +76,22 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::apiResource('users', 'Users\UserController');
 
 
-    Route::post('foods/{id}/restore', 'Ingredients\FoodController@restore')->name('foods.restore');
-    Route::post('ingredient-attributes/{id}/restore', 'Ingredients\IngredientAttributeController@restore')->name('ingredient-attributes.restore');
-    Route::post('ingredients/{id}/restore', 'Ingredients\IngredientController@restore')->name('ingredients.restore');
-    Route::post('recipes/{recipe}/ingredients', 'Ingredients\IngredientController@store')->name('ingredients.store');
-    Route::post('recipes/{recipe}/photos', 'Recipes\RecipePhotoController@store');
-    Route::delete('recipes/{recipe}/photos/{photo}', 'Recipes\RecipePhotoController@destroy');
-    Route::post('ingredient-groups/{id}/restore', 'Ingredients\IngredientGroupController@restore')->name('ingredient-groups.restore');
-    Route::post('recipes/{recipe}/ingredient-groups', 'Ingredients\IngredientGroupController@store')->name('ingredient-groups.store');
-    Route::post('categories/{id}/restore', 'Recipes\CategoryController@restore')->name('categories.restore');
-    Route::post('cookbooks/{id}/restore', 'Recipes\CookbookController@restore')->name('cookbooks.restore');
-    Route::post('recipes/{id}/restore', 'Recipes\RecipeController@restore')->name('recipes.restore');
-    Route::post('tags/{id}/restore', 'Recipes\TagController@restore')->name('tags.restore');
-    Route::post('units/{id}/restore', 'Ingredients\UnitController@restore')->name('units.restore');
-    Route::post('users/{id}/restore', 'Users\UserController@restore')->name('users.restore');
+    Route::post('foods/{id}/restore', [FoodController::class, 'restore'])->name('foods.restore');
+    Route::post('ingredient-attributes/{id}/restore', [IngredientAttributeController::class, 'restore'])->name('ingredient-attributes.restore');
+    Route::post('ingredients/{id}/restore', [IngredientController::class, 'restore'])->name('ingredients.restore');
+    Route::post('recipes/{recipe}/ingredients', [IngredientController::class, 'store'])->name('ingredients.store');
+    Route::post('recipes/{recipe}/photos', [RecipePhotoController::class, 'store'])->name('recipe-photos.store');
+    Route::delete('photos/{photo}', [RecipePhotoController::class, 'destroy'])->name('recipe-photos.destroy');
+    Route::post('ingredient-groups/{id}/restore', [IngredientGroupController::class, 'restore'])->name('ingredient-groups.restore');
+    Route::post('recipes/{recipe}/ingredient-groups', [IngredientGroupController::class, 'store'])->name('ingredient-groups.store');
+    Route::post('categories/{id}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
+    Route::post('cookbooks/{id}/restore', [CookbookController::class, 'restore'])->name('cookbooks.restore');
+    Route::post('recipes/{id}/restore', [RecipeController::class, 'restore'])->name('recipes.restore');
+    Route::post('tags/{id}/restore', [TagController::class, 'restore'])->name('tags.restore');
+    Route::post('units/{id}/restore', [UnitController::class, 'restore'])->name('units.restore');
+    Route::post('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
 
 
-    Route::get('user', 'Users\UserController@show')->name('self.show');
-    Route::patch('user', 'Users\UserController@update')->name('self.update');
-    Route::delete('user', 'Users\UserController@destroy')->name('self.destroy');
+    Route::patch('user', [UserController::class, 'update'])->name('self.update');
+    Route::delete('user', [UserController::class, 'destroy'])->name('self.destroy');
 });

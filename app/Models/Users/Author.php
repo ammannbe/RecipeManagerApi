@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Recipe[] $recipes
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Query\Builder|Author onlyTrashed()
@@ -76,6 +77,6 @@ class Author extends Model
      */
     public function recipes(): HasMany
     {
-        return $this->hasMany('\App\Models\Recipe');
+        return $this->hasMany('\App\Models\Recipes\Recipe');
     }
 }

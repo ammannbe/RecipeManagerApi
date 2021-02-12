@@ -15,7 +15,8 @@ let routes = [
     {
         path: '/email/verify',
         name: 'email.verify',
-        component: require('./views/Auth/VerifyEmail').default
+        component: require('./views/Auth/VerifyEmail').default,
+        props: route => ({ url: route.query.url })
     },
     {
         path: '/password/reset',
@@ -48,6 +49,11 @@ let routes = [
         path: '/admin',
         name: 'admin',
         component: require('./views/Admin/Index').default
+    },
+    {
+        path: '*',
+        name: 'NotFound',
+        component: require('./components/NotFound.vue').default
     }
 ];
 

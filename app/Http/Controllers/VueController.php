@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+/**
+ * This is the default controller for the frontend
+ *
+ * Normally frontend routes fallback to this controller and are
+ * managed by Vue.js (resources/js/routes.js).
+ * There are so-called "named routes", which are listed explicitly (web.php).
+ */
 class VueController extends Controller
 {
     /**
@@ -14,5 +19,15 @@ class VueController extends Controller
     public function __invoke()
     {
         return view('app');
+    }
+
+    /**
+     * Show the NOT FOUND page
+     *
+     * @return void
+     */
+    public function notFound(): void
+    {
+        abort(404);
     }
 }

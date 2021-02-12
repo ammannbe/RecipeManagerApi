@@ -27,7 +27,7 @@ class Index extends FormRequest
     public function rules()
     {
         return [
-            'trashed' => $this->getTrashedRule()
+            'trashed' => $this->getTrashedRule(),
         ];
     }
 }

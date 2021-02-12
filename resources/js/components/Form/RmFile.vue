@@ -13,13 +13,18 @@
         <b-icon size="is-small" icon="question-circle" />
       </b-tooltip>
     </template>
-    <b-upload v-model="model" :accept="accept" :multiple="multiple" :drag-drop="dragDrop">
+    <b-upload
+      v-model="model"
+      :accept="accept"
+      :multiple="multiple"
+      :drag-drop="dragDrop"
+    >
       <section class="section">
         <div class="content has-text-centered">
           <p>
             <b-icon icon="upload" size="is-large"></b-icon>
           </p>
-          <p>{{ $t('Drop your files here or click to upload') }}</p>
+          <p>{{ $t("Drop your files here or click to upload") }}</p>
         </div>
       </section>
     </b-upload>
@@ -30,7 +35,11 @@
         <img :src="url(file)" />
         <span class="tag is-primary">
           {{ file.name }}
-          <button class="delete is-small" type="button" @click="deleteFile(index)"></button>
+          <button
+            class="delete is-small"
+            type="button"
+            @click="deleteFile(index)"
+          ></button>
         </span>
       </div>
     </div>
@@ -69,10 +78,12 @@ export default {
       set(value) {
         if (!Array.isArray(value)) {
           this.$emit("input", [value]);
+          this.$forceUpdate();
           return;
         }
 
         this.$emit("input", value);
+        this.$forceUpdate();
       }
     },
     type() {
@@ -100,6 +111,7 @@ export default {
         component: RmImageCropModal,
         hasModalCard: true,
         trapFocus: true,
+        fullScreen: true,
         props: { url: this.url(file), filename: file.name },
         events: {
           confirm: file => {

@@ -8,8 +8,13 @@
 
     <div class="card-content">
       <div v-if="recipe.photos" class="media is-centered">
-        <figure>
-          <img :src="recipe.photo_urls[0]" :alt="recipe.name" />
+        <figure class="image">
+          <b-image
+            v-if="recipe.photos.length"
+            :src="recipe.photos[0].url + '?thumbnails'"
+            :src-fallback="$env.NOT_FOUND_IMAGE"
+            :alt="recipe.name"
+          />
         </figure>
       </div>
       <div class="content" v-html="instructions"></div>
@@ -17,7 +22,9 @@
 
     <footer class="card-footer">
       <div>
-        <span class="time">{{ recipe.preparation_time | humanReadablePreparationTime }}</span>
+        <span class="time">
+          {{ recipe.preparation_time | humanReadablePreparationTime }}
+        </span>
       </div>
       <div>
         <span class="stars" v-for="star in recipe.stars" :key="star">*</span>
@@ -31,7 +38,7 @@ export default {
   props: ["recipe"],
   computed: {
     instructions() {
-      return this.$markdownIt.render(this.recipe.instructions.substr(0, 100));
+      return this.$remarkable.render(this.recipe.instructions.substr(0, 100));
     }
   }
 };
@@ -45,18 +52,19 @@ export default {
 
   header {
     align-items: flex-start;
+    flex-grow: unset;
   }
 
-  .media {
-    justify-content: center;
+  div.card-content {
+    flex-grow: 1;
 
-    img {
-      max-height: 170px;
+    .media {
+      justify-content: center;
     }
-  }
 
-  .content {
-    font-size: 90%;
+    .content {
+      font-size: 90%;
+    }
   }
 
   footer {
@@ -70,5 +78,10 @@ export default {
 .content > * {
   margin-top: 0 !important;
   margin-bottom: 0.4em !important;
+}
+
+div.card-content .media img {
+  height: 300px;
+  object-fit: contain;
 }
 </style>

@@ -1,5 +1,10 @@
 <template>
-  <b-field :label-position="labelPosition" :horizontal="horizontal" :message="message" :type="type">
+  <b-field
+    :label-position="labelPosition"
+    :horizontal="horizontal"
+    :message="message"
+    :type="type"
+  >
     <template v-if="label" slot="label">
       {{ label }}
       <span v-if="required !== undefined" class="required">*</span>
@@ -7,12 +12,20 @@
         <b-icon size="is-small" icon="question-circle" />
       </b-tooltip>
     </template>
-    <b-timepicker
-      v-model="model"
-      :size="size"
-      :placeholder="placeholder"
-      :open-on-focus="true"
-      style="max-width: 300px"
+
+    <rm-numberinput
+      :label="$t('Hours') + ':'"
+      :value="model[0]"
+      @input="model = [$event, model[0]]"
+      size="is-small"
+      :controls="false"
+    />
+    <rm-numberinput
+      :label="$t('Minutes') + ':'"
+      :value="model[1]"
+      @input="model = [model[1], $event]"
+      size="is-small"
+      :controls="false"
     />
   </b-field>
 </template>
@@ -41,22 +54,19 @@ export default {
     model: {
       get() {
         if (this.value === null || this.value === undefined) {
-          return;
+          return [0, 0];
         }
 
-        const [hours, minutes] = this.value.split(":");
-        const date = new Date();
-        date.setHours(hours);
-        date.setMinutes(minutes);
-
-        return date;
+        return this.value.split(":");
       },
       set(value) {
         const pad = function(n) {
-          return n < 10 ? "0" + n : n;
+          if (!n) return "00";
+          if (n < 10) return "0" + n;
+          return n;
         };
-        let hours = pad(value.getHours());
-        let minutes = pad(value.getMinutes());
+        let hours = pad(value[0] || 0);
+        let minutes = pad(value[1] || 0);
 
         this.$emit("input", `${hours}:${minutes}`);
       }
@@ -72,6 +82,24 @@ export default {
 
       return "is-danger";
     }
+  },
+  methods: {
+    setHours(hours = null) {
+      let time = this.model;
+      time[0] = hours;
+      this.model = time;
+    },
+    setMinutes(minutes = null) {
+      let time = this.model;
+      time[1] = minutes;
+      this.model = time;
+    }
   }
 };
 </script>
+
+<style lang="scss">
+.has-numberinput {
+  flex-grow: unset !important;
+}
+</style>

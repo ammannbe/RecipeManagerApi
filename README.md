@@ -2,19 +2,13 @@
 
 Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
 
-Manage your families and friends recipes like a chef.
-
----
-
-### **_Comming from an older version? Check out the migration guide from the 5.x branch._**
-
----
+A tool to manage your families and friends recipes like a chef.
 
 ![Recipes Overview](https://klaud.narrenhaus.ch/index.php/s/MRNc7KsMbcAFnkn/preview)
 
 ## Why is this so awesome?
 
--   **Manager your recipes** You and your friends can save, edit and delete recipes.
+-   **Manage your recipes** You and your friends can save, edit and delete recipes.
 -   **Share recipes** You can share recipes by one click via Telegram or E-Mail.
 -   **Calculate yield amounts** Calculate yield amounts directly in the recipe on the fly.
 -   **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
@@ -24,34 +18,36 @@ Manage your families and friends recipes like a chef.
 ## What features are planned?
 
 -   Unit and feature tests
--   Better support for photos (creating thumbnails, convert them to WEBP)
 -   Improve and add advanced searching and filtering
--   An installer
 -   An advanced User-Role-System
 -   Import & more export types of recipes
 -   Nutrition informations
 -   Rating system (the API code is already written ;-) )
--   And a lot more...
+-   Social login with Socialite
+-   A feature you think is missing...
 
 ## Getting Started
 
-Get the latest [release](https://git.narrenhaus.ch/Narrenhaus/Cookbook/releases) or clone the repo with
+Get the latest [release](https://github.com/ammannbe/RecipeManager) or clone the repo with
 
 ```bash
-git clone https://git.narrenhaus.ch/Narrenhaus/Cookbook.git
+git clone https://github.com/ammannbe/RecipeManager.git
 ```
 
 ### Prerequisites
 
--   LAMP Stack/Docker (only for production)
+-   LAMP Stack or Docker for production use
 -   Requirements for [laravel](https://laravel.com/docs)
+-   GD and WebP for image manipulation
 -   Composer
 -   NPM
+-   MeiliSearch
+-   Redis (optional but not recommended)
 
 ### Installation
 
 It's recommended to install and update this software with docker/docker-compose.
-See [here](docker/README.md) for more information.
+See [here](storage/docker/README.md) for more information.
 
 Alternatively or for development purposes you can make a manual installation on any linux/unix machine:
 
@@ -60,6 +56,7 @@ Alternatively or for development purposes you can make a manual installation on 
 -   Install composer packages `composer install`
 -   Install NPM packages `npm install`
 -   Copy .env.example to .env and modify it to your needs
+-   Generate storage symlink `php artisan storage:link`
 -   Generate an app key `php artisan key:generate`
 -   Migrate the database `php artisan migrate`
 -   Add following to your crontab:
@@ -74,6 +71,7 @@ Alternatively or for development purposes you can make a manual installation on 
 
 -   If not already done, [install](#installation) everything
 -   Run the server `php artisan serve`
+-   Run the queue worker `php artisan queue:work`
 -   Watch for style and js changes: `npm run watch`
 
 #### Manual production deployment
@@ -88,6 +86,7 @@ php artisan route:cache
 php artisan view:cache
 ```
 
+-   Run the queue worker `php artisan queue:work` (or setup via e.g. systemd)
 -   Optimize npm packages: `npm run prod`
 
 ## Update
@@ -101,8 +100,9 @@ php artisan view:cache
 
 ## Translations
 
-All application related files are translated with [laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) and [laravel-vue-i18n-generator](https://github.com/martinlindhe/laravel-vue-i18n-generator).
-Translations should only be done on development.
+All application related files are translated with [laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) and [laravel-translations-loader](https://github.com/kirschbaum-development/laravel-translations-loader).
+
+You should run these commands only on a development machine.
 
 You need to run the migrations for this package:
 
@@ -111,11 +111,11 @@ php artisan vendor:publish --provider="Barryvdh\TranslationManager\ManagerServic
 php artisan migrate
 ```
 
--   Import translations `composer translations:import`
+-   Import translations `composer run translations:import`
 -   Open `<your-domain>/translations` in a browser
 -   PHP: short keys within `resources/lang/<lang>/<group>.php`
 -   Vue.js: translation strings within `/resources/lang/<lang>.json` (these files will be imported into the `_json` group)
--   Export & generate translations `composer translations:export`
+-   Export & generate translations `composer run translations:export`
 
 Other commands:
 
@@ -136,19 +136,42 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 
 ## Testing / Code Quality
 
+-   Optional: seed the database with test data
+
+```bash
+# Seed the database with test data
+php artisan db:seed
+
+# Freshly migrate and seed the database
+php artisan migrate:fresh --seed
+
+# The secret of the seeded users is 'password'
+```
+
 -   Run static code analytics `composer run phpstan`
 -   Run PHP Coding Standards Fixer `composer run php-cs-fixer`
 
 ## Built With
 
--   [laravel/laravel](https://github.com/laravel/laravel) - A PHP framework for web artisans
+**PHP Production:**
+
 -   [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
--   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
+-   [barryvdh/laravel-dompdf](https://github.com/barryvdh/laravel-dompdf) - A DOMPDF Wrapper for Laravel
 -   [GrKamil/laravel-telegram-logging](https://github.com/GrKamil/laravel-telegram-logging) - Send logs to Telegram chat via Telegram bot
+-   [laravel/laravel](https://github.com/laravel/laravel) - A PHP framework for web artisans
+-   [meilisearch/meilisearch-laravel-scout](https://github.com/meilisearch/meilisearch-laravel-scout) - Laravel Scout Engine for Meilisearch
+-   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
+-   [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) - Associate files with Eloquent models
+
+**PHP Development:**
+
+-   [barryvdh/laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
+-   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [nunomaduro/larastan](https://github.com/nunomaduro/larastan) - Adds static analysis to Laravel improving developer productivity and code quality
 -   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixer
--   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
--   [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
+
+**JS:**
+
 -   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
 -   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 -   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
@@ -157,6 +180,8 @@ After that, you should run the commands from [Testing / Code Quality](#testing-/
 -   [timtnleeProject/vuejs-clipper](https://github.com/timtnleeProject/vuejs-clipper) - Vue.js image clipping components using Vue-Rx.
 -   [vuejs/vue-rx](https://github.com/vuejs/vue-rx) - RxJS integration for Vue.js.
 -   [kirschbaum-development/laravel-translations-loader](https://github.com/kirschbaum-development/laravel-translations-loader) - Webpack loader to import Laravel translation files (PHP or JSON) into your JS bundle as JSON.
+-   [sparksuite/simplemde-markdown-editor](https://github.com/sparksuite/simplemde-markdown-editor) - A simple, beautiful, and embeddable JavaScript Markdown editor.
+-   [jonschlinkert/remarkable](https://github.com/jonschlinkert/remarkable) - Markdown parser, done right.
 
 ## Contributing
 

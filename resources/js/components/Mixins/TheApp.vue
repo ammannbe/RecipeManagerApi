@@ -10,6 +10,12 @@
 
 <script>
 export default {
+  metaInfo() {
+    return {
+      title: "Home",
+      titleTemplate: "%s | " + this.$env.APP_NAME
+    };
+  },
   methods: {
     searchRecipes(search) {
       const name = "home";
@@ -30,5 +36,9 @@ export default {
 <style lang="scss" scoped>
 header {
   height: 88px;
+
+  @media screen and (max-width: 1024px) {
+    height: 44px;
+  }
 }
 </style>

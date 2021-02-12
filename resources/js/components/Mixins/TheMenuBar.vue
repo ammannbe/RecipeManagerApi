@@ -23,9 +23,15 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div class="navbar-menu" v-bind:class="{ 'is-active': isMobileMenuExpanded }">
+      <div
+        class="navbar-menu"
+        v-bind:class="{ 'is-active': isMobileMenuExpanded }"
+      >
         <div class="navbar-start">
-          <form class="navbar-item search" @submit.prevent="$emit('search', search)">
+          <form
+            class="navbar-item search"
+            @submit.prevent="$emit('search', search)"
+          >
             <input
               type="text"
               class="input is-rounded"
@@ -40,18 +46,23 @@
         </div>
 
         <div v-if="!loggedIn" class="navbar-end">
-          <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
+          <div
+            class="navbar-item lang"
+            v-for="(locale, i) in $env.LOCALES"
+            :key="i"
+          >
             <a
-              :class="{'disabled': $i18n.locale == locale}"
+              :class="{ disabled: $i18n.locale == locale }"
               @click="switchLanguage(locale)"
-            >{{ locale.toUpperCase() }}</a>
+              >{{ locale.toUpperCase() }}</a
+            >
           </div>
           <div v-if="!$env.DISABLE_REGISTRATION" class="navbar-item">
             <router-link :to="{ name: 'register' }" class="button">
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
-              <span>{{ $t('Signup') }}</span>
+              <span>{{ $t("Signup") }}</span>
             </router-link>
           </div>
           <div class="navbar-item">
@@ -59,16 +70,21 @@
               <span class="icon is-small">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
-              <span>{{ $t('Login') }}</span>
+              <span>{{ $t("Login") }}</span>
             </router-link>
           </div>
         </div>
         <div v-else class="navbar-end">
-          <div class="navbar-item lang" v-for="(locale, i) in $env.LOCALES" :key="i">
+          <div
+            class="navbar-item lang"
+            v-for="(locale, i) in $env.LOCALES"
+            :key="i"
+          >
             <a
-              :class="{'disabled': $i18n.locale == locale}"
+              :class="{ disabled: $i18n.locale == locale }"
               @click="switchLanguage(locale)"
-            >{{ locale.toUpperCase() }}</a>
+              >{{ locale.toUpperCase() }}</a
+            >
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
             <router-link :to="{ name: 'account' }">
@@ -82,15 +98,15 @@
 
             <div class="navbar-dropdown">
               <router-link v-if="user.admin" :to="{ name: 'admin' }">
-                <span class="navbar-item">{{ $t('Administration') }}</span>
+                <span class="navbar-item">{{ $t("Administration") }}</span>
               </router-link>
               <router-link :to="{ name: 'recipes.add' }">
-                <span class="navbar-item">{{ $t('Add recipe') }}</span>
+                <span class="navbar-item">{{ $t("Add recipe") }}</span>
               </router-link>
               <router-link :to="{ name: 'cookbooks.add' }">
-                <span class="navbar-item">{{ $t('Add cookbook') }}</span>
+                <span class="navbar-item">{{ $t("Add cookbook") }}</span>
               </router-link>
-              <a class="navbar-item" @click="logout()">{{ $t('Logout') }}</a>
+              <a class="navbar-item" @click="logout()">{{ $t("Logout") }}</a>
             </div>
           </div>
         </div>
@@ -111,7 +127,7 @@ export default {
     };
   },
   watch: {
-    '$route' () {
+    $route() {
       this.isMobileMenuExpanded = false;
     }
   },
@@ -155,5 +171,10 @@ export default {
 
 .search > button {
   margin-left: 10px;
+}
+
+.disabled {
+  pointer-events: none;
+  color: initial;
 }
 </style>

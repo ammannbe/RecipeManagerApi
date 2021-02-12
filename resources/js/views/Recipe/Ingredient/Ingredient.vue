@@ -34,13 +34,13 @@ export default {
     textify(ingredient, multiply = 1) {
       let text = "";
       if (ingredient.amount !== null) {
-        text += Math.round(ingredient.amount * multiply);
+        text += (ingredient.amount * multiply).toPrecision(3);
       }
       if (ingredient.amount_max !== null) {
         if (ingredient.amount !== null) {
           text += ` `;
         }
-        text += `- ${Math.round(ingredient.amount_max * multiply)}`;
+        text += `- ${(ingredient.amount_max * multiply).toPrecision(3)}`;
       }
       if (ingredient.unit !== null) {
         text += ` ${ingredient.unit.name}`;

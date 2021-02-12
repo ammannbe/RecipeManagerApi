@@ -1,5 +1,9 @@
 <template>
-  <rm-modal-form :title="$t('Edit cookbook')" @close="$emit('close')" @confirm="submit">
+  <rm-modal-form
+    :title="$t('Edit cookbook')"
+    @close="$emit('close')"
+    @submit.prevent="submit"
+  >
     <rm-textinput
       :label="$t('Name') + ':'"
       v-model="name"
@@ -57,6 +61,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

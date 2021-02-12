@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\Users\VerifyEmail;
 use Illuminate\Notifications\Notifiable;
@@ -104,6 +105,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'recipes'
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        VerifyEmail::createUrlUsing(function (User $notifiable) {
+            return User::verificationUrl($notifiable);
+        });
+    }
+
     /**
      * Get the name attribute
      *
@@ -132,6 +142,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
+    }
+
+    /**
+     * Get the verification URL for the given user.
+     *
+     * @param  \App\Models\Users\User  $notifiable
+     * @return string
+     */
+    public static function verificationUrl(User $notifiable): string
+    {
+        $url = \URL::temporarySignedRoute(
+            'verification.verify',
+            Carbon::now()->addMinutes(\Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
+
+        return config('app.url') . '/email/verify?url=' . urlencode($url);
     }
 
     /**

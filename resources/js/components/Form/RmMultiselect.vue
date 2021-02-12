@@ -9,7 +9,7 @@
     </template>
     <b-taginput
       v-model="model"
-      :data="options | search(filter)"
+      :data="options | search(search)"
       autocomplete
       allow-new
       open-on-focus
@@ -17,7 +17,7 @@
       :placeholder="placeholder"
       attached
       :size="size"
-      @typing="filter = $event"
+      @typing="search = $event"
       style="max-width: 300px"
     ></b-taginput>
   </b-field>
@@ -46,7 +46,7 @@ export default {
     "options"
   ],
   data() {
-    return { filter: "" };
+    return { search: "" };
   },
   computed: {
     model: {

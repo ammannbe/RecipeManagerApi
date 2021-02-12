@@ -10,8 +10,8 @@ const actions = {
         let ingredients = await new Ingredients(recipeId).index();
         commit('set', { ingredients });
     },
-    async update({ dispatch }, { id, recipeId, property, value }) {
-        await new Ingredients().update(id, property, value);
+    async update({ dispatch }, { id, recipeId, data }) {
+        await new Ingredients().bulkUpdate(id, data);
         await dispatch('index', { recipeId });
     },
     async store({ dispatch }, { recipeId, data }) {

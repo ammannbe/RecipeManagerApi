@@ -22,6 +22,27 @@ export default class ApiClient {
         });
     }
 
+    private parseGetData(data?: { [index: string]: any }): any {
+        if (!data) {
+            return;
+        }
+
+        Object.keys(data).map(v => {
+            if (data[v] === true || data[v] === false) {
+                data[v] = data[v] ? 1 : 0;
+            }
+        });
+
+        if (data.filter) {
+            Object.keys(data.filter).forEach((key) => {
+                data[`filter[${key}]`] = data.filter[key];
+            });
+            delete data.filter;
+        }
+
+        return data;
+    }
+
     public async request(
         method: any,
         url: string,
@@ -33,13 +54,7 @@ export default class ApiClient {
         let request: {};
         request = { method, url, data, headers };
         if (method === "get") {
-            if (data) {
-                Object.keys(data).map(v => {
-                    if (data[v] === true || data[v] === false) {
-                        data[v] = data[v] ? 1 : 0;
-                    }
-                });
-            }
+            data = this.parseGetData(data);
             request = { method, url, params: data, headers };
         }
         if (responseType) {
@@ -54,9 +69,20 @@ export default class ApiClient {
         } catch (error) {
             Loading.close();
 
-            if (error.response.status !== 401) {
-                const type = "is-danger";
-                const message = error.response.data.message;
+            if (error.response.status === 401) {
+                return Promise.reject(this.rawResponse ? error : error.response);
+            }
+
+            const type = "is-danger";
+            let message = error.response.data.message;
+            if (error.response.data.errors) {
+                for (const errors in error.response.data.errors) {
+                    if (Object.prototype.hasOwnProperty.call(error.response.data.errors, errors)) {
+                        const message: string = error.response.data.errors[errors];
+                        Snackbar.open({ type, message });
+                    }
+                }
+            } else {
                 Snackbar.open({ type, message });
             }
 

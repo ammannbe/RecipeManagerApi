@@ -19,8 +19,16 @@
         :disable-editing="true"
       />
 
-      <property-list-item :label="$t('Category')" :value="recipe.category | name | hyphenate">
-        <rm-select v-model="category_id" size="is-small" :options="categories" required />
+      <property-list-item
+        :label="$t('Category')"
+        :value="recipe.category | name | hyphenate"
+      >
+        <rm-select
+          v-model="category_id"
+          size="is-small"
+          :options="categories"
+          required
+        />
       </property-list-item>
 
       <property-list-item :label="$t('Yield amount')">
@@ -44,16 +52,31 @@
         </template>
       </property-list-item>
 
-      <property-list-item :label="$t('Complexity')" :value="recipe.complexity | name | hyphenate">
-        <rm-select v-model="complexity" size="is-small" :options="complexities" required />
+      <property-list-item
+        :label="$t('Complexity')"
+        :value="recipe.complexity | name | hyphenate"
+      >
+        <rm-select
+          v-model="complexity"
+          size="is-small"
+          :options="complexities"
+          required
+        />
       </property-list-item>
 
-      <property-list-item :label="$t('Preparation time')" :value="recipe.preparation_time">
-        <rm-timepicker v-model="preparation_time" size="is-small"></rm-timepicker>
+      <property-list-item
+        :label="$t('Preparation time')"
+        :value="recipe.preparation_time"
+        :class="{ preparation_time: editmode.editing }"
+      >
+        <rm-timepicker
+          v-model="preparation_time"
+          size="is-small"
+        ></rm-timepicker>
         <template v-slot:fallback>
-          <span
-            style="margin-bottom: 0.5em"
-          >{{ preparation_time | humanReadablePreparationTime | hyphenate }}</span>
+          <span style="margin-bottom: 0.5em">{{
+            preparation_time | humanReadablePreparationTime | hyphenate
+          }}</span>
         </template>
       </property-list-item>
 
@@ -73,7 +96,8 @@
             class="tag is-success"
             tag="a"
             :to="{ name: 'home', query: { 'search[tag]': tag.slug } }"
-          >{{ tag.name }}</router-link>
+            >{{ tag.name }}</router-link
+          >
         </template>
         <template v-else v-slot:fallback>
           <span style="margin-bottom: 0.5em;">-</span>
@@ -82,12 +106,13 @@
     </ul>
 
     <rm-submit-button v-if="editmode.editing">
-      {{ $t('Save') }}
+      {{ $t("Save") }}
       <template v-slot:buttons>
         <b-button
           @click="$store.dispatch('recipe/editmode/edit', { editing: false })"
           type="is-danger"
-        >{{ $t('Cancel') }}</b-button>
+          >{{ $t("Cancel") }}</b-button
+        >
       </template>
     </rm-submit-button>
   </form>
@@ -134,11 +159,17 @@ export default {
       if (oldValue != null) {
         if (this.recipe.yield_amount != value) {
           let yield_amount = value;
-          this.$router.push({ query: { ...this.$route.query, yield_amount } });
+          if (this.$route.query.yield_amount !== yield_amount) {
+            const query = { ...this.$route.query, yield_amount };
+            this.$router.push({ query });
+          }
         } else {
           let query = Object.assign({}, this.$route.query);
-          delete query.yield_amount;
-          this.$router.push({ query });
+
+          if (Object.keys(query).length) {
+            delete query.yield_amount;
+            this.$router.push({ query });
+          }
         }
       }
 
@@ -162,5 +193,21 @@ export default {
 ul {
   margin-top: 12px;
   margin-bottom: 5px;
+}
+</style>
+
+<style lang="scss">
+.preparation_time {
+  > span {
+    margin-bottom: -20px !important;
+  }
+
+  > div.field .label {
+    margin-bottom: 0;
+  }
+
+  .field {
+    margin-right: 4px;
+  }
 }
 </style>

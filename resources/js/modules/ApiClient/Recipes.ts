@@ -18,7 +18,6 @@ export interface Recipe {
     instructions: string;
     preparation_time: string;
     photos: File[];
-    photo_urls: string[];
 }
 
 export default class Recipes extends ApiClient {
@@ -30,8 +29,12 @@ export default class Recipes extends ApiClient {
         this.rawResponse = rawResponse;
     }
 
-    public async index(filter?: object): Promise<Recipe[]> {
-        return super.index(filter) as Promise<Recipe[]>;
+    public async index(data?: object): Promise<Recipe[]> {
+        return super.index(data) as Promise<Recipe[]>;
+    }
+
+    public async search(data?: object): Promise<Recipe[]> {
+        return this.get(`${this.url}/search`, data);
     }
 
     public async show(id: number): Promise<any> {
@@ -64,41 +67,15 @@ export default class Recipes extends ApiClient {
         return super.store(formData || data, !!data.photos.length);
     }
 
-    public bulkUpdate(id: number, data: any): Promise<any> {
-        let formData: any;
-
-        if (!data.photos) {
-            data.photos = [];
-        }
-
-        if (data.photos.length) {
-            formData = new FormData();
-            Object.keys(data).forEach(key => {
-                const value: string | null | [] = (<any>data)[key];
-
-                if (value instanceof Array && value.length > 0) {
-                    value.forEach((v: any, i: number) => {
-                        formData.append(`${key}[${i}]`, v);
-                    });
-                    return;
-                }
-
-                formData.append(key, value);
-                return;
-            });
-        }
-        return super.bulkUpdate(id, formData || data, !!data.photos.length);
-    }
-
-    public addPhotos(id: number, photos: Array<File>): Promise<any> {
+    public addPhotos(recipeId: number, photos: Array<File>): Promise<any> {
         let formData = new FormData();
         photos.forEach(file => formData.append("photos[]", file));
-        const url = `${this.url}/${id}/photos`;
+        const url = `${this.url}/${recipeId}/photos`;
         return this.post(url, formData, true);
     }
 
-    public removePhoto(id: number, photo: string): Promise<any> {
-        const url = `${this.url}/${id}/photos/${photo}`;
+    public removePhoto(id: number): Promise<any> {
+        const url = `/photos/${id}`;
         return this.delete(url);
     }
 

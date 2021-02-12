@@ -40,6 +40,7 @@
       </h3>
       <p v-if="!this.sortedRecipes.length">
         <span>{{ $t("Seems a bit empty here...") }}</span>
+        <br />
         <router-link :to="{ name: 'recipes.add' }">
           {{ $t("Click here to create a recipe") }}
         </router-link>
@@ -97,6 +98,7 @@
       </h3>
       <p v-if="!this.sortedCookbooks.length">
         <span>{{ $t("Seems a bit empty here...") }}</span>
+        <br />
         <router-link :to="{ name: 'cookbooks.add' }">
           {{ $t("Click here to create a cookbook") }}
         </router-link>
@@ -146,6 +148,11 @@ import { mapState, mapGetters } from "vuex";
 import EditCookbook from "./EditCookbook";
 
 export default {
+  metaInfo() {
+    return {
+      title: "Account"
+    };
+  },
   data() {
     return {
       showAddCookbook: false,
@@ -235,7 +242,7 @@ export default {
           confirm: () => {
             this.$store.dispatch("cookbooks/index", {
               trashed: true,
-              page: cookbooks.current_page
+              page: this.cookbooks.current_page
             });
           }
         }
