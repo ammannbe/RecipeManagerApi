@@ -27,6 +27,7 @@ services:
     depends_on:
       - db
       - redis
+      - meilisearch
 
   queue:
     image: suhype/recipe-manager:${APP_VERSION}
@@ -81,5 +82,7 @@ services:
     restart: always
     environment:
       - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+    volumes:
+      - ./data/meilisearch:/data.ms
     networks:
       - recipe-manager

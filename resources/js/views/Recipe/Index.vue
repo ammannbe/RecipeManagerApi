@@ -33,7 +33,7 @@
 
       <hr />
 
-      <rating-card-list />
+      <rating-card-list v-if="ratings && ratings.data && ratings.data.length" />
     </div>
 
     <div class="edit-buttons" v-if="this.loggedIn && recipe.can_edit">
@@ -88,8 +88,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import Recipes from "../../modules/ApiClient/Recipes";
-import Ingredients from "../../modules/ApiClient/Ingredients";
 import SocialSharing from "./SocialSharing";
 import RecipeTitle from "./RecipeTitle";
 import RecipePhoto from "./RecipePhoto";
@@ -177,7 +175,6 @@ export default {
   computed: {
     ...mapState({
       recipe: state => state.recipe.data,
-      ratings: state => state.ratings.data,
       editmode: state => state.recipe.editmode.data,
       form: state => state.recipe.form.data
     }),

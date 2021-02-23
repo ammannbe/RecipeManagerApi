@@ -48,8 +48,9 @@ services:
 
     volumes:
       - ./html:/var/www/html
-      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
       - ./data/app:/var/www/html/storage/app
+      - ./favicon.ico:/var/www/html/favicon.ico
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
       - ./.env:/var/www/html/.env
       - ./ports.conf:/etc/apache2/ports.conf
 ```
@@ -57,9 +58,11 @@ services:
 In the containers _app_, _scheduler_, _queue_ you can override following paths:
 
 -   **./html:/var/www/html** This is the folder containing all project files
--   **./entrypoint.sh:/usr/local/bin/entrypoint.sh** This script is executet at the ENTRYPOINT (see Dockerfile)
 -   **./data/app:/var/www/html/storage/app** This folder contains user data like recipe images
+-   **./favicon.ico:/var/www/html/favicon.ico** Specify a custom favicon
+-   **./entrypoint.sh:/usr/local/bin/entrypoint.sh** This script is executet at the ENTRYPOINT (see Dockerfile)
 -   **./.env:/var/www/html/.env** This is the environement variable file
+-   **./ports.conf:/etc/apache2/ports.conf** Specify a custom Apache HTTP port
 
 # Environement Variables
 
@@ -76,9 +79,10 @@ See also: [Laravel Configuration](https://laravel.com/docs/8.x/configuration)
 
 ## App versions
 
--   **APP_VERSION:** Docker image version. _Default: latest_
--   **MARIADB_VERSION:** Docker image version. _Default: latest_
--   **REDIS_VERSION:** Docker image version. _Default: latest_
+-   **APP_VERSION:** Docker image version.
+-   **MARIADB_VERSION:** Docker image version.
+-   **REDIS_VERSION:** Docker image version.
+-   **MEILISEARCH_VERSION:** Docker image version.
 
 ## Locales
 
@@ -163,5 +167,6 @@ See also [Laravel Mail](https://laravel.com/docs/8.x/mail)
 -   **MIX_DISABLE_COOKBOOKS:** _Default: \$DISABLE_COOKBOOKS_
 -   **MIX_DISABLE_TAGS:** _Default: \$DISABLE_TAGS_
 -   **MIX_PREFER_PAGINATION:** _Default: \$PREFER_PAGINATION_
--   **MIX_PLACEHOLDER_IMAGE:** Path or URL to a placeholder image _Default: /storage/placeholder.png_
--   **MIX_NOT_FOUND_IMAGE:** Path or URL to a fallback image _Default: /storage/not-found.jpg_
+-   **MIX_LOGO:** Path or URL to the logo _Default: /img/logo.png_
+-   **MIX_PLACEHOLDER_IMAGE:** Path or URL to a placeholder image _Default: /img/placeholder.png_
+-   **MIX_NOT_FOUND_IMAGE:** Path or URL to a fallback image _Default: /img/not-found.jpg_

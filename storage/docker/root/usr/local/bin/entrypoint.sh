@@ -23,8 +23,12 @@ if [[ "$role" == "app" ]]; then
     # Compile JS/CSS
     sudo -u www-data npm run prod
 
-    echo "Wait 30s until MariaDB is up and running"
+    echo "Wait 30s until external services are up and running"
     sleep 30
+
+    # Import meilisearch indexes
+    sudo -u www-data php artisan scout:index recipes
+    sudo -u www-data php artisan scout:import "App\Models\Recipes\Recipe"
 
     # Migrate Database
     sudo -u www-data php artisan migrate --force
@@ -35,13 +39,13 @@ elif [[ "$role" == "scheduler" ]]; then
     sleep 300
     echo "Running the scheduler..."
     while [ true ]; do
-        sudo -u www-data php /var/www/html/artisan schedule:run --no-interaction &
+        sudo -u www-data php artisan schedule:run --no-interaction &
         sleep 60
     done
 elif [[ "$role" == "queue" ]]; then
     sleep 300
     echo "Running the queue..."
-    sudo -u www-data php /var/www/html/artisan queue:work
+    sudo -u www-data php artisan queue:work
 else
     echo "Could not match the container role \"$role\""
     exit 1
