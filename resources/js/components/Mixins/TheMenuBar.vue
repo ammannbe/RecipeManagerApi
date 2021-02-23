@@ -8,6 +8,7 @@
       <div class="navbar-brand">
         <div class="navbar-item">
           <router-link :to="{ name: 'home' }">
+            <img :src="$env.LOGO" :alt="$t('Logo')" />
             <h1 @click="$emit('search')" class="title">{{ $env.APP_NAME }}</h1>
           </router-link>
         </div>
@@ -164,8 +165,20 @@ export default {
 .navbar {
   z-index: 9999;
 
-  .navbar-item.lang {
-    justify-content: space-around;
+  .navbar-item {
+    &.lang {
+      justify-content: space-around;
+    }
+
+    > a {
+      display: flex;
+      align-items: center;
+
+      > img {
+        margin-right: 7px;
+        max-height: 3rem;
+      }
+    }
   }
 }
 

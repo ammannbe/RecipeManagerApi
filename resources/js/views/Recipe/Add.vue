@@ -2,7 +2,7 @@
   <div
     class="column is-full-mobile is-full-tablet is-three-fifths-desktop is-offset-one-fifth-desktop"
   >
-    <h1 class="title has-text-centered">{{ $t("Infos") }}</h1>
+    <h1 class="title has-text-centered">{{ $t("Add recipe") }}</h1>
 
     <form @submit.prevent="submit">
       <rm-textinput

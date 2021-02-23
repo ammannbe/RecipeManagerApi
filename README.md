@@ -59,6 +59,7 @@ Alternatively or for development purposes you can make a manual installation on 
 -   Generate storage symlink `php artisan storage:link`
 -   Generate an app key `php artisan key:generate`
 -   Migrate the database `php artisan migrate`
+-   Import meilisearch indexes `php artisan scout:index recipes && php artisan scout:import "App\Models\Recipes\Recipe"`
 -   Add following to your crontab:
 
 ```bash
@@ -96,6 +97,7 @@ php artisan view:cache
 -   Optimize composer autoload `composer install`
 -   Install NPM packages `npm install`
 -   Migrate the database `php artisan migrate`
+-   Import meilisearch indexes `php artisan scout:index recipes && php artisan scout:import "App\Models\Recipes\Recipe"`
 -   Follow [Development deployment](#development-deployment) or [Production deployment](#production-deployment)
 
 ## Translations
