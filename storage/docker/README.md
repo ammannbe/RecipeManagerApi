@@ -100,6 +100,7 @@ See also [Laravel Mail](https://laravel.com/docs/8.x/mail)
 -   **DISABLE_COOKBOOKS** Disable the cookbooks feature _Default: false_
 -   **DISABLE_TAGS** Disable the tags feature _Default: false_
 -   **DISABLE_RATINGS** Disable the ratings feature _Default: false_
--   **DISABLE_FOOD_CREATION** Disable the food creation by normal users feature _Default: false_
--   **DISABLE_INGREDIENT_ATTRIBUTE_CREATION** Disable the ingredient attribute creation by normal users _Default: false_
+-   **DISABLE_UNIT_CREATION** Disable the "unit creation by normal users" feature _Default: false_
+-   **DISABLE_FOOD_CREATION** Disable the "food creation by normal users" feature _Default: false_
+-   **DISABLE_INGREDIENT_ATTRIBUTE_CREATION** Disable the "ingredient attribute creation by normal users" feature _Default: false_
 -   **MAX_RATING_STARS** Tha amount of possible rating stars _Default: 5_

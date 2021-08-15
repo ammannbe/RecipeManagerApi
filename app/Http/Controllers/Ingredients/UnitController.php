@@ -43,7 +43,7 @@ class UnitController extends Controller
     public function store(Store $request)
     {
         $unit = Unit::create($request->validated());
-        return $this->responseCreated('units.show', $unit->id);
+        return $this->responseCreated('units.show', $unit->id, $unit);
     }
 
     /**

@@ -99,6 +99,7 @@ return [
     */
 
     'disable_creation' => [
+        'unit' => env('DISABLE_UNIT_CREATION', false),
         'food' => env('DISABLE_FOOD_CREATION', false),
         'ingredient_attribute' => env('DISABLE_INGREDIENT_ATTRIBUTE_CREATION', false),
     ],

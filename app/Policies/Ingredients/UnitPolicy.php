@@ -55,7 +55,7 @@ class UnitPolicy
      */
     public function create(User $user): bool
     {
-        return $user->admin;
+        return $user->admin || !config('app.disable_creation.unit');
     }
 
     /**
