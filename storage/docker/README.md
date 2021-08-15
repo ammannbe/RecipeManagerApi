@@ -27,13 +27,6 @@ See also: [Laravel Configuration](https://laravel.com/docs/8.x/configuration)
 -   **APP_URL:** The address, where the app should run. The port is optional. _Default: http://localhost:8000_
 -   **SANCTUM_STATEFUL_DOMAINS** Your frontend domain (normally the Node.js docker container). _Default: localhost:3000_
 
-## App versions
-
--   **APP_VERSION:** Docker image version.
--   **MARIADB_VERSION:** Docker image version.
--   **REDIS_VERSION:** Docker image version.
--   **MEILISEARCH_VERSION:** Docker image version.
-
 ## Locales
 
 -   **LOCALE:** The default app locale _Default: en_

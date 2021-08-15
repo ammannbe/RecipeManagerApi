@@ -2,13 +2,13 @@
 
 set -e
 
-# Get the container role "app", "scheduler", "queue"
-role=${CONTAINER_ROLE:-app}
+# Get the container role "api", "scheduler", "queue"
+role=${CONTAINER_ROLE}
 
 # Make sure we have the correct directory permissions
 chown -R www-data:www-data /var/www/html/storage/app
 
-if [[ "$role" == "app" ]]; then
+if [[ "$role" == "api" ]]; then
     # Create the storage/app/public directory, if it not already exists
     appPublic="/var/www/html/storage/app/public"
     if [[ ! -d "$appPublic" ]] && [[ ! -L "$appPublic" ]]; then
