@@ -90,8 +90,9 @@ See also [Laravel Mail](https://laravel.com/docs/8.x/mail)
 -   **BROADCAST_DRIVER:** _Default: log_
 -   **CACHE_DRIVER:** _Default: file_
 -   **QUEUE_CONNECTION:** _Default: redis_
--   **SESSION_DRIVER:** _Default: file_
+-   **SESSION_DRIVER:** _Default: cookie_
 -   **SESSION_LIFETIME:** _Default: 120_
+-   **SESSION_DOMAIN:** A TLD where the web and api have access to _Default: localhost_
 
 ## Optional features
 
