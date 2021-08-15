@@ -1,19 +1,20 @@
-# RecipeManager
+# RecipeManagerApi
 
-Api and Frontend to Manage your recipes. Written with Laravel and Vue.js.
+Api backend to manage your recipes. Written with the PHP Framework [Laravel](https://laravel.com/).
 
 A tool to manage your families and friends recipes like a chef.
 
-![Recipes Overview](https://klaud.narrenhaus.ch/index.php/s/MRNc7KsMbcAFnkn/preview)
+![Recipes Overview](https://klaud.narrenhaus.ch/s/tSxqkHMpPgtPAGr/preview)
 
 ## Why is this so awesome?
 
--   **Manage your recipes** You and your friends can save, edit and delete recipes.
--   **Share recipes** You can share recipes by one click via Telegram or E-Mail.
--   **Calculate servings** Calculate servings directly in the recipe on the fly.
--   **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
--   **Disable/Enable functionalities** Disable or enable dynamically cookbooks and/or tags.
--   **Great and easy API** Access the easy-to-use REST-API.
+-   **Manage your recipes** - You and your friends can save, edit and delete recipes.
+-   **Share recipes** - You can share recipes by one click via Telegram or E-Mail.
+-   **Calculate servings** - Calculate servings directly in the recipe on the fly.
+-   **Exactly define recipe properties** - ..like author, category, tags, ingredients, units and more.
+-   **Disable/Enable functionalities** - Disable or enable dynamically cookbooks, tags, registration and more.
+-   **Great and easy API** - Access the easy-to-use REST-API.
+-   **Strict or flexible item creation** - Disable/Enable the possibility for users to create own foods and ingredient attributes.
 
 ## What features are planned?
 
@@ -28,10 +29,10 @@ A tool to manage your families and friends recipes like a chef.
 
 ## Getting Started
 
-Get the latest [release](https://github.com/ammannbe/RecipeManager) or clone the repo with
+Get the latest [release](https://github.com/ammannbe/RecipeManagerApi) or clone the repo with
 
 ```bash
-git clone https://github.com/ammannbe/RecipeManager.git
+git clone https://github.com/ammannbe/RecipeManagerApi.git
 ```
 
 ### Prerequisites
@@ -93,7 +94,7 @@ php artisan view:cache
 ## Update
 
 -   Get the latest source (see [Getting Started](#getting-started))
--   Check `.env.examples` for changes
+-   Check `.env.example` for changes
 -   Optimize composer autoload `composer install`
 -   Install NPM packages `npm install`
 -   Migrate the database `php artisan migrate`
@@ -155,8 +156,6 @@ php artisan migrate:fresh --seed
 
 ## Built With
 
-**PHP Production:**
-
 -   [Askedio/laravel-soft-cascade](https://github.com/Askedio/laravel-soft-cascade) - Cascade Delete & Restore when using Laravel SoftDeletes
 -   [barryvdh/laravel-dompdf](https://github.com/barryvdh/laravel-dompdf) - A DOMPDF Wrapper for Laravel
 -   [GrKamil/laravel-telegram-logging](https://github.com/GrKamil/laravel-telegram-logging) - Send logs to Telegram chat via Telegram bot
@@ -165,25 +164,10 @@ php artisan migrate:fresh --seed
 -   [rutorika/sortable](https://github.com/boxfrommars/rutorika-sortable) - Adds sortable behavior to Laravel Eloquent models
 -   [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) - Associate files with Eloquent models
 
-**PHP Development:**
-
 -   [barryvdh/laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Laravel IDE Helper
 -   [barryvdh/laravel-translation-manager](https://github.com/barryvdh/laravel-translation-manager) - Manage Laravel translation files
 -   [nunomaduro/larastan](https://github.com/nunomaduro/larastan) - Adds static analysis to Laravel improving developer productivity and code quality
 -   [stechstudio/Laravel-PHP-CS-Fixer](https://github.com/stechstudio/Laravel-PHP-CS-Fixer) - Artisan Command for FriendsOfPHP/PHP-CS_Fixer
-
-**JS:**
-
--   [sass/sass](https://github.com/sass/sass) - Sass makes CSS fun!
--   [vuejs/vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
--   [axios/axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
--   [SortableJS/Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) - Vue drag-and-drop component based on Sortable.js
--   [PeachScript/vue-infinite-loading](https://github.com/PeachScript/vue-infinite-loading) - An infinite scroll plugin for Vue.js.
--   [timtnleeProject/vuejs-clipper](https://github.com/timtnleeProject/vuejs-clipper) - Vue.js image clipping components using Vue-Rx.
--   [vuejs/vue-rx](https://github.com/vuejs/vue-rx) - RxJS integration for Vue.js.
--   [kirschbaum-development/laravel-translations-loader](https://github.com/kirschbaum-development/laravel-translations-loader) - Webpack loader to import Laravel translation files (PHP or JSON) into your JS bundle as JSON.
--   [sparksuite/simplemde-markdown-editor](https://github.com/sparksuite/simplemde-markdown-editor) - A simple, beautiful, and embeddable JavaScript Markdown editor.
--   [jonschlinkert/remarkable](https://github.com/jonschlinkert/remarkable) - Markdown parser, done right.
 
 ## Contributing
 
@@ -199,6 +183,6 @@ This project is licensed under the AGPLv3 or later - see the [LICENSE](LICENSE) 
 
 ## Gallery
 
-|                                                                                               |                                                                                      |                                                                                     |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| ![Recipes Overview - Mobile](https://klaud.narrenhaus.ch/index.php/s/mgasnaoeXWMQttc/preview) | ![Account - Mobile](https://klaud.narrenhaus.ch/index.php/s/6QXbsZymS2econD/preview) | ![Recipe - Mobile](https://klaud.narrenhaus.ch/index.php/s/dq44kfHykxs9AZx/preview) |
+|                                                                                     |                                                                           |                                                                            |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| ![Recipes Overview - Mobile](https://klaud.narrenhaus.ch/s/R6fWdPGMytSxR54/preview) | ![Recipe - Mobile](https://klaud.narrenhaus.ch/s/obLXYzPMzqfPCCN/preview) | ![Account - Mobile](https://klaud.narrenhaus.ch/s/i8jjnnc6YMtRLrw/preview) |

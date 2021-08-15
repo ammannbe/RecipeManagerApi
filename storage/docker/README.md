@@ -1,6 +1,6 @@
 # Quick reference
 
--   Issues: https://github.com/ammannbe/RecipeManager
+-   Issues: https://github.com/ammannbe/RecipeManagerApi
 -   Supported architectures: amd64
 
 # Available tags
@@ -11,69 +11,8 @@
 
 # Installation
 
-It's recommended to install this application with docker-compose:
-
--   Create a new directory, e.g. in /opt: `mkdir /opt/recipe-manager`
--   Switch to the newly created directory: `cd /opt/recipe-manager`
--   Download the .env.example and edit it to your needs (see [Environement Variables](environement-variables)):
-
-```bash
-wget https://github.com/ammannbe/RecipeManager/blob/7.x/storage/docker/.env.example -O .env
-nano .env
-```
-
--   IMPORTANT: make sure that you changed the `APP_ENV` to `production`
--   Download the exmaple docker-compose.yml and edit it to your needs:
-
-```bash
-wget https://github.com/ammannbe/RecipeManager/blob/7.x/storage/docker/docker-compose.yml
-nano docker-compose.yml
-```
-
--   Optional automatically start the container after system boot:
--   Copy or symlink the [recipe-manager.service](recipe-manager.service) service file to `/etc/systemd/system/recipe-manager.service`.
--   Enable the service: `systemctl enable recipe-manager.service`
--   Start the service: `systemctl start recipe-manager.service`
-
-# Files you can overwrite
-
-With the _volumes:_ option you can overwrite every file/folder from the containers.
-
-Example:
-
-```bash
-services:
-  app:
-
-    ...
-
-    volumes:
-      - ./html:/var/www/html
-      - ./data/app:/var/www/html/storage/app
-      - ./data/mysql:/var/lib/mysql
-      - ./data/meilisearch:/data.ms
-      - ./favicon.ico:/var/www/html/public/favicon.ico
-      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-      - ./.env:/var/www/html/.env
-      - ./ports.conf:/etc/apache2/ports.conf
-```
-
-In the containers _app_, _scheduler_, _queue_ you can override following paths:
-
--   **./html:/var/www/html** This is the folder containing all project files
--   **./data/app:/var/www/html/storage/app** This folder contains user data like recipe images
--   **./favicon.ico:/var/www/html/public/favicon.ico** Specify a custom favicon
--   **./entrypoint.sh:/usr/local/bin/entrypoint.sh** This script is executet at the ENTRYPOINT (see Dockerfile)
--   **./.env:/var/www/html/.env** This is the environement variable file
--   **./ports.conf:/etc/apache2/ports.conf** Specify a custom Apache HTTP port
-
-In the container _db_ you can override following paths:
-
--   **./data/mysql:/var/lib/mysql** This folder contains your database
-
-In the container _meilisearch_ you can override following paths:
-
--   **./data/meilisearch:/data.ms** This folder contains your indexed db models for searching
+It's recommended to install this application with docker.
+Consult https://github.com/ammannbe/RecipeManagerDocker for installation
 
 # Environement Variables
 
@@ -153,7 +92,7 @@ See also [Laravel Mail](https://laravel.com/docs/8.x/mail)
 -   **MAIL_FROM_ADDRESS:** _Default: no-reply@recipe-manager.com_
 -   **MAIL_FROM_NAME:** _Default: RecipeManager_
 
-# Generic settings
+## Generic settings
 
 -   **BROADCAST_DRIVER:** _Default: log_
 -   **CACHE_DRIVER:** _Default: file_
@@ -161,13 +100,12 @@ See also [Laravel Mail](https://laravel.com/docs/8.x/mail)
 -   **SESSION_DRIVER:** _Default: file_
 -   **SESSION_LIFETIME:** _Default: 120_
 
-# Optional features
+## Optional features
 
--   **DISABLE_REGISTRATION=** Disable user registrations _Default: false_
+-   **DISABLE_REGISTRATION** Disable user registrations _Default: false_
 -   **DISABLE_COOKBOOKS** Disable the cookbooks feature _Default: false_
 -   **DISABLE_TAGS** Disable the tags feature _Default: false_
 -   **DISABLE_RATINGS** Disable the ratings feature _Default: false_
 -   **DISABLE_FOOD_CREATION** Disable the food creation by normal users feature _Default: false_
 -   **DISABLE_INGREDIENT_ATTRIBUTE_CREATION** Disable the ingredient attribute creation by normal users _Default: false_
--   **PREFER_PAGINATION** Disable infinity scroll and use pagination _Default: false_
 -   **MAX_RATING_STARS** Tha amount of possible rating stars _Default: 5_
