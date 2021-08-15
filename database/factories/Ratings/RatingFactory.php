@@ -2,14 +2,14 @@
 
 namespace Database\Factories\Ratings;
 
-use App\Models\Users\User;
 use App\Models\Ratings\Rating;
-use App\Models\Recipes\Recipe;
-use App\Models\Ratings\RatingCriterion;
+use Database\Factories\RandomModels;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RatingFactory extends Factory
 {
+    use RandomModels;
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -25,9 +25,9 @@ class RatingFactory extends Factory
     public function definition()
     {
         return [
-            'recipe_id' => Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->inRandomOrder()->first()->id,
-            'user_id' => $this->faker->randomElement([null, User::inRandomOrder()->first()->id]),
-            'rating_criterion_id' => RatingCriterion::inRandomOrder()->first()->id,
+            'recipe_id' => $this->getRandomRecipe()->id,
+            'user_id' => $this->faker->randomElement([null, $this->getRandomUser()->id]),
+            'rating_criterion_id' => $this->getRandomRatingCriterion()->id,
             'comment' => $this->faker->text,
             'stars' => rand(0, 5),
         ];

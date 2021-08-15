@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read Author|null $author
  * @property-read \App\Models\Ratings\RatingCriterion $ratingCriterion
+ * @method static \Database\Factories\Ratings\RatingFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Rating filter(?array $filter, ?string $method = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|Rating newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Rating newQuery()

@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Recipe[] $recipes
+ * @method static \Database\Factories\Recipes\CookbookFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Cookbook newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cookbook newQuery()
  * @method static \Illuminate\Database\Query\Builder|Cookbook onlyTrashed()

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read bool $can_delete
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\Ingredient[] $ingredients
+ * @method static \Database\Factories\Ingredients\IngredientAttributeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|IngredientAttribute newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|IngredientAttribute newQuery()
  * @method static \Illuminate\Database\Query\Builder|IngredientAttribute onlyTrashed()

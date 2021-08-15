@@ -30,9 +30,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $name
  * @property string $slug
  * @property string|null $servings
+ * @property string|null $serving_type
  * @property string $complexity
  * @property string $instructions
- * @property string|null $preparation_time
+ * @property \datetime|null $preparation_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -51,6 +52,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ratings\Rating[] $ratings
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipes\Tag[] $tags
+ * @method static \Database\Factories\Recipes\RecipeFactory factory(...$parameters)
  * @method static Builder|Recipe filter(?array $filter, ?string $method = 'and')
  * @method static Builder|Recipe isOwn()
  * @method static Builder|Recipe isPublic()
@@ -68,10 +70,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static Builder|Recipe whereInstructions($value)
  * @method static Builder|Recipe whereName($value)
  * @method static Builder|Recipe wherePreparationTime($value)
+ * @method static Builder|Recipe whereServingType($value)
+ * @method static Builder|Recipe whereServings($value)
  * @method static Builder|Recipe whereSlug($value)
  * @method static Builder|Recipe whereUpdatedAt($value)
  * @method static Builder|Recipe whereUserId($value)
- * @method static Builder|Recipe whereServings($value)
  * @method static \Illuminate\Database\Query\Builder|Recipe withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Recipe withoutTrashed()
  * @mixin \Eloquent

@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\Ingredient[] $ingredients
  * @property-read \App\Models\Recipes\Recipe $recipe
+ * @method static \Database\Factories\Ingredients\IngredientGroupFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|IngredientGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|IngredientGroup newQuery()
  * @method static \Illuminate\Database\Query\Builder|IngredientGroup onlyTrashed()

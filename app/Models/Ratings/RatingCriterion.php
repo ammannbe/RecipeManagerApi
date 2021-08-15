@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\Ratings\RatingCriterionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|RatingCriterion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RatingCriterion newQuery()
  * @method static \Illuminate\Database\Query\Builder|RatingCriterion onlyTrashed()

@@ -2,12 +2,14 @@
 
 namespace Database\Factories\Ingredients;
 
-use App\Models\Recipes\Recipe;
+use Database\Factories\RandomModels;
 use App\Models\Ingredients\IngredientGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class IngredientGroupFactory extends Factory
 {
+    use RandomModels;
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -23,7 +25,7 @@ class IngredientGroupFactory extends Factory
     public function definition()
     {
         return [
-            'recipe_id' => Recipe::withoutGlobalScope('isAdminOrOwnOrPublic')->inRandomOrder()->first()->id,
+            'recipe_id' => $this->getRandomRecipe()->id,
             'name' => $this->faker->unique(true)->word,
         ];
     }

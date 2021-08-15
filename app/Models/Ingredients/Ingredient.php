@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|Ingredient[] $ingredients
  * @property-read \App\Models\Recipes\Recipe $recipe
  * @property-read \App\Models\Ingredients\Unit|null $unit
+ * @method static \Database\Factories\Ingredients\IngredientFactory factory(...$parameters)
  * @method static Builder|Ingredient inSameScope(\App\Models\Ingredients\Ingredient $ingredient)
  * @method static Builder|Ingredient newModelQuery()
  * @method static Builder|Ingredient newQuery()

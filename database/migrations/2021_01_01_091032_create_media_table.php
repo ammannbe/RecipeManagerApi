@@ -61,6 +61,7 @@ class CreateMediaTable extends Migration
         if (\File::exists("{$pathOld}/.gitignore")) {
             \File::copy("{$pathOld}/.gitignore", "{$path}/.gitignore");
         }
+        /** @var \App\Models\Recipes\Recipe[] */
         $recipes = Recipe::withoutGlobalScopes()->whereNotNull('photos')->get();
         foreach ($recipes as $recipe) {
             if (!\File::exists("{$pathOld}/{$recipe->id}")) {

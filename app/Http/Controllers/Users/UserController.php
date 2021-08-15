@@ -15,7 +15,7 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Users\User\Index  $request
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Index $request)
     {
@@ -33,7 +33,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Users\User\Store  $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function store(Store $request)
     {
@@ -58,6 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user = null)
     {
+        /** @var \App\Models\Users\User $user */
         $user = $user ?? auth()->user();
         $this->authorize($user);
         return $user;

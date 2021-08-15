@@ -18,4 +18,8 @@ parameters:
         - routes/console.php
         - database/migrations/2014_04_02_193005_create_translations_table.php
 
+    ignoreErrors:
+        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$(id|admin|author)+\.#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:(cookbooks|recipes|author|update|delete|can)\(\)\.#'
+
     checkMissingIterableValueType: false
