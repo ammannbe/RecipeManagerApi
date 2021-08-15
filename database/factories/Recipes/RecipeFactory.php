@@ -39,7 +39,7 @@ class RecipeFactory extends Factory
             'category_id' => Category::inRandomOrder()->first()->id,
             'author_id' => $user->author->id,
             'name' => $this->faker->unique(true)->name,
-            'yield_amount' => $this->faker->randomElement([null, $this->faker->numberBetween(0, 30)]),
+            'servings' => $this->faker->randomElement([null, $this->faker->numberBetween(0, 30)]),
             'complexity' => $this->faker->randomElement(Recipe::COMPLEXITY_TYPES),
             'instructions' => $this->faker->unique(true)->text,
             'preparation_time' => $this->faker->randomElement([null, $this->faker->time('H:i:00', '24:59')]),

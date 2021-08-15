@@ -37,7 +37,7 @@ class RecipePhotoController extends Controller
     {
         $this->authorize('view', $photo->model);
 
-        foreach (['thumbnail', 'webp'] as $conversion) {
+        foreach ($photo->getGeneratedConversions()->keys() as $conversion) {
             if ($request->has($conversion) && $photo->hasGeneratedConversion($conversion)) {
                 return response()->file($photo->getPath($conversion));
             }

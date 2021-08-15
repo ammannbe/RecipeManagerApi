@@ -20,10 +20,13 @@ class UserController extends Controller
     public function index(Index $request)
     {
         $this->authorize(User::class);
+        /** @var \App\Models\Users\User $model */
+        $model = User::latest();
         if ($request->trashed && auth()->user()->admin) {
-            return User::withTrashed()->get();
+            $model = $model->withTrashed();
         }
-        return User::get();
+
+        return $model->paginate($request->limit);
     }
 
     /**
@@ -43,6 +46,8 @@ class UserController extends Controller
         $user->author()->create([
             'name' => $data['name'],
         ]);
+
+        return $this->responseCreated('users.show', $user->id, $user);
     }
 
     /**

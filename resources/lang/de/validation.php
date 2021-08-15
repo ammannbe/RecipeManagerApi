@@ -35,10 +35,10 @@ return array(
   'filled' => ':attribute muss ausgefüllt sein.',
   'gt' =>
   array(
-    'numeric' => ':attribute muss mindestens :value sein.',
-    'file' => ':attribute muss mindestens :value Kilobytes gross sein.',
-    'string' => ':attribute muss mindestens :value Zeichen lang sein.',
-    'array' => ':attribute muss mindestens :value Elemente haben.',
+    'numeric' => ':attribute muss grösser als :value sein.',
+    'file' => ':attribute muss grösser als :value Kilobytes gross sein.',
+    'string' => ':attribute muss grösser als :value Zeichen lang sein.',
+    'array' => ':attribute muss grösser als :value Elemente haben.',
   ),
   'gte' =>
   array(

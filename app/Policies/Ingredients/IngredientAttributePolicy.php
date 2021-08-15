@@ -55,7 +55,7 @@ class IngredientAttributePolicy
      */
     public function create(User $user): bool
     {
-        return $user->admin;
+        return $user->admin || !config('app.disable_creation.ingredient_attribute');
     }
 
     /**

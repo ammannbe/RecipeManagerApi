@@ -17,11 +17,12 @@ class Controller extends BaseController
      * @see response()
      * @param  string  $routeName
      * @param  int  $resourceId
+     * @param  mixed|null  $resource
      * @return \Illuminate\Http\Response
      */
-    protected function responseCreated(string $routeName, int $resourceId)
+    protected function responseCreated(string $routeName, int $resourceId, $resource = null)
     {
-        return response('', 201)->header('Location', route($routeName, [$resourceId]));
+        return response($resource ?? '', 201)->header('Location', route($routeName, [$resourceId]));
     }
 
     /**

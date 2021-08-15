@@ -91,9 +91,19 @@ class IngredientController extends Controller
             $ingredient->ingredientAttributes()->sync($validated['ingredient_attributes']);
         }
 
+        $after = null;
+        if (
+            isset($validated['ingredient_group_id'])
+            && $validated['ingredient_group_id'] != $ingredient->ingredient_group_id
+        ) {
+            $after = false;
+        }
+
         $ingredient->update($validated);
 
-        $ingredient->updatePosition($position);
+        $ingredient->refresh();
+
+        $ingredient->updatePosition($position, $after);
     }
 
     /**

@@ -9,6 +9,13 @@ role=${CONTAINER_ROLE:-app}
 chown -R www-data:www-data /var/www/html/storage/app
 
 if [[ "$role" == "app" ]]; then
+    # Create the storage/app/public directory, if it not already exists
+    appPublic="/var/www/html/storage/app/public"
+    if [[ ! -d "$appPublic" ]] && [[ ! -L "$appPublic" ]]; then
+        echo "Create missing directory $appPublic"
+        mkdir "$appPublic"
+    fi
+
     # Generate required symlink
     sudo -u www-data php artisan storage:link
 
@@ -20,18 +27,18 @@ if [[ "$role" == "app" ]]; then
     sudo -u www-data php artisan route:cache
     sudo -u www-data php artisan view:cache
 
+    echo "Wait 30s to make sure external services are up and running"
+    sleep 30
+
+    # Migrate Database
+    sudo -u www-data php artisan migrate --force
+
     # Compile JS/CSS
     sudo -u www-data npm run prod
-
-    echo "Wait 30s until external services are up and running"
-    sleep 30
 
     # Import meilisearch indexes
     sudo -u www-data php artisan scout:index recipes
     sudo -u www-data php artisan scout:import "App\Models\Recipes\Recipe"
-
-    # Migrate Database
-    sudo -u www-data php artisan migrate --force
 
     # Start Apache
     exec apache2-foreground

@@ -28,16 +28,17 @@ class Store extends FormRequest
     public function rules()
     {
         $rules = [
-            'category_id'      => ['required', 'nullable', 'exists:categories,id'],
-            'name'             => ['required', 'string', 'max:100', 'unique:recipes,name'],
-            'yield_amount'     => ['required', 'nullable', 'numeric', 'max:999'],
-            'complexity'       => ['required', 'string', Rule::in(Recipe::COMPLEXITY_TYPES)],
-            'instructions'     => ['required', 'string', 'max:16000000'],
-            'preparation_time' => ['nullable', 'string', 'date_format:H:i'],
+            'category_id'       => ['required', 'nullable', 'exists:categories,id'],
+            'name'              => ['required', 'string', 'max:100', 'unique:recipes,name'],
+            'servings'          => ['required', 'nullable', 'numeric', 'max:999'],
+            'serving_type'      => ['nullable', 'string', 'max:20'],
+            'complexity'        => ['required', 'string', Rule::in(Recipe::COMPLEXITY_TYPES)],
+            'instructions'      => ['required', 'string', 'max:10000'],
+            'preparation_time'  => ['nullable', 'string', 'date_format:H:i'],
         ];
 
         if (CookbookController::isEnabled()) {
-            $rules = array_merge($rules, ['filter.cookbook_id' => ['exists:cookbooks,id']]);
+            $rules = array_merge($rules, ['cookbook_id' => ['nullable', 'exists:cookbooks,id']]);
         }
 
         if (TagController::isEnabled()) {

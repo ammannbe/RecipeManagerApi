@@ -27,6 +27,8 @@ class Index extends FormRequest
     public function rules()
     {
         return [
+            'limit' => $this->getLimitRule(),
+            'page'  => $this->getPageRule(),
             'trashed' => $this->getTrashedRule(),
         ];
     }

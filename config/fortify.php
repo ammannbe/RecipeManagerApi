@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'guard' => 'api',
+    'guard' => 'web',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,13 +68,13 @@ return [
     | Fortify Routes Prefix / Subdomain
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which prefix Fortify will assign to the all routes
+    | Here you may specify which prefix Fortify will assign to all the routes
     | that it registers with the application. If necessary, you may change
     | subdomain under which all of the Fortify routes will be available.
     |
     */
 
-    'prefix' => 'api/auth',
+    'prefix' => '',
 
     'domain' => null,
 
@@ -89,7 +89,7 @@ return [
     |
     */
 
-    'middleware' => ['api'],
+    'middleware' => ['web'],
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +103,8 @@ return [
     */
 
     'limiters' => [
-        'login' => null,
+        // 'login' => 'login',
+        'two-factor' => 'two-factor',
     ],
 
     /*
@@ -117,7 +118,7 @@ return [
     |
     */
 
-    'views' => false,
+    'views' => true,
 
     /*
     |--------------------------------------------------------------------------

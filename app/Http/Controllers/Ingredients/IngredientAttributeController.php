@@ -43,7 +43,11 @@ class IngredientAttributeController extends Controller
     public function store(Store $request)
     {
         $ingredientAttribute = IngredientAttribute::create($request->validated());
-        return $this->responseCreated('ingredient-attributes.show', $ingredientAttribute->id);
+        return $this->responseCreated(
+            'ingredient-attributes.show',
+            $ingredientAttribute->id,
+            $ingredientAttribute
+        );
     }
 
     /**

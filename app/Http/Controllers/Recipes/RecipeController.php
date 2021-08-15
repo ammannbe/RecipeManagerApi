@@ -10,6 +10,7 @@ use App\Http\Requests\Recipes\Recipe\Search;
 use App\Http\Requests\Recipes\Recipe\Update;
 use App\Http\Controllers\Recipes\TagController;
 use App\Http\Controllers\Recipes\CookbookController;
+use MeiliSearch\Endpoints\Indexes;
 
 class RecipeController extends Controller
 {
@@ -56,7 +57,17 @@ class RecipeController extends Controller
      */
     public function search(Search $request)
     {
-        return Recipe::search($request->search)->paginate($request->limit);
+        $filter = $request->filter;
+        return Recipe::search($request->search, function (Indexes $meilisearch, $query, $options) use ($filter) {
+            if ($filter) {
+                $options['filters'] = '';
+                foreach ($filter as $key => $value) {
+                    $options['filters'] .= "{$key}={$value}";
+                }
+            }
+
+            return $meilisearch->search($query, $options);
+        })->paginate($request->limit);
     }
 
     /**
@@ -74,7 +85,7 @@ class RecipeController extends Controller
             $recipe->tags()->sync($validated['tags']);
         }
 
-        return $this->responseCreated('recipes.show', $recipe->id);
+        return $this->responseCreated('recipes.show', $recipe->id, $recipe);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Recipes\Recipe;
 
+use App\Models\Recipes\Recipe;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\FormRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,9 +29,11 @@ class Search extends FormRequest
     public function rules()
     {
         return [
-            'search'    => 'string',
-            'limit'     => $this->getLimitRule(),
-            'page'      => $this->getPageRule(),
+            'search'                => 'string',
+            'filter'                => ['array'],
+            'filter.category_id'    => ['exists:categories,id'],
+            'limit'                 => $this->getLimitRule(),
+            'page'                  => $this->getPageRule(),
         ];
     }
 }

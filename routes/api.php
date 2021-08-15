@@ -48,12 +48,12 @@ Route::get('recipes/{recipe}/ingredient-groups', [IngredientGroupController::cla
 Route::get('recipes/{recipe}/pdf', [RecipeController::class, 'pdf']);
 
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user', [UserController::class, 'show'])->name('self.show');
 });
 
 
-Route::middleware(['auth:api', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::apiResources([
         'foods' => 'Ingredients\FoodController',
         'ingredient-attributes' => 'Ingredients\IngredientAttributeController',

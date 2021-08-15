@@ -42,7 +42,7 @@ class DatabaseIntegrityCommand extends Command
      */
     public function handle()
     {
-        $this->validateZeroValuesRecipeYieldAmount();
+        $this->validateZeroValuesRecipeServings();
         $this->validateZeroValuesIngredientAmount();
         $this->validateZeroValuesIngredientAmountMax();
 
@@ -89,18 +89,18 @@ class DatabaseIntegrityCommand extends Command
     }
 
     /**
-     * Validate if recipe.yield_amount has wrong zero-values
+     * Validate if recipe.servings has zero-values
      *
      * @return void
      */
-    protected function validateZeroValuesRecipeYieldAmount(): void
+    protected function validateZeroValuesRecipeServings(): void
     {
-        $this->line('Validate: recipes.yield_amount == 0');
+        $this->line('Validate: recipes.servings == 0');
 
-        $query = Recipe::whereYieldAmount(0);
+        $query = Recipe::whereServings(0);
 
         if ($this->hasProblems($query)) {
-            $this->fix($query, ['yield_amount' => null]);
+            $this->fix($query, ['servings' => null]);
         }
     }
 

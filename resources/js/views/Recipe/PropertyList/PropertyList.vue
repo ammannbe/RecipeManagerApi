@@ -31,23 +31,23 @@
         />
       </property-list-item>
 
-      <property-list-item :label="$t('Yield amount')">
+      <property-list-item :label="$t('Servings')">
         <rm-numberinput
           v-model="yield_amount"
           size="is-small"
           :min="0"
           :max="999"
           :step="1"
-          :placeholder="$t('Enter yield amount...')"
+          :placeholder="$t('Enter servings...')"
         />
         <template v-slot:fallback>
           <rm-numberinput
-            v-model="yieldAmountMultiplier"
+            v-model="servingsMultiplier"
             size="is-small"
             :min="0"
             :max="999"
             :step="1"
-            :placeholder="$t('Enter yield amount...')"
+            :placeholder="$t('Enter servings...')"
           />
         </template>
       </property-list-item>
@@ -132,7 +132,7 @@ export default {
   components: { PropertyListItem },
   data() {
     return {
-      yieldAmountMultiplier: 0
+      servingsMultiplier: 0
     };
   },
   computed: {
@@ -155,7 +155,7 @@ export default {
     ])
   },
   watch: {
-    yieldAmountMultiplier(value, oldValue) {
+    servingsMultiplier(value, oldValue) {
       if (oldValue != null) {
         if (this.recipe.yield_amount != value) {
           let yield_amount = value;
@@ -179,11 +179,11 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      let yieldAmount = this.$route.query.yield_amount;
-      if (!yieldAmount) {
-        yieldAmount = this.recipe.yield_amount;
+      let servings = this.$route.query.yield_amount;
+      if (!servings) {
+        servings = this.recipe.yield_amount;
       }
-      this.yieldAmountMultiplier = yieldAmount;
+      this.servingsMultiplier = servings;
     }, 1000);
   }
 };

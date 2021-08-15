@@ -5,7 +5,8 @@
 
 # Available tags
 
--   7.x.x, 7.x, 7, latest
+-   8.x.x, 8.x, 8, latest
+-   7.x.x, 7.x, 7
 -   6.x.x, 6.x, 6
 
 # Installation
@@ -49,7 +50,9 @@ services:
     volumes:
       - ./html:/var/www/html
       - ./data/app:/var/www/html/storage/app
-      - ./favicon.ico:/var/www/html/favicon.ico
+      - ./data/mysql:/var/lib/mysql
+      - ./data/meilisearch:/data.ms
+      - ./favicon.ico:/var/www/html/public/favicon.ico
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
       - ./.env:/var/www/html/.env
       - ./ports.conf:/etc/apache2/ports.conf
@@ -59,10 +62,18 @@ In the containers _app_, _scheduler_, _queue_ you can override following paths:
 
 -   **./html:/var/www/html** This is the folder containing all project files
 -   **./data/app:/var/www/html/storage/app** This folder contains user data like recipe images
--   **./favicon.ico:/var/www/html/favicon.ico** Specify a custom favicon
+-   **./favicon.ico:/var/www/html/public/favicon.ico** Specify a custom favicon
 -   **./entrypoint.sh:/usr/local/bin/entrypoint.sh** This script is executet at the ENTRYPOINT (see Dockerfile)
 -   **./.env:/var/www/html/.env** This is the environement variable file
 -   **./ports.conf:/etc/apache2/ports.conf** Specify a custom Apache HTTP port
+
+In the container _db_ you can override following paths:
+
+-   **./data/mysql:/var/lib/mysql** This folder contains your database
+
+In the container _meilisearch_ you can override following paths:
+
+-   **./data/meilisearch:/data.ms** This folder contains your indexed db models for searching
 
 # Environement Variables
 
@@ -75,7 +86,7 @@ See also: [Laravel Configuration](https://laravel.com/docs/8.x/configuration)
 -   **APP_KEY:** Encryption key. This key will be set for you after the first startup.
 -   **APP_DEBUG:** In production this value should be false. _Default: true_
 -   **APP_URL:** The address, where the app should run. The port is optional. _Default: http://localhost:8000_
--   **SANCTUM_STATEFUL_DOMAINS** Your frontend domain (normally the same host and port as **APP_URL**). _Default: localhost:8000_
+-   **SANCTUM_STATEFUL_DOMAINS** Your frontend domain (normally the Node.js docker container). _Default: localhost:3000_
 
 ## App versions
 
@@ -152,21 +163,11 @@ See also [Laravel Mail](https://laravel.com/docs/8.x/mail)
 
 # Optional features
 
--   **DISABLE_REGISTRATION:** Disable user registrations _Default: false_
--   **DISABLE_COOKBOOKS:** Disable the cookbooks feature _Default: false_
--   **DISABLE_TAGS:** Disable the tags feature _Default: false_
--   **PREFER_PAGINATION:** Disable infinity scroll and use pagination _Default: false_
-
-# Settings for the frontend
-
--   **MIX_APP_NAME:** _Default: \$APP_NAME_
--   **MIX_APP_URL:** _Default: \$APP_URL_
--   **MIX_LOCALE:** _Default: \$LOCALE_
--   **MIX_LOCALES:** _Default: \$LOCALES_
--   **MIX_DISABLE_REGISTRATION:** _Default: \$DISABLE_REGISTRATION_
--   **MIX_DISABLE_COOKBOOKS:** _Default: \$DISABLE_COOKBOOKS_
--   **MIX_DISABLE_TAGS:** _Default: \$DISABLE_TAGS_
--   **MIX_PREFER_PAGINATION:** _Default: \$PREFER_PAGINATION_
--   **MIX_LOGO:** Path or URL to the logo _Default: /img/logo.png_
--   **MIX_PLACEHOLDER_IMAGE:** Path or URL to a placeholder image _Default: /img/placeholder.png_
--   **MIX_NOT_FOUND_IMAGE:** Path or URL to a fallback image _Default: /img/not-found.jpg_
+-   **DISABLE_REGISTRATION=** Disable user registrations _Default: false_
+-   **DISABLE_COOKBOOKS** Disable the cookbooks feature _Default: false_
+-   **DISABLE_TAGS** Disable the tags feature _Default: false_
+-   **DISABLE_RATINGS** Disable the ratings feature _Default: false_
+-   **DISABLE_FOOD_CREATION** Disable the food creation by normal users feature _Default: false_
+-   **DISABLE_INGREDIENT_ATTRIBUTE_CREATION** Disable the ingredient attribute creation by normal users _Default: false_
+-   **PREFER_PAGINATION** Disable infinity scroll and use pagination _Default: false_
+-   **MAX_RATING_STARS** Tha amount of possible rating stars _Default: 5_

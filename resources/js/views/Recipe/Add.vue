@@ -32,7 +32,7 @@
       />
 
       <rm-numberinput
-        :label="$t('Yield amount') + ':'"
+        :label="$t('Servings') + ':'"
         horizontal
         v-model="yield_amount"
         :min="0"

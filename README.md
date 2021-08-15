@@ -10,7 +10,7 @@ A tool to manage your families and friends recipes like a chef.
 
 -   **Manage your recipes** You and your friends can save, edit and delete recipes.
 -   **Share recipes** You can share recipes by one click via Telegram or E-Mail.
--   **Calculate yield amounts** Calculate yield amounts directly in the recipe on the fly.
+-   **Calculate servings** Calculate servings directly in the recipe on the fly.
 -   **Exactly define recipe properties** ..like author, category, tags, ingredients, units and more.
 -   **Disable/Enable functionalities** Disable or enable dynamically cookbooks and/or tags.
 -   **Great and easy API** Access the easy-to-use REST-API.

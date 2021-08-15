@@ -12,7 +12,7 @@ volumes:
 
 services:
   app:
-    image: suhype/recipe-manager:${APP_VERSION}
+    image: suhype/recipe-manager-api:${APP_VERSION}
     restart: unless-stopped
     environment:
       - CONTAINER_ROLE=app

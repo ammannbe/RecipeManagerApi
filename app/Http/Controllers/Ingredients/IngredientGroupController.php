@@ -31,7 +31,7 @@ class IngredientGroupController extends Controller
     {
         $this->authorize([IngredientGroup::class, $recipe]);
         $ingredientGroup = $recipe->ingredientGroups()->create($request->validated());
-        return $this->responseCreated('ingredient-groups.show', $ingredientGroup->id);
+        return $this->responseCreated('ingredient-groups.show', $ingredientGroup->id, $ingredientGroup);
     }
 
     /**

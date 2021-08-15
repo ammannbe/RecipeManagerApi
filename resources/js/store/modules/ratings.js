@@ -28,7 +28,6 @@ const actions = {
         commit('changeValue', { id, property: 'deleted_at', value: null });
     },
     toggleHidden({ state, commit }) {
-        console.log(state.hidden);
         commit('setHidden', { hide: !state.hidden });
     }
 }

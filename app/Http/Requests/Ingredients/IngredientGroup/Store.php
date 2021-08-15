@@ -24,7 +24,7 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'name'      => ['required', 'string', 'max:20'],
+            'name'      => ['required', 'string', 'max:20', "unique:ingredient_groups,name,NULL,NULL,recipe_id,{$this->recipe->id}"],
         ];
     }
 }

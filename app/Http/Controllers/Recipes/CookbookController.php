@@ -45,7 +45,7 @@ class CookbookController extends Controller
     public function store(Store $request)
     {
         $cookbook = auth()->user()->cookbooks()->create($request->validated());
-        return $this->responseCreated('cookbooks.show', $cookbook->id);
+        return $this->responseCreated('cookbooks.show', $cookbook->id, $cookbook);
     }
 
     /**

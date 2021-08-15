@@ -52,8 +52,8 @@ use \Illuminate\Mail\Markdown;
                 </tr>
 
                 <tr>
-                    <th>@lang('Yield amount'):</th>
-                    <td>{{ $recipe->yield_amount }}</td>
+                    <th>@lang('Servings'):</th>
+                    <td>{{ $recipe->servings }}</td>
                 </tr>
 
                 <tr>

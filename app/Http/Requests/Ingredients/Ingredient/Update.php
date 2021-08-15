@@ -23,21 +23,12 @@ class Update extends FormRequest
      */
     public function rules()
     {
-        $amountMax = ['nullable', 'numeric'];
-        if ($this->amount_max && $this->amount_max >= 0) {
-            if ($this->amount) {
-                $amountMax[] = 'gt:amount';
-            } else {
-                $amountMax[] = "min:{$this->ingredient->amount}";
-            }
-        }
-
         return [
-            'amount'                         => ['nullable', 'numeric'],
-            'amount_max'                     => $amountMax,
+            'amount'                         => ['nullable', 'numeric', 'required_with:amount_max'],
+            'amount_max'                     => ['nullable', 'numeric', 'gt:amount'],
             'unit_id'                        => ['nullable', 'exists:units,id'],
             'food_id'                        => ['exists:foods,id'],
-            'ingredient_attributes'          => ['nullable', 'array'],
+            'ingredient_attributes'          => ['nullable', 'array', 'max:5'],
             'ingredient_attributes.*'        => ['required_with:ingredient_attributes', 'exists:ingredient_attributes,id'],
             'ingredient_group_id'            => ['nullable', 'exists:ingredient_groups,id'],
             'ingredient_id'                  => ['nullable', 'exists:ingredients,id'],

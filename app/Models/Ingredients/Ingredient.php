@@ -96,7 +96,7 @@ class Ingredient extends Model
         'food',
         'ingredientAttributes',
         'ingredientGroup',
-        'ingredients'
+        'ingredients',
     ];
 
     /**
@@ -157,7 +157,7 @@ class Ingredient extends Model
             $name .= ", ";
         });
 
-        return $name;
+        return trim($name);
     }
 
     /**
@@ -182,9 +182,10 @@ class Ingredient extends Model
      * If the position is NULL, append it to the end
      *
      * @param  int|null  $position
+     * @param  bool|null  $after  Place ingredient after (true), before (false), or autodetect (null) position
      * @return void
      */
-    public function updatePosition(int $position = null): void
+    public function updatePosition(int $position = null, bool $after = null): void
     {
         $query = Ingredient::inSameScope($this);
 
@@ -193,18 +194,25 @@ class Ingredient extends Model
             return;
         }
 
-        if ($position === null) {
-            $position = $query->max('position');
-        }
-
-        $ingredientPosition = $query->wherePosition($position)->first();
-
-        if ($position < $this->position) {
-            $this->moveBefore($ingredientPosition);
+        $maxPosition = $query->max('position');
+        if ($position === null || $position > $maxPosition) {
+            $this->update(['position' => $maxPosition + 1]);
             return;
         }
 
-        $this->moveAfter($ingredientPosition);
+        $ingredient = $query->wherePosition($position)->first();
+
+        if ($after === true) {
+            $func = 'moveAfter';
+        } elseif ($after === false) {
+            $func = 'moveBefore';
+        } elseif ($position < $this->position) {
+            $func = 'moveBefore';
+        } else {
+            $func = 'moveAfter';
+        }
+
+        $this->{$func}($ingredient);
     }
 
     /**

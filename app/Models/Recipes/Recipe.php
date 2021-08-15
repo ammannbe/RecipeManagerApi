@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $author_id
  * @property string $name
  * @property string $slug
- * @property string|null $yield_amount
+ * @property string|null $servings
  * @property string $complexity
  * @property string $instructions
  * @property string|null $preparation_time
@@ -40,8 +40,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \App\Models\Recipes\Category $category
  * @property-read \App\Models\Recipes\Cookbook|null $cookbook
  * @property-read bool $can_edit
+ * @property-read int|null $complexity_number
  * @property-read string $complexity_text
  * @property-read Collection $photos
+ * @property-read int $ratings_count
+ * @property-read int $stars
+ * @property-read float $stars_average
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\IngredientGroup[] $ingredientGroups
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredients\Ingredient[] $ingredients
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
@@ -67,7 +71,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static Builder|Recipe whereSlug($value)
  * @method static Builder|Recipe whereUpdatedAt($value)
  * @method static Builder|Recipe whereUserId($value)
- * @method static Builder|Recipe whereYieldAmount($value)
+ * @method static Builder|Recipe whereServings($value)
  * @method static \Illuminate\Database\Query\Builder|Recipe withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Recipe withoutTrashed()
  * @mixin \Eloquent
@@ -91,10 +95,29 @@ class Recipe extends Model implements HasMedia
         'cookbook_id',
         'category_id',
         'name',
-        'yield_amount',
+        'servings',
+        'serving_type',
         'complexity',
         'instructions',
         'preparation_time',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'media',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'preparation_time' => 'datetime:H:i',
     ];
 
     /**
@@ -105,6 +128,11 @@ class Recipe extends Model implements HasMedia
     protected $appends = [
         'photos',
         'can_edit',
+        'stars',
+        'stars_average',
+        'ratings_count',
+        'complexity_text',
+        'complexity_number',
     ];
 
     /**
@@ -165,6 +193,7 @@ class Recipe extends Model implements HasMedia
             'name'              => $this->name,
             'instructions'      => $this->instructions,
             'preparation_time'  => $this->preparation_time,
+            'category_id'       => $this->category_id,
         ];
     }
 
@@ -228,7 +257,7 @@ class Recipe extends Model implements HasMedia
     }
 
     /**
-     * Get translated text of complexities
+     * Get complexity as translated text
      *
      * @return string
      */
@@ -255,19 +284,42 @@ class Recipe extends Model implements HasMedia
     }
 
     /**
-     * Get the preparation time
+     * Get the complexity as number
      *
-     * Return NULL, if the time is 00:00:00
+     * 0 = simple;
+     * 1 = simple;
+     * 2 = simple;
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getPreparationTimeAttribute(): ?string
+    public function getComplexityNumberAttribute(): ?int
     {
-        if ($this->attributes['preparation_time'] == '00:00:00') {
-            return null;
+        switch ($this->attributes['complexity']) {
+            case 'simple':
+                return 0;
+
+            case 'normal':
+                return 1;
+
+            case 'difficult':
+                return 2;
         }
 
-        return $this->attributes['preparation_time'];
+        return null;
+    }
+
+    /**
+     * Set the preparation time
+     *
+     * @return void
+     */
+    public function setPreparationTimeAttribute(string $time = null): void
+    {
+        if ($time === '00:00') {
+            $time = null;
+        }
+
+        $this->attributes['preparation_time'] = $time;
     }
 
     /**
@@ -279,9 +331,10 @@ class Recipe extends Model implements HasMedia
     {
         return $this->getMedia('recipe_photos')->map(function (Media $media) {
             return collect([
-                'id'    => $media->id,
-                'name'  => $media->name,
-                'url'   => $media->getUrl(),
+                'id'            => $media->id,
+                'name'          => $media->name,
+                'url'           => $media->getUrl(),
+                'conversions'   => $media->getGeneratedConversions(),
             ]);
         });
     }
@@ -298,6 +351,40 @@ class Recipe extends Model implements HasMedia
         }
 
         return auth()->user()->can('update', $this);
+    }
+
+    /**
+     * Get the ratings count
+     *
+     * @return int
+     */
+    public function getRatingsCountAttribute(): int
+    {
+        return $this->ratings->count();
+    }
+
+    /**
+     * Get the all given stars
+     *
+     * @return int
+     */
+    public function getStarsAttribute(): int
+    {
+        return $this->ratings->sum('stars');
+    }
+
+    /**
+     * Get the average of stars
+     *
+     * @return float
+     */
+    public function getStarsAverageAttribute(): float
+    {
+        if (!$this->ratings_count) {
+            return 0;
+        }
+
+        return $this->stars / $this->ratings_count;
     }
 
     /**

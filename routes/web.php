@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VueController;
+//use App\Http\Controllers\VueController;
 use App\Http\Controllers\Recipes\RecipePhotoController;
 
 /*
@@ -15,10 +15,10 @@ use App\Http\Controllers\Recipes\RecipePhotoController;
 |
 */
 
-Route::fallback('VueController');
-
-Route::get('login', 'VueController')->name('login');
-Route::get('register', 'VueController')->name('register');
-Route::get('password/reset/{token}', 'VueController')->name('password.reset');
+// Route::fallback('VueController');
+//
+// Route::get('login', 'VueController')->name('login');
+// Route::get('register', 'VueController')->name('register');
+// Route::get('password/reset/{token}', 'VueController')->name('password.reset');
 Route::get('images/recipes/{photo}/{name}', [RecipePhotoController::class, 'show']);
-Route::get('404', [VueController::class, 'notFound'])->name('not-found');
+// Route::get('404', [VueController::class, 'notFound'])->name('not-found');

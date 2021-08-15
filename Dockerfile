@@ -3,8 +3,11 @@ FROM php:8.0-apache
 # set the application folder as env variable
 ENV APP_HOME /var/www/html
 
+# Remove the custom PHP sources -> this allows us to install "php-mysql"
+RUN rm /etc/apt/preferences.d/no-debian-php
+
 # Install system dependencies
-RUN curl -L https://deb.nodesource.com/setup_15.x | bash
+RUN curl -L https://deb.nodesource.com/setup_16.x | bash
 RUN apt-get update
 RUN apt-get install -y \
     jpegoptim optipng pngquant gifsicle \
@@ -14,8 +17,10 @@ RUN apt-get install -y \
     libwebp-dev \
     libonig-dev \
     libxml2-dev \
+    php-mysql \
     nodejs \
     git \
+    zip unzip \
     sudo
 
 # Clear cache
@@ -33,7 +38,9 @@ RUN docker-php-ext-configure gd \
 
 RUN docker-php-ext-install -j$(nproc) \
     bcmath \
+    pdo \
     pdo_mysql \
+    mysqli \
     intl \
     pcntl \
     opcache \

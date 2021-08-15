@@ -28,12 +28,13 @@ class Update extends FormRequest
     public function rules()
     {
         $rules = [
-            'category_id'      => ['exists:categories,id'],
-            'name'             => ['string', 'max:100', "unique:recipes,name,{$this->recipe->id}"],
-            'yield_amount'     => ['nullable', 'numeric', 'max:999'],
-            'complexity'       => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
-            'instructions'     => ['string', 'max:16000000'],
-            'preparation_time' => ['nullable', 'string', 'date_format:H:i'],
+            'category_id'       => ['exists:categories,id'],
+            'name'              => ['string', 'max:100', "unique:recipes,name,{$this->recipe->id}"],
+            'servings'          => ['nullable', 'numeric', 'max:999'],
+            'serving_type'      => ['nullable', 'string', 'max:20'],
+            'complexity'        => ['string', Rule::in(Recipe::COMPLEXITY_TYPES)],
+            'instructions'      => ['string', 'max:10000'],
+            'preparation_time'  => ['nullable', 'string', 'date_format:H:i'],
         ];
 
         if (CookbookController::isEnabled()) {

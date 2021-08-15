@@ -43,7 +43,7 @@ class FoodController extends Controller
     public function store(Store $request)
     {
         $food = Food::create($request->validated());
-        return $this->responseCreated('foods.show', $food->id);
+        return $this->responseCreated('foods.show', $food->id, $food);
     }
 
     /**

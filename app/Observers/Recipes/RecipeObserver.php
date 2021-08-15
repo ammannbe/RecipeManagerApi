@@ -29,8 +29,8 @@ class RecipeObserver
     {
         $recipe->slugifyName();
 
-        if ($recipe->yield_amount == 0) {
-            $recipe->yield_amount = null;
+        if ($recipe->servings == 0) {
+            $recipe->servings = null;
         }
     }
 }

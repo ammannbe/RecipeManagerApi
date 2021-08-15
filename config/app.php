@@ -86,6 +86,32 @@ return [
 
     'disable_registration' => env('DISABLE_REGISTRATION', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Disable the creation of resources for normal users
+    |--------------------------------------------------------------------------
+    |
+    | Disable creation of food, ingredient attributes and ingredient groups
+    | for normal users.
+    |
+    | NOTE: Admin users can always add these resources.
+    |
+    */
+
+    'disable_creation' => [
+        'food' => env('DISABLE_FOOD_CREATION', false),
+        'ingredient_attribute' => env('DISABLE_INGREDIENT_ATTRIBUTE_CREATION', false),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Trusted proxy servers
+    |--------------------------------------------------------------------------
+    |
+    | You can add one or more trusted proxy servers
+    |
+    */
+
     'trusted_proxies' => explode(',', env('TRUSTED_PROXIES')),
 
     /*
