@@ -19,7 +19,12 @@ class UnitPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->admin) {
+        $skippable = !in_array($ability, [
+            'create',
+            'delete',
+        ]);
+
+        if ($skippable && $user->admin) {
             return true;
         }
     }
